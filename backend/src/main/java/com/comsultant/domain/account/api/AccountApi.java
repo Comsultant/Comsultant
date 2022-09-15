@@ -29,4 +29,26 @@ public class AccountApi {
             return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, "fail"));
         }
     }
+
+    @GetMapping("/email/{email}")
+    public ResponseEntity<MessageResponse> checkDuplicatedEmail(@PathVariable("email") String inputEmail) {
+        boolean result = accountService.checkDuplicatedEmail(inputEmail);
+        if(result) {
+            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, "success"));
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, "fail"));
+        }
+    }
+
+    @GetMapping("/name/{nickname}")
+    public ResponseEntity<MessageResponse> checkDuplicatedNickname(@PathVariable("nickname") String inputNickname) {
+        boolean result = accountService.checkDuplicatedNickname(inputNickname);
+        if(result) {
+            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, "success"));
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, "fail"));
+        }
+    }
+
+
 }
