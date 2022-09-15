@@ -17,6 +17,7 @@ public class AccountDto {
     private String createDate;
     private String modifyDate;
     private int snsType;
+    private int birthYear;
     private String role;
 
     public void encryptPassword(String password) {
