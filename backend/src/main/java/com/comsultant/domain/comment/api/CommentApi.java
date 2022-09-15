@@ -18,11 +18,21 @@ public class CommentApi {
 
     private final CommentService commentService;
 
-
     @PostMapping("/{productIdx}")
     public ResponseEntity<MessageResponse> createComment(@PathVariable("productIdx") Long productIdx, @RequestBody CommentDto commentDto) {
         // TODO : 토큰에서 유저 정보 꺼내서 사용
         boolean result = commentService.createComment(1L, productIdx, commentDto);
+        if (result) {
+            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, "success"));
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, "fail"));
+        }
+    }
+
+    @DeleteMapping("/{commentIdx}")
+    public ResponseEntity<MessageResponse> deleteComment(@PathVariable("commentIdx") Long commentIdx) {
+        // TODO : 토큰에서 유저 정보 꺼내서 사용
+        boolean result = commentService.deleteComment(1L, commentIdx);
         if (result) {
             return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, "success"));
         } else {
