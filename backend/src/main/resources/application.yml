@@ -35,6 +35,15 @@ spring:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
 logging:
+  file:
+    name: logs/app.log
+  pattern:
+    console: "[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] %clr([%M]){cyan}  %clr(%-5level) %clr(%logger{36}){magenta} - %msg%n"
+    file: "[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%M] %-5level %logger{36} - %msg%n"
+  logback:
+    rollingpolicy:
+      file-name-pattern: "logs/app.%d{yyyy-MM-dd}.%i.log"
+      max-file-size: 10MB
   level:
     root: WARN
     org.hibernate.type.descriptor.sql: trace
