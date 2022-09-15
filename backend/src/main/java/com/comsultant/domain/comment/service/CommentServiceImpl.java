@@ -34,6 +34,22 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public boolean updateComment(Long userIdx, Long commentIdx, CommentDto commentDto){
+        // TODO : account, comment 못 찾을 시 예외 처리 필요
+        Account account = accountRepository.findById(userIdx).orElseThrow();
+        Comment comment = commentRepository.findById(commentIdx).orElseThrow();
+        // TODO : 작성자와 다른 경우 예외 처리 필요
+        if (!comment.getAccount().equals(account))
+            return false;
+
+        comment.setContent(commentDto.getContent());
+        Comment savedComment = commentRepository.save(comment);
+        if (savedComment.getIdx() == 0)
+            return false;
+        return true;
+    }
+
+    @Override
     public boolean deleteComment(Long userIdx, Long commentIdx) {
         // TODO : account, comment 못 찾을 시 예외 처리 필요
         Account account = accountRepository.findById(userIdx).orElseThrow();
