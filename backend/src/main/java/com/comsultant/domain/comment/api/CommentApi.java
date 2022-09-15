@@ -29,6 +29,17 @@ public class CommentApi {
         }
     }
 
+    @PutMapping("/{commentIdx}")
+    public ResponseEntity<MessageResponse> updateComment(@PathVariable("commentIdx") Long commentIdx, @RequestBody CommentDto commentDto) {
+        // TODO : 토큰에서 유저 정보 꺼내서 사용
+        boolean result = commentService.updateComment(1L, commentIdx, commentDto);
+        if (result) {
+            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, "success"));
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, "fail"));
+        }
+    }
+
     @DeleteMapping("/{commentIdx}")
     public ResponseEntity<MessageResponse> deleteComment(@PathVariable("commentIdx") Long commentIdx) {
         // TODO : 토큰에서 유저 정보 꺼내서 사용

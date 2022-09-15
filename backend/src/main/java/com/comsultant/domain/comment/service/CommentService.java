@@ -6,6 +6,8 @@ public interface CommentService {
 
     boolean createComment(Long userIdx, Long productIdx, CommentDto commentDto);
 
+    boolean updateComment(Long userIdx, Long commentIdx, CommentDto commentDto);
+
     boolean deleteComment(Long userIdx, Long commentIdx);
 
 }
