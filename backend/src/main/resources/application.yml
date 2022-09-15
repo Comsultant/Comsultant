@@ -26,10 +26,20 @@ spring:
         format_sql: true
       jdbc:
         time_zone: UTC
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: comsultant.org@gmail.com
+    password: bevrytkzlbkukfnq
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
 logging:
   level:
     root: WARN
     org.hibernate.type.descriptor.sql: trace
     com.comsultant: debug
-
+response:
+  success: success
+  fail: fail
 

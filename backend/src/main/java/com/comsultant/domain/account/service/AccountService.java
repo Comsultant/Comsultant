@@ -6,4 +6,5 @@ public interface AccountService {
     boolean registerAccount(AccountDto accountDto);
     boolean checkDuplicatedEmail(String email);
     boolean checkDuplicatedNickname(String nickname);
+    void sendVerifyEmail(String mailAddress);
 }
