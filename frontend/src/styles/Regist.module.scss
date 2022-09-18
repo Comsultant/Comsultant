@@ -1,0 +1,50 @@
+$font-size-large : 28px;
+
+.title {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    span {
+        margin: 3% auto;
+        font-size: $font-size-large;
+    }
+}
+
+.regist-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 300px;
+}
+
+.regist-form {
+    max-width: 400px;
+}
+
+.horizon-container {
+    display: flex;    
+}
+
+.left {
+    width: 90%;
+    padding-right: 5px;
+}
+.right {
+    width: 10%;
+}
+
+.ant-space-item > input {
+    max-width: 300px;
+}
+.ant-form-item-control-input {
+    max-width: 300px;
+}
+
+.space-input {
+    width: 100%;
+}
+
+.horizontal-input{
+    display: flex;
+}
