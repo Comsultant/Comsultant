@@ -35,8 +35,11 @@ public class Account {
     @Column(name = "password", columnDefinition = "VARCHAR(100)")
     private String password;
 
-    @Column(name = "sns_type")
+    @Column(name = "sns_type", columnDefinition = "INT")
     private int snsType;
+
+    @Column(name = "birth_year", columnDefinition = "INT")
+    private int birthYear;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", columnDefinition = "VARCHAR(20) DEFAULT 'ROLE_USER'")
