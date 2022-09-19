@@ -16,7 +16,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -43,11 +42,11 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentResponse.GetComments getComments(Long accountIdx, int page, boolean desc) {
-        // TODO : account, product 못 찾을 시 예외 처리 필요
+        // TODO : account, product 못 찾을 시 예외 처리 필요, 페이지 음수일 때 예외 처리 필요
         Account account = accountRepository.findById(accountIdx).orElseThrow();
         Pageable pageable;
 
-        if(desc)
+        if (desc)
             pageable = PageRequest.of(page, 10, Sort.by("idx").descending());
         else
             pageable = PageRequest.of(page, 10);
@@ -60,7 +59,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public boolean updateComment(Long accountIdx, Long commentIdx, CommentDto commentDto){
+    public boolean updateComment(Long accountIdx, Long commentIdx, CommentDto commentDto) {
         // TODO : account, comment 못 찾을 시 예외 처리 필요
         Account account = accountRepository.findById(accountIdx).orElseThrow();
         Comment comment = commentRepository.findById(commentIdx).orElseThrow();
@@ -68,7 +67,7 @@ public class CommentServiceImpl implements CommentService {
         if (!comment.getAccount().equals(account))
             return false;
 
-        comment.setContent(commentDto.getContent());
+        comment.updateInfo(commentDto.getContent());
         Comment savedComment = commentRepository.save(comment);
         if (savedComment.getIdx() == 0)
             return false;
@@ -95,4 +94,5 @@ public class CommentServiceImpl implements CommentService {
                 .content(commentDto.getContent())
                 .build();
     }
+
 }
