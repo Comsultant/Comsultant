@@ -2,7 +2,10 @@ package com.comsultant.domain.comment.entity;
 
 import com.comsultant.domain.account.entity.Account;
 import com.comsultant.domain.product.entity.Product;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
@@ -19,7 +22,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @Getter
-@Setter
 @Table(name = "comment")
 public class Comment {
 
@@ -42,5 +44,9 @@ public class Comment {
     @Column(name = "create_date", updatable = false, columnDefinition = "DATETIME")
     @CreatedDate
     private LocalDateTime createDate;
+
+    public void updateInfo(String content) {
+        this.content = content;
+    }
 
 }
