@@ -1,0 +1,32 @@
+$menu-font-color: white;
+$font-size-large: 28px;
+$font-size-medium: 18px;
+$border-color: rgb(190, 190, 190);
+
+.nav-bar {
+    display: flex;
+    border-bottom: solid $border-color 1px;
+    align-items: center;    
+    justify-content: space-between;
+    a {
+        color: black;
+    }
+    
+    .logo {
+        margin: auto 10px;
+    }
+
+    .logo-image {
+        width: 60px;
+        height: auto;
+    }
+    
+    .right-menu {
+        margin: auto 10px;
+        font-size: $font-size-medium;
+    }
+
+    .nav-menu-item {
+        margin: auto 5px;
+    }
+}
