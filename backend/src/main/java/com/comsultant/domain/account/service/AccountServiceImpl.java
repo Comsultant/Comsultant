@@ -6,13 +6,17 @@ import com.comsultant.domain.account.mapper.AccountMapper;
 import com.comsultant.domain.account.repository.AccountRepository;
 import com.comsultant.global.error.exception.AccountApiException;
 import com.comsultant.global.error.model.AccountErrorCode;
+import com.comsultant.global.properties.ExpireTimeProperties;
 import com.comsultant.infra.email.MailService;
 import com.comsultant.infra.email.vo.MailVo;
+import com.comsultant.infra.redis.RedisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.Date;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +25,10 @@ public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
 
     private final MailService mailService;
+
+    private final RedisService redisService;
+
+    private final ExpireTimeProperties expireTimeProperties;
 
     /**
      * 회원가입 처리
@@ -67,7 +75,21 @@ public class AccountServiceImpl implements AccountService {
      */
     @Override
     public void sendVerifyEmail(String mailAddress) {
-        MailVo mailVo = mailService.createAuthEmail(mailAddress);
+        String authToken = "";
+        Random random = new Random();
+
+        String authTokenDup = null;
+        do {
+            authToken = random.ints(48, 122 + 1)
+                    .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+                    .limit(6)
+                    .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                    .toString();
+            authTokenDup = redisService.getStringValue(authToken);
+        } while (authTokenDup != null);
+
+        redisService.setStringValueAndExpire(authToken, mailAddress, expireTimeProperties.getAuthEmail());
+        MailVo mailVo = mailService.createAuthEmail(mailAddress, authToken);
         mailService.sendMail(mailVo);
     }
 }
