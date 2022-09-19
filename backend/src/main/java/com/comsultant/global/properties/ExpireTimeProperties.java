@@ -11,4 +11,5 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 @ConfigurationProperties(prefix = "expire-time")
 public class ExpireTimeProperties {
     private final int authEmail;
+    private final int authorizedEmail;
 }

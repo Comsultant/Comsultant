@@ -7,4 +7,5 @@ public interface AccountService {
     boolean checkDuplicatedEmail(String email);
     boolean checkDuplicatedNickname(String nickname);
     void sendVerifyEmail(String mailAddress);
+    boolean verifyAuthToken(String token, String email);
 }

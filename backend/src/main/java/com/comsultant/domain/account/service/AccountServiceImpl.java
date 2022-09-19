@@ -92,4 +92,18 @@ public class AccountServiceImpl implements AccountService {
         MailVo mailVo = mailService.createAuthEmail(mailAddress, authToken);
         mailService.sendMail(mailVo);
     }
+
+    @Override
+    public boolean verifyAuthToken(String token, String email) {
+        String redisEmail = redisService.getStringValue(token);
+        boolean ret =  email.equals(redisEmail);
+        if(ret) {
+            // Redis에서 제거하고 등록.
+            redisService.deleteKey(token);
+            redisService.setStringValueAndExpire(email, "authorized", expireTimeProperties.getAuthorizedEmail());
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

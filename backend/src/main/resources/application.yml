@@ -56,4 +56,5 @@ response:
   fail: fail
 expire-time:
   authEmail: 300000
+  authorizedEmail: 1800000
 

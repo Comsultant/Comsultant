@@ -29,9 +29,9 @@ public class AccountApi {
     public ResponseEntity<MessageResponse> registerAccount(@RequestBody AccountDto accountDto) {
         boolean result = accountService.registerAccount(accountDto);
         if(result) {
-            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, "success"));
+            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getSuccess()));
         } else {
-            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, "fail"));
+            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getFail()));
         }
     }
 
@@ -39,9 +39,9 @@ public class AccountApi {
     public ResponseEntity<MessageResponse> checkDuplicatedEmail(@PathVariable("email") String inputEmail) {
         boolean result = accountService.checkDuplicatedEmail(inputEmail);
         if(result) {
-            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, "success"));
+            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getSuccess()));
         } else {
-            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, "fail"));
+            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getFail()));
         }
     }
 
@@ -49,7 +49,7 @@ public class AccountApi {
     public ResponseEntity<MessageResponse> checkDuplicatedNickname(@PathVariable("nickname") String inputNickname) {
         boolean result = accountService.checkDuplicatedNickname(inputNickname);
         if(result) {
-            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, "success"));
+            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getSuccess()));
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getFail()));
         }
@@ -60,11 +60,24 @@ public class AccountApi {
         String mailAddress = inputBody.get("email");
         if(mailAddress != null) {
             accountService.sendVerifyEmail(mailAddress);
-            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, "success"));
+            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getSuccess()));
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getFail()));
         }
+    }
 
+    @GetMapping("/email/verify-email/{code}")
+    public ResponseEntity<MessageResponse> verifyAuthToken(@PathVariable("code") String authToken, @RequestParam("email") String email) {
+        if(email == null) {
+            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getFail()));
+        }
+
+        boolean result = accountService.verifyAuthToken(authToken, email);
+        if(result) {
+            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getSuccess()));
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getFail()));
+        }
     }
 
 
