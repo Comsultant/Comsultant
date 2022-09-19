@@ -1,7 +1,6 @@
 export const initState = {
   isLogin: false,
   nickname: "",
-  auth: "",
   token: "",
 };
 

@@ -2,6 +2,7 @@ const path = require('path');
 const RefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const webpack = require('webpack');
 const dotenv = require('dotenv');
+// const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 // wraps dotenv and Webpack.DefinePlugin 라는데 써도 되는지 모름
 // const Dotenv = require('dotenv-webpack');
@@ -30,7 +31,12 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': JSON.stringify(dotenv.config().parsed),
     }),
-
+    
+    // new MiniCssExtractPlugin({
+    //   filename: "[name].css",
+    //   chunkFilename: "[id].css",
+    // }),
+    // new MiniCssExtractPlugin({filename: 'app.css'}),
     // new Dotenv()
   ],
 
@@ -48,17 +54,27 @@ module.exports = {
     rules: [
       {
         test: /\.(js|jsx)$/,
-        exclude: /nodeModules/,
+        exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
         },
       },
+      // {
+      //   test: /\.(sa|sc|c)ss$/i,
+      //   exclude:path.resolve(__dirname, "node_modules"),
+      //   use: [
+      //     MiniCssExtractPlugin.loader,
+      //     'css-loader',
+      //     'sass-loader',
+      //   ],
+      // },
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.scss$/,
+        exclude: /node_modules/,
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
     ],

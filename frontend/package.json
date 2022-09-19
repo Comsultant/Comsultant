@@ -8,8 +8,9 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "antd": "^4.23.1",
+    "classnames": "^2.3.2",
     "cross-env": "^7.0.3",
-    "css-loader": "^6.7.1",
     "node-sass": "^7.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -21,10 +22,9 @@
     "redux-persist": "^6.0.0",
     "redux-promise": "^0.6.0",
     "redux-thunk": "^2.4.1",
-    "sass-loader": "^13.0.2",
     "style-loader": "^3.3.1",
-    "web-vitals": "^2.1.4",
-    "webpack": "^5.74.0"
+    "styled-components": "^5.3.5",
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "webpack serve --mode development --history-api-fallback",
@@ -67,11 +67,12 @@
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
     "interpolate-html-plugin": "^4.0.0",
+    "mini-css-extract-plugin": "^2.6.1",
     "react-refresh": "^0.14.0",
-    "sass": "^1.53.0",
+    "sass": "^1.54.9",
     "sass-loader": "^13.0.2",
     "style-loader": "^3.3.1",
-    "webpack": "^5.73.0",
+    "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.9.3"
   }

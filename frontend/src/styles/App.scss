@@ -1,0 +1,40 @@
+$primary-color: tomato;
+$background-color : lightgray;
+$border-color: rgb(190, 190, 190);
+
+html {
+}
+body{
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul, li {
+  text-decoration: none;
+}
+
+
+.site-layout-content {
+  padding: 24px;
+  background: #fff;
+}
+
+main {
+  min-height: 100vh;
+}
+
+
+footer {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  text-align: center;
+  padding: 10px;
+  width: 50%;
+  position : relative;
+  border-top: solid $border-color 1px;
+}
