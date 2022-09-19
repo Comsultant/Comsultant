@@ -34,6 +34,9 @@ spring:
     properties:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
+  redis:
+    host: localhost
+    port: 6379
 logging:
   file:
     name: logs/app.log
@@ -51,4 +54,6 @@ logging:
 response:
   success: success
   fail: fail
+expire-time:
+  authEmail: 300000
 
