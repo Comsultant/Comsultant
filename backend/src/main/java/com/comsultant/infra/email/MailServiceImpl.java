@@ -18,15 +18,15 @@ public class MailServiceImpl implements MailService {
     private final JavaMailSender mailSender;
 
     private final String authTitle = "이메일 인증 제목";
-    private final String authMessage = "이메일 인증 내용";
+    private final String authMessage = "이메일 인증 내용 : ";
 
 
     @Override
-    public MailVo createAuthEmail(String email) {
+    public MailVo createAuthEmail(String email, String authToken) {
         return MailVo.builder()
                 .toAddress(email)
                 .title(authTitle)
-                .message(authMessage)
+                .message(authMessage + authToken)
                 .fromAddress(emailProperties.getUsername())
                 .build();
     }
