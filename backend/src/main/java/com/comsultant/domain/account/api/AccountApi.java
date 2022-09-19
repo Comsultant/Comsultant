@@ -79,6 +79,4 @@ public class AccountApi {
             return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getFail()));
         }
     }
-
-
 }

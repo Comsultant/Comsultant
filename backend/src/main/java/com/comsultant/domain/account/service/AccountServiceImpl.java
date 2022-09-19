@@ -37,14 +37,18 @@ public class AccountServiceImpl implements AccountService {
      */
     @Override
     public boolean registerAccount(AccountDto accountDto) {
-        // TODO: 1. 인증된 이메일인지 확인 - REDIS에서 이메일 확인
+        // 인증된 이메일인지 확인 - REDIS에서 이메일 확인
+        String redisEmail = redisService.getStringValue(accountDto.getEmail());
+        if("authorized".equals(redisEmail)) {
+            // 2. 회원가입 처리
+            String encryptedPassword = BCrypt.hashpw(accountDto.getPassword(), BCrypt.gensalt());
+            accountDto.encryptPassword(encryptedPassword);
+            Account account = accountRepository.save(AccountMapper.mapper.toEntity(accountDto));
 
-        // 2. 회원가입 처리
-        String encryptedPassword = BCrypt.hashpw(accountDto.getPassword(), BCrypt.gensalt());
-        accountDto.encryptPassword(encryptedPassword);
-        Account account = accountRepository.save(AccountMapper.mapper.toEntity(accountDto));
-
-        return true;
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
