@@ -7,7 +7,6 @@ import com.comsultant.global.error.model.AccountErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,7 +18,7 @@ public class AccountDetailsService implements UserDetailsService {
 
 
     @Override
-    public AccountDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public AccountDetails loadUserByUsername(String email) throws AccountApiException {
         final Account account = accountRepository.findByEmail(email).orElseThrow(
                 () -> new AccountApiException(AccountErrorCode.ACCOUNT_NOT_FOUND)
         );

@@ -10,7 +10,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -30,21 +29,27 @@ public class SecurityConfig {
     private static final String[] GET_PUBLIC_URI = {
             "/account/email/*",
             "/account/name/*",
-            "/account/email/verify-email/*",
+            "/account/verify-email/*",
             "/static/**"
     };
 
     private static final String[] POST_PUBLIC_URI = {
+            "/auth",
             "/account",
-            "/account/email/verify-email",
+            "/account/verify-email",
+            "/auth/refresh"
     };
 
     @Bean
     @Order(0)
     SecurityFilterChain resources(HttpSecurity http) throws Exception {
+        http.httpBasic().disable()
+                .cors().configurationSource(this.corsConfigurationSource())
+                .and()
+                .csrf().disable();
+
         http
-                .requestMatchers((matchers) -> matchers.antMatchers(HttpMethod.GET, GET_PUBLIC_URI))
-                .requestMatchers((matchers) -> matchers.antMatchers(HttpMethod.POST, POST_PUBLIC_URI))
+                .requestMatchers((matchers) -> matchers.antMatchers(HttpMethod.GET, GET_PUBLIC_URI).antMatchers(HttpMethod.POST, POST_PUBLIC_URI))
                 .authorizeHttpRequests((authorize) -> authorize.anyRequest().permitAll())
                 .requestCache().disable()
                 .securityContext().disable()

@@ -4,8 +4,6 @@ import com.comsultant.domain.account.dto.AccountDto;
 import com.comsultant.domain.account.entity.Account;
 import com.comsultant.domain.account.mapper.AccountMapper;
 import com.comsultant.domain.account.repository.AccountRepository;
-import com.comsultant.global.error.exception.AccountApiException;
-import com.comsultant.global.error.model.AccountErrorCode;
 import com.comsultant.global.properties.ExpireTimeProperties;
 import com.comsultant.infra.email.MailService;
 import com.comsultant.infra.email.vo.MailVo;
@@ -14,8 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.Date;
 import java.util.Random;
 
 @Service
