@@ -43,9 +43,10 @@ public class AuthAPI {
 
             if(dto == null) {
                 CookieUtil.deleteRefreshTokenCookie(response);
+                return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getFail(), null));
+            } else {
+                return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), dto));
             }
-
-            return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), dto));
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getFail(), null));
         }
