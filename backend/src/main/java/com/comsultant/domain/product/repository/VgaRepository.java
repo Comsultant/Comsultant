@@ -6,6 +6,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface VgaRepository extends JpaRepository<Vga, Long> {
-    @Override
-    Optional<Vga> findById(Long aLong);
 }
