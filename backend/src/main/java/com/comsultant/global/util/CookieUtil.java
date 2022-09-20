@@ -1,5 +1,6 @@
 package com.comsultant.global.util;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class CookieUtil {
@@ -30,4 +31,18 @@ public class CookieUtil {
         res.addCookie(myCookie);
     }
 
+    public static String searchCookie(HttpServletRequest req, String searchName) {
+        Cookie[] cookies = req.getCookies();
+        String findCookie = "";
+
+        if (cookies != null) {
+            for (Cookie c : cookies) {
+                if (c.getName().equals(searchName)) {
+                    findCookie = c.getValue().trim();
+                    break;
+                }
+            }
+        }
+        return findCookie;
+    }
 }

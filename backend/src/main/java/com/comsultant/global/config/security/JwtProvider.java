@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import io.jsonwebtoken.*;
 
@@ -108,6 +107,17 @@ public class JwtProvider {
         } catch (Exception e) {
             log.error("JWT validation Fail", e);
             req.setAttribute(attrName, "Exception");
+            return false;
+        }
+    }
+
+    public boolean validateRefreshToken(String token) {
+        try {
+            log.debug("[JwtProvider.validateRefreshToken(token)]");
+            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+            return true;
+        } catch (Exception e) {
+            log.error("RefreshTOKEN: JWT validation Fail", e);
             return false;
         }
     }

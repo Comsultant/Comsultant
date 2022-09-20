@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
@@ -28,6 +29,22 @@ public class AuthAPI {
         if(dto != null) {
             CookieUtil.setRefreshTokenCookie(res, dto.getRefreshToken());
             dto.hideRefreshToken();
+            return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), dto));
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getFail(), null));
+        }
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<DtoResponse<AuthDto>> refreshToken(HttpServletRequest request, HttpServletResponse response) {
+        String refreshToken = CookieUtil.searchCookie(request, "refreshToken");
+        if(refreshToken != null && !refreshToken.equals("")) {
+            AuthDto dto = authService.refresh(refreshToken);
+
+            if(dto == null) {
+                CookieUtil.deleteRefreshTokenCookie(response);
+            }
+
             return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), dto));
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getFail(), null));

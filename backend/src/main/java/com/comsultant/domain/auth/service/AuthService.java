@@ -5,4 +5,5 @@ import com.comsultant.domain.auth.dto.AuthDto;
 
 public interface AuthService {
     AuthDto signIn(AccountDto accountDto);
+    AuthDto refresh(String refreshToken);
 }
