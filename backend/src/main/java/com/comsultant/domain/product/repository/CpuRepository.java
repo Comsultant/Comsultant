@@ -1,9 +1,9 @@
 package com.comsultant.domain.product.repository;
 
-import com.comsultant.domain.product.entity.Product;
+import com.comsultant.domain.product.entity.Cpu;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface ProductRepository extends JpaRepository<Product, Long> {
+public interface CpuRepository extends JpaRepository<Cpu, Long> {
 }
