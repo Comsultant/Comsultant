@@ -3,13 +3,9 @@ package com.comsultant.domain.account.api;
 import com.comsultant.domain.account.dto.AccountDto;
 import com.comsultant.domain.account.service.AccountService;
 import com.comsultant.global.common.response.MessageResponse;
-import com.comsultant.global.error.exception.AccountApiException;
-import com.comsultant.global.error.model.AccountErrorCode;
 import com.comsultant.global.properties.ResponseProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -55,7 +51,7 @@ public class AccountApi {
         }
     }
 
-    @PostMapping("/email/verify-email")
+    @PostMapping("/verify-email")
     public ResponseEntity<MessageResponse> sendVerifyEmail(@RequestBody Map<String, String> inputBody) {
         String mailAddress = inputBody.get("email");
         if(mailAddress != null) {
@@ -66,7 +62,7 @@ public class AccountApi {
         }
     }
 
-    @GetMapping("/email/verify-email/{code}")
+    @GetMapping("/verify-email/{code}")
     public ResponseEntity<MessageResponse> verifyAuthToken(@PathVariable("code") String authToken, @RequestParam("email") String email) {
         if(email == null) {
             return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getFail()));
