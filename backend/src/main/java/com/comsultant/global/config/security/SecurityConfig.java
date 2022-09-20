@@ -30,21 +30,26 @@ public class SecurityConfig {
     private static final String[] GET_PUBLIC_URI = {
             "/account/email/*",
             "/account/name/*",
-            "/account/email/verify-email/*",
+            "/account/verify-email/*",
             "/static/**"
     };
 
     private static final String[] POST_PUBLIC_URI = {
+            "/auth",
             "/account",
-            "/account/email/verify-email",
+            "/account/verify-email",
     };
 
     @Bean
     @Order(0)
     SecurityFilterChain resources(HttpSecurity http) throws Exception {
+        http.httpBasic().disable()
+                .cors().configurationSource(this.corsConfigurationSource())
+                .and()
+                .csrf().disable();
+
         http
-                .requestMatchers((matchers) -> matchers.antMatchers(HttpMethod.GET, GET_PUBLIC_URI))
-                .requestMatchers((matchers) -> matchers.antMatchers(HttpMethod.POST, POST_PUBLIC_URI))
+                .requestMatchers((matchers) -> matchers.antMatchers(HttpMethod.GET, GET_PUBLIC_URI).antMatchers(HttpMethod.POST, POST_PUBLIC_URI))
                 .authorizeHttpRequests((authorize) -> authorize.anyRequest().permitAll())
                 .requestCache().disable()
                 .securityContext().disable()
