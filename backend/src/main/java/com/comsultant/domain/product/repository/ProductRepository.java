@@ -3,6 +3,9 @@ package com.comsultant.domain.product.repository;
 import com.comsultant.domain.product.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ProductRepository extends JpaRepository<Product, Long> {
+import java.util.Optional;
 
+public interface ProductRepository extends JpaRepository<Product, Long> {
+    @Override
+    Optional<Product> findById(Long aLong);
 }
