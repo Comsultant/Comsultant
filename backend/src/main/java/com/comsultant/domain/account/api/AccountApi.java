@@ -2,12 +2,15 @@ package com.comsultant.domain.account.api;
 
 import com.comsultant.domain.account.dto.AccountDto;
 import com.comsultant.domain.account.service.AccountService;
+import com.comsultant.global.common.response.DtoResponse;
 import com.comsultant.global.common.response.MessageResponse;
+import com.comsultant.global.config.security.AccountDetails;
 import com.comsultant.global.properties.ResponseProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -74,5 +77,11 @@ public class AccountApi {
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getFail()));
         }
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<DtoResponse<AccountDto>> getProfile(@AuthenticationPrincipal AccountDetails accountDetails) {
+        AccountDto result = accountService.getProfile(accountDetails);
+        return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
     }
 }

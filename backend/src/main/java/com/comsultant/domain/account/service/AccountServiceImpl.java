@@ -4,6 +4,7 @@ import com.comsultant.domain.account.dto.AccountDto;
 import com.comsultant.domain.account.entity.Account;
 import com.comsultant.domain.account.mapper.AccountMapper;
 import com.comsultant.domain.account.repository.AccountRepository;
+import com.comsultant.global.config.security.AccountDetails;
 import com.comsultant.global.properties.ExpireTimeProperties;
 import com.comsultant.infra.email.MailService;
 import com.comsultant.infra.email.vo.MailVo;
@@ -105,5 +106,14 @@ public class AccountServiceImpl implements AccountService {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public AccountDto getProfile(AccountDetails accountDetails) {
+        if(accountDetails == null) { return null; }
+        Account account = accountDetails.getAccount();
+
+        if(account == null) { return null; }
+        return AccountMapper.mapper.toDto(account);
     }
 }
