@@ -25,7 +25,7 @@ public class WebAccessDeniedHandler implements AccessDeniedHandler {
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         JSONObject json = new JSONObject();
         json.put("status", "403");
-        json.put("result", "access denied");
+        json.put("result", "denied");
         response.getWriter().print(json);
     }
 }

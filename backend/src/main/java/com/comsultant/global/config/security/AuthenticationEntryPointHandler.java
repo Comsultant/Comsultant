@@ -3,16 +3,16 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class AuthenticationEntryPointHandler implements AuthenticationEntryPoint {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationEntryPointHandler.class);
     /**
      * 401 처리하기 위한 메소드
      */
@@ -23,7 +23,7 @@ public class AuthenticationEntryPointHandler implements AuthenticationEntryPoint
 
         // 토큰 없거나 DB에 아이디 없다.
         if(exception == null) {
-            setResponse(response, "403", "no token");
+            setResponse(response, "403", authException.getMessage());
             return;
         }
 
@@ -31,7 +31,7 @@ public class AuthenticationEntryPointHandler implements AuthenticationEntryPoint
         if(exception.contentEquals("ExpiredJwtException")) {
             setResponse(response, "401", "unauthorized");
         } else {
-            setResponse(response, "403", "forbidden");
+            setResponse(response, "403", exception);
         }
     }
 
