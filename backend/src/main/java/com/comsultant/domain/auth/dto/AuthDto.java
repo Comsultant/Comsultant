@@ -13,4 +13,8 @@ public class AuthDto {
     private String accessToken;
     private String refreshToken;
     private String nickname;
+
+    public void hideRefreshToken(){
+        this.refreshToken = "";
+    }
 }
