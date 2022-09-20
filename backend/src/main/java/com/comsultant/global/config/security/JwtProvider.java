@@ -2,12 +2,12 @@ package com.comsultant.global.config.security;
 
 import com.comsultant.global.properties.JwtProperties;
 import com.comsultant.infra.redis.RedisService;
+import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
-import io.jsonwebtoken.*;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletRequest;
@@ -62,7 +62,7 @@ public class JwtProvider {
 
     public Authentication getAuthentication(String token) {
         AccountDetails accountDetails = accountDetailsService.loadUserByUsername(this.getAccountEmail(token));
-        return new UsernamePasswordAuthenticationToken(accountDetails.getUsername(), accountDetails.getPassword(), accountDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(accountDetails, accountDetails.getPassword(), accountDetails.getAuthorities());
     }
 
     public String getAccountEmail(String token) {
@@ -82,6 +82,10 @@ public class JwtProvider {
         String attrName = "exception";
         try {
             log.debug("[JwtProvider.validateToken(token)]");
+            if("blacklist".equals(redisService.getStringValue(token))){
+                throw new MalformedJwtException("BlackList");
+            }
+
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             return true;
         } catch (SignatureException e) {
@@ -120,5 +124,9 @@ public class JwtProvider {
             log.error("RefreshTOKEN: JWT validation Fail", e);
             return false;
         }
+    }
+
+    public long getAccessTokenExpireTime() {
+        return jwtProperties.getAccessTokenExpireTime();
     }
 }
