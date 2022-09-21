@@ -5,12 +5,11 @@ import com.comsultant.domain.product.entity.MainBoard;
 import com.comsultant.global.common.mapper.EntityMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper
 public interface MainBoardMapper extends EntityMapper<MainBoardDto, MainBoard> {
 
     MainBoardMapper mapper = Mappers.getMapper(MainBoardMapper.class);

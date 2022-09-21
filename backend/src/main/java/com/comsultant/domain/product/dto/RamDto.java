@@ -73,7 +73,7 @@ public class RamDto {
 
     private boolean ttRgbPlus; //TT RGB PLUS
 
-    private boolean tForceBlitz; //T-FORCE-BLITZ
+    private boolean teamForceBlitz; //T-FORCE-BLITZ
 
     private boolean xpgRgb; //XPG RGB
 

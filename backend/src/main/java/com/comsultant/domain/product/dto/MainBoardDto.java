@@ -109,7 +109,7 @@ public class MainBoardDto {
 
     private boolean nvmeRaid; //NVMe RAID
 
-    private boolean dSub; //D-SUB
+    private boolean dsub; //D-SUB
 
     private boolean dvi; //DVI
 
@@ -149,7 +149,7 @@ public class MainBoardDto {
 
     private boolean typecAudio; //Type-C(오디오)
 
-    private boolean eSata; //e-SATA
+    private boolean exSata; //e-SATA
 
     private boolean serialPort; //시리얼포트
 
