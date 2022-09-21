@@ -1,6 +1,7 @@
 package com.comsultant.domain.account.api;
 
 import com.comsultant.domain.account.dto.AccountDto;
+import com.comsultant.domain.account.dto.PasswordDto;
 import com.comsultant.domain.account.service.AccountService;
 import com.comsultant.global.common.response.DtoResponse;
 import com.comsultant.global.common.response.MessageResponse;
@@ -88,6 +89,16 @@ public class AccountApi {
     @PutMapping("")
     public ResponseEntity<MessageResponse> modifyAccount(@AuthenticationPrincipal AccountDetails accountDetails, @RequestBody AccountDto accountDto) {
         boolean result = accountService.modifyAccount(accountDetails, accountDto);
+        if(result) {
+            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getSuccess()));
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getFail()));
+        }
+    }
+
+    @PatchMapping("/password")
+    public ResponseEntity<MessageResponse> modifyPassword(@AuthenticationPrincipal AccountDetails accountDetails, @RequestBody PasswordDto passwordDto) {
+        boolean result = accountService.modifyPassword(accountDetails, passwordDto);
         if(result) {
             return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getSuccess()));
         } else {

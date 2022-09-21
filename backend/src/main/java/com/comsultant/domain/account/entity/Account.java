@@ -59,4 +59,8 @@ public class Account {
         this.nickname = nickname;
         this.birthYear = birthYear;
     }
+
+    public void modifyPassword(String password) {
+        this.password = password;
+    }
 }

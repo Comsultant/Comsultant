@@ -1,6 +1,7 @@
 package com.comsultant.domain.account.service;
 
 import com.comsultant.domain.account.dto.AccountDto;
+import com.comsultant.domain.account.dto.PasswordDto;
 import com.comsultant.domain.account.entity.Account;
 import com.comsultant.domain.account.mapper.AccountMapper;
 import com.comsultant.domain.account.repository.AccountRepository;
@@ -139,6 +140,23 @@ public class AccountServiceImpl implements AccountService {
 
         // 2. JPA 업데이트. 영속성에서 분리된 상태이므로, save 필요
         accountDetails.getAccount().modifyAccount(accountDto.getNickname(), accountDto.getBirthYear());
+        accountRepository.save(accountDetails.getAccount());
+        return true;
+    }
+
+    @Override
+    public boolean modifyPassword(AccountDetails accountDetails, PasswordDto passwordDto) {
+        if(AccountUtil.isAccountDetailsNull(accountDetails)) {
+            return false;
+        }
+
+        boolean isValidate = BCrypt.checkpw(passwordDto.getOldPassword(), accountDetails.getPassword());
+        if(!isValidate) {
+            throw new AccountApiException(AccountErrorCode.ACCOUNT_WRONG_PASSWORD);
+        }
+
+        String encryptedPassword = BCrypt.hashpw(passwordDto.getNewPassword(), BCrypt.gensalt());
+        accountDetails.getAccount().modifyPassword(encryptedPassword);
         accountRepository.save(accountDetails.getAccount());
         return true;
     }
