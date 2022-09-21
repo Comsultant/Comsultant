@@ -27,7 +27,7 @@ public class MainBoard {
 
     @OneToOne(targetEntity = Product.class, fetch = FetchType.LAZY)
     @MapsId
-    @JoinColumn(name = "product_idx",  columnDefinition = "BIGINT(20) UNSIGNED")
+    @JoinColumn(name = "product_idx", columnDefinition = "BIGINT(20) UNSIGNED")
     private Product product;
 
     @Column(name = "name", columnDefinition = "VARCHAR(255)")
@@ -174,8 +174,8 @@ public class MainBoard {
     @Column(name = "nvme_raid", columnDefinition = "TINYINT(1)")
     private boolean nvmeRaid;
 
-    @Column(name = "d_sub", columnDefinition = "TINYINT(1)")
-    private boolean dSub;
+    @Column(name = "dsub", columnDefinition = "TINYINT(1)")
+    private boolean dsub;
 
     @Column(name = "dvi", columnDefinition = "TINYINT(1)")
     private boolean dvi;
@@ -234,8 +234,8 @@ public class MainBoard {
     @Column(name = "typec_audio", columnDefinition = "TINYINT(1)")
     private boolean typecAudio;
 
-    @Column(name = "e_sata", columnDefinition = "TINYINT(1)")
-    private boolean eSata;
+    @Column(name = "ex_sata", columnDefinition = "TINYINT(1)")
+    private boolean exSata;
 
     @Column(name = "serial_port", columnDefinition = "TINYINT(1)")
     private boolean serialPort;
