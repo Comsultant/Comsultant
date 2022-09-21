@@ -23,6 +23,8 @@ public class MainBoardDto {
 
     private String type; //제품 분류
 
+    private String cpuSocket; //CPU 소켓
+
     private String detailChipset; //세부 칩셋
 
     private int cpuCnt; //CPU 장착수
@@ -36,6 +38,8 @@ public class MainBoardDto {
     private String embedGraphic; //내장그래픽
 
     private String memoryType; //메모리 종류
+
+    private String memorySpeed; //메모리 속도
 
     private int memorySlot; //메모리 슬롯
 
@@ -54,6 +58,8 @@ public class MainBoardDto {
     private String vga; //VGA 연결
 
     private boolean pcie5; //PCIe5.0
+
+    private boolean pcie4; //PCIe4.0
 
     private boolean pcie3; //PCIe3.0
 
