@@ -1,6 +1,7 @@
 package com.comsultant.domain.account.service;
 
 import com.comsultant.domain.account.dto.AccountDto;
+import com.comsultant.domain.account.dto.FindPasswordDto;
 import com.comsultant.domain.account.dto.PasswordDto;
 import com.comsultant.domain.account.entity.Account;
 import com.comsultant.domain.account.mapper.AccountMapper;
@@ -193,5 +194,19 @@ public class AccountServiceImpl implements AccountService {
         MailVo mailVo = mailService.createFindPasswordEmail(email, authToken);
         mailService.sendMail(mailVo);
         return true;
+    }
+
+    @Override
+    public FindPasswordDto verifyFindPasswordToken(String token) {
+        if(token == null || token.length() != 12) {
+            return null;
+        }
+
+        String result = redisService.getStringValue(token);
+        int idx = result.lastIndexOf('&');
+        String email = result.substring(0, idx);
+        String time = result.substring(idx + 1, result.length());
+
+        return new FindPasswordDto(email, time);
     }
 }

@@ -1,6 +1,7 @@
 package com.comsultant.domain.account.api;
 
 import com.comsultant.domain.account.dto.AccountDto;
+import com.comsultant.domain.account.dto.FindPasswordDto;
 import com.comsultant.domain.account.dto.PasswordDto;
 import com.comsultant.domain.account.service.AccountService;
 import com.comsultant.global.common.response.DtoResponse;
@@ -113,6 +114,16 @@ public class AccountApi {
             return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getSuccess()));
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getFail()));
+        }
+    }
+
+    @GetMapping("/verify-token/{token}")
+    public ResponseEntity<DtoResponse<FindPasswordDto>> verifyFindPasswordToken(@PathVariable("token") String token) {
+        FindPasswordDto result = accountService.verifyFindPasswordToken(token);
+        if(result != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getFail(), result));
         }
     }
 }
