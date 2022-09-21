@@ -45,6 +45,9 @@ public class MainBoard {
     @Column(name = "type", columnDefinition = "VARCHAR(255)")
     private String type;
 
+    @Column(name = "cpu_socket", columnDefinition = "VARCHAR(255)")
+    private String cpuSocket;
+
     @Column(name = "detail_chipset", columnDefinition = "VARCHAR(255)")
     private String detailChipset;
 
@@ -65,6 +68,9 @@ public class MainBoard {
 
     @Column(name = "memory_type", columnDefinition = "VARCHAR(255)")
     private String memoryType;
+
+    @Column(name = "memory_speed", columnDefinition = "VARCHAR(255)")
+    private String memorySpeed;
 
     @Column(name = "memory_slot", columnDefinition = "INT")
     private int memorySlot;
@@ -92,6 +98,9 @@ public class MainBoard {
 
     @Column(name = "pcie5", columnDefinition = "TINYINT(1)")
     private boolean pcie5;
+
+    @Column(name = "pcie4", columnDefinition = "TINYINT(1)")
+    private boolean pcie4;
 
     @Column(name = "pcie3", columnDefinition = "TINYINT(1)")
     private boolean pcie3;
