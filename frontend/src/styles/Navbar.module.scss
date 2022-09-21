@@ -24,14 +24,27 @@ $border-color: rgb(190, 190, 190);
     .right-menu {
         margin: auto 10px;
         font-size: $font-size-medium;
+        span {
+            cursor: pointer;
+        }
+
+        
+    }
+
+    .active {
+        display: inline-block;
+    }
+    
+    .inactive {
+        display: none;
     }
 
     .nav-menu-item {
         margin: auto 5px;
     }
     
-    .logout-button {
-        cursor: pointer;
+    // .logout-button {
+    //     cursor: pointer;
         
-    }
+    // }
 }

@@ -1,5 +1,7 @@
 import axios from "axios";
 import { store } from "..";
+import { message } from "antd";
+import { SET_TOKEN } from "@/reducer/type";
 
 /**
  * 인증 필요없는 Axios
@@ -55,5 +57,26 @@ axiosAuth.interceptors.response.use(
     if (result.url === '/api/auth' && result.method === 'delete') {
       return Promise.reject(error);
     }
+
+    // accessToken 재발급
+    if (error.response.status === 401 && result.retry !== true) {
+      result.retry = true;
+      const res = await getToken();
+
+      if(res?.data.message === "success"){
+        const accessToken = res.data.responseDto.accessToken;
+        store.dispatch({ type: SET_TOKEN, payload: { accessToken } });
+        return await axiosAuth(result);
+      }else{ // accessToken 재발급 실패
+        message.error("refreshToken 만료...다시 로그인 후 시도해 주세요.");
+        store.dispatch({type: LOGOUT});
+        window.location.replace("/account/login");
+      }
+    }else {
+      message.error("다시 로그인 후 시도해 주세요.");
+      store.dispatch({type: LOGOUT});
+      window.location.replace("/account/login");
+    }
+    return Promise.reject(error);
   }
 );

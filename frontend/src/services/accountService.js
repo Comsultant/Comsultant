@@ -76,3 +76,13 @@ export const logoutRequest = async () => {
     store.dispatch({ type: TOKEN_DELETE });
   }
 };
+
+// 토큰 재발급
+export const getToken = async () => {
+  try {
+    const payload = await request.get(`${AUTH_URL}/refresh`);
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};

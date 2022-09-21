@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT, TOKEN_DELETE } from "./type";
+import { LOGIN, LOGOUT, TOKEN_DELETE, SET_TOKEN } from "./type";
 
 export const initState = {
   isLogin: false,
@@ -24,6 +24,11 @@ export default function (state = initState, action) {
       }
     case TOKEN_DELETE:
       return initState; 
+    case SET_TOKEN:
+      return {
+        ...state,
+          token: action.payload.accessToken,
+      }  
     default:
       return state;
   }
