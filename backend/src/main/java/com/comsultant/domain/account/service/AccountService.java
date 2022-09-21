@@ -16,4 +16,5 @@ public interface AccountService {
     boolean modifyPassword(AccountDetails accountDetails, PasswordDto passwordDto);
     boolean sendFindPasswordLink(String email);
     FindPasswordDto verifyFindPasswordToken(String token);
+    boolean resetPassword(String token, String newPassword);
 }

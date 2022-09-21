@@ -66,3 +66,6 @@ frontend:
   protocol: http
   host: localhost
   port: 3000
+const:
+  password-token-length: 12
+  email-auth-length: 6

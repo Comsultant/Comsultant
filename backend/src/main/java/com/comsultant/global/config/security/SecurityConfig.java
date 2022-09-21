@@ -42,6 +42,10 @@ public class SecurityConfig {
             "/auth/refresh"
     };
 
+    private static final String[] PATCH_PUBLIC_URI = {
+            "/account/reset-password/*",
+    };
+
     @Bean
     @Order(0)
     SecurityFilterChain resources(HttpSecurity http) throws Exception {
@@ -51,7 +55,7 @@ public class SecurityConfig {
                 .csrf().disable();
 
         http
-                .requestMatchers((matchers) -> matchers.antMatchers(HttpMethod.GET, GET_PUBLIC_URI).antMatchers(HttpMethod.POST, POST_PUBLIC_URI))
+                .requestMatchers((matchers) -> matchers.antMatchers(HttpMethod.GET, GET_PUBLIC_URI).antMatchers(HttpMethod.POST, POST_PUBLIC_URI).antMatchers(HttpMethod.PATCH, PATCH_PUBLIC_URI))
                 .authorizeHttpRequests((authorize) -> authorize.anyRequest().permitAll())
                 .requestCache().disable()
                 .securityContext().disable()

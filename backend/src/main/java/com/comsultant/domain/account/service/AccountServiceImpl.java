@@ -10,6 +10,7 @@ import com.comsultant.domain.account.util.AccountUtil;
 import com.comsultant.global.config.security.AccountDetails;
 import com.comsultant.global.error.exception.AccountApiException;
 import com.comsultant.global.error.model.AccountErrorCode;
+import com.comsultant.global.properties.ConstProperties;
 import com.comsultant.global.properties.ExpireTimeProperties;
 import com.comsultant.infra.email.MailService;
 import com.comsultant.infra.email.vo.MailVo;
@@ -35,6 +36,7 @@ public class AccountServiceImpl implements AccountService {
     private final RedisService redisService;
 
     private final ExpireTimeProperties expireTimeProperties;
+    private final ConstProperties constProperties;
 
     /**
      * 회원가입 처리
@@ -203,10 +205,44 @@ public class AccountServiceImpl implements AccountService {
         }
 
         String result = redisService.getStringValue(token);
+        if(result == null) {
+            return null;
+        }
         int idx = result.lastIndexOf('&');
+        if(idx == -1) {
+            return null;
+        }
         String email = result.substring(0, idx);
         String time = result.substring(idx + 1, result.length());
 
         return new FindPasswordDto(email, time);
+    }
+
+    @Override
+    @Transactional
+    public boolean resetPassword(String token, String newPassword) {
+        if(token == null || token.length() != constProperties.getPasswordTokenLength()) {
+            return false;
+        }
+
+        String result = redisService.getStringValue(token);
+        if(result == null) {
+            return false;
+        }
+        int idx = result.lastIndexOf('&');
+        if(idx == -1) {
+            return false;
+        }
+        String email = result.substring(0, idx);
+
+        String encryptedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+        Account account = accountRepository.findByEmail(email).orElseThrow(
+            () -> new AccountApiException(AccountErrorCode.ACCOUNT_NOT_FOUND)
+        );
+
+        account.modifyPassword(encryptedPassword);
+
+        redisService.deleteKey(token);
+        return true;
     }
 }

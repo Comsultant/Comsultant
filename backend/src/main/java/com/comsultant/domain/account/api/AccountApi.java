@@ -126,4 +126,17 @@ public class AccountApi {
             return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getFail(), result));
         }
     }
+
+    @PatchMapping("/reset-password/{token}")
+    public ResponseEntity<MessageResponse> resetPassword(@PathVariable("token") String token, @RequestBody PasswordDto passwordDto) {
+        if(passwordDto == null || passwordDto.getNewPassword() == null || passwordDto.getNewPassword().length() == 0) {
+            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getFail()));
+        }
+        boolean result = accountService.resetPassword(token, passwordDto.getNewPassword());
+        if(result) {
+            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getSuccess()));
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getFail()));
+        }
+    }
 }
