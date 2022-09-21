@@ -120,8 +120,8 @@ public class Ram {
     @Column(name = "tt_rgb_plus", columnDefinition = "TINYINT(1)")
     private boolean ttRgbPlus;
 
-    @Column(name = "t_force_blitz", columnDefinition = "TINYINT(1)")
-    private boolean tForceBlitz;
+    @Column(name = "team_force_blitz", columnDefinition = "TINYINT(1)")
+    private boolean teamForceBlitz;
 
     @Column(name = "xpg_rgb", columnDefinition = "TINYINT(1)")
     private boolean xpgRgb;
