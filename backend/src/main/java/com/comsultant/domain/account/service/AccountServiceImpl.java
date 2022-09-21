@@ -95,7 +95,7 @@ public class AccountServiceImpl implements AccountService {
         do {
             authToken = random.ints(48, 122 + 1)
                     .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
-                    .limit(6)
+                    .limit(constProperties.getEmailAuthLength())
                     .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                     .toString();
             authTokenDup = redisService.getStringValue(authToken);
@@ -183,7 +183,7 @@ public class AccountServiceImpl implements AccountService {
         do {
             authToken = random.ints(48, 122 + 1)
                     .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
-                    .limit(12)
+                    .limit(constProperties.getPasswordTokenLength())
                     .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                     .toString();
             authTokenDup = redisService.getStringValue(authToken);
@@ -200,7 +200,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public FindPasswordDto verifyFindPasswordToken(String token) {
-        if(token == null || token.length() != 12) {
+        if(token == null || token.length() != constProperties.getPasswordTokenLength()) {
             return null;
         }
 
@@ -213,7 +213,7 @@ public class AccountServiceImpl implements AccountService {
             return null;
         }
         String email = result.substring(0, idx);
-        String time = result.substring(idx + 1, result.length());
+        String time = result.substring(idx + 1);
 
         return new FindPasswordDto(email, time);
     }
