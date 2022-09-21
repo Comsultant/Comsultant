@@ -21,13 +21,14 @@ const Regist = () => {
   const [passwordCheck, setPasswordCheck] = useState("");
   const [nickname, setNickname] = useState("");
   const [birthYear, setBirthYear] = useState("");
-
+  
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isAuthVerify, setAuthVerify] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [isPasswordSame, setIsPasswordSame] = useState(false);
   const [isAuthNumberSended, setIsAuthNumberSended] = useState(false);
   const [isNicknameValid, setIsNicknameValid] = useState(false);
+  const [isRegistSuccess, setRegistSucces] = useState(false);
 
   const [emailChecked, setEmailChecked] = useState(false);
   const [nicknameChecked, setNicknameChecked] = useState(false);
@@ -70,9 +71,9 @@ const Regist = () => {
     }, secondsToGo * 1000);
   }
 
-  const onFinish = values => {
-    console.log("Success:", values);
-  };
+  // const onFinish = values => {
+  //   console.log("Success:", values);
+  // };
 
   const onFinishFailed = errorInfo => {
     console.log("Failed:", errorInfo);
@@ -170,26 +171,20 @@ const Regist = () => {
       birthyear : birthYear,
     }
     const result = await registRequest(account);
-    if (result.data?.message === "success") {
+    if (result?.data?.message === "success") {
       countDown("회원가입 완료!", true);
-      navigate("/account/login")
+      setRegistSucces(true);
     } else {
       countDown("회원 가입 실패!", false);
       return;
     }     
   }
 
-
-  // const validateAuthVerify = (authNumberInput, value) => {
-  //   console.log("인증!!!");
-  //   if (isAuthNumberSended && !isAuthVerify) {
-  //     console.log("인증필요!")
-  //     return Promise.reject(new Error(authNumberInput.message));
-  //   } else {
-  //     console.log("인증완료!");
-  //     return Promise.resolve();
-  //   }
-  // }
+  useEffect(() => {
+    if(isRegistSuccess){
+      navigate("/account/login");
+    }
+  },[isRegistSuccess]);
 
   useEffect(() => {
     if(emailChecked && emailChecked !== "success"){
@@ -210,7 +205,6 @@ const Regist = () => {
 
   useEffect(() => {
     if (passwordCheck.length > 0 && !isPasswordSame) {
-      console.log(isPasswordSame);
       form.setFields([
         {
         name: 'passwordCheck',
