@@ -68,14 +68,10 @@ axiosAuth.interceptors.response.use(
         store.dispatch({ type: SET_TOKEN, payload: { accessToken } });
         return await axiosAuth(result);
       }else{ // accessToken 재발급 실패
-        message.error("refreshToken 만료...다시 로그인 후 시도해 주세요.");
+        message.error("다시 로그인 후 시도해 주세요.");
         store.dispatch({type: LOGOUT});
         window.location.replace("/account/login");
       }
-    }else {
-      message.error("다시 로그인 후 시도해 주세요.");
-      store.dispatch({type: LOGOUT});
-      window.location.replace("/account/login");
     }
     return Promise.reject(error);
   }
