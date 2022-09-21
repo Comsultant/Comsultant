@@ -19,6 +19,8 @@ public class MailServiceImpl implements MailService {
 
     private final String authTitle = "이메일 인증 제목";
     private final String authMessage = "이메일 인증 내용 : ";
+    private final String findPasswordTitle = "비밀번호 찾기";
+    private final String findPasswordMessage = "토큰 : ";
 
 
     @Override
@@ -30,6 +32,18 @@ public class MailServiceImpl implements MailService {
                 .fromAddress(emailProperties.getUsername())
                 .build();
     }
+
+    @Override
+    public MailVo createFindPasswordEmail(String email, String link) {
+        log.info(findPasswordMessage + link);
+        return MailVo.builder()
+                .toAddress(email)
+                .title(findPasswordTitle)
+                .message(findPasswordMessage + link)
+                .fromAddress(emailProperties.getUsername())
+                .build();
+    }
+
 
     @Async
     @Override

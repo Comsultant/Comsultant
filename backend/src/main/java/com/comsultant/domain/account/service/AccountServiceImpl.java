@@ -1,21 +1,32 @@
 package com.comsultant.domain.account.service;
 
 import com.comsultant.domain.account.dto.AccountDto;
+import com.comsultant.domain.account.dto.FindPasswordDto;
+import com.comsultant.domain.account.dto.PasswordDto;
 import com.comsultant.domain.account.entity.Account;
 import com.comsultant.domain.account.mapper.AccountMapper;
 import com.comsultant.domain.account.repository.AccountRepository;
+import com.comsultant.domain.account.util.AccountUtil;
+import com.comsultant.global.config.security.AccountDetails;
+import com.comsultant.global.error.exception.AccountApiException;
+import com.comsultant.global.error.model.AccountErrorCode;
+import com.comsultant.global.properties.ConstProperties;
 import com.comsultant.global.properties.ExpireTimeProperties;
 import com.comsultant.infra.email.MailService;
 import com.comsultant.infra.email.vo.MailVo;
 import com.comsultant.infra.redis.RedisService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
@@ -25,6 +36,7 @@ public class AccountServiceImpl implements AccountService {
     private final RedisService redisService;
 
     private final ExpireTimeProperties expireTimeProperties;
+    private final ConstProperties constProperties;
 
     /**
      * 회원가입 처리
@@ -41,6 +53,7 @@ public class AccountServiceImpl implements AccountService {
             accountDto.encryptPassword(encryptedPassword);
             Account account = accountRepository.save(AccountMapper.mapper.toEntity(accountDto));
 
+            redisService.deleteKey(accountDto.getEmail());
             return true;
         } else {
             return false;
@@ -82,7 +95,7 @@ public class AccountServiceImpl implements AccountService {
         do {
             authToken = random.ints(48, 122 + 1)
                     .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
-                    .limit(6)
+                    .limit(constProperties.getEmailAuthLength())
                     .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                     .toString();
             authTokenDup = redisService.getStringValue(authToken);
@@ -105,5 +118,131 @@ public class AccountServiceImpl implements AccountService {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public AccountDto getProfile(AccountDetails accountDetails) {
+        if(accountDetails == null) { return null; }
+        Account account = accountDetails.getAccount();
+
+        if(account == null) { return null; }
+        return AccountMapper.mapper.toDto(account);
+    }
+
+    @Override
+    @Transactional()
+    public boolean modifyAccount(AccountDetails accountDetails, AccountDto accountDto) {
+        if(AccountUtil.isAccountDetailsNull(accountDetails)) {
+            return false;
+        }
+
+        // 1. 비밀번호 체크
+        boolean isValidate = BCrypt.checkpw(accountDto.getPassword(), accountDetails.getPassword());
+        if(!isValidate) {
+            throw new AccountApiException(AccountErrorCode.ACCOUNT_WRONG_PASSWORD);
+        }
+
+        // 2. JPA 업데이트. 영속성에서 분리된 상태이므로, save 필요
+        accountDetails.getAccount().modifyAccount(accountDto.getNickname(), accountDto.getBirthYear());
+        accountRepository.save(accountDetails.getAccount());
+        return true;
+    }
+
+    @Override
+    public boolean modifyPassword(AccountDetails accountDetails, PasswordDto passwordDto) {
+        if(AccountUtil.isAccountDetailsNull(accountDetails)) {
+            return false;
+        }
+
+        boolean isValidate = BCrypt.checkpw(passwordDto.getOldPassword(), accountDetails.getPassword());
+        if(!isValidate) {
+            throw new AccountApiException(AccountErrorCode.ACCOUNT_WRONG_PASSWORD);
+        }
+
+        String encryptedPassword = BCrypt.hashpw(passwordDto.getNewPassword(), BCrypt.gensalt());
+        accountDetails.getAccount().modifyPassword(encryptedPassword);
+        accountRepository.save(accountDetails.getAccount());
+        return true;
+    }
+
+    @Override
+    public boolean sendFindPasswordLink(String email) {
+        if(email == null || email.length() == 0) {
+            return false;
+        }
+
+        boolean isNotAccount = this.checkDuplicatedEmail(email);
+        if(isNotAccount) {
+            return false;
+        }
+
+        String authToken = "";
+        Random random = new Random();
+
+        String authTokenDup = null;
+        do {
+            authToken = random.ints(48, 122 + 1)
+                    .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+                    .limit(constProperties.getPasswordTokenLength())
+                    .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                    .toString();
+            authTokenDup = redisService.getStringValue(authToken);
+        } while (authTokenDup != null);
+
+        Date now = new Date();
+        Date expireTime = new Date(now.getTime() + expireTimeProperties.getPasswordToken());
+        redisService.setStringValueAndExpire(authToken, email + "&"+ expireTime.toString(), expireTimeProperties.getPasswordToken());
+
+        MailVo mailVo = mailService.createFindPasswordEmail(email, authToken);
+        mailService.sendMail(mailVo);
+        return true;
+    }
+
+    @Override
+    public FindPasswordDto verifyFindPasswordToken(String token) {
+        if(token == null || token.length() != constProperties.getPasswordTokenLength()) {
+            return null;
+        }
+
+        String result = redisService.getStringValue(token);
+        if(result == null) {
+            return null;
+        }
+        int idx = result.lastIndexOf('&');
+        if(idx == -1) {
+            return null;
+        }
+        String email = result.substring(0, idx);
+        String time = result.substring(idx + 1);
+
+        return new FindPasswordDto(email, time);
+    }
+
+    @Override
+    @Transactional
+    public boolean resetPassword(String token, String newPassword) {
+        if(token == null || token.length() != constProperties.getPasswordTokenLength()) {
+            return false;
+        }
+
+        String result = redisService.getStringValue(token);
+        if(result == null) {
+            return false;
+        }
+        int idx = result.lastIndexOf('&');
+        if(idx == -1) {
+            return false;
+        }
+        String email = result.substring(0, idx);
+
+        String encryptedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+        Account account = accountRepository.findByEmail(email).orElseThrow(
+            () -> new AccountApiException(AccountErrorCode.ACCOUNT_NOT_FOUND)
+        );
+
+        account.modifyPassword(encryptedPassword);
+
+        redisService.deleteKey(token);
+        return true;
     }
 }

@@ -22,6 +22,8 @@ public class AccountDetails implements UserDetails {
         return authorities;
     }
 
+    public Account getAccount() {return this.account; }
+
     public String getNickname() { return this.account.getNickname(); }
 
     @Override
