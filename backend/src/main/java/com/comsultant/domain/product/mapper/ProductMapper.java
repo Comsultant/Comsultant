@@ -1,6 +1,5 @@
 package com.comsultant.domain.product.mapper;
 
-import com.comsultant.domain.account.entity.Account;
 import com.comsultant.domain.product.dto.ProductDto;
 import com.comsultant.domain.product.entity.Product;
 import com.comsultant.global.common.mapper.EntityMapper;
