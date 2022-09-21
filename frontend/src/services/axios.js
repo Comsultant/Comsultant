@@ -30,7 +30,7 @@ export const axiosAuth = axios.create({
 
 axiosAuth.interceptors.request.use(
   function (config) {
-    const accessToken = store.getState().user.token;
+    const accessToken = store.getState().account.token;
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
@@ -42,4 +42,18 @@ axiosAuth.interceptors.request.use(
 );
 
 
-// axiosAuth.interceptors.response.use();
+axiosAuth.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+
+  async function (error) {
+    const result = error.config;
+    console.log(error);
+
+    // 로그아웃에 대한 거면 그냥 Pass 시킨다.
+    if (result.url === '/api/auth' && result.method === 'delete') {
+      return Promise.reject(error);
+    }
+  }
+);

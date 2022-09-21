@@ -1,4 +1,4 @@
-import { LOGIN } from "./type";
+import { LOGIN, LOGOUT, TOKEN_DELETE } from "./type";
 
 export const initState = {
   isLogin: false,
@@ -15,6 +15,16 @@ export default function (state = initState, action) {
         nickname: action.payload.data.responseDto.nickname,
         token: action.payload.data.responseDto.accessToken,
       }
+    case LOGOUT:
+      return {
+        ...state,
+        isLogin: false,
+        nickname: "",
+        auth: "",
+      }
+    case TOKEN_DELETE:
+      return initState; 
+    default:
+      return state;
   }
-  return state;
 }

@@ -3,12 +3,14 @@ import { Button, DatePicker, Form, Input, Space, Alert, Modal, message } from "a
 import { registRequest, sendAuthNumberEmail, verifyAuthNumber, checkEmailRequest, checkNickNameRequest } from "@/services/accountService";
 import { debounce } from "lodash";
 import style from "@/styles/Regist.module.scss";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const Regist = () => {
 
   const authNumberLength = 6;
   const navigate = useNavigate();
+  const isLogin = useSelector((state) => state.account.isLogin);
 
   const [form] = Form.useForm();
   const authNumberInput = useRef();
@@ -181,6 +183,12 @@ const Regist = () => {
   }
 
   useEffect(() => {
+    if(isLogin){
+      navigate("/");
+    }
+  },[]);
+
+  useEffect(() => {
     if(isRegistSuccess){
       navigate("/account/login");
     }
@@ -204,11 +212,18 @@ const Regist = () => {
   },[isAuthVerify])
 
   useEffect(() => {
-    if (passwordCheck.length > 0 && !isPasswordSame) {
+    if (passwordCheck.length > 0 && password != passwordCheck) {
       form.setFields([
         {
         name: 'passwordCheck',
         errors: ['비밀번호가 일치하지 않습니다!'],
+        }
+      ])
+    } else {
+      form.setFields([
+        {
+          name: 'passwordCheck',
+          errors: [],
         }
       ])
     }

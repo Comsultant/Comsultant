@@ -74,7 +74,6 @@ const Login = () => {
     } 
 
     const result = await loginRequest(account);
-    console.log(result);
     const message = result?.payload?.data?.message;
     if(message === "success"){
       dispatch(result);
