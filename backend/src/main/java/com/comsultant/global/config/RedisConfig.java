@@ -2,7 +2,6 @@ package com.comsultant.global.config;
 
 import com.comsultant.global.properties.RedisProperties;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;

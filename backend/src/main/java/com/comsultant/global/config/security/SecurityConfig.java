@@ -30,7 +30,9 @@ public class SecurityConfig {
             "/account/email/*",
             "/account/name/*",
             "/account/verify-email/*",
-            "/static/**"
+            "/account/send-verify-link/*",
+            "/account/verify-token/*",
+            "/static/**",
     };
 
     private static final String[] POST_PUBLIC_URI = {
@@ -38,6 +40,10 @@ public class SecurityConfig {
             "/account",
             "/account/verify-email",
             "/auth/refresh"
+    };
+
+    private static final String[] PATCH_PUBLIC_URI = {
+            "/account/reset-password/*",
     };
 
     @Bean
@@ -49,7 +55,7 @@ public class SecurityConfig {
                 .csrf().disable();
 
         http
-                .requestMatchers((matchers) -> matchers.antMatchers(HttpMethod.GET, GET_PUBLIC_URI).antMatchers(HttpMethod.POST, POST_PUBLIC_URI))
+                .requestMatchers((matchers) -> matchers.antMatchers(HttpMethod.GET, GET_PUBLIC_URI).antMatchers(HttpMethod.POST, POST_PUBLIC_URI).antMatchers(HttpMethod.PATCH, PATCH_PUBLIC_URI))
                 .authorizeHttpRequests((authorize) -> authorize.anyRequest().permitAll())
                 .requestCache().disable()
                 .securityContext().disable()

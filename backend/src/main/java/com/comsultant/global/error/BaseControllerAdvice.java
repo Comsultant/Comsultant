@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -25,7 +26,7 @@ public class BaseControllerAdvice {
         e.printStackTrace();
         log.error(e.getMessage());
 
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+        return ResponseEntity.status(e.getErrorCode().getHttpStatus())
                 .body(ErrorResponse.of(e.getErrorCode()));
     }
 
@@ -76,6 +77,17 @@ public class BaseControllerAdvice {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(MessageResponse.of(HttpStatus.OK, "Auth Failed"));
         }
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<MessageResponse> httpMessageNotReadableException (Exception e, HttpServletRequest req) {
+        log.debug("HttpMessageNotReadableException");
+        log.error(req.getRequestURI());
+        log.error(e.getClass().getCanonicalName());
+        e.printStackTrace();
+        log.error(e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(MessageResponse.of(HttpStatus.BAD_REQUEST, "Bad Request"));
     }
 
     @ExceptionHandler(Exception.class)

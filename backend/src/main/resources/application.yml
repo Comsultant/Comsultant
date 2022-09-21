@@ -57,6 +57,7 @@ response:
 expire-time:
   authEmail: 300000
   authorizedEmail: 1800000
+  passwordToken: 300000
 jwt:
   secret-key: sl14Aelf52Bzk4t35aBkuh1
   access-token-expire-time: 1800000
@@ -65,3 +66,6 @@ frontend:
   protocol: http
   host: localhost
   port: 3000
+const:
+  password-token-length: 12
+  email-auth-length: 6

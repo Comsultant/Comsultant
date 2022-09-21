@@ -54,4 +54,13 @@ public class Account {
     @Column(name = "modify_date", columnDefinition = "DATETIME")
     @LastModifiedDate
     private LocalDateTime modifyDate;
+
+    public void modifyAccount(String nickname, int birthYear) {
+        this.nickname = nickname;
+        this.birthYear = birthYear;
+    }
+
+    public void modifyPassword(String password) {
+        this.password = password;
+    }
 }

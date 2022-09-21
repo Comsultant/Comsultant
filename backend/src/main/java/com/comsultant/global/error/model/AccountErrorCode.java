@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum AccountErrorCode implements ErrorCode {
     ACCOUNT_NOT_FOUND(1000, HttpStatus.NOT_FOUND, "User is Not Found"),
+    ACCOUNT_WRONG_PASSWORD(1001, HttpStatus.OK, "Wrong Password")
 //    DUPLICATED_KEY(1001, HttpStatus.INTERNAL_SERVER_ERROR, "Email or Nickname is Duplicated"),
     ;
 

@@ -8,9 +8,8 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 @Getter
 @RequiredArgsConstructor
 @ConstructorBinding
-@ConfigurationProperties(prefix = "expire-time")
-public class ExpireTimeProperties {
-    private final int authEmail;
-    private final int authorizedEmail;
-    private final long passwordToken;
+@ConfigurationProperties(prefix = "const")
+public class ConstProperties {
+    private final int passwordTokenLength;
+    private final int emailAuthLength;
 }
