@@ -10,4 +10,5 @@ public interface AccountService {
     void sendVerifyEmail(String mailAddress);
     boolean verifyAuthToken(String token, String email);
     AccountDto getProfile(AccountDetails accountDetails);
+    boolean modifyAccount(AccountDetails accountDetails, AccountDto accountDto);
 }

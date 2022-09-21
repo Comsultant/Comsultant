@@ -4,19 +4,25 @@ import com.comsultant.domain.account.dto.AccountDto;
 import com.comsultant.domain.account.entity.Account;
 import com.comsultant.domain.account.mapper.AccountMapper;
 import com.comsultant.domain.account.repository.AccountRepository;
+import com.comsultant.domain.account.util.AccountUtil;
 import com.comsultant.global.config.security.AccountDetails;
+import com.comsultant.global.error.exception.AccountApiException;
+import com.comsultant.global.error.model.AccountErrorCode;
 import com.comsultant.global.properties.ExpireTimeProperties;
 import com.comsultant.infra.email.MailService;
 import com.comsultant.infra.email.vo.MailVo;
 import com.comsultant.infra.redis.RedisService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
@@ -42,6 +48,7 @@ public class AccountServiceImpl implements AccountService {
             accountDto.encryptPassword(encryptedPassword);
             Account account = accountRepository.save(AccountMapper.mapper.toEntity(accountDto));
 
+            redisService.deleteKey(accountDto.getEmail());
             return true;
         } else {
             return false;
@@ -115,5 +122,24 @@ public class AccountServiceImpl implements AccountService {
 
         if(account == null) { return null; }
         return AccountMapper.mapper.toDto(account);
+    }
+
+    @Override
+    @Transactional()
+    public boolean modifyAccount(AccountDetails accountDetails, AccountDto accountDto) {
+        if(AccountUtil.isAccountDetailsNull(accountDetails)) {
+            return false;
+        }
+
+        // 1. 비밀번호 체크
+        boolean isValidate = BCrypt.checkpw(accountDto.getPassword(), accountDetails.getPassword());
+        if(!isValidate) {
+            throw new AccountApiException(AccountErrorCode.ACCOUNT_WRONG_PASSWORD);
+        }
+
+        // 2. JPA 업데이트. 영속성에서 분리된 상태이므로, save 필요
+        accountDetails.getAccount().modifyAccount(accountDto.getNickname(), accountDto.getBirthYear());
+        accountRepository.save(accountDetails.getAccount());
+        return true;
     }
 }

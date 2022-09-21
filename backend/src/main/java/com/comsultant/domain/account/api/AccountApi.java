@@ -84,4 +84,14 @@ public class AccountApi {
         AccountDto result = accountService.getProfile(accountDetails);
         return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
     }
+
+    @PutMapping("")
+    public ResponseEntity<MessageResponse> modifyAccount(@AuthenticationPrincipal AccountDetails accountDetails, @RequestBody AccountDto accountDto) {
+        boolean result = accountService.modifyAccount(accountDetails, accountDto);
+        if(result) {
+            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getSuccess()));
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getFail()));
+        }
+    }
 }
