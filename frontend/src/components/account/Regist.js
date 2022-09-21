@@ -3,12 +3,14 @@ import { Button, DatePicker, Form, Input, Space, Alert, Modal, message } from "a
 import { registRequest, sendAuthNumberEmail, verifyAuthNumber, checkEmailRequest, checkNickNameRequest } from "@/services/accountService";
 import { debounce } from "lodash";
 import style from "@/styles/Regist.module.scss";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const Regist = () => {
 
   const authNumberLength = 6;
   const navigate = useNavigate();
+  const isLogin = useSelector((state) => state.account.isLogin);
 
   const [form] = Form.useForm();
   const authNumberInput = useRef();
@@ -21,13 +23,14 @@ const Regist = () => {
   const [passwordCheck, setPasswordCheck] = useState("");
   const [nickname, setNickname] = useState("");
   const [birthYear, setBirthYear] = useState("");
-
+  
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isAuthVerify, setAuthVerify] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [isPasswordSame, setIsPasswordSame] = useState(false);
   const [isAuthNumberSended, setIsAuthNumberSended] = useState(false);
   const [isNicknameValid, setIsNicknameValid] = useState(false);
+  const [isRegistSuccess, setRegistSucces] = useState(false);
 
   const [emailChecked, setEmailChecked] = useState(false);
   const [nicknameChecked, setNicknameChecked] = useState(false);
@@ -70,9 +73,9 @@ const Regist = () => {
     }, secondsToGo * 1000);
   }
 
-  const onFinish = values => {
-    console.log("Success:", values);
-  };
+  // const onFinish = values => {
+  //   console.log("Success:", values);
+  // };
 
   const onFinishFailed = errorInfo => {
     console.log("Failed:", errorInfo);
@@ -170,26 +173,26 @@ const Regist = () => {
       birthyear : birthYear,
     }
     const result = await registRequest(account);
-    if (result.data?.message === "success") {
+    if (result?.data?.message === "success") {
       countDown("회원가입 완료!", true);
-      navigate("/account/login")
+      setRegistSucces(true);
     } else {
       countDown("회원 가입 실패!", false);
       return;
     }     
   }
 
+  useEffect(() => {
+    if(isLogin){
+      navigate("/");
+    }
+  },[]);
 
-  // const validateAuthVerify = (authNumberInput, value) => {
-  //   console.log("인증!!!");
-  //   if (isAuthNumberSended && !isAuthVerify) {
-  //     console.log("인증필요!")
-  //     return Promise.reject(new Error(authNumberInput.message));
-  //   } else {
-  //     console.log("인증완료!");
-  //     return Promise.resolve();
-  //   }
-  // }
+  useEffect(() => {
+    if(isRegistSuccess){
+      navigate("/account/login");
+    }
+  },[isRegistSuccess]);
 
   useEffect(() => {
     if(emailChecked && emailChecked !== "success"){
@@ -209,12 +212,18 @@ const Regist = () => {
   },[isAuthVerify])
 
   useEffect(() => {
-    if (passwordCheck.length > 0 && !isPasswordSame) {
-      console.log(isPasswordSame);
+    if (passwordCheck.length > 0 && password != passwordCheck) {
       form.setFields([
         {
         name: 'passwordCheck',
         errors: ['비밀번호가 일치하지 않습니다!'],
+        }
+      ])
+    } else {
+      form.setFields([
+        {
+          name: 'passwordCheck',
+          errors: [],
         }
       ])
     }
