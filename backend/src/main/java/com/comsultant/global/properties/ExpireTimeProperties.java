@@ -12,4 +12,5 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 public class ExpireTimeProperties {
     private final int authEmail;
     private final int authorizedEmail;
+    private final long passwordToken;
 }

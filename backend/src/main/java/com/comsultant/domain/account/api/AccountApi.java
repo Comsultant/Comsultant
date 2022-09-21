@@ -105,4 +105,14 @@ public class AccountApi {
             return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getFail()));
         }
     }
+
+    @GetMapping("/send-verify-link/{email}")
+    public ResponseEntity<MessageResponse> sendFindPasswordLink(@PathVariable("email") String email) {
+        boolean result = accountService.sendFindPasswordLink(email);
+        if(result) {
+            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getSuccess()));
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getFail()));
+        }
+    }
 }

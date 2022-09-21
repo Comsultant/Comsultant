@@ -30,7 +30,8 @@ public class SecurityConfig {
             "/account/email/*",
             "/account/name/*",
             "/account/verify-email/*",
-            "/static/**"
+            "/account/send-verify-link/*",
+            "/static/**",
     };
 
     private static final String[] POST_PUBLIC_URI = {

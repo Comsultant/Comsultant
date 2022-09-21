@@ -13,4 +13,5 @@ public interface AccountService {
     AccountDto getProfile(AccountDetails accountDetails);
     boolean modifyAccount(AccountDetails accountDetails, AccountDto accountDto);
     boolean modifyPassword(AccountDetails accountDetails, PasswordDto passwordDto);
+    boolean sendFindPasswordLink(String email);
 }

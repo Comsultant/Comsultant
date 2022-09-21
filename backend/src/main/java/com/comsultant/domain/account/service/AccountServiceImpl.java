@@ -19,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.Random;
 
 @Service
@@ -158,6 +159,39 @@ public class AccountServiceImpl implements AccountService {
         String encryptedPassword = BCrypt.hashpw(passwordDto.getNewPassword(), BCrypt.gensalt());
         accountDetails.getAccount().modifyPassword(encryptedPassword);
         accountRepository.save(accountDetails.getAccount());
+        return true;
+    }
+
+    @Override
+    public boolean sendFindPasswordLink(String email) {
+        if(email == null || email.length() == 0) {
+            return false;
+        }
+
+        boolean isNotAccount = this.checkDuplicatedEmail(email);
+        if(isNotAccount) {
+            return false;
+        }
+
+        String authToken = "";
+        Random random = new Random();
+
+        String authTokenDup = null;
+        do {
+            authToken = random.ints(48, 122 + 1)
+                    .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+                    .limit(12)
+                    .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                    .toString();
+            authTokenDup = redisService.getStringValue(authToken);
+        } while (authTokenDup != null);
+
+        Date now = new Date();
+        Date expireTime = new Date(now.getTime() + expireTimeProperties.getPasswordToken());
+        redisService.setStringValueAndExpire(authToken, email + "&"+ expireTime.toString(), expireTimeProperties.getPasswordToken());
+
+        MailVo mailVo = mailService.createFindPasswordEmail(email, authToken);
+        mailService.sendMail(mailVo);
         return true;
     }
 }
