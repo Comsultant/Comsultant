@@ -69,3 +69,8 @@ frontend:
 const:
   password-token-length: 12
   email-auth-length: 6
+social:
+  naver-client-id: nCYDlM4yiReKniB6s0eE
+  naver-client-secret: 4RX9AbxD0H
+  naver-api-url: https://openapi.naver.com/v1/nid/me
+  naver-state: comstate
