@@ -38,3 +38,7 @@ out/
 
 ### Log
 /logs
+
+### yml
+
+/src/main/resources/application-*.yml

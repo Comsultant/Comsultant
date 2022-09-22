@@ -1,6 +1,7 @@
 package com.comsultant.domain.auth.service;
 
 import com.comsultant.domain.account.dto.AccountDto;
+import com.comsultant.domain.account.entity.Account;
 import com.comsultant.domain.account.repository.AccountRepository;
 import com.comsultant.domain.auth.dto.AuthDto;
 import com.comsultant.global.config.security.AccountDetails;
@@ -62,5 +63,14 @@ public class AuthServiceImpl implements AuthService {
 
         redisService.deleteKey(refreshToken);
         redisService.setStringValueAndExpire(accessToken, "blacklist", jwtProvider.getAccessTokenExpireTime());
+    }
+
+    @Override
+    public AuthDto socialSignIn(Account account) {
+        String nickname = account.getNickname();
+        String accessToken = jwtProvider.generateAccessToken(account.getEmail());
+        String refreshToken = jwtProvider.generateRefreshToken(account.getEmail());
+
+        return new AuthDto(accessToken, refreshToken, nickname);
     }
 }
