@@ -16,4 +16,8 @@ public class SocialProperties {
     private final String kakaoClientId;
     private final String kakaoClientSecret;
     private final String kakaoApiUrl;
+    private final String googleClientId;
+    private final String googleClientSecret;
+    private final String googleCallbackUrl;
+    private final String googleApiUrl;
 }

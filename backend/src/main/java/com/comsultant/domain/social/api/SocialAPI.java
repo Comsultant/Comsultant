@@ -8,6 +8,7 @@ import com.comsultant.domain.social.service.SocialService;
 import com.comsultant.global.common.response.DtoResponse;
 import com.comsultant.global.properties.ResponseProperties;
 import com.comsultant.global.properties.SocialProperties;
+import com.github.scribejava.apis.GoogleApi20;
 import com.github.scribejava.apis.KakaoApi;
 import com.github.scribejava.apis.NaverApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
@@ -111,6 +112,46 @@ public class SocialAPI {
             }
 
             Account account = socialService.checkSignUp(userid, birthYear, SnsTypeCode.KAKAO_SNS_TYPE);
+            AuthDto dto = authService.socialSignIn(account);
+            return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), dto));
+
+        } catch (NullPointerException e) {
+            log.error("NullPointerException");
+            return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getFail(), null));
+        }
+    }
+
+    @GetMapping("/google")
+    public ResponseEntity<DtoResponse<AuthDto>> googleRedirect(@RequestParam("code") String code, HttpServletResponse httpResponse) throws IOException, ExecutionException, InterruptedException, ParseException {
+        OAuth20Service gService = new ServiceBuilder(socialProperties.getGoogleClientId())
+                .apiSecret(socialProperties.getGoogleClientSecret())
+                .callback(socialProperties.getGoogleCallbackUrl())
+                .build(GoogleApi20.instance());
+
+
+        OAuth2AccessToken accessToken = gService.getAccessToken(code);
+        OAuthRequest request = new OAuthRequest(Verb.GET, socialProperties.getGoogleApiUrl());
+        gService.signRequest(accessToken, request);
+        Response response = gService.execute(request);
+
+        /**
+         * {
+         *   "sub": "105729499790627604347",
+         *   "picture": "https://lh3.googleusercontent.com/a-/AFdZucpH1KfyFymqznCs0e5ls3N8Xnb9fajei_QuEIiF\u003ds96-c",
+         *   "email": "yoongh97@gmail.com",
+         *   "email_verified": true
+         * }
+         */
+        System.out.println(response.getBody());
+        try {
+            JSONParser parser = new JSONParser();
+            JSONObject jobj = (JSONObject) parser.parse(response.getBody());
+            String userid = jobj.get("sub").toString();
+
+            // TODO: 생년 기본값 설정해주기
+            String birthYear = "2022";
+
+            Account account = socialService.checkSignUp(userid, birthYear, SnsTypeCode.GOOGLE_SNS_TYPE);
             AuthDto dto = authService.socialSignIn(account);
             return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), dto));
 

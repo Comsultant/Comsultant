@@ -77,3 +77,7 @@ social:
   kakao-client-id: c5ca9b88e40cac66b5cdd051c40731b3
   kakao-client-secret: oCR1AAZA2ux5gUd23lbwJ6Fl8Jce4FaC
   kakao-api-url: https://kapi.kakao.com/v2/user/me
+  google-client-id: 632011927144-o4dtug6qrhq2ol6dockrfqehvp74s63d.apps.googleusercontent.com
+  google-client-secret: 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
+  google-callback-url: http://localhost:8080/api/social/google
+  google-api-url: https://www.googleapis.com/oauth2/v3/userinfo
