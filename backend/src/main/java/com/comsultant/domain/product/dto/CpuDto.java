@@ -65,7 +65,7 @@ public class CpuDto {
 
     private boolean memoryChannel; //메모리 채널
 
-    private boolean includeVga; //내장그래픽
+    private String includeVga; //내장그래픽
 
     private String includeVgaName; //GPU 모델명
 

@@ -108,8 +108,8 @@ public class Cpu {
     @Column(name = "memory_channel", columnDefinition = "TINYINT(1)")
     private boolean memoryChannel;
 
-    @Column(name = "include_vga", columnDefinition = "TINYINT(1)")
-    private boolean includeVga;
+    @Column(name = "include_vga", columnDefinition = "VARCHAR(255)")
+    private String includeVga;
 
     @Column(name = "include_vga_name", columnDefinition = "VARCHAR(255)")
     private String includeVgaName;
