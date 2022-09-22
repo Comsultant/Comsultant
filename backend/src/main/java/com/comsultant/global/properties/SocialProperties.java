@@ -13,4 +13,7 @@ public class SocialProperties {
     private final String naverClientId;
     private final String naverClientSecret;
     private final String naverApiUrl;
+    private final String kakaoClientId;
+    private final String kakaoClientSecret;
+    private final String kakaoApiUrl;
 }

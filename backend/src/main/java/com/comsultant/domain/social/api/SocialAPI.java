@@ -8,6 +8,7 @@ import com.comsultant.domain.social.service.SocialService;
 import com.comsultant.global.common.response.DtoResponse;
 import com.comsultant.global.properties.ResponseProperties;
 import com.comsultant.global.properties.SocialProperties;
+import com.github.scribejava.apis.KakaoApi;
 import com.github.scribejava.apis.NaverApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
 import com.github.scribejava.core.model.OAuth2AccessToken;
@@ -71,6 +72,45 @@ public class SocialAPI {
             String birthYear = juser.get("birthyear").toString();
 
             Account account = socialService.checkSignUp(userid, birthYear, SnsTypeCode.NAVER_SNS_TYPE);
+            AuthDto dto = authService.socialSignIn(account);
+            return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), dto));
+
+        } catch (NullPointerException e) {
+            log.error("NullPointerException");
+            return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getFail(), null));
+        }
+    }
+
+    @GetMapping("/kakao")
+    public ResponseEntity<DtoResponse<AuthDto>> kakaoRedirect(@RequestParam("code") String code, HttpServletResponse httpResponse) throws IOException, ExecutionException, InterruptedException, ParseException {
+
+        OAuth20Service kService = new ServiceBuilder(socialProperties.getKakaoClientId())
+                .apiSecret(socialProperties.getKakaoClientSecret())
+                .build(KakaoApi.instance());
+
+        OAuth2AccessToken accessToken = kService.getAccessToken(code);
+        OAuthRequest request = new OAuthRequest(Verb.GET, socialProperties.getKakaoApiUrl());
+        kService.signRequest(accessToken, request);
+        Response response = kService.execute(request);
+
+
+        // {"id":2005017902,"connected_at":"2021-11-24T04:35:36Z"}
+        try {
+            JSONParser parser = new JSONParser();
+            JSONObject jobj = (JSONObject) parser.parse(response.getBody());
+            JSONObject juser = (JSONObject)jobj.get("kakao_account");
+
+            String userid = jobj.get("id").toString();
+
+            // TODO : 카카오 정보 제공항목에서 생년 추가 필요
+            String birthYear = "2022";
+            if(juser != null) {
+                String range = juser.get("age_range").toString();
+                int age = Integer.parseInt(range.split("~")[0]);
+                birthYear = String.valueOf(2022 - age);
+            }
+
+            Account account = socialService.checkSignUp(userid, birthYear, SnsTypeCode.KAKAO_SNS_TYPE);
             AuthDto dto = authService.socialSignIn(account);
             return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), dto));
 
