@@ -5,10 +5,10 @@ import org.apache.commons.lang3.StringUtils;
 public class ParameterUtil {
 
     public static int checkPage(String page) {
-        if(!StringUtils.isNumeric(page) || Integer.parseInt(page) < 1) {
-            return 1;
+        if(!StringUtils.isNumeric(page) || Integer.parseInt(page) < 0) {
+            return 0;
         } else {
-            return Integer.parseInt(page);
+            return Integer.parseInt(page) - 1;
         }
     }
 
