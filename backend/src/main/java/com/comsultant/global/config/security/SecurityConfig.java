@@ -32,6 +32,7 @@ public class SecurityConfig {
             "/account/verify-email/*",
             "/account/send-verify-link/*",
             "/account/verify-token/*",
+            "/product/*",
             "/social/*",
             "/static/**",
     };
