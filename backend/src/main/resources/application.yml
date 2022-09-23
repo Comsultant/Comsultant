@@ -63,3 +63,4 @@ frontend:
 const:
   password-token-length: 12
   email-auth-length: 6
+  comment-list-size: 10
