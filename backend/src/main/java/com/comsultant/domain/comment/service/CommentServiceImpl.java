@@ -5,12 +5,14 @@ import com.comsultant.domain.account.repository.AccountRepository;
 import com.comsultant.domain.comment.dto.CommentDto;
 import com.comsultant.domain.comment.dto.CommentResponse;
 import com.comsultant.domain.comment.entity.Comment;
+import com.comsultant.domain.comment.mapper.CommentMapper;
 import com.comsultant.domain.comment.repository.CommentRepository;
 import com.comsultant.domain.product.entity.Product;
 import com.comsultant.domain.product.repository.ProductRepository;
+import com.comsultant.global.error.exception.CommentApiException;
+import com.comsultant.global.error.model.CommentErrorCode;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,29 +23,34 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CommentServiceImpl implements CommentService {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(CommentServiceImpl.class);
 
     private final CommentRepository commentRepository;
     private final AccountRepository accountRepository;
     private final ProductRepository productRepository;
 
     @Override
-    public boolean createComment(Long accountIdx, Long productIdx, CommentDto commentDto) {
-        // TODO : account, product 못 찾을 시 예외 처리 필요
-        Account account = accountRepository.findById(accountIdx).orElseThrow();
-        Product product = productRepository.findById(productIdx).orElseThrow();
-        Comment savedComment = commentRepository.save(commentToEntity(account, product, commentDto));
-        if (savedComment.getIdx() == 0)
+    public boolean createComment(Account account, Long productIdx, CommentDto commentDto) {
+        if(account == null || account.getIdx() == 0) {
             return false;
-        return true;
+        }
+
+        commentDto.updateUserInfo(account.getIdx(), productIdx);
+        if(!productRepository.existsById(productIdx)) {
+            throw new CommentApiException(CommentErrorCode.PRODUCT_NOT_FOUND);
+        }
+
+        Comment savedComment = commentRepository.save(CommentMapper.mapper.toEntity(commentDto));
+        return savedComment.getIdx() != 0;
     }
 
     @Override
-    public CommentResponse.GetComments getComments(Long accountIdx, int page, boolean desc) {
+    public CommentResponse.GetComments getComments(Account account, int page, boolean desc) {
         // TODO : account, product 못 찾을 시 예외 처리 필요, 페이지 음수일 때 예외 처리 필요
-        Account account = accountRepository.findById(accountIdx).orElseThrow();
+        if(account == null || account.getIdx() == 0) {
+            return null;
+        }
         Pageable pageable;
 
         if (desc)
@@ -59,9 +66,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public boolean updateComment(Long accountIdx, Long commentIdx, CommentDto commentDto) {
+    public boolean updateComment(Account account, Long commentIdx, CommentDto commentDto) {
         // TODO : account, comment 못 찾을 시 예외 처리 필요
-        Account account = accountRepository.findById(accountIdx).orElseThrow();
+        if(account == null || account.getIdx() == 0) {
+            return false;
+        }
         Comment comment = commentRepository.findById(commentIdx).orElseThrow();
         // TODO : 작성자와 다른 경우 예외 처리 필요
         if (!comment.getAccount().equals(account))
@@ -75,9 +84,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public boolean deleteComment(Long accountIdx, Long commentIdx) {
+    public boolean deleteComment(Account account, Long commentIdx) {
         // TODO : account, comment 못 찾을 시 예외 처리 필요
-        Account account = accountRepository.findById(accountIdx).orElseThrow();
+        if(account == null || account.getIdx() == 0) {
+            return false;
+        }
         Comment comment = commentRepository.findById(commentIdx).orElseThrow();
         // TODO : 작성자와 다른 경우 예외 처리 필요
         if (!comment.getAccount().equals(account))
@@ -86,13 +97,4 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.deleteById(commentIdx);
         return true;
     }
-
-    public static Comment commentToEntity(Account account, Product product, CommentDto commentDto) {
-        return Comment.builder()
-                .account(account)
-                .product(product)
-                .content(commentDto.getContent())
-                .build();
-    }
-
 }
