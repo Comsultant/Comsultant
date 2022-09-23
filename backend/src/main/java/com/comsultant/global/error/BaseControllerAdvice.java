@@ -3,6 +3,7 @@ package com.comsultant.global.error;
 import com.comsultant.global.common.response.ErrorResponse;
 import com.comsultant.global.common.response.MessageResponse;
 import com.comsultant.global.error.exception.AccountApiException;
+import com.comsultant.global.error.exception.ProductApiException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,18 @@ import javax.servlet.http.HttpServletRequest;
 @RestControllerAdvice
 @Slf4j
 public class BaseControllerAdvice {
+
+    @ExceptionHandler(ProductApiException.class)
+    public ResponseEntity<ErrorResponse> productApiException(ProductApiException e, HttpServletRequest req) {
+        log.error(req.getRequestURI());
+        log.error(e.getClass().getCanonicalName());
+        e.printStackTrace();
+        log.error(e.getMessage());
+
+        return ResponseEntity.status(e.getErrorCode().getHttpStatus())
+                .body(ErrorResponse.of(e.getErrorCode()));
+    }
+
     @ExceptionHandler(AccountApiException.class)
     public ResponseEntity<ErrorResponse> accountApiException(AccountApiException e, HttpServletRequest req) {
         log.error(req.getRequestURI());
