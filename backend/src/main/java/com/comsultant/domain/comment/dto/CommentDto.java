@@ -10,7 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class CommentDto {
-    private Long userIdx;
+    private Long idx;
+    private Long accountIdx;
     private Long productIdx;
     private String content;
     private String createDate;
