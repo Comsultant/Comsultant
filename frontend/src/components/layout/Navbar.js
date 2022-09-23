@@ -1,15 +1,17 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import style from "@/styles/Navbar.module.scss"
 import { useDispatch, useSelector } from "react-redux";
 import { logoutRequest } from "@/services/accountService";
 import { LOGOUT } from "@/reducer/type";
 import { message } from "antd";
 import classNames from "classnames";
+import { useState, useEffect } from "react";
+
 
 const Navbar = () => {
 
-  const pages=[
+  const pages = [
     [`부품 검색`, `/products/search`],
     [`맞춤 견적`, `/recommend`],
   ];
@@ -27,8 +29,20 @@ const Navbar = () => {
     navigate("/");
   }
 
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const updateScroll = () => {
+    setScrollPosition(window.scrollY || document.documentElement.scrollTop);
+  }
+  useEffect(()=>{
+      window.addEventListener('scroll', updateScroll);
+  },[]);
+
   return (
-    <div className={style['nav-bar']}>
+    <div className={classNames(
+        scrollPosition < 30 ?
+          `${style['nav-bar']}` :
+          `${style['nav-bar-scroll']}`
+      )}>
       <div className={style.logo}>
         <Link to={`/`}>
           <img src="/../assets/logo.png" className={style['logo-image']} alt="logo"/>
