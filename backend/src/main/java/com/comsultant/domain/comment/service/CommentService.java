@@ -1,16 +1,17 @@
 package com.comsultant.domain.comment.service;
 
+import com.comsultant.domain.account.entity.Account;
 import com.comsultant.domain.comment.dto.CommentDto;
 import com.comsultant.domain.comment.dto.CommentResponse;
 
 public interface CommentService {
 
-    boolean createComment(Long userIdx, Long productIdx, CommentDto commentDto);
+    boolean createComment(Account account, Long productIdx, CommentDto commentDto);
 
-    boolean updateComment(Long userIdx, Long commentIdx, CommentDto commentDto);
+    boolean updateComment(Account account, Long commentIdx, CommentDto commentDto);
 
-    boolean deleteComment(Long userIdx, Long commentIdx);
+    boolean deleteComment(Account account, Long commentIdx);
 
-    CommentResponse.GetComments getComments(Long accountIdx, int page, boolean desc);
+    CommentResponse.GetComments getComments(Account account, int page, boolean desc);
 
 }
