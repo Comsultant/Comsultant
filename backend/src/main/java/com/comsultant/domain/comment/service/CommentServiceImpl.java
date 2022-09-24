@@ -3,6 +3,7 @@ package com.comsultant.domain.comment.service;
 import com.comsultant.domain.account.entity.Account;
 import com.comsultant.domain.comment.dto.CommentDetailDto;
 import com.comsultant.domain.comment.dto.CommentDto;
+import com.comsultant.domain.comment.dto.CommentListDto;
 import com.comsultant.domain.comment.entity.Comment;
 import com.comsultant.domain.comment.mapper.CommentMapper;
 import com.comsultant.domain.comment.repository.CommentRepository;
@@ -62,20 +63,19 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentDetailDto> getComments(Account account, int page, boolean desc) {
+    public CommentListDto getComments(Account account, int page, boolean desc) {
         if(account == null || account.getIdx() == 0) {
-            return Collections.emptyList();
+            return null;
         }
         Pageable pageable;
 
+        System.out.println(page);
+        System.out.println(desc);
         if (desc) {
             pageable = PageRequest.of(page, constProperties.getCommentListSize(), Sort.by("idx").descending());
         } else {
             pageable = PageRequest.of(page, constProperties.getCommentListSize());
         }
-
-        System.out.println(page);
-        System.out.println(constProperties.getCommentListSize());
 
         Page<Comment> pageComments = commentRepository.findAllByAccount(account, pageable);
         List<Comment> comments = pageComments.getContent();
@@ -84,22 +84,18 @@ public class CommentServiceImpl implements CommentService {
         List<CommentDetailDto> result = new ArrayList<>();
 
         for (Comment comment : comments) {
-//            int productCategory = comment.getProduct().getCategory();
-//            long productIdx = comment.getProduct().getIdx();
-            Product product = comment.getProduct();
-//
-//            CommentDetailDto ret = CommentDetailDto.builder()
-//                    .content(comment.getContent())
-//                    .createDate(comment.getCreateDate().toString())
-//                    .productIdx(productIdx)
-//                    .productName(detail.getName())
-//                    .productCategory(productCategory)
-//                    .productImg(detail.getImgCnt())
-//                    .build();
-//            result.add(ret);
+            CommentDetailDto ret = CommentDetailDto.builder()
+                    .commentDto(CommentMapper.toDto(comment))
+                    .productImg(comment.getProduct().getImgCnt())
+                    .productName(comment.getProduct().getName())
+                    .build();
+            result.add(ret);
         }
 
-        return result;
+        return CommentListDto.builder()
+                .commentDetailDtoList(result)
+                .totalPage(totalPages)
+                .build();
     }
 
     @Override

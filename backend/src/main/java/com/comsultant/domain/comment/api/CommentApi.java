@@ -2,8 +2,10 @@ package com.comsultant.domain.comment.api;
 
 import com.comsultant.domain.comment.dto.CommentDetailDto;
 import com.comsultant.domain.comment.dto.CommentDto;
+import com.comsultant.domain.comment.dto.CommentListDto;
 import com.comsultant.domain.comment.dto.CommentResponse;
 import com.comsultant.domain.comment.service.CommentService;
+import com.comsultant.global.common.response.DtoResponse;
 import com.comsultant.global.common.response.ListResponse;
 import com.comsultant.global.common.response.MessageResponse;
 import com.comsultant.global.config.security.AccountDetails;
@@ -38,15 +40,15 @@ public class CommentApi {
     }
 
     @GetMapping("")
-    public ResponseEntity<ListResponse<CommentDetailDto>> getComments
-            (@RequestParam(required = false) String pageParam, @RequestParam(required = false) String descParam, @AuthenticationPrincipal AccountDetails accountDetails) {
+    public ResponseEntity<DtoResponse<CommentListDto>> getComments
+            (@RequestParam(name = "page", required = false) String pageParam, @RequestParam(name = "desc", required = false) String descParam, @AuthenticationPrincipal AccountDetails accountDetails) {
 
         int page = ParameterUtil.checkPage(pageParam);
         boolean desc = ParameterUtil.checkDesc(descParam);
 
-        List<CommentDetailDto> result = commentService.getComments(accountDetails.getAccount(), page, desc);
+        CommentListDto result = commentService.getComments(accountDetails.getAccount(), page, desc);
 
-        return ResponseEntity.status(HttpStatus.OK).body(ListResponse.of(HttpStatus.OK, responseProperties.getSuccess(), null));
+        return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
     }
 
     @PutMapping("/{commentIdx}")

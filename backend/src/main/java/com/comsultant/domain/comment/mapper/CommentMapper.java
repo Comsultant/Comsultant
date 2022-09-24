@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 public class CommentMapper {
 
-    static CommentDto toDto(final Comment entity) {
+    public static CommentDto toDto(final Comment entity) {
         return CommentDto.builder()
                 .idx(entity.getIdx())
                 .accountIdx(entity.getAccount().getIdx())

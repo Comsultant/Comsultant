@@ -5,12 +5,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CommentDetailDto {
-    private CommentDto commentDto;
-    private int productImg;
-    private String productName;
+public class CommentListDto {
+    private List<CommentDetailDto> commentDetailDtoList;
+    private int totalPage;
 }

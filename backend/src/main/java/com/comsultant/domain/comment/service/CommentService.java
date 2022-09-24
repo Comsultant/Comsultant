@@ -3,6 +3,8 @@ package com.comsultant.domain.comment.service;
 import com.comsultant.domain.account.entity.Account;
 import com.comsultant.domain.comment.dto.CommentDetailDto;
 import com.comsultant.domain.comment.dto.CommentDto;
+import com.comsultant.domain.comment.dto.CommentListDto;
+
 import java.util.List;
 
 public interface CommentService {
@@ -13,6 +15,6 @@ public interface CommentService {
 
     boolean deleteComment(Account account, long commentIdx);
 
-    List<CommentDetailDto> getComments(Account account, int page, boolean desc);
+    CommentListDto getComments(Account account, int page, boolean desc);
 
 }
