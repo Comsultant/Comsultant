@@ -8,14 +8,48 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class RamDto {
+public class RamDto extends ProductDto {
 
-    private long idx;
-
-    private String name; //제품명
-
-    private int imgCnt; //img_cnt
+    @Builder
+    public RamDto(long idx, int category, String name, int imgCnt, String corp, String registeredAt, String useDevice,
+                  String type, String memorySize, double memoryVolume, int actionClock, String lamTiming, double actionVoltage,
+                  int lamCnt, boolean led, boolean ondieEcc, boolean xmp, boolean xmp3, boolean tempSensor, String heatsink,
+                  boolean reg, boolean lpSize, String heatsinkColor, String ledColor, boolean auraSync, boolean mysticLight,
+                  boolean rgbFusion, boolean polychrome, boolean corsairIcue, boolean razerChroma, boolean gskillLighting,
+                  boolean ttRgbPlus, boolean teamForceBlitz, boolean xpgRgb, String distCorp) {
+        super(idx, category, name, imgCnt);
+        this.corp = corp;
+        this.registeredAt = registeredAt;
+        this.useDevice = useDevice;
+        this.type = type;
+        this.memorySize = memorySize;
+        this.memoryVolume = memoryVolume;
+        this.actionClock = actionClock;
+        this.lamTiming = lamTiming;
+        this.actionVoltage = actionVoltage;
+        this.lamCnt = lamCnt;
+        this.led = led;
+        this.ondieEcc = ondieEcc;
+        this.xmp = xmp;
+        this.xmp3 = xmp3;
+        this.tempSensor = tempSensor;
+        this.heatsink = heatsink;
+        this.reg = reg;
+        this.lpSize = lpSize;
+        this.heatsinkColor = heatsinkColor;
+        this.ledColor = ledColor;
+        this.auraSync = auraSync;
+        this.mysticLight = mysticLight;
+        this.rgbFusion = rgbFusion;
+        this.polychrome = polychrome;
+        this.corsairIcue = corsairIcue;
+        this.razerChroma = razerChroma;
+        this.gskillLighting = gskillLighting;
+        this.ttRgbPlus = ttRgbPlus;
+        this.teamForceBlitz = teamForceBlitz;
+        this.xpgRgb = xpgRgb;
+        this.distCorp = distCorp;
+    }
 
     private String corp; //제조회사
 

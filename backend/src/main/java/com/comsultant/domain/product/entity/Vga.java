@@ -14,27 +14,87 @@ import javax.persistence.*;
 @DynamicUpdate
 @DynamicInsert
 @EntityListeners(AuditingEntityListener.class)
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Getter
 @Table(name = "vga")
-public class Vga {
+@DiscriminatorValue("9")
+public class Vga extends Product {
 
-    @Id
-    @Column(name = "product_idx", nullable = false)
-    private long idx;
-
-    @OneToOne(targetEntity = Product.class, fetch = FetchType.LAZY)
-    @MapsId
-    @JoinColumn(name = "product_idx",  columnDefinition = "BIGINT(20) UNSIGNED")
-    private Product product;
-
-    @Column(name = "name", columnDefinition = "VARCHAR(255)")
-    private String name;
-
-    @Column(name = "img_cnt", columnDefinition = "INT")
-    private int imgCnt;
+    @Builder
+    public Vga(int category, String name, int imgCnt,
+               String corp, String registeredAt, String chipsetCorp, String series, String gpuProcess,
+               String nvidia, String amd, int baseClock, int boostClock, String streamProcessor,
+               int cudaProcessor, String interfaces, String memoryType, int memoryClock, double memoryVolume,
+               int memoryBus, int hdmi, int dvi, int dp, int minidp, int monitor, boolean hdmi21, boolean dp14,
+               boolean thunderbolt3, boolean usb3, boolean gbLam, boolean zeroFan, boolean display8k, boolean display4k,
+               boolean hdr, boolean dualBios, boolean hdcp23, boolean multiVga, boolean hdcp, double power, int recomPower,
+               int powerPort4, int powerPort6, int powerPort8, int powerPort12, String powerSupply, boolean heatSink,
+               boolean heatFight, boolean fanCooler, boolean vaporChamber, boolean waterCooling, int fanCnt, double width,
+               double height, boolean backPlate, boolean drMos, boolean led, boolean overclockPysical, boolean pwm, boolean lcd,
+               boolean waterPossible, boolean frontLed, boolean backLed, boolean sideLed, boolean fanLed, String distCorp) {
+        super(category, name, imgCnt);
+        this.corp = corp;
+        this.registeredAt = registeredAt;
+        this.chipsetCorp = chipsetCorp;
+        this.series = series;
+        this.gpuProcess = gpuProcess;
+        this.nvidia = nvidia;
+        this.amd = amd;
+        this.baseClock = baseClock;
+        this.boostClock = boostClock;
+        this.streamProcessor = streamProcessor;
+        this.cudaProcessor = cudaProcessor;
+        this.interfaces = interfaces;
+        this.memoryType = memoryType;
+        this.memoryClock = memoryClock;
+        this.memoryVolume = memoryVolume;
+        this.memoryBus = memoryBus;
+        this.hdmi = hdmi;
+        this.dvi = dvi;
+        this.dp = dp;
+        this.minidp = minidp;
+        this.monitor = monitor;
+        this.hdmi21 = hdmi21;
+        this.dp14 = dp14;
+        this.thunderbolt3 = thunderbolt3;
+        this.usb3 = usb3;
+        this.gbLam = gbLam;
+        this.zeroFan = zeroFan;
+        this.display8k = display8k;
+        this.display4k = display4k;
+        this.hdr = hdr;
+        this.dualBios = dualBios;
+        this.hdcp23 = hdcp23;
+        this.multiVga = multiVga;
+        this.hdcp = hdcp;
+        this.power = power;
+        this.recomPower = recomPower;
+        this.powerPort4 = powerPort4;
+        this.powerPort6 = powerPort6;
+        this.powerPort8 = powerPort8;
+        this.powerPort12 = powerPort12;
+        this.powerSupply = powerSupply;
+        this.heatSink = heatSink;
+        this.heatFight = heatFight;
+        this.fanCooler = fanCooler;
+        this.vaporChamber = vaporChamber;
+        this.waterCooling = waterCooling;
+        this.fanCnt = fanCnt;
+        this.width = width;
+        this.height = height;
+        this.backPlate = backPlate;
+        this.drMos = drMos;
+        this.led = led;
+        this.overclockPysical = overclockPysical;
+        this.pwm = pwm;
+        this.lcd = lcd;
+        this.waterPossible = waterPossible;
+        this.frontLed = frontLed;
+        this.backLed = backLed;
+        this.sideLed = sideLed;
+        this.fanLed = fanLed;
+        this.distCorp = distCorp;
+    }
 
     @Column(name = "corp", columnDefinition = "VARCHAR(255)")
     private String corp;

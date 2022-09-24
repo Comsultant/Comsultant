@@ -14,27 +14,140 @@ import javax.persistence.*;
 @DynamicUpdate
 @DynamicInsert
 @EntityListeners(AuditingEntityListener.class)
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Getter
 @Table(name = "mainboard")
-public class MainBoard {
+@DiscriminatorValue("8")
+public class MainBoard extends Product {
 
-    @Id
-    @Column(name = "product_idx", nullable = false)
-    private long idx;
-
-    @OneToOne(targetEntity = Product.class, fetch = FetchType.LAZY)
-    @MapsId
-    @JoinColumn(name = "product_idx", columnDefinition = "BIGINT(20) UNSIGNED")
-    private Product product;
-
-    @Column(name = "name", columnDefinition = "VARCHAR(255)")
-    private String name;
-
-    @Column(name = "img_cnt", columnDefinition = "INT")
-    private int imgCnt;
+    @Builder
+    public MainBoard(int category, String name, int imgCnt,
+                     String corp, String registeredAt, String type, String cpuSocket, String detailChipset, int cpuCnt,
+                     String formFactor, String powerSupply, String vcore, String embedGraphic, String memoryType,
+                     String memorySpeed, int memorySlot, String memoryChannel, int maxMemoryVolume, int embedMemoryVolume,
+                     boolean xmp, boolean optane, boolean xmp3, String vga, boolean pcie5, boolean pcie4, boolean pcie3,
+                     boolean pcie, int pci, int pciex16, int pciex8, int pciex4, int pciex1, int miniPcie, boolean crossfire,
+                     boolean crossfireX, boolean sli, boolean hybridCfX, boolean lucidVirtu, int sata3, String m2,
+                     int sas, int u2, int sata2, boolean sata, boolean nvme, boolean size2230, boolean size2242, boolean size2260,
+                     boolean size2280, boolean size22110, boolean sataRaid, boolean nvmeRaid, boolean dsub, boolean dvi, boolean hdmi,
+                     boolean dp, boolean typeC, String rj45, boolean spdif, boolean audioJack, boolean ps2, boolean typec5g, boolean typec10g,
+                     boolean typec20g, boolean typea10g, int usb32, int usb31, int usb3, int usb2, boolean thunderbolt4, boolean thunderbolt3,
+                     boolean typecAudio, boolean exSata, boolean serialPort, boolean parallelPort, String wiredLanChipset, double wiredLanSpeed,
+                     String wiredlessLanChipset, boolean wiredlessLan, boolean bluetooth, boolean m2KeyE, boolean dualLan,
+                     String embedSound, String analogOutput, String rgb4, String argb3, String argb6, int systemFan4, int thunderboltHead4,
+                     int thunderboltHead3, int usb2Head, int usb3Head, int usb31Head, int usb3TypecHead, int usb31TypecHead, int usb32TypecHead,
+                     boolean uefi, boolean drMos, boolean led, boolean ledHead, boolean m2Heatsink, boolean tpmHead, boolean amdApu, String ledSystem,
+                     boolean embedLed, boolean backLed, boolean frontLed, boolean logoLed, boolean ioShieldLed, boolean heatsinkLed, String distCorp) {
+        super(category, name, imgCnt);
+        this.corp = corp;
+        this.registeredAt = registeredAt;
+        this.type = type;
+        this.cpuSocket = cpuSocket;
+        this.detailChipset = detailChipset;
+        this.cpuCnt = cpuCnt;
+        this.formFactor = formFactor;
+        this.powerSupply = powerSupply;
+        this.vcore = vcore;
+        this.embedGraphic = embedGraphic;
+        this.memoryType = memoryType;
+        this.memorySpeed = memorySpeed;
+        this.memorySlot = memorySlot;
+        this.memoryChannel = memoryChannel;
+        this.maxMemoryVolume = maxMemoryVolume;
+        this.embedMemoryVolume = embedMemoryVolume;
+        this.xmp = xmp;
+        this.optane = optane;
+        this.xmp3 = xmp3;
+        this.vga = vga;
+        this.pcie5 = pcie5;
+        this.pcie4 = pcie4;
+        this.pcie3 = pcie3;
+        this.pcie = pcie;
+        this.pci = pci;
+        this.pciex16 = pciex16;
+        this.pciex8 = pciex8;
+        this.pciex4 = pciex4;
+        this.pciex1 = pciex1;
+        this.miniPcie = miniPcie;
+        this.crossfire = crossfire;
+        this.crossfireX = crossfireX;
+        this.sli = sli;
+        this.hybridCfX = hybridCfX;
+        this.lucidVirtu = lucidVirtu;
+        this.sata3 = sata3;
+        this.m2 = m2;
+        this.sas = sas;
+        this.u2 = u2;
+        this.sata2 = sata2;
+        this.sata = sata;
+        this.nvme = nvme;
+        this.size2230 = size2230;
+        this.size2242 = size2242;
+        this.size2260 = size2260;
+        this.size2280 = size2280;
+        this.size22110 = size22110;
+        this.sataRaid = sataRaid;
+        this.nvmeRaid = nvmeRaid;
+        this.dsub = dsub;
+        this.dvi = dvi;
+        this.hdmi = hdmi;
+        this.dp = dp;
+        this.typeC = typeC;
+        this.rj45 = rj45;
+        this.spdif = spdif;
+        this.audioJack = audioJack;
+        this.ps2 = ps2;
+        this.typec5g = typec5g;
+        this.typec10g = typec10g;
+        this.typec20g = typec20g;
+        this.typea10g = typea10g;
+        this.usb32 = usb32;
+        this.usb31 = usb31;
+        this.usb3 = usb3;
+        this.usb2 = usb2;
+        this.thunderbolt4 = thunderbolt4;
+        this.thunderbolt3 = thunderbolt3;
+        this.typecAudio = typecAudio;
+        this.exSata = exSata;
+        this.serialPort = serialPort;
+        this.parallelPort = parallelPort;
+        this.wiredLanChipset = wiredLanChipset;
+        this.wiredLanSpeed = wiredLanSpeed;
+        this.wiredlessLanChipset = wiredlessLanChipset;
+        this.wiredlessLan = wiredlessLan;
+        this.bluetooth = bluetooth;
+        this.m2KeyE = m2KeyE;
+        this.dualLan = dualLan;
+        this.embedSound = embedSound;
+        this.analogOutput = analogOutput;
+        this.rgb4 = rgb4;
+        this.argb3 = argb3;
+        this.argb6 = argb6;
+        this.systemFan4 = systemFan4;
+        this.thunderboltHead4 = thunderboltHead4;
+        this.thunderboltHead3 = thunderboltHead3;
+        this.usb2Head = usb2Head;
+        this.usb3Head = usb3Head;
+        this.usb31Head = usb31Head;
+        this.usb3TypecHead = usb3TypecHead;
+        this.usb31TypecHead = usb31TypecHead;
+        this.usb32TypecHead = usb32TypecHead;
+        this.uefi = uefi;
+        this.drMos = drMos;
+        this.led = led;
+        this.ledHead = ledHead;
+        this.m2Heatsink = m2Heatsink;
+        this.tpmHead = tpmHead;
+        this.amdApu = amdApu;
+        this.ledSystem = ledSystem;
+        this.embedLed = embedLed;
+        this.backLed = backLed;
+        this.frontLed = frontLed;
+        this.logoLed = logoLed;
+        this.ioShieldLed = ioShieldLed;
+        this.heatsinkLed = heatsinkLed;
+        this.distCorp = distCorp;
+    }
 
     @Column(name = "corp", columnDefinition = "VARCHAR(255)")
     private String corp;

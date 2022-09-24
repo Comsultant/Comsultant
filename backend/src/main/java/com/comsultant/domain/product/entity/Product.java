@@ -1,7 +1,6 @@
 package com.comsultant.domain.product.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
@@ -14,17 +13,30 @@ import javax.persistence.*;
 @DynamicUpdate
 @DynamicInsert
 @EntityListeners(AuditingEntityListener.class)
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@AllArgsConstructor
 @Getter
-public class Product {
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "category", discriminatorType = DiscriminatorType.INTEGER)
+public abstract class Product {
 
     @Id //기본키
     @Column(name = "idx", columnDefinition = "BIGINT(20) UNSIGNED")
     private long idx;
 
-    @ManyToOne(targetEntity = Category.class, fetch = FetchType.LAZY) //LAZY: JPA 영속성,값을 꺼내쓸 때 얘를 조인해줘
-    @JoinColumn(name = "type", nullable = false)
-    private Category category;
+    // ReadOnly
+    @Column(name="category", insertable = false, updatable = false)
+    protected int category;
+
+    @Column(name = "name", columnDefinition = "VARCHAR(255)")
+    private String name;
+
+    @Column(name = "img_cnt", columnDefinition = "INT")
+    private int imgCnt;
+
+    protected Product(int category, String name, int imgCnt) {
+        this.category = category;
+        this.imgCnt = imgCnt;
+        this.name = name;
+    }
 }

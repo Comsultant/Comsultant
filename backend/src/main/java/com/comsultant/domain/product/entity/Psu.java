@@ -14,27 +14,100 @@ import javax.persistence.*;
 @DynamicUpdate
 @DynamicInsert
 @EntityListeners(AuditingEntityListener.class)
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Getter
 @Table(name = "psu")
-public class Psu {
+@DiscriminatorValue("5")
+public class Psu extends Product {
 
-    @Id
-    @Column(name = "product_idx", nullable = false)
-    private long idx;
-
-    @OneToOne(targetEntity = Product.class, fetch = FetchType.LAZY)
-    @MapsId
-    @JoinColumn(name = "product_idx",  columnDefinition = "BIGINT(20) UNSIGNED")
-    private Product product;
-
-    @Column(name = "name", columnDefinition = "VARCHAR(255)")
-    private String name;
-
-    @Column(name = "img_cnt", columnDefinition = "INT")
-    private int imgCnt;
+    @Builder
+    public Psu(int category, String name, int imgCnt,
+               String corporation, String registeredAt, String type, int ratedPower, String plusCert, String etaCert,
+               String lambdaCert, String volChange, String outputMeth12v, int avail12v, String pfcCircuit, int pf,
+               int coolingFanSize, int coolingFanCnt, String bearing, double depth, String asPeriod, String output3v,
+               double output5v, String output12v, String outputMinus12v, String output5vsb, String cableConn, String mainPower,
+               int subPower4, int subPower8, int pcie8, String pcie6, int sata, int sata33, int ide4pin, int fdd, boolean fanlessMode,
+               boolean autoFanControl, boolean manualFanControl, boolean standbyPower1w, boolean flatCable, boolean freeBolt,
+               boolean ledLight, boolean digitalControl, boolean condenser85, boolean condenser105, boolean dcToDc, boolean llcConvert,
+               boolean ovp, boolean uvp, boolean ocp, boolean olp, boolean opp, boolean otpOhp, boolean scp, boolean sip, boolean nlp,
+               boolean nlo, boolean auraSync, boolean mysticLight, boolean rgbFusion, boolean polychrome, boolean razerChroma,
+               boolean ttRgbPlus, boolean alertSound, boolean led, String outputVoltage, int outputW, int outputVa, String inputVoltage,
+               String inputFrequency, String chargeTime, String load100, String load50, double width, double height, double weight) {
+        super(category, name, imgCnt);
+        this.corporation = corporation;
+        this.registeredAt = registeredAt;
+        this.type = type;
+        this.ratedPower = ratedPower;
+        this.plusCert = plusCert;
+        this.etaCert = etaCert;
+        this.lambdaCert = lambdaCert;
+        this.volChange = volChange;
+        this.outputMeth12v = outputMeth12v;
+        this.avail12v = avail12v;
+        this.pfcCircuit = pfcCircuit;
+        this.pf = pf;
+        this.coolingFanSize = coolingFanSize;
+        this.coolingFanCnt = coolingFanCnt;
+        this.bearing = bearing;
+        this.depth = depth;
+        this.asPeriod = asPeriod;
+        this.output3v = output3v;
+        this.output5v = output5v;
+        this.output12v = output12v;
+        this.outputMinus12v = outputMinus12v;
+        this.output5vsb = output5vsb;
+        this.cableConn = cableConn;
+        this.mainPower = mainPower;
+        this.subPower4 = subPower4;
+        this.subPower8 = subPower8;
+        this.pcie8 = pcie8;
+        this.pcie6 = pcie6;
+        this.sata = sata;
+        this.sata33 = sata33;
+        this.ide4pin = ide4pin;
+        this.fdd = fdd;
+        this.fanlessMode = fanlessMode;
+        this.autoFanControl = autoFanControl;
+        this.manualFanControl = manualFanControl;
+        this.standbyPower1w = standbyPower1w;
+        this.flatCable = flatCable;
+        this.freeBolt = freeBolt;
+        this.ledLight = ledLight;
+        this.digitalControl = digitalControl;
+        this.condenser85 = condenser85;
+        this.condenser105 = condenser105;
+        this.dcToDc = dcToDc;
+        this.llcConvert = llcConvert;
+        this.ovp = ovp;
+        this.uvp = uvp;
+        this.ocp = ocp;
+        this.olp = olp;
+        this.opp = opp;
+        this.otpOhp = otpOhp;
+        this.scp = scp;
+        this.sip = sip;
+        this.nlp = nlp;
+        this.nlo = nlo;
+        this.auraSync = auraSync;
+        this.mysticLight = mysticLight;
+        this.rgbFusion = rgbFusion;
+        this.polychrome = polychrome;
+        this.razerChroma = razerChroma;
+        this.ttRgbPlus = ttRgbPlus;
+        this.alertSound = alertSound;
+        this.led = led;
+        this.outputVoltage = outputVoltage;
+        this.outputW = outputW;
+        this.outputVa = outputVa;
+        this.inputVoltage = inputVoltage;
+        this.inputFrequency = inputFrequency;
+        this.chargeTime = chargeTime;
+        this.load100 = load100;
+        this.load50 = load50;
+        this.width = width;
+        this.height = height;
+        this.weight = weight;
+    }
 
     @Column(name = "corporation", columnDefinition = "VARCHAR(255)")
     private String corporation;

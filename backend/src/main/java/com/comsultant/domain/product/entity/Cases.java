@@ -1,6 +1,5 @@
 package com.comsultant.domain.product.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,21 +13,84 @@ import javax.persistence.*;
 @DynamicUpdate
 @DynamicInsert
 @EntityListeners(AuditingEntityListener.class)
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Getter
 @Table(name = "cases")
-public class Cases {
+@DiscriminatorValue("7")
+public class Cases extends Product {
 
-    @Id
-    @Column(name = "product_idx", nullable = false)
-    private long idx;
-
-    @OneToOne(targetEntity = Product.class, fetch = FetchType.LAZY)
-    @MapsId
-    @JoinColumn(name = "product_idx",  columnDefinition = "BIGINT(20) UNSIGNED")
-    private Product product;
+    @Builder
+    public Cases(int category, String name, int imgCnt, String corp,
+                 String registeredAt, String classType,
+                 String detailClass, String size, String power,
+                 String powerSize, boolean extendedAtx, boolean standardAtx, boolean microAtx, boolean flexAtx,
+                 boolean standardItx, boolean miniItx, boolean ssiCeb, boolean ssiEeb, boolean miniDtx,
+                 String bay13, int bay8, int bay6, int storageDevice, String pciSlot, String verticalPciSlot,
+                 int coolingFan, int ledFan, String side, String back, String front, String top, String bottom,
+                 String innerTop, String innerSide, String filter, String sound, boolean usb, boolean usb3,
+                 boolean typec3, boolean typec31, boolean typea31, boolean ieee, boolean esata, boolean hdmi, boolean cardReader,
+                 double width, double deepth, double height, int powerMounting, String powerLocation, int gpuMounting,
+                 int cpuCoolerMounting, int waterCoolerSize, String radiatorTop, String radiatorFront, String radiatorBack,
+                 String caseColorType, boolean outsideLedControll, boolean rgbControll, boolean outsideLed) {
+        super(category, name, imgCnt);
+        this.corp = corp;
+        this.registeredAt = registeredAt;
+        this.classType = classType;
+        this.detailClass = detailClass;
+        this.size = size;
+        this.power = power;
+        this.powerSize = powerSize;
+        this.extendedAtx = extendedAtx;
+        this.standardAtx = standardAtx;
+        this.microAtx = microAtx;
+        this.flexAtx = flexAtx;
+        this.standardItx = standardItx;
+        this.miniItx = miniItx;
+        this.ssiCeb = ssiCeb;
+        this.ssiEeb = ssiEeb;
+        this.miniDtx = miniDtx;
+        this.bay13 = bay13;
+        this.bay8 = bay8;
+        this.bay6 = bay6;
+        this.storageDevice = storageDevice;
+        this.pciSlot = pciSlot;
+        this.verticalPciSlot = verticalPciSlot;
+        this.coolingFan = coolingFan;
+        this.ledFan = ledFan;
+        this.side = side;
+        this.back = back;
+        this.front = front;
+        this.top = top;
+        this.bottom = bottom;
+        this.innerTop = innerTop;
+        this.innerSide = innerSide;
+        this.filter = filter;
+        this.sound = sound;
+        this.usb = usb;
+        this.usb3 = usb3;
+        this.typec3 = typec3;
+        this.typec31 = typec31;
+        this.typea31 = typea31;
+        this.ieee = ieee;
+        this.esata = esata;
+        this.hdmi = hdmi;
+        this.cardReader = cardReader;
+        this.width = width;
+        this.deepth = deepth;
+        this.height = height;
+        this.powerMounting = powerMounting;
+        this.powerLocation = powerLocation;
+        this.gpuMounting = gpuMounting;
+        this.cpuCoolerMounting = cpuCoolerMounting;
+        this.waterCoolerSize = waterCoolerSize;
+        this.radiatorTop = radiatorTop;
+        this.radiatorFront = radiatorFront;
+        this.radiatorBack = radiatorBack;
+        this.caseColorType = caseColorType;
+        this.outsideLedControll = outsideLedControll;
+        this.rgbControll = rgbControll;
+        this.outsideLed = outsideLed;
+    }
 
     @Column(name = "name", columnDefinition = "VARCHAR(255)")
     private String name;

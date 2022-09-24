@@ -15,11 +15,9 @@ public interface RamMapper extends EntityMapper<RamDto, Ram> {
     RamMapper mapper = Mappers.getMapper(RamMapper.class);
 
     @Override
-    @Mapping(source = "product.idx", target = "idx") // 변수명이 다를 경우. source = Entity, target = DTO
     RamDto toDto(final Ram entity);
 
     @Override
-    @Mapping(source = "idx", target = "product.idx") // source = DTO, target = Entity
     Ram toEntity(final RamDto dto);
 
     List<RamDto> toDtoList(List<Ram> entityList);
