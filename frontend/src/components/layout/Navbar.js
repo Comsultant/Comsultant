@@ -9,8 +9,7 @@ import classNames from "classnames";
 import { useState, useEffect } from "react";
 
 
-const Navbar = () => {
-
+const Navbar = ({isMain}) => {
   const pages = [
     [`부품 검색`, `/products/search`],
     [`맞춤 견적`, `/recommend`],
@@ -39,13 +38,23 @@ const Navbar = () => {
 
   return (
     <div className={classNames(
-        scrollPosition < 30 ?
-          `${style['nav-bar']}` :
+        
+      isMain ? scrollPosition < 30 ?
+      `${style['nav-bar']}` :
+    `${style['nav-bar-scroll']}` :
           `${style['nav-bar-scroll']}`
-      )}>
+       )}>
       <div className={style.logo}>
         <Link to={`/`}>
-          <img src="/../assets/logo.png" className={style['logo-image']} alt="logo"/>
+          {isMain ?
+            scrollPosition < 30 ?
+            <img src="/../assets/white_logo.png" className={style['logo-image']} alt="logo" />
+            :
+            <img src="/../assets/logo.png" className={style['logo-image']} alt="logo" />
+            :
+            <img src="/../assets/logo.png" className={style['logo-image']} alt="logo" />
+          }
+          
         </Link> 
       </div>
       <div className={style['right-menu']}>
