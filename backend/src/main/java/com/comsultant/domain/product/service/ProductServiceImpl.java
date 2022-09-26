@@ -1,4 +1,4 @@
-package com.comsultant.global.error.service;
+package com.comsultant.domain.product.service;
 
 import com.comsultant.domain.product.dto.*;
 import com.comsultant.domain.product.mapper.*;
