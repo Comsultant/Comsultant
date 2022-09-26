@@ -1,6 +1,6 @@
 package com.comsultant.domain.product.api;
 
-import com.comsultant.global.error.service.ProductService;
+import com.comsultant.domain.product.service.ProductService;
 import com.comsultant.global.common.response.DtoResponse;
 import com.comsultant.global.properties.ResponseProperties;
 import lombok.RequiredArgsConstructor;
