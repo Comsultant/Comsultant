@@ -17,10 +17,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class ProductTest {
+public class ProductsTest {
 
-    @Autowired
-    private ProductRepository productRepository;
+//    @Autowired
+//    private ProductRepository productRepository;
 
     @Autowired
     private CpuRepository cpuRepository;
@@ -50,10 +50,8 @@ public class ProductTest {
     private VgaRepository vgaRepository;
 
 
-
     @Test
     public void getCpuTest() {
-//        Cpu cpu = (Cpu) productRepository.findByIdx(472410).orElse(null);
         Cpu cpu = cpuRepository.findByIdx(472410).orElse(null);
         CpuDto dto = CpuMapper.mapper.toDto(cpu);
         System.out.println(cpu.getName());
@@ -63,7 +61,6 @@ public class ProductTest {
 
     @Test
     public void getCasesTest() {
-//        Cpu cpu = (Cpu) productRepository.findByIdx(472410).orElse(null);
         Cases cases = casesRepository.findByIdx(70053).orElse(null);
         CasesDto dto = CasesMapper.mapper.toDto(cases);
         System.out.println(cases.getName());

@@ -8,93 +8,14 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SsdDto extends ProductDto {
+@Builder
+public class SsdDto {
 
-    @Builder
-    public SsdDto(long idx, int category, String name, int imgCnt, String registeredAt, String corp, String type,
-                  String detailType, String formFactor, String interfaces, String protocol, int volume, String memoryType,
-                  String nandStructure, String ram, String ramType, String controller, String consoleGame, String process,
-                  String sizeChange, String interfaceChange, int seqRead, int seqWrite, double readIops, double writeIops,
-                  boolean trim, boolean gc, boolean slcCashing, boolean smart, boolean ecc, boolean devslp, boolean aes,
-                  boolean privateSw, double tbw, boolean macbookUpgrade, boolean migration, boolean manageFunction,
-                  String mtbf, boolean year5, boolean year3, boolean restore3, boolean restore1, boolean limitRestore,
-                  String nvmeHeatsink, String width, String height, String thickness, String weight, String distCorp,
-                  boolean type25, boolean type35, boolean miniSata, String installCnt, boolean m22230, boolean m22242,
-                  boolean m22260, boolean m22280, boolean m222110, String supportThickness, String useClass, String powerSupply,
-                  boolean protect, boolean white, boolean yellow, boolean green, boolean purple, boolean grey, boolean blue,
-                  boolean black, boolean silver, boolean waterproof, String texture, boolean locked, boolean subPower) {
-        super(idx, category, name, imgCnt);
-        this.registeredAt = registeredAt;
-        this.corp = corp;
-        this.type = type;
-        this.detailType = detailType;
-        this.formFactor = formFactor;
-        this.interfaces = interfaces;
-        this.protocol = protocol;
-        this.volume = volume;
-        this.memoryType = memoryType;
-        this.nandStructure = nandStructure;
-        this.ram = ram;
-        this.ramType = ramType;
-        this.controller = controller;
-        this.consoleGame = consoleGame;
-        this.process = process;
-        this.sizeChange = sizeChange;
-        this.interfaceChange = interfaceChange;
-        this.seqRead = seqRead;
-        this.seqWrite = seqWrite;
-        this.readIops = readIops;
-        this.writeIops = writeIops;
-        this.trim = trim;
-        this.gc = gc;
-        this.slcCashing = slcCashing;
-        this.smart = smart;
-        this.ecc = ecc;
-        this.devslp = devslp;
-        this.aes = aes;
-        this.privateSw = privateSw;
-        this.tbw = tbw;
-        this.macbookUpgrade = macbookUpgrade;
-        this.migration = migration;
-        this.manageFunction = manageFunction;
-        this.mtbf = mtbf;
-        this.year5 = year5;
-        this.year3 = year3;
-        this.restore3 = restore3;
-        this.restore1 = restore1;
-        this.limitRestore = limitRestore;
-        this.nvmeHeatsink = nvmeHeatsink;
-        this.width = width;
-        this.height = height;
-        this.thickness = thickness;
-        this.weight = weight;
-        this.distCorp = distCorp;
-        this.type25 = type25;
-        this.type35 = type35;
-        this.miniSata = miniSata;
-        this.installCnt = installCnt;
-        this.m22230 = m22230;
-        this.m22242 = m22242;
-        this.m22260 = m22260;
-        this.m22280 = m22280;
-        this.m222110 = m222110;
-        this.supportThickness = supportThickness;
-        this.useClass = useClass;
-        this.powerSupply = powerSupply;
-        this.protect = protect;
-        this.white = white;
-        this.yellow = yellow;
-        this.green = green;
-        this.purple = purple;
-        this.grey = grey;
-        this.blue = blue;
-        this.black = black;
-        this.silver = silver;
-        this.waterproof = waterproof;
-        this.texture = texture;
-        this.locked = locked;
-        this.subPower = subPower;
-    }
+    private long idx;
+
+    private String name; //제품명
+
+    private int imgCnt; //img_cnt
 
     private String registeredAt; //등록년월
 

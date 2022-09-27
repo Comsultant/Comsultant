@@ -8,54 +8,14 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CpuDto extends ProductDto {
+@Builder
+public class CpuDto {
 
-    @Builder
-    public CpuDto(long idx, int category, String name,
-                  int imgCnt, String corp, String registeredAt, String intelCpu, String amdCpu, String generation,
-                  String socket, String createdAt, String nano, String core, String threadCnt, double clockOriginal,
-                  double clockMax, String l2cash, String l3cash, String arithmeticSystem, String busSpeed, int tdp, int tdpMax,
-                  String pcieVersion, String pcieLane, int memoryMaxSize, String memoryFrame, String memoryClock, boolean memoryChannel,
-                  String includeVga, String includeVgaName, int includeVgaCoreSpeed, boolean hyperThreading, boolean optane,
-                  boolean storemi, boolean sensemi, boolean ryzenMaster, boolean vrReady, boolean vcash3d, String packageType, String includeCooler) {
-        super(idx, category, name, imgCnt);
-        this.corp = corp;
-        this.registeredAt = registeredAt;
-        this.intelCpu = intelCpu;
-        this.amdCpu = amdCpu;
-        this.generation = generation;
-        this.socket = socket;
-        this.createdAt = createdAt;
-        this.nano = nano;
-        this.core = core;
-        this.threadCnt = threadCnt;
-        this.clockOriginal = clockOriginal;
-        this.clockMax = clockMax;
-        this.l2cash = l2cash;
-        this.l3cash = l3cash;
-        this.arithmeticSystem = arithmeticSystem;
-        this.busSpeed = busSpeed;
-        this.tdp = tdp;
-        this.tdpMax = tdpMax;
-        this.pcieVersion = pcieVersion;
-        this.pcieLane = pcieLane;
-        this.memoryMaxSize = memoryMaxSize;
-        this.memoryFrame = memoryFrame;
-        this.memoryClock = memoryClock;
-        this.memoryChannel = memoryChannel;
-        this.includeVga = includeVga;
-        this.includeVgaName = includeVgaName;
-        this.includeVgaCoreSpeed = includeVgaCoreSpeed;
-        this.hyperThreading = hyperThreading;
-        this.optane = optane;
-        this.storemi = storemi;
-        this.sensemi = sensemi;
-        this.ryzenMaster = ryzenMaster;
-        this.vrReady = vrReady;
-        this.vcash3d = vcash3d;
-        this.packageType = packageType;
-        this.includeCooler = includeCooler;
-    }
+    private long idx;
+
+    private String name; //제품명
+
+    private int imgCnt; //img_cnt
 
     private String corp; //제조회사
 

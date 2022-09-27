@@ -1,9 +1,11 @@
 package com.comsultant.domain.comment.service;
 
 import com.comsultant.domain.account.entity.Account;
+import com.comsultant.domain.account.repository.AccountRepository;
 import com.comsultant.domain.comment.dto.CommentDetailDto;
 import com.comsultant.domain.comment.dto.CommentDto;
 import com.comsultant.domain.comment.dto.CommentListDto;
+import com.comsultant.domain.comment.dto.CommentResponse;
 import com.comsultant.domain.comment.entity.Comment;
 import com.comsultant.domain.comment.mapper.CommentMapper;
 import com.comsultant.domain.comment.repository.CommentRepository;
@@ -12,21 +14,18 @@ import com.comsultant.domain.product.repository.*;
 import com.comsultant.global.error.exception.CommentApiException;
 import com.comsultant.global.error.model.CommentErrorCode;
 import com.comsultant.global.properties.ConstProperties;
-
-import java.util.ArrayList;
-import java.util.Collections;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -35,6 +34,8 @@ public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
     private final ProductRepository productRepository;
+    private final ConstProperties constProperties;
+
     private final CpuRepository cpuRepository;
     private final RamRepository ramRepository;
     private final HddRepository hddRepository;
@@ -44,21 +45,19 @@ public class CommentServiceImpl implements CommentService {
     private final CasesRepository casesRepository;
     private final MainBoardRepository mainBoardRepository;
     private final VgaRepository vgaRepository;
-    private final ConstProperties constProperties;
-
 
     @Override
-    public boolean createComment(Account account, long productIdx, CommentDto commentDto) throws Throwable {
+    public boolean createComment(Account account, long productIdx, CommentDto commentDto) {
         if(account == null || account.getIdx() == 0) {
             return false;
         }
+
         commentDto.updateUserInfo(account.getIdx(), productIdx);
+        if(!productRepository.existsById(productIdx)) {
+            throw new CommentApiException(CommentErrorCode.PRODUCT_NOT_FOUND);
+        }
 
-        Product product = (Product) productRepository.findByIdx(productIdx).orElseThrow(
-                () -> new CommentApiException(CommentErrorCode.PRODUCT_NOT_FOUND)
-        );
-
-        Comment savedComment = commentRepository.save(CommentMapper.toEntity(commentDto, product));
+        Comment savedComment = commentRepository.save(CommentMapper.mapper.toEntity(commentDto));
         return savedComment.getIdx() != 0;
     }
 
@@ -69,8 +68,6 @@ public class CommentServiceImpl implements CommentService {
         }
         Pageable pageable;
 
-        System.out.println(page);
-        System.out.println(desc);
         if (desc) {
             pageable = PageRequest.of(page, constProperties.getCommentListSize(), Sort.by("idx").descending());
         } else {
@@ -84,10 +81,11 @@ public class CommentServiceImpl implements CommentService {
         List<CommentDetailDto> result = new ArrayList<>();
 
         for (Comment comment : comments) {
+            Map<String, String> product = this.getProductNameImgByIdx(comment.getProduct().getIdx(), comment.getProduct().getCategory());
             CommentDetailDto ret = CommentDetailDto.builder()
-                    .commentDto(CommentMapper.toDto(comment))
-                    .productImg(comment.getProduct().getImgCnt())
-                    .productName(comment.getProduct().getName())
+                    .commentDto(CommentMapper.mapper.toDto(comment))
+                    .productImg(Integer.parseInt(product.get("img")))
+                    .productName(product.get("name"))
                     .build();
             result.add(ret);
         }
@@ -131,26 +129,72 @@ public class CommentServiceImpl implements CommentService {
         return true;
     }
 
-    private Product getProductByIdx(long idx, int productCategory) {
+
+    private Map<String, String> getProductNameImgByIdx(long idx, int productCategory) {
+        Map<String, String> ret = new HashMap<>();
         if(productCategory == 1) {
-            return cpuRepository.findByIdx(idx).orElse(null);
+            Cpu cpu = cpuRepository.findByIdx(idx).orElseThrow(
+                    () -> new CommentApiException(CommentErrorCode.PRODUCT_NOT_FOUND)
+            );
+            ret.put("name", cpu.getName());
+            ret.put("img", String.valueOf(cpu.getImgCnt()));
+            return ret;
         } else if(productCategory == 2) {
-            return ramRepository.findByIdx(idx).orElse(null);
+            Ram product = ramRepository.findByIdx(idx).orElseThrow(
+                    () -> new CommentApiException(CommentErrorCode.PRODUCT_NOT_FOUND)
+            );
+            ret.put("name", product.getName());
+            ret.put("img", String.valueOf(product.getImgCnt()));
+            return ret;
         } else if(productCategory == 3) {
-            return hddRepository.findByIdx(idx).orElse(null);
+            Hdd product = hddRepository.findByIdx(idx).orElseThrow(
+                    () -> new CommentApiException(CommentErrorCode.PRODUCT_NOT_FOUND)
+            );
+            ret.put("name", product.getName());
+            ret.put("img", String.valueOf(product.getImgCnt()));
+            return ret;
         } else if(productCategory == 4) {
-            return ssdRepository.findByIdx(idx).orElse(null);
+            Ssd product = ssdRepository.findByIdx(idx).orElseThrow(
+                    () -> new CommentApiException(CommentErrorCode.PRODUCT_NOT_FOUND)
+            );
+            ret.put("name", product.getName());
+            ret.put("img", String.valueOf(product.getImgCnt()));
+            return ret;
         } else if(productCategory == 5) {
-            return psuRepository.findByIdx(idx).orElse(null);
+            Psu product = psuRepository.findByIdx(idx).orElseThrow(
+                    () -> new CommentApiException(CommentErrorCode.PRODUCT_NOT_FOUND)
+            );
+            ret.put("name", product.getName());
+            ret.put("img", String.valueOf(product.getImgCnt()));
+            return ret;
         } else if(productCategory == 6) {
-            return coolerRepository.findByIdx(idx).orElse(null);
+            Cooler product = coolerRepository.findByIdx(idx).orElseThrow(
+                    () -> new CommentApiException(CommentErrorCode.PRODUCT_NOT_FOUND)
+            );
+            ret.put("name", product.getName());
+            ret.put("img", String.valueOf(product.getImgCnt()));
+            return ret;
         } else if(productCategory == 7) {
-            return casesRepository.findByIdx(idx).orElse(null);
+            Cases product = casesRepository.findByIdx(idx).orElseThrow(
+                    () -> new CommentApiException(CommentErrorCode.PRODUCT_NOT_FOUND)
+            );
+            ret.put("name", product.getName());
+            ret.put("img", String.valueOf(product.getImgCnt()));
+            return ret;
         } else if(productCategory == 8) {
-            return mainBoardRepository.findByIdx(idx).orElse(null);
+            MainBoard product = mainBoardRepository.findByIdx(idx).orElseThrow(
+                    () -> new CommentApiException(CommentErrorCode.PRODUCT_NOT_FOUND)
+            );
+            ret.put("name", product.getName());
+            ret.put("img", String.valueOf(product.getImgCnt()));
+            return ret;
         } else {
-            return vgaRepository.findByIdx(idx).orElse(null);
+            Vga product = vgaRepository.findByIdx(idx).orElseThrow(
+                    () -> new CommentApiException(CommentErrorCode.PRODUCT_NOT_FOUND)
+            );
+            ret.put("name", product.getName());
+            ret.put("img", String.valueOf(product.getImgCnt()));
+            return ret;
         }
     }
-
 }

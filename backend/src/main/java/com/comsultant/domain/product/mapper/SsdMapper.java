@@ -15,9 +15,11 @@ public interface SsdMapper extends EntityMapper<SsdDto, Ssd> {
     SsdMapper mapper = Mappers.getMapper(SsdMapper.class);
 
     @Override
+    @Mapping(source = "product.idx", target = "idx") // 변수명이 다를 경우. source = Entity, target = DTO
     SsdDto toDto(final Ssd entity);
 
     @Override
+    @Mapping(source = "idx", target = "product.idx") // source = DTO, target = Entity
     Ssd toEntity(final SsdDto dto);
 
     List<SsdDto> toDtoList(List<Ssd> entityList);

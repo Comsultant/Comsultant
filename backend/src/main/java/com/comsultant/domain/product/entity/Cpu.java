@@ -1,5 +1,6 @@
 package com.comsultant.domain.product.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,60 +14,27 @@ import javax.persistence.*;
 @DynamicUpdate
 @DynamicInsert
 @EntityListeners(AuditingEntityListener.class)
+@AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Getter
 @Table(name = "cpu")
-@DiscriminatorValue("1")
-public class Cpu extends Product {
+public class Cpu {
 
-    @Builder
-    public Cpu(int category, String name, int imgCnt,
-               String corp, String registeredAt, String intelCpu, String amdCpu,
-               String generation, String socket, String createdAt, String nano,
-               String core, String threadCnt, double clockOriginal, double clockMax,
-               String l2cash, String l3cash, String arithmeticSystem, String busSpeed, int tdp,
-               int tdpMax, String pcieVersion, String pcieLane, int memoryMaxSize, String memoryFrame,
-               String memoryClock, boolean memoryChannel, String includeVga, String includeVgaName,
-               int includeVgaCoreSpeed, boolean hyperThreading, boolean optane, boolean storemi, boolean sensemi,
-               boolean ryzenMaster, boolean vrReady, boolean vcash3d, String packageType, String includeCooler) {
-        super(category, name, imgCnt);
-        this.corp = corp;
-        this.registeredAt = registeredAt;
-        this.intelCpu = intelCpu;
-        this.amdCpu = amdCpu;
-        this.generation = generation;
-        this.socket = socket;
-        this.createdAt = createdAt;
-        this.nano = nano;
-        this.core = core;
-        this.threadCnt = threadCnt;
-        this.clockOriginal = clockOriginal;
-        this.clockMax = clockMax;
-        this.l2cash = l2cash;
-        this.l3cash = l3cash;
-        this.arithmeticSystem = arithmeticSystem;
-        this.busSpeed = busSpeed;
-        this.tdp = tdp;
-        this.tdpMax = tdpMax;
-        this.pcieVersion = pcieVersion;
-        this.pcieLane = pcieLane;
-        this.memoryMaxSize = memoryMaxSize;
-        this.memoryFrame = memoryFrame;
-        this.memoryClock = memoryClock;
-        this.memoryChannel = memoryChannel;
-        this.includeVga = includeVga;
-        this.includeVgaName = includeVgaName;
-        this.includeVgaCoreSpeed = includeVgaCoreSpeed;
-        this.hyperThreading = hyperThreading;
-        this.optane = optane;
-        this.storemi = storemi;
-        this.sensemi = sensemi;
-        this.ryzenMaster = ryzenMaster;
-        this.vrReady = vrReady;
-        this.vcash3d = vcash3d;
-        this.packageType = packageType;
-        this.includeCooler = includeCooler;
-    }
+    @Id
+    @Column(name = "product_idx", nullable = false)
+    private long idx;
+
+    @OneToOne(targetEntity = Product.class, fetch = FetchType.LAZY)
+    @MapsId
+    @JoinColumn(name = "product_idx",  columnDefinition = "BIGINT(20) UNSIGNED")
+    private Product product;
+
+    @Column(name = "name", columnDefinition = "VARCHAR(255)")
+    private String name;
+
+    @Column(name = "img_cnt", columnDefinition = "INT")
+    private int imgCnt;
 
     @Column(name = "corp", columnDefinition = "VARCHAR(255)")
     private String corp;

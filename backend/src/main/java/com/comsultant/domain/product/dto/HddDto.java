@@ -8,47 +8,14 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class HddDto extends ProductDto {
+@Builder
+public class HddDto {
 
-    @Builder
-    public HddDto(long idx, int category, String name, int imgCnt, String corp, String registeredAt,
-                  String type, String diskSize, int diskVolume, String interfaces, int rotate,
-                  int bufferSize, int transSpeed, String recordMethod, int diskCnt, double thickness,
-                  boolean heliumCharge, boolean rvSensor, boolean dsa, boolean lowPower, boolean smart,
-                  boolean ise, boolean sed, int loadAmount, int guarantee, String noise, boolean year5, boolean year3,
-                  boolean year2, boolean year1, boolean restore3, boolean restore5, boolean restore2, boolean restore1) {
-        super(idx, category, name, imgCnt);
-        this.corp = corp;
-        this.registeredAt = registeredAt;
-        this.type = type;
-        this.diskSize = diskSize;
-        this.diskVolume = diskVolume;
-        this.interfaces = interfaces;
-        this.rotate = rotate;
-        this.bufferSize = bufferSize;
-        this.transSpeed = transSpeed;
-        this.recordMethod = recordMethod;
-        this.diskCnt = diskCnt;
-        this.thickness = thickness;
-        this.heliumCharge = heliumCharge;
-        this.rvSensor = rvSensor;
-        this.dsa = dsa;
-        this.lowPower = lowPower;
-        this.smart = smart;
-        this.ise = ise;
-        this.sed = sed;
-        this.loadAmount = loadAmount;
-        this.guarantee = guarantee;
-        this.noise = noise;
-        this.year5 = year5;
-        this.year3 = year3;
-        this.year2 = year2;
-        this.year1 = year1;
-        this.restore3 = restore3;
-        this.restore5 = restore5;
-        this.restore2 = restore2;
-        this.restore1 = restore1;
-    }
+    private long idx;
+
+    private String name; //제품명
+
+    private int imgCnt; //img_cnt
 
     private String corp; //제조회사
 

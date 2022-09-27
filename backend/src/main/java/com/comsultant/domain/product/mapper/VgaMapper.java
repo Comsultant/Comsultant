@@ -15,9 +15,11 @@ public interface VgaMapper extends EntityMapper<VgaDto, Vga> {
     VgaMapper mapper = Mappers.getMapper(VgaMapper.class);
 
     @Override
+    @Mapping(source = "product.idx", target = "idx") // 변수명이 다를 경우. source = Entity, target = DTO
     VgaDto toDto(final Vga entity);
 
     @Override
+    @Mapping(source = "idx", target = "product.idx") // source = DTO, target = Entity
     Vga toEntity(final VgaDto dto);
 
     List<VgaDto> toDtoList(List<Vga> entityList);
