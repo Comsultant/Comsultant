@@ -25,7 +25,7 @@ public class CommentApi {
     private final ResponseProperties responseProperties;
 
     @PostMapping("/{productIdx}")
-    public ResponseEntity<MessageResponse> createComment(@PathVariable("productIdx") Long productIdx, @RequestBody CommentDto commentDto, @AuthenticationPrincipal AccountDetails accountDetails) {
+    public ResponseEntity<MessageResponse> createComment(@PathVariable("productIdx") long productIdx, @RequestBody CommentDto commentDto, @AuthenticationPrincipal AccountDetails accountDetails) {
         // TODO : 토큰에서 유저 정보 꺼내서 사용
         boolean result = commentService.createComment(accountDetails.getAccount(), productIdx, commentDto);
         if (result) {
@@ -48,8 +48,7 @@ public class CommentApi {
     }
 
     @PutMapping("/{commentIdx}")
-    public ResponseEntity<MessageResponse> updateComment(@PathVariable("commentIdx") Long commentIdx, @RequestBody CommentDto commentDto, @AuthenticationPrincipal AccountDetails accountDetails) {
-        // TODO : 토큰에서 유저 정보 꺼내서 사용
+    public ResponseEntity<MessageResponse> updateComment(@PathVariable("commentIdx") long commentIdx, @RequestBody CommentDto commentDto, @AuthenticationPrincipal AccountDetails accountDetails) {
         boolean result = commentService.updateComment(accountDetails.getAccount(), commentIdx, commentDto);
         if (result) {
             return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getSuccess()));
@@ -59,7 +58,7 @@ public class CommentApi {
     }
 
     @DeleteMapping("/{commentIdx}")
-    public ResponseEntity<MessageResponse> deleteComment(@PathVariable("commentIdx") Long commentIdx, @AuthenticationPrincipal AccountDetails accountDetails) {
+    public ResponseEntity<MessageResponse> deleteComment(@PathVariable("commentIdx") long commentIdx, @AuthenticationPrincipal AccountDetails accountDetails) {
         boolean result = commentService.deleteComment(accountDetails.getAccount(), commentIdx);
         if (result) {
             return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getSuccess()));
