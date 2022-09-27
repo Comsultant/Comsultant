@@ -60,7 +60,6 @@ public class CommentApi {
 
     @DeleteMapping("/{commentIdx}")
     public ResponseEntity<MessageResponse> deleteComment(@PathVariable("commentIdx") Long commentIdx, @AuthenticationPrincipal AccountDetails accountDetails) {
-        // TODO : 토큰에서 유저 정보 꺼내서 사용
         boolean result = commentService.deleteComment(accountDetails.getAccount(), commentIdx);
         if (result) {
             return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getSuccess()));

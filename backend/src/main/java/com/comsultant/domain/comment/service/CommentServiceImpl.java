@@ -116,17 +116,18 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public boolean deleteComment(Account account, long commentIdx) {
-        // TODO : account, comment 못 찾을 시 예외 처리 필요
         if(account == null || account.getIdx() == 0) {
             return false;
         }
-        Comment comment = commentRepository.findById(commentIdx).orElseThrow();
-        // TODO : 작성자와 다른 경우 예외 처리 필요
-        if (!comment.getAccount().equals(account))
+        Comment comment = commentRepository.findById(commentIdx).orElseThrow(
+                () -> new CommentApiException(CommentErrorCode.COMMENT_NOT_FOUND)
+        );
+        if (comment.getAccount().getIdx() != account.getIdx()) {
             return false;
-
-        commentRepository.deleteById(commentIdx);
-        return true;
+        } else {
+            commentRepository.deleteById(commentIdx);
+            return true;
+        }
     }
 
 

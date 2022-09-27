@@ -7,7 +7,8 @@ import org.springframework.http.HttpStatus;
 @Getter
 @RequiredArgsConstructor
 public enum CommentErrorCode implements ErrorCode {
-    PRODUCT_NOT_FOUND(2000, HttpStatus.NOT_FOUND, "Product is Not Found");
+    PRODUCT_NOT_FOUND(2000, HttpStatus.NOT_FOUND, "Product is Not Found"),
+    COMMENT_NOT_FOUND(2001, HttpStatus.NOT_FOUND, "Comment is Not Found");
 
     private final int code;
     private final HttpStatus httpStatus;
