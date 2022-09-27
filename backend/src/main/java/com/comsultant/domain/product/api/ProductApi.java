@@ -20,7 +20,7 @@ public class ProductApi {
 
     @GetMapping("/{productId}")
     public ResponseEntity<DtoResponse<Object>> getProduct(@PathVariable("productId") long idx) {
-        long type = productService.getProduct(idx).getType();
+        long type = productService.getProduct(idx).getCategory();
         Object response = productService.getObject(type, idx);
         return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), response));
     }

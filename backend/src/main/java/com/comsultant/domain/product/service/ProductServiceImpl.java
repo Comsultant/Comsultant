@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
-    private final CategoryRepository categoryRepository;
     private final CasesRepository casesRepository;
     private final CpuRepository cpuRepository;
     private final CoolerRepository coolerRepository;
@@ -29,12 +28,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDto getProduct(long idx) {
         return ProductMapper.mapper.toDto(productRepository.findById(idx)
-                .orElseThrow(() -> new ProductApiException(ProductErrorCode.PRODUCT_NOT_FOUND)));
-    }
-
-    @Override
-    public CategoryDto getCategory(long idx) {
-        return CategoryMapper.mapper.toDto(categoryRepository.findById(idx)
                 .orElseThrow(() -> new ProductApiException(ProductErrorCode.PRODUCT_NOT_FOUND)));
     }
 

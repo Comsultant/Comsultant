@@ -13,4 +13,5 @@ public class ConstProperties {
     private final int passwordTokenLength;
     private final int emailAuthLength;
     private final int commentListSize;
+    private final int wishListSize;
 }
