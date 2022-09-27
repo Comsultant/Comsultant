@@ -13,7 +13,7 @@ public interface CommentMapper extends EntityMapper<CommentDto, Comment> {
     CommentMapper mapper = Mappers.getMapper(CommentMapper.class);
 
     @Override
-    @Mapping(source = "account.idx", target = "accountIdx")
+    @Mapping(target = "accountIdx", constant = "0L")
     @Mapping(source = "product.idx", target = "productIdx")
     CommentDto toDto(final Comment entity);
 
