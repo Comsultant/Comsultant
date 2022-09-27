@@ -24,7 +24,6 @@ public class Product {
     @Column(name = "idx", columnDefinition = "BIGINT(20) UNSIGNED")
     private long idx;
 
-    @ManyToOne(targetEntity = Category.class, fetch = FetchType.LAZY) //LAZY: JPA 영속성,값을 꺼내쓸 때 얘를 조인해줘
-    @JoinColumn(name = "type", nullable = false)
-    private Category category;
+    @JoinColumn(name = "category", nullable = false)
+    private int category;
 }

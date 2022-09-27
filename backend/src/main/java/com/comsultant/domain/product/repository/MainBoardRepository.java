@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface MainBoardRepository extends JpaRepository<MainBoard, Long> {
+    Optional<MainBoard> findByIdx(long idx);
 }

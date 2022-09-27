@@ -15,4 +15,9 @@ public class CommentDto {
     private Long productIdx;
     private String content;
     private String createDate;
+
+    public void updateUserInfo(long accountIdx, long productIdx) {
+        this.accountIdx = accountIdx;
+        this.productIdx = productIdx;
+    }
 }
