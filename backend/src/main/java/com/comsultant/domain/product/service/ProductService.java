@@ -4,7 +4,6 @@ import com.comsultant.domain.product.dto.*;
 
 public interface ProductService {
     ProductDto getProduct(long idx);
-    CategoryDto getCategory(long idx);
     CpuDto getCpu(long idx);
     RamDto getRam(long idx);
     CasesDto getCases(long idx);
