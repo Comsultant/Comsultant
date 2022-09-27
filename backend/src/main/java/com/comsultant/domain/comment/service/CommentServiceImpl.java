@@ -22,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -97,21 +98,21 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional()
     public boolean updateComment(Account account, long commentIdx, CommentDto commentDto) {
-        // TODO : account, comment 못 찾을 시 예외 처리 필요
         if(account == null || account.getIdx() == 0) {
             return false;
         }
-        Comment comment = commentRepository.findById(commentIdx).orElseThrow();
-        // TODO : 작성자와 다른 경우 예외 처리 필요
-        if (!comment.getAccount().equals(account))
-            return false;
+        Comment comment = commentRepository.findById(commentIdx).orElseThrow(
+                () -> new CommentApiException(CommentErrorCode.COMMENT_NOT_FOUND)
+        );
 
-        comment.updateInfo(commentDto.getContent());
-        Comment savedComment = commentRepository.save(comment);
-        if (savedComment.getIdx() == 0)
+        if (comment.getAccount().getIdx() != account.getIdx()) {
             return false;
-        return true;
+        } else {
+            comment.updateInfo(commentDto.getContent());
+            return true;
+        }
     }
 
     @Override
