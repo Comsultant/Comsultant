@@ -1,4 +1,4 @@
-package com.comsultant.domain.product.dto;
+package com.comsultant.domain.comment.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductDto {
-
-    private long idx;
-
-    private int category;
+public class CommentDetailDto {
+    private CommentDto commentDto;
+    private int productImg;
+    private String productName;
 }

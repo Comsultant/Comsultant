@@ -6,4 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface CpuRepository extends JpaRepository<Cpu, Long> {
+    Optional<Cpu> findByIdx(long idx);
 }
