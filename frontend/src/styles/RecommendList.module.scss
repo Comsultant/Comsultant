@@ -1,0 +1,34 @@
+$font-size-medium: 20px;
+
+.builder-item {
+  border: solid 1.5px black;
+  margin: 10px 20px;
+  cursor: pointer;
+}
+
+.builder-box {
+  display: flex;
+  margin: 20px;
+  flex-direction: column;
+}
+
+.more-button {
+  display: flex;
+  justify-content: center;
+  span {
+    font-size: $font-size-medium;
+    cursor: pointer;
+  }
+}
+
+.price-box {
+  border-top: solid 1.5px black;
+  text-align: right;
+  span{
+    margin: 10px;
+  }
+}
+
+.no-result-box {
+  color: red;
+}
