@@ -14,4 +14,6 @@ public interface CommentService {
 
     CommentListDto getComments(Account account, int page, boolean desc);
 
+    CommentListDto getProductComments(long productIdx, int page, boolean desc);
+
 }

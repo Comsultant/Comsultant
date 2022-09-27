@@ -12,7 +12,9 @@ import com.comsultant.domain.comment.repository.CommentRepository;
 import com.comsultant.domain.product.entity.*;
 import com.comsultant.domain.product.repository.*;
 import com.comsultant.global.error.exception.CommentApiException;
+import com.comsultant.global.error.exception.ProductApiException;
 import com.comsultant.global.error.model.CommentErrorCode;
+import com.comsultant.global.error.model.ProductErrorCode;
 import com.comsultant.global.properties.ConstProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -87,6 +89,38 @@ public class CommentServiceImpl implements CommentService {
                     .commentDto(CommentMapper.mapper.toDto(comment))
                     .productImg(Integer.parseInt(product.get("img")))
                     .productName(product.get("name"))
+                    .build();
+            result.add(ret);
+        }
+
+        return CommentListDto.builder()
+                .commentDetailDtoList(result)
+                .totalPage(totalPages)
+                .build();
+    }
+
+    @Override
+    public CommentListDto getProductComments(long productIdx, int page, boolean desc) {
+        Pageable pageable;
+
+        if (desc) {
+            pageable = PageRequest.of(page, constProperties.getCommentListSize(), Sort.by("idx").descending());
+        } else {
+            pageable = PageRequest.of(page, constProperties.getCommentListSize());
+        }
+
+        Product product = productRepository.findById(productIdx)
+                .orElseThrow(() -> new ProductApiException(ProductErrorCode.PRODUCT_NOT_FOUND));
+
+        Page<Comment> pageComments = commentRepository.findAllByProduct(product, pageable);
+        List<Comment> comments = pageComments.getContent();
+        int totalPages = pageComments.getTotalPages();
+
+        List<CommentDetailDto> result = new ArrayList<>();
+
+        for (Comment comment : comments) {
+            CommentDetailDto ret = CommentDetailDto.builder()
+                    .commentDto(CommentMapper.mapper.toDto(comment))
                     .build();
             result.add(ret);
         }
