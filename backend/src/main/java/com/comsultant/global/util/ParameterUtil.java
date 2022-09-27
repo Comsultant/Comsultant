@@ -18,6 +18,10 @@ public class ParameterUtil {
      * @return
      */
     public static boolean checkDesc(String desc) {
-        return !"true".equals(desc);
+        if(desc == null){
+            return true;
+        } else {
+            return "true".equals(desc);
+        }
     }
 }

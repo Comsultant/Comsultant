@@ -1,15 +1,16 @@
 package com.comsultant.domain.wish.service;
 
 import com.comsultant.domain.account.entity.Account;
+import com.comsultant.domain.product.entity.Product;
+import com.comsultant.domain.product.repository.ProductRepository;
 import com.comsultant.domain.wish.dto.WishDto;
 import com.comsultant.domain.wish.dto.WishListDto;
 import com.comsultant.domain.wish.entity.Wish;
 import com.comsultant.domain.wish.mapper.WishMapper;
 import com.comsultant.domain.wish.repository.WishRepository;
-import com.comsultant.domain.product.entity.Product;
-import com.comsultant.domain.product.repository.ProductRepository;
 import com.comsultant.global.error.exception.ProductApiException;
 import com.comsultant.global.error.model.ProductErrorCode;
+import com.comsultant.global.properties.ConstProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -20,7 +21,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor //생성자 주입. final이 붙거나 @NotNull 이 붙은 필드의 생성자를 자동 생성. AutoWired 불필요
@@ -29,6 +29,7 @@ public class WishServiceImpl implements WishService {
 
     private final WishRepository wishRepository;
     private final ProductRepository productRepository;
+    private final ConstProperties constProperties;
 
     @Override
     public boolean createLike(Account account, long productIdx) {
@@ -63,9 +64,9 @@ public class WishServiceImpl implements WishService {
         Pageable pageable;
 
         if (desc)
-            pageable = PageRequest.of(page, 10, Sort.by("idx").descending()); //시작 위치, 몇 개씩, sort
+            pageable = PageRequest.of(page, constProperties.getWishListSize(), Sort.by("idx").descending()); //시작 위치, 몇 개씩, sort
         else
-            pageable = PageRequest.of(page, 10);
+            pageable = PageRequest.of(page, constProperties.getWishListSize());
 
         Page<Wish> pageLikes = wishRepository.findAllByAccount(account, pageable);
         List<Wish> wishes = pageLikes.getContent();
