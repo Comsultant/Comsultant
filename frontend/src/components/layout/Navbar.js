@@ -40,10 +40,10 @@ const Navbar = ({isMain}) => {
     <div className={classNames(
         
       isMain ? scrollPosition < 30 ?
-      `${style['nav-bar']}` :
-    `${style['nav-bar-scroll']}` :
-          `${style['nav-bar-scroll']}`
-       )}>
+        `${style['nav-bar']}` :
+        `${style['nav-bar-scroll']}` :
+        `${style['nav-bar-scroll']}`
+      )}>
       <div className={style.logo}>
         <Link to={`/`}>
           {isMain ?
