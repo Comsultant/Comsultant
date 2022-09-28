@@ -36,8 +36,8 @@ public class Psu {
     @Column(name = "img_cnt", columnDefinition = "INT")
     private int imgCnt;
 
-    @Column(name = "corporation", columnDefinition = "VARCHAR(255)")
-    private String corporation;
+    @Column(name = "corp", columnDefinition = "VARCHAR(255)")
+    private String corp;
 
     @Column(name = "registered_at", columnDefinition = "VARCHAR(255)")
     private String registeredAt;
