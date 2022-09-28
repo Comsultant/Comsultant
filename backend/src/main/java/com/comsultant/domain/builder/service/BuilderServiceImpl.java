@@ -49,7 +49,7 @@ public class BuilderServiceImpl implements BuilderService {
     @Transactional
     @Override
     public boolean createMyBuilder(Account account, MyBuilderDto myBuilderDto) {
-        Boolean isLogin = true;
+        boolean isLogin = true;
         if (account == null || account.getIdx() == 0) {
             isLogin = false;
         }
@@ -60,7 +60,9 @@ public class BuilderServiceImpl implements BuilderService {
                 if (!myBuilderRepository.existsById(myBuilderDto.getIdx())) {
                     throw new BuilderApiException(BuilderErrorCode.Builder_NOT_FOUND);
                 }
-                myBuilder = myBuilderRepository.findById(myBuilderDto.getIdx()).orElseThrow(null);
+                myBuilder = myBuilderRepository.findById(myBuilderDto.getIdx()).orElseThrow(
+                        () -> new BuilderApiException(BuilderErrorCode.Builder_NOT_FOUND)
+                );
                 builderProductRepository.deleteAllByMyBuilder(myBuilder); // 연결된 아이템들 삭제
             } else { // 새 빌더라면 마이빌더 생성
                 myBuilderDto.updateUserInfo(account.getIdx());
@@ -93,7 +95,9 @@ public class BuilderServiceImpl implements BuilderService {
         List<Product> products = new ArrayList<>(); // 하둡에 보낼 리스트
         isCategory = new boolean[10]; // 카테고리 초기화 (1,2,5,8 있는지 체크 예정)
         for (BuilderProductDto builderProductDto : myBuilderDto.getBuilderProducts()) { // product 리스트 생성
-            Product product = productRepository.findById(builderProductDto.getProductIdx()).orElseThrow(null);
+            Product product = productRepository.findById(builderProductDto.getProductIdx()).orElseThrow(
+                    ()-> new BuilderApiException(BuilderErrorCode.PRODUCT_NOT_FOUND)
+            );
             if (product == null)
                 throw new BuilderApiException(BuilderErrorCode.PRODUCT_NOT_FOUND);
             isCategory[product.getCategory()] = true;
