@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Slider, Checkbox } from "antd";
 import style from "@/styles/RecommendFilter.module.scss";
 import classNames from "classnames";
+import "@/styles/RecommendFilter.scss"
 
 const RecommendFilter = () => {
 
@@ -35,6 +36,7 @@ const RecommendFilter = () => {
     } 
   ];
 
+  const formatter = (value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")+`원`;
 
   return (
     <>
@@ -53,8 +55,8 @@ const RecommendFilter = () => {
             </select>
           </div>
           <div>
-            <span >사용 프로그램</span>
-            <select onChange={(val)=> setProgram(val)} className={classNames(`${style["select-input"]}`,`${style['usage-program']}`)}>
+            <span>사용 프로그램</span>
+            <select onChange={(e)=> setProgram(e.target.value)} className={classNames(`${style["select-input"]}`,`${style['usage-program']}`)}>
               {filterList.filter((curr)=>curr.purpose === purpose)[0].programList.map((program, idx)=>{
                 return(
                 <option key={idx} value={program}>
@@ -76,9 +78,10 @@ const RecommendFilter = () => {
               className={style.slider}
               tooltip={{
                 open: true,
-                // getPopupContainer: (triggerNode) => {
-                // }
+                formatter,
               }}
+              trackStyle={{"backgroundColor": "#377BB9", "height" : "8px"}}
+              handleStyle={{"borderColor": "black", "width" : "25px", "height": "16px", "borderRadius" : "5px"}}
             />
           </div>
           <div className={style["builder-box"]}>

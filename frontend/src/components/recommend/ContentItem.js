@@ -13,18 +13,11 @@ const checkboxColor = "pink";
 
 const ContentItem = ({checkState, numberState, checkSetter, numberSetter, contentList, contentSetter, name}) => {
   
-  const onChangeCount = (curr, content, idx) =>{
-    const productList = contentList;
-    const product = {
-      id:content.id, 
-      name:content.name, 
-      count: curr
-    };
-    productList[idx] = product;
-    contentSetter(productList);
+  const onChangeCount = (curr, idx) =>{
+    contentSetter((contentList) => contentList.map((content, i) => i == idx ? {...content, count: curr} : content));
   }
 
-  const initPorduct = {id:"", name:"", count:"", price:0};
+  const initProduct = {id:"", name:"", count:1, price:0};
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [currProduct, setCurrProduct] = useState("");
@@ -46,6 +39,15 @@ const ContentItem = ({checkState, numberState, checkSetter, numberSetter, conten
     setOpen(false);
   };
 
+  const onPlusButtonClicked = () => {
+    contentSetter([...contentList, initProduct]);
+  }
+
+  const onDeleteButtonClicked = (i) => {
+    if(i <= 0)
+      return;
+    contentSetter(contentList.filter((content, idx) => idx !== i))
+  }
 
   return (
     <>
@@ -78,7 +80,10 @@ const ContentItem = ({checkState, numberState, checkSetter, numberSetter, conten
           setter={checkSetter}
         />
         <span className={style.title}>{name}</span>
-        <PlusSquareOutlined className={style["plus-button"]} />
+        <PlusSquareOutlined 
+          className={style["plus-button"]}
+          onClick={onPlusButtonClicked} 
+        />
         </div>      
         <div className={style['item-right-box']}>  
         {contentList.map((content, idx)=>{
@@ -92,7 +97,11 @@ const ContentItem = ({checkState, numberState, checkSetter, numberSetter, conten
                   value={content?.name !== "" ? content.name : ""}
                   />
                 </div>
-                <CloseCircleOutlined className={style["delete-button"]} />
+                <CloseCircleOutlined 
+                  className={style["delete-button"]} 
+                  onClick={() => onDeleteButtonClicked(idx)}
+                  // onClick={onDeleteButtonClicked}
+                />
               </div>
               {
                 content.id !== "" ? <div>
@@ -104,9 +113,10 @@ const ContentItem = ({checkState, numberState, checkSetter, numberSetter, conten
                 <InputNumber
                   className={style["input-number"]}
                   min={1}
-                  defaultValue={content.count}
+                  value={content.count}
+                  defaultValue={1}
                   onChange={(curr)=> {
-                    onChangeCount(curr, content, idx);
+                    onChangeCount(curr, idx);
                   }}
                 />
               </div>
