@@ -13,5 +13,5 @@ public class ProductDto {
 
     private long idx;
 
-    private long type;
+    private int category;
 }

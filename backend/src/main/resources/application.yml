@@ -7,6 +7,8 @@ server:
       enabled: true
       force: true
 spring:
+  profiles:
+    include: mail, social
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/comsultant?serverTimezone=UTC&useLegacyDatetimeCode=false&useUnicode=true&characterEncoding=utf8
@@ -26,14 +28,6 @@ spring:
         format_sql: true
       jdbc:
         time_zone: UTC
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: comsultant.org@gmail.com
-    password: bevrytkzlbkukfnq
-    properties:
-      mail.smtp.auth: true
-      mail.smtp.starttls.enable: true
   redis:
     host: localhost
     port: 6379
@@ -42,6 +36,14 @@ spring:
       bootstrap-servers: localhost:9092
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      authentication-database: admin
+      database: comsultant
+      username: ssafy
+      password: ssafy
 logging:
   file:
     name: logs/app.log
@@ -74,3 +76,5 @@ frontend:
 const:
   password-token-length: 12
   email-auth-length: 6
+  comment-list-size: 10
+  wish-list-size: 10
