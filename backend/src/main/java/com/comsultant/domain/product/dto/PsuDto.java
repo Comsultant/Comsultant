@@ -17,7 +17,7 @@ public class PsuDto {
 
     private int imgCnt; //img_cnt
 
-    private String corporation; //제조회사
+    private String corp; //제조회사
 
     private String registeredAt; //등록년월
 
