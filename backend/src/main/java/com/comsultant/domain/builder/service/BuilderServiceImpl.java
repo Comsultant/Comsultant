@@ -69,8 +69,9 @@ public class BuilderServiceImpl implements BuilderService {
                 myBuilderDto.updateUserInfo(account.getIdx());
                 myBuilder = myBuilderRepository.save(MyBuilderMapper.mapper.toEntity(myBuilderDto));
             }
+            // builderProduct 저장
             if (myBuilderDto.getBuilderProducts() != null) {
-                for (BuilderProductDto builderProductDto : myBuilderDto.getBuilderProducts()) { // builderProduct 저장
+                for (BuilderProductDto builderProductDto : myBuilderDto.getBuilderProducts()) {
                     if (!productRepository.existsById(builderProductDto.getProductIdx())) {
                         throw new BuilderApiException(BuilderErrorCode.PRODUCT_NOT_FOUND);
                     }
@@ -96,6 +97,24 @@ public class BuilderServiceImpl implements BuilderService {
         }
 
         return true;
+    }
+
+    @Transactional
+    @Override
+    public boolean deleteMyBuilder(Account account, long myBuilderIdx) {
+        if (account == null || account.getIdx() == 0) {
+            return false;
+        }
+        MyBuilder myBuilder = myBuilderRepository.findById(myBuilderIdx).orElseThrow(
+                () -> new BuilderApiException(BuilderErrorCode.Builder_NOT_FOUND)
+        );
+        if (myBuilder.getAccount().getIdx() != account.getIdx()) {
+            return false;
+        } else {
+            builderProductRepository.deleteAllByMyBuilder(myBuilder);
+            myBuilderRepository.deleteById(myBuilderIdx);
+            return true;
+        }
     }
 
     public String toKafka(MyBuilderDto myBuilderDto, Account account) {
