@@ -5,5 +5,9 @@ spring:
   kafka:
     consumer:
       bootstrap-servers: localhost:9092
-      group-id: builder
+      group-id: testGroup
       enable-auto-commit: false
+
+hdfs:
+  uri: "hdfs://localhost:9000"
+  file-name: "comsultant-data.txt"

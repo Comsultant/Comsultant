@@ -1,5 +1,6 @@
-package com.consume.consumeserver.config;
+package com.consume.consumeserver.provider;
 
+import com.consume.consumeserver.config.KafkaConsumerConfig;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.consumer.KafkaConsumer;

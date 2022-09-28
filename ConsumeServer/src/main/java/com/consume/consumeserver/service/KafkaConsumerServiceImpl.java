@@ -1,6 +1,6 @@
 package com.consume.consumeserver.service;
 
-import com.consume.consumeserver.config.KafkaConsumerProvider;
+import com.consume.consumeserver.provider.KafkaConsumerProvider;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.springframework.stereotype.Service;
