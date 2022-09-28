@@ -6,9 +6,14 @@ import classNames from "classnames";
 import "@/styles/RecommendFilter.scss"
 
 const RecommendFilter = () => {
-
+  
+  const defaultMaxPrice = 5000000;
   const [purpose, setPurpose] = useState("게임용");
   const [program, setProgram] = useState("");
+
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(defaultMaxPrice);
+
   const filterList = [
     {
       purpose : "게임용",
@@ -37,6 +42,11 @@ const RecommendFilter = () => {
   ];
 
   const formatter = (value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")+`원`;
+
+  const onPriceChange = (e) => {
+    setMinPrice(e[0]);
+    setMaxPrice(e[1]);
+  }
 
   return (
     <>
@@ -72,7 +82,8 @@ const RecommendFilter = () => {
             <span>가격</span>
             <Slider
               range={{ draggableTrack: true }}
-              defaultValue={[0, 5000000]}
+              onChange={onPriceChange}
+              defaultValue={[0, defaultMaxPrice]}
               max={10000000}
               step={100000}
               className={style.slider}
