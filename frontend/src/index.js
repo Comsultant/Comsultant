@@ -11,6 +11,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import storage from 'redux-persist/lib/storage';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistReducer, persistStore } from 'redux-persist';
+import ScrollToTop from "./components/ScrollTop";
 
 
 const persistConfig = {
@@ -33,6 +34,7 @@ root.render(
   <Provider store={store}>
     <PersistGate persistor={persistor}>
       <BrowserRouter>
+        <ScrollToTop />
         <App />
       </BrowserRouter>
     </PersistGate>
