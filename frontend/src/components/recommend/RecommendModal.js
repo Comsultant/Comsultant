@@ -1,13 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "@/styles/RecommendModal.module.scss"
 import classNames from "classnames";
 import { Checkbox } from "antd";
+import ProductFilter from "./ProductFilter";
+import { filter } from "lodash";
+import DescFilter from "./DescFilter";
+import { SearchOutlined } from "@ant-design/icons";
+import ProductListComponent from "./ProductListComponent";
 
-const RecommendModal = ({ currProduct }) => {
+const RecommendModal = ({ currProduct, type }) => {
 
-  const [selectProduct, setSelectProduct] = useState();
-
-  const filterList = ["코어", "쓰레드"];
+  const [selectProduct, setSelectProduct] = useState("");
+  const [searchValue, setSearchValue] = useState("");
+  const [currDescNum, setCurrDescNum] = useState(0);
+  const [filterList, setFilterList] = useState([]);
+  const [filterDetailList, setFilterDetailList] = useState([]);
   const productList = [
     {
       id:"123",
@@ -45,11 +52,25 @@ const RecommendModal = ({ currProduct }) => {
       detail: "상품정보",
     }, 
   ];
+  useEffect(()=>{
+    //필터링 데이터, 인기상품순 상품 데이터 받아오기
+    switch(type){
+      case 'CPU':
+        setFilterList(["제조회사", "코어 수"]);
+        setFilterDetailList([["인텔","AMD"], ["2코어", "4코어", "8코어"]]);
+        break;
+      default:
+        break;
+    }
+  },[])
+  useEffect(()=> {
+    // 순서 변경한 상품 데이터 받아오기
+  },[currDescNum])
   return (
-    <>
+    <div>
       <div className={style['top']}>
-        <div className={classNames(`${style['top-item']}`,`${style['left-item']}`)}>
-          <span className={style.title}>현재</span>
+        <div className={style['top-item']}>
+          <div className={style.title}>현재</div>
           <div className={style['top-content']}>
             <div className={style['top-img']}>
               <img src="/assets/monitor.png" alt="" />
@@ -73,46 +94,27 @@ const RecommendModal = ({ currProduct }) => {
         </div>
       </div>  
       <div className={style['mid']}>
-        <div className={style['left-item']}>
-          <span className={style.title}>상세</span>
-        </div>
-        <div>
-          {filterList.map((filter)=>{
-            return(
-              <>
-                <Checkbox />
-                {filter}
-              </>
-            );
-          })}
-        </div>
+        <ProductFilter 
+          filterList={filterList} 
+          filterDetailList={filterDetailList} 
+        />
       </div>
       <div className={style['bottom']}>
-          <div className={style['search-bar']}>
-            <input />
+          <div className={style['bottom-header']}>
+            <DescFilter 
+              currDescNum={currDescNum}
+              setCurrDescNum={setCurrDescNum}
+            />
+            <div className={style['search-bar']}>
+              <input 
+                onChange={(e)=>{setSearchValue(e.target.value)}}
+              />
+              <SearchOutlined className={style['search-icon']}/>
+            </div>
           </div>
-          {productList.map((product, idx)=>{
-            return(
-              <div key={idx} className={style['product-item']}>
-                <div className={style['product-img']}>
-                  <img src={product.img} alt=""/>
-                </div>
-                <div>
-                  <div>
-                    <span>{product.name}</span>
-                  </div>
-                  <div>
-                    <span>{product.detail}</span>
-                  </div>
-                </div> 
-                <div className={style['product-detail-button']}>
-                  <button>상세보기</button>
-                </div>
-              </div>
-            );
-          })}
+          <ProductListComponent productList={productList}/>
       </div>
-    </>
+    </div>
   );
 };
 

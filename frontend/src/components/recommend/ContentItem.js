@@ -46,6 +46,7 @@ const ContentItem = ({checkState, numberState, checkSetter, numberSetter, conten
     setOpen(false);
   };
 
+
   return (
     <>
     <Modal
@@ -54,14 +55,18 @@ const ContentItem = ({checkState, numberState, checkSetter, numberSetter, conten
         onOk={handleOk}
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
-        width={"80%"}
+        width={"800px"}
         centered
-        bodyStyle={{"height" : "80vh", overflowY: 'scroll'}}
+        bodyStyle={
+          {"height" : "80vh",
+          "overflowY": 'scroll',
+          "backgroundColor" : "lightgray",
+          }}
         zIndex={2000}
         okText="확인"
         cancelText="취소"
         >
-          <RecommendModal currProduct={currProduct}/>
+          <RecommendModal currProduct={currProduct} type={name} />
       </Modal>
     <div className={style["content-item"]}>
         
