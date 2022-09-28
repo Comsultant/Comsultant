@@ -1,5 +1,6 @@
 package com.comsultant.domain.builder.api;
 
+import com.comsultant.domain.account.entity.Account;
 import com.comsultant.domain.builder.dto.MyBuilderDto;
 import com.comsultant.domain.builder.service.BuilderService;
 import com.comsultant.global.common.response.MessageResponse;
@@ -34,9 +35,13 @@ public class BuilderApi {
         }
     }*/
 
-    @PostMapping("/name")
+    @PostMapping("")
     public ResponseEntity<MessageResponse> createMyBuilder(@AuthenticationPrincipal AccountDetails accountDetails, @RequestBody MyBuilderDto myBuilderDto) {
-        boolean result = builderService.createMyBuilder(accountDetails.getAccount(), myBuilderDto);
+        Account account = new Account();
+        if (accountDetails != null)
+            account = accountDetails.getAccount();
+
+        boolean result = builderService.createMyBuilder(account, myBuilderDto);
 
         if (result) {
             return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getSuccess()));
