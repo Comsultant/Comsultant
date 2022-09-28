@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,14 +14,23 @@ import lombok.NoArgsConstructor;
 public class MyBuilderDto {
 
     private long idx;
-    
+
     private long accountIdx;
 
     private String name;
 
+    private List<BuilderProductDto> builderProducts;
+
     private String createDate;
+
+    private boolean kafka;
+
+    private String use;
+
+    private String program;
 
     public void updateUserInfo(long accountIdx) {
         this.accountIdx = accountIdx;
     }
+
 }

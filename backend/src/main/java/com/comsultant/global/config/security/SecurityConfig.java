@@ -41,7 +41,7 @@ public class SecurityConfig {
             "/auth",
             "/account",
             "/account/verify-email",
-            "/auth/refresh"
+            "/auth/refresh",
     };
 
     private static final String[] PATCH_PUBLIC_URI = {
@@ -74,6 +74,7 @@ public class SecurityConfig {
                 .csrf().disable();
 
         http.authorizeHttpRequests()
+                .antMatchers("/builder").permitAll()
                 .anyRequest().authenticated();
 
         http.sessionManagement()
