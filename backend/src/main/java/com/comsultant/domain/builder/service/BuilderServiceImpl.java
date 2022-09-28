@@ -69,15 +69,16 @@ public class BuilderServiceImpl implements BuilderService {
                 myBuilderDto.updateUserInfo(account.getIdx());
                 myBuilder = myBuilderRepository.save(MyBuilderMapper.mapper.toEntity(myBuilderDto));
             }
-
-            for (BuilderProductDto builderProductDto : myBuilderDto.getBuilderProducts()) { // builderProduct 저장
-                if (!productRepository.existsById(builderProductDto.getProductIdx())) {
-                    throw new BuilderApiException(BuilderErrorCode.PRODUCT_NOT_FOUND);
-                }
-                builderProductDto.updateMyBuilderInfo(myBuilder.getIdx());
-                BuilderProduct savedBuilderProduct = builderProductRepository.save(BuilderProductMapper.mapper.toEntity(builderProductDto));
-                if (savedBuilderProduct.getIdx() == 0) {
-                    return false;
+            if (myBuilderDto.getBuilderProducts() != null) {
+                for (BuilderProductDto builderProductDto : myBuilderDto.getBuilderProducts()) { // builderProduct 저장
+                    if (!productRepository.existsById(builderProductDto.getProductIdx())) {
+                        throw new BuilderApiException(BuilderErrorCode.PRODUCT_NOT_FOUND);
+                    }
+                    builderProductDto.updateMyBuilderInfo(myBuilder.getIdx());
+                    BuilderProduct savedBuilderProduct = builderProductRepository.save(BuilderProductMapper.mapper.toEntity(builderProductDto));
+                    if (savedBuilderProduct.getIdx() == 0) {
+                        return false;
+                    }
                 }
             }
         }
