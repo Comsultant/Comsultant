@@ -39,4 +39,7 @@ public class MyBuilder {
     @CreatedDate
     private LocalDateTime createDate;
 
+    public void modifyName(String name) {
+        this.name = name;
+    }
 }
