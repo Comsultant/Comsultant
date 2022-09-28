@@ -47,8 +47,18 @@ public class BuilderApi {
         }
     }
 
+    @PatchMapping("/{myBuilderIdx}")
+    public ResponseEntity<MessageResponse> updateMyBuilder(@PathVariable("myBuilderIdx") long myBuilderIdx, @RequestBody MyBuilderDto myBuilderDto, @AuthenticationPrincipal AccountDetails accountDetails) {
+        boolean result = builderService.reNameMyBuilder(accountDetails.getAccount(), myBuilderIdx, myBuilderDto);
+        if (result) {
+            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getSuccess()));
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getFail()));
+        }
+    }
+
     @DeleteMapping("/{myBuilderIdx}")
-    public ResponseEntity<MessageResponse> deleteComment(@PathVariable("myBuilderIdx") long myBuilderIdx, @AuthenticationPrincipal AccountDetails accountDetails) {
+    public ResponseEntity<MessageResponse> deleteMyBuilder(@PathVariable("myBuilderIdx") long myBuilderIdx, @AuthenticationPrincipal AccountDetails accountDetails) {
         boolean result = builderService.deleteMyBuilder(accountDetails.getAccount(), myBuilderIdx);
         if (result) {
             return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getSuccess()));

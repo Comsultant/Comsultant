@@ -99,6 +99,19 @@ public class BuilderServiceImpl implements BuilderService {
         return true;
     }
 
+    @Override
+    @Transactional
+    public boolean reNameMyBuilder(Account account, long myBuilderIdx, MyBuilderDto myBuilderDto) {
+        if (account == null || account.getIdx() == 0) {
+            return false;
+        }
+        MyBuilder myBuilder = myBuilderRepository.findById(myBuilderIdx).orElseThrow(
+                () -> new BuilderApiException(BuilderErrorCode.Builder_NOT_FOUND)
+        );
+        myBuilder.modifyName(myBuilderDto.getName());
+        return true;
+    }
+
     @Transactional
     @Override
     public boolean deleteMyBuilder(Account account, long myBuilderIdx) {
