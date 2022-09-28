@@ -3,7 +3,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Main from "./components/Main";
 import Home from "./components/Home";
-import Account from "./routes/account";
+import Account from "./routes/Account";
 import Recommend from "./components/recommend/Recommend";
 
 
