@@ -54,17 +54,18 @@ public class BuilderServiceImpl implements BuilderService {
             isLogin = false;
         }
 
-        if (isLogin) { // 로그인 했고
+        // 로그인 했고
+        if (isLogin) {
             MyBuilder myBuilder;
-            if (myBuilderDto.getIdx() != 0) { // 있던 빌더라면
-                if (!myBuilderRepository.existsById(myBuilderDto.getIdx())) {
-                    throw new BuilderApiException(BuilderErrorCode.Builder_NOT_FOUND);
-                }
+            // 있던 빌더라면 연결된 아이템들 삭제
+            if (myBuilderDto.getIdx() != 0) {
                 myBuilder = myBuilderRepository.findById(myBuilderDto.getIdx()).orElseThrow(
                         () -> new BuilderApiException(BuilderErrorCode.Builder_NOT_FOUND)
                 );
-                builderProductRepository.deleteAllByMyBuilder(myBuilder); // 연결된 아이템들 삭제
-            } else { // 새 빌더라면 마이빌더 생성
+                builderProductRepository.deleteAllByMyBuilder(myBuilder);
+            }
+            // 새 빌더라면 마이빌더 생성
+            else {
                 myBuilderDto.updateUserInfo(account.getIdx());
                 myBuilder = myBuilderRepository.save(MyBuilderMapper.mapper.toEntity(myBuilderDto));
             }
@@ -80,29 +81,36 @@ public class BuilderServiceImpl implements BuilderService {
                 }
             }
         }
-        if (myBuilderDto.isKafka()) { // 추천 저장할 거면
+
+        // 카프카 데이터 전송
+        if (myBuilderDto.isKafka()) {
             String toKafka = toKafka(myBuilderDto, account);
-            if (toKafka == null)
+            if (toKafka == null) {
                 throw new BuilderApiException(BuilderErrorCode.Category_NOT_ENOUGH);
-            else if (!kafkaProducerService.sendMessage("test", toKafka))
+            }
+            // TODO : 나중에 test에서 builder로 수정 필요
+            else if (!kafkaProducerService.sendMessage("test", toKafka)) {
                 throw new BuilderApiException(BuilderErrorCode.Kafka_SEND_FAIL);
+            }
         }
 
         return true;
     }
 
     public String toKafka(MyBuilderDto myBuilderDto, Account account) {
-        List<Product> products = new ArrayList<>(); // 하둡에 보낼 리스트
-        isCategory = new boolean[10]; // 카테고리 초기화 (1,2,5,8 있는지 체크 예정)
-        for (BuilderProductDto builderProductDto : myBuilderDto.getBuilderProducts()) { // product 리스트 생성
+        List<Product> products = new ArrayList<>();
+        // 카테고리 (1,2,5,8 있는지 체크 예정)
+        isCategory = new boolean[10];
+
+        for (BuilderProductDto builderProductDto : myBuilderDto.getBuilderProducts()) {
             Product product = productRepository.findById(builderProductDto.getProductIdx()).orElseThrow(
-                    ()-> new BuilderApiException(BuilderErrorCode.PRODUCT_NOT_FOUND)
+                    () -> new BuilderApiException(BuilderErrorCode.PRODUCT_NOT_FOUND)
             );
-            if (product == null)
-                throw new BuilderApiException(BuilderErrorCode.PRODUCT_NOT_FOUND);
+
             isCategory[product.getCategory()] = true;
-            for (int i = 0; i < builderProductDto.getCnt(); i++)
+            for (int i = 0; i < builderProductDto.getCnt(); i++) {
                 products.add(product);
+            }
         }
 
         if (isCategory[1] && isCategory[2] && isCategory[5] && isCategory[8]) {
@@ -116,24 +124,34 @@ public class BuilderServiceImpl implements BuilderService {
     public String toString(List<Product> products, MyBuilderDto myBuilderDto, Account account) {
         StringBuilder sb = new StringBuilder();
 
-        for (Product product : products) // 부품 아이디들
+        // 부품 아이디들
+        for (Product product : products) {
             sb.append(product.getCategory()).append("_").append(product.getIdx()).append(",");
+        }
         sb.deleteCharAt(sb.length() - 1).append("|");
 
-        for (Product product : products) // TODO : 물품들 가격 추가
+        // TODO : 물품들 가격 추가
+        for (Product product : products) {
             sb.append(product.getCategory()).append(",");
+        }
         sb.deleteCharAt(sb.length() - 1).append("|");
 
-        sb.append(myBuilderDto.getUse()).append("|"); // 사용 분야
-        if (myBuilderDto.getProgram() != null)
-            sb.append(myBuilderDto.getProgram()).append("|"); // 사용 프로그램
-        else sb.append("0|");
-        sb.append("date").append("|"); // TODO : 물품 가격 날짜
-        if (account != null) // 출생년도
+        // 사용 분야
+        sb.append(myBuilderDto.getUse()).append("|");
+        // 사용 프로그램
+        if (myBuilderDto.getProgram() != null) {
+            sb.append(myBuilderDto.getProgram()).append("|");
+        } else {
+            sb.append("0|");
+        }
+        // TODO : 물품 가격 날짜
+        sb.append("date").append("|");
+        // 출생년도
+        if (account != null) {
             sb.append(account.getBirthYear());
-        else
+        } else {
             sb.append("0");
-
+        }
         return sb.toString();
     }
 
