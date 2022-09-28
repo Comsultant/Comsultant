@@ -8,4 +8,6 @@ public interface BuilderService {
 
     boolean createMyBuilder(Account account, MyBuilderDto myBuilderDto);
 
+    boolean deleteMyBuilder(Account account, long myBuilderIdx);
+
 }

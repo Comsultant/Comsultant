@@ -10,10 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/builder")
@@ -49,4 +46,15 @@ public class BuilderApi {
             return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getFail()));
         }
     }
+
+    @DeleteMapping("/{myBuilderIdx}")
+    public ResponseEntity<MessageResponse> deleteComment(@PathVariable("myBuilderIdx") long myBuilderIdx, @AuthenticationPrincipal AccountDetails accountDetails) {
+        boolean result = builderService.deleteMyBuilder(accountDetails.getAccount(), myBuilderIdx);
+        if (result) {
+            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getSuccess()));
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getFail()));
+        }
+    }
+
 }
