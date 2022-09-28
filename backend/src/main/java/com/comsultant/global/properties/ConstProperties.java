@@ -14,4 +14,5 @@ public class ConstProperties {
     private final int emailAuthLength;
     private final int commentListSize;
     private final int wishListSize;
+    private final int productListSize;
 }

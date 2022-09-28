@@ -1,13 +1,24 @@
 package com.comsultant.domain.product.service;
 
 import com.comsultant.domain.product.dto.*;
+import com.comsultant.domain.product.dto.request.*;
+import com.comsultant.domain.product.entity.*;
 import com.comsultant.domain.product.mapper.*;
 import com.comsultant.domain.product.repository.*;
+import com.comsultant.domain.product.service.specification.*;
 import com.comsultant.global.error.exception.ProductApiException;
 import com.comsultant.global.error.model.ProductErrorCode;
+import com.comsultant.global.properties.ConstProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor //생성자 주입. final이 붙거나 @NotNull 이 붙은 필드의 생성자를 자동 생성. AutoWired 불필요
@@ -24,6 +35,7 @@ public class ProductServiceImpl implements ProductService {
     private final RamRepository ramRepository;
     private final SsdRepository ssdRepository;
     private final VgaRepository vgaRepository;
+    private final ConstProperties constProperties;
 
     @Override
     public ProductDto getProduct(long idx) {
@@ -109,5 +121,443 @@ public class ProductServiceImpl implements ProductService {
             obj = getVga(idx);
         }
         return obj;
+    }
+
+    @Override
+    public ProductListDto getCpuList(CpuRequest request, int page) {
+
+        Pageable pageable = PageRequest.of(page, constProperties.getProductListSize());
+        Specification<Cpu> spec = (root, query, criteriaBuilder) -> null;
+        if(request.getName() != null) {
+            spec = spec.and(CpuSpecification.containsName(request.getName()));
+        }
+        if(request.getIntelCpu() != null && request.getIntelCpu().size() > 0) {
+            spec = spec.and(CpuSpecification.equalIntelCpu(request.getIntelCpu()));
+        }
+        if(request.getAmdCpu() != null && request.getAmdCpu().size() > 0) {
+            spec = spec.and(CpuSpecification.equalAmdCpu(request.getAmdCpu()));
+        }
+        if(request.getCore() != null && request.getCore().size() > 0) {
+            spec = spec.and(CpuSpecification.equalCore(request.getCore()));
+        }
+        if(request.getCorp() != null && request.getCorp().size() > 0) {
+            spec = spec.and(CpuSpecification.equalCorp(request.getCorp()));
+        }
+        if(request.getSocket() != null && request.getSocket().size() > 0) {
+            spec = spec.and(CpuSpecification.equalSocket(request.getSocket()));
+        }
+        //price 추후 추가
+
+        Page<Cpu> pageCpus = cpuRepository.findAll(spec, pageable);
+        List<Cpu> cpus = pageCpus.getContent();
+        int totalPages = pageCpus.getTotalPages();
+
+        List<Object> list = new ArrayList<>();
+
+        for (Cpu cpu : cpus)
+            list.add(CpuMapper.mapper.toDto(cpu));
+
+        return ProductListDto.builder()
+                .productDtoList(list)
+                .totalPage(totalPages)
+                .build();
+    }
+
+    @Override
+    public ProductListDto getRamList(RamRequest request, int page) {
+
+        Pageable pageable = PageRequest.of(page, constProperties.getProductListSize());
+        Specification<Ram> spec = (root, query, criteriaBuilder) -> null;
+        if(request.getName() != null) {
+            spec = spec.and(RamSpecification.containsName(request.getName()));
+        }
+        if(request.getCorp() != null && request.getCorp().size() > 0) {
+            spec = spec.and(RamSpecification.equalCorp(request.getCorp()));
+        }
+        if(request.getUseDevice() != null && request.getUseDevice().size() > 0) {
+            spec = spec.and(RamSpecification.equalUseDevice(request.getUseDevice()));
+        }
+        if(request.getType() != null && request.getType().size() > 0) {
+            spec = spec.and(RamSpecification.equalType(request.getType()));
+        }
+        if(request.getMemoryVolume() != null && request.getMemoryVolume().size() > 0) {
+            spec = spec.and(RamSpecification.equalMemoryVolume(request.getMemoryVolume()));
+        }
+        //price 추후 추가
+
+        Page<Ram> pageRams = ramRepository.findAll(spec, pageable);
+        List<Ram> rams = pageRams.getContent();
+        int totalPages = pageRams.getTotalPages();
+
+        List<Object> list = new ArrayList<>();
+
+        for (Ram ram : rams)
+            list.add(RamMapper.mapper.toDto(ram));
+
+        return ProductListDto.builder()
+                .productDtoList(list)
+                .totalPage(totalPages)
+                .build();
+    }
+
+    @Override
+    public ProductListDto getVgaList(VgaRequest request, int page) {
+
+        Pageable pageable = PageRequest.of(page, constProperties.getProductListSize());
+        Specification<Vga> spec = (root, query, criteriaBuilder) -> null;
+        if(request.getName() != null) {
+            spec = spec.and(VgaSpecification.containsName(request.getName()));
+        }
+        if(request.getCorp() != null && request.getCorp().size() > 0) {
+            spec = spec.and(VgaSpecification.equalCorp(request.getCorp()));
+        }
+        if(request.getChipsetCorp() != null && request.getChipsetCorp().size() > 0) {
+            spec = spec.and(VgaSpecification.equalChipsetCorp(request.getChipsetCorp()));
+        }
+        if(request.getNvidia() != null && request.getNvidia().size() > 0) {
+            spec = spec.and(VgaSpecification.equalNvidia(request.getNvidia()));
+        }
+        if(request.getAmd() != null && request.getAmd().size() > 0) {
+            spec = spec.and(VgaSpecification.equalAmd(request.getAmd()));
+        }
+        if(request.getMemoryVolume() != null && request.getMemoryVolume().size() > 0) {
+            spec = spec.and(VgaSpecification.equalMemoryVolume(request.getMemoryVolume()));
+        }
+        //price 추후 추가
+
+        Page<Vga> pageVgas = vgaRepository.findAll(spec, pageable);
+        List<Vga> vgas = pageVgas.getContent();
+        int totalPages = pageVgas.getTotalPages();
+
+        List<Object> list = new ArrayList<>();
+
+        for (Vga vga : vgas)
+            list.add(VgaMapper.mapper.toDto(vga));
+
+        return ProductListDto.builder()
+                .productDtoList(list)
+                .totalPage(totalPages)
+                .build();
+    }
+
+    @Override
+    public ProductListDto getPsuList(PsuRequest request, int page) {
+
+        Pageable pageable = PageRequest.of(page, constProperties.getProductListSize());
+        Specification<Psu> spec = (root, query, criteriaBuilder) -> null;
+        if(request.getName() != null) {
+            spec = spec.and(PsuSpecification.containsName(request.getName()));
+        }
+        if(request.getCorp() != null && request.getCorp().size() > 0) {
+            spec = spec.and(PsuSpecification.equalCorp(request.getCorp()));
+        }
+        if(request.getType() != null && request.getType().size() > 0) {
+            spec = spec.and(PsuSpecification.equalType(request.getType()));
+        }
+        if(request.getRatedPower() != null && request.getRatedPower().size() > 0) {
+            spec = spec.and(PsuSpecification.equalRatedPower(request.getRatedPower()));
+        }
+        //price 추후 추가
+
+        Page<Psu> pagePsus = psuRepository.findAll(spec, pageable);
+        List<Psu> psus = pagePsus.getContent();
+        int totalPages = pagePsus.getTotalPages();
+
+        List<Object> list = new ArrayList<>();
+
+        for (Psu psu : psus)
+            list.add(PsuMapper.mapper.toDto(psu));
+
+        return ProductListDto.builder()
+                .productDtoList(list)
+                .totalPage(totalPages)
+                .build();
+    }
+
+    @Override
+    public ProductListDto getMainBoardList(MainBoardRequest request, int page) {
+
+        Pageable pageable = PageRequest.of(page, constProperties.getProductListSize());
+        Specification<MainBoard> spec = (root, query, criteriaBuilder) -> null;
+        if(request.getName() != null) {
+            spec = spec.and(MainBoardSpecification.containsName(request.getName()));
+        }
+        if(request.getCorp() != null && request.getCorp().size() > 0) {
+            spec = spec.and(MainBoardSpecification.equalCorp(request.getCorp()));
+        }
+        if(request.getCpuSocket() != null && request.getCpuSocket().size() > 0) {
+            spec = spec.and(MainBoardSpecification.equalCpuSocket(request.getCpuSocket()));
+        }
+        if(request.getType() != null && request.getType().size() > 0) {
+            spec = spec.and(MainBoardSpecification.equalType(request.getType()));
+        }
+        if(request.getDetailChipset() != null && request.getDetailChipset().size() > 0) {
+            spec = spec.and(MainBoardSpecification.equalDetailChipset(request.getDetailChipset()));
+        }
+        //price 추후 추가
+
+        Page<MainBoard> pageMainBoards = mainBoardRepository.findAll(spec, pageable);
+        List<MainBoard> mainBoards = pageMainBoards.getContent();
+        int totalPages = pageMainBoards.getTotalPages();
+
+        List<Object> list = new ArrayList<>();
+
+        for (MainBoard mainBoard : mainBoards)
+            list.add(MainBoardMapper.mapper.toDto(mainBoard));
+
+        return ProductListDto.builder()
+                .productDtoList(list)
+                .totalPage(totalPages)
+                .build();
+    }
+
+    @Override
+    public ProductListDto getCoolerList(CoolerRequest request, int page) {
+
+        Pageable pageable = PageRequest.of(page, constProperties.getProductListSize());
+        Specification<Cooler> spec = (root, query, criteriaBuilder) -> null;
+        if(request.getName() != null) {
+            spec = spec.and(CoolerSpecification.containsName(request.getName()));
+        }
+        if(request.getCorp() != null && request.getCorp().size() > 0) {
+            spec = spec.and(CoolerSpecification.equalCorp(request.getCorp()));
+        }
+        if(request.getCoolingSystem() != null && request.getCoolingSystem().size() > 0) {
+            spec = spec.and(CoolerSpecification.equalCoolingSystem(request.getCoolingSystem()));
+        }
+        if(request.getCoolerHeight() != null && request.getCoolerHeight().size() > 0) {
+            spec = spec.and(CoolerSpecification.equalCoolerHeight(request.getCoolerHeight()));
+        }
+        if(request.isLga3647()) {
+            spec = spec.and(CoolerSpecification.equalLga3647(true));
+        }
+        if(request.isLga2066()) {
+            spec = spec.and(CoolerSpecification.equalLga2066(true));
+        }
+        if(request.isLga2011V3()) {
+            spec = spec.and(CoolerSpecification.equalLga2011V3(true));
+        }
+        if(request.isLga2011()) {
+            spec = spec.and(CoolerSpecification.equalLga2011(true));
+        }
+        if(request.isLga1700()) {
+            spec = spec.and(CoolerSpecification.equalLga1700(true));
+        }
+        if(request.isLga1366()) {
+            spec = spec.and(CoolerSpecification.equalLga1366(true));
+        }
+        if(request.isLga1200()) {
+            spec = spec.and(CoolerSpecification.equalLga1200(true));
+        }
+        if(request.isLga115x()) {
+            spec = spec.and(CoolerSpecification.equalLga115x(true));
+        }
+        if(request.isLga775()) {
+            spec = spec.and(CoolerSpecification.equalLga775(true));
+        }
+        if(request.isLga771()) {
+            spec = spec.and(CoolerSpecification.equalLga771(true));
+        }
+        if(request.isLga4677()) {
+            spec = spec.and(CoolerSpecification.equalLga4677(true));
+        }
+        if(request.isLga4189()) {
+            spec = spec.and(CoolerSpecification.equalLga4189(true));
+        }
+        if(request.isSocket478()) {
+            spec = spec.and(CoolerSpecification.equalSocket478(true));
+        }
+        if(request.isSocket370()) {
+            spec = spec.and(CoolerSpecification.equalSocket370(true));
+        }
+        if(request.isTr4()) {
+            spec = spec.and(CoolerSpecification.equalTr4(true));
+        }
+        if(request.isAm5()) {
+            spec = spec.and(CoolerSpecification.equalAm5(true));
+        }
+        if(request.isAm4()) {
+            spec = spec.and(CoolerSpecification.equalAm4(true));
+        }
+        if(request.isAm3()) {
+            spec = spec.and(CoolerSpecification.equalAm3(true));
+        }
+        if(request.isAm1()) {
+            spec = spec.and(CoolerSpecification.equalAm1(true));
+        }
+        if(request.isSp3()) {
+            spec = spec.and(CoolerSpecification.equalSp3(true));
+        }
+        if(request.isStrx4()) {
+            spec = spec.and(CoolerSpecification.equalStrx4(true));
+        }
+        if(request.isSocket939()) {
+            spec = spec.and(CoolerSpecification.equalSocket939(true));
+        }
+        if(request.isSocket754()) {
+            spec = spec.and(CoolerSpecification.equalSocket754(true));
+        }
+        if(request.isSocket940()) {
+            spec = spec.and(CoolerSpecification.equalSocket940(true));
+        }
+        if(request.isSwrx8()) {
+            spec = spec.and(CoolerSpecification.equalSwrx8(true));
+        }
+        if(request.isSocketa()) {
+            spec = spec.and(CoolerSpecification.equalSocketa(true));
+        }
+        if(request.isSocketf()) {
+            spec = spec.and(CoolerSpecification.equalSocketf(true));
+        }
+        if(request.isFmxAmx()) {
+            spec = spec.and(CoolerSpecification.equalFmxAmx(true));
+        }
+        //price 추후 추가
+
+        Page<Cooler> pageCoolers = coolerRepository.findAll(spec, pageable);
+        List<Cooler> coolers = pageCoolers.getContent();
+        int totalPages = pageCoolers.getTotalPages();
+
+        List<Object> list = new ArrayList<>();
+
+        for (Cooler cooler : coolers)
+            list.add(CoolerMapper.mapper.toDto(cooler));
+
+        return ProductListDto.builder()
+                .productDtoList(list)
+                .totalPage(totalPages)
+                .build();
+    }
+
+    @Override
+    public ProductListDto getCasesList(CasesRequest request, int page) {
+
+        Pageable pageable = PageRequest.of(page, constProperties.getProductListSize());
+        Specification<Cases> spec = (root, query, criteriaBuilder) -> null;
+        if(request.getName() != null) {
+            spec = spec.and(CasesSpecification.containsName(request.getName()));
+        }
+        if(request.getCorp() != null && request.getCorp().size() > 0) {
+            spec = spec.and(CasesSpecification.equalCorp(request.getCorp()));
+        }
+        if(request.getClassType() != null && request.getClassType().size() > 0) {
+            spec = spec.and(CasesSpecification.equalClassType(request.getClassType()));
+        }
+        if(request.getSize() != null && request.getSize().size() > 0) {
+            spec = spec.and(CasesSpecification.equalSize(request.getSize()));
+        }
+        if(request.getPowerSize() != null && request.getPowerSize().size() > 0) {
+            spec = spec.and(CasesSpecification.equalPowerSize(request.getPowerSize()));
+        }
+        if(request.isExtendedAtx()) {
+            spec = spec.and(CasesSpecification.equalExtendedAtx(true));
+        }
+        if(request.isStandardAtx()) {
+            spec = spec.and(CasesSpecification.equalStandardAtx(true));
+        }
+        if(request.isMicroAtx()) {
+            spec = spec.and(CasesSpecification.equalMicroAtx(true));
+        }
+        if(request.isFlexAtx()) {
+            spec = spec.and(CasesSpecification.equalFlexAtx(true));
+        }
+        if(request.isStandardItx()) {
+            spec = spec.and(CasesSpecification.equalStandardItx(true));
+        }
+        if(request.isMiniItx()) {
+            spec = spec.and(CasesSpecification.equalMiniItx(true));
+        }
+        if(request.isSsiCeb()) {
+            spec = spec.and(CasesSpecification.equalSsiCeb(true));
+        }
+        if(request.isSsiEeb()) {
+            spec = spec.and(CasesSpecification.equalSsiEeb(true));
+        }
+        if(request.isMiniDtx()) {
+            spec = spec.and(CasesSpecification.equalMiniDtx(true));
+        }
+        //price 추후 추가
+
+        Page<Cases> pageCasess = casesRepository.findAll(spec, pageable);
+        List<Cases> casess = pageCasess.getContent();
+        int totalPages = pageCasess.getTotalPages();
+
+        List<Object> list = new ArrayList<>();
+
+        for (Cases cases : casess)
+            list.add(CasesMapper.mapper.toDto(cases));
+
+        return ProductListDto.builder()
+                .productDtoList(list)
+                .totalPage(totalPages)
+                .build();
+    }
+
+    @Override
+    public ProductListDto getHddList(HddRequest request, int page) {
+
+        Pageable pageable = PageRequest.of(page, constProperties.getProductListSize());
+        Specification<Hdd> spec = (root, query, criteriaBuilder) -> null;
+        if(request.getName() != null) {
+            spec = spec.and(HddSpecification.containsName(request.getName()));
+        }
+        if(request.getCorp() != null && request.getCorp().size() > 0) {
+            spec = spec.and(HddSpecification.equalCorp(request.getCorp()));
+        }
+        if(request.getDiskVolume() != null && request.getDiskVolume().size() > 0) {
+            spec = spec.and(HddSpecification.equalDiskVolume(request.getDiskVolume()));
+        }
+        //price 추후 추가
+
+        Page<Hdd> pageHdds = hddRepository.findAll(spec, pageable);
+        List<Hdd> hdds = pageHdds.getContent();
+        int totalPages = pageHdds.getTotalPages();
+
+        List<Object> list = new ArrayList<>();
+
+        for (Hdd hdd : hdds)
+            list.add(HddMapper.mapper.toDto(hdd));
+
+        return ProductListDto.builder()
+                .productDtoList(list)
+                .totalPage(totalPages)
+                .build();
+    }
+
+    @Override
+    public ProductListDto getSsdList(SsdRequest request, int page) {
+
+        Pageable pageable = PageRequest.of(page, constProperties.getProductListSize());
+        Specification<Ssd> spec = (root, query, criteriaBuilder) -> null;
+        if(request.getName() != null) {
+            spec = spec.and(SsdSpecification.containsName(request.getName()));
+        }
+        if(request.getCorp() != null && request.getCorp().size() > 0) {
+            spec = spec.and(SsdSpecification.equalCorp(request.getCorp()));
+        }
+        if(request.getFormFactor() != null && request.getFormFactor().size() > 0) {
+            spec = spec.and(SsdSpecification.equalFormFactor(request.getFormFactor()));
+        }
+        if(request.getVolume() != null && request.getVolume().size() > 0) {
+            spec = spec.and(SsdSpecification.equalVolume(request.getVolume()));
+        }
+        if(request.getMemoryType() != null && request.getMemoryType().size() > 0) {
+            spec = spec.and(SsdSpecification.equalMemoryType(request.getMemoryType()));
+        }
+        //price 추후 추가
+
+        Page<Ssd> pageSsds = ssdRepository.findAll(spec, pageable);
+        List<Ssd> ssds = pageSsds.getContent();
+        int totalPages = pageSsds.getTotalPages();
+
+        List<Object> list = new ArrayList<>();
+
+        for (Ssd ssd : ssds)
+            list.add(SsdMapper.mapper.toDto(ssd));
+
+        return ProductListDto.builder()
+                .productDtoList(list)
+                .totalPage(totalPages)
+                .build();
     }
 }

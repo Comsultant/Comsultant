@@ -1,6 +1,7 @@
 package com.comsultant.domain.product.service;
 
 import com.comsultant.domain.product.dto.*;
+import com.comsultant.domain.product.dto.request.*;
 
 public interface ProductService {
     ProductDto getProduct(long idx);
@@ -15,4 +16,14 @@ public interface ProductService {
     VgaDto getVga(long idx);
 
     Object getObject(long type, long idx);
+
+    ProductListDto getCpuList(CpuRequest request, int page);
+    ProductListDto getRamList(RamRequest request, int page);
+    ProductListDto getVgaList(VgaRequest request, int page);
+    ProductListDto getPsuList(PsuRequest request, int page);
+    ProductListDto getMainBoardList(MainBoardRequest request, int page);
+    ProductListDto getCoolerList(CoolerRequest request, int page);
+    ProductListDto getCasesList(CasesRequest request, int page);
+    ProductListDto getHddList(HddRequest request, int page);
+    ProductListDto getSsdList(SsdRequest request, int page);
 }

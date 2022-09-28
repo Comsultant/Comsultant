@@ -2,6 +2,9 @@ package com.comsultant.domain.product.api;
 
 import com.comsultant.domain.comment.dto.CommentListDto;
 import com.comsultant.domain.comment.service.CommentService;
+import com.comsultant.domain.product.dto.CpuDto;
+import com.comsultant.domain.product.dto.ProductListDto;
+import com.comsultant.domain.product.dto.request.*;
 import com.comsultant.domain.product.service.ProductService;
 import com.comsultant.global.common.response.DtoResponse;
 import com.comsultant.global.config.security.AccountDetails;
@@ -34,11 +37,91 @@ public class ProductApi {
     public ResponseEntity<DtoResponse<CommentListDto>> getProductComments(
             @PathVariable("productId") long productId,
             @RequestParam(name = "page", required = false) String pageParam,
-            @RequestParam(name = "desc", required = false) String descParam,
-            @AuthenticationPrincipal AccountDetails accountDetails) {
+            @RequestParam(name = "desc", required = false) String descParam) {
             int page = ParameterUtil.checkPage(pageParam);
             boolean desc = ParameterUtil.checkDesc(descParam);
             CommentListDto result = commentService.getProductComments(productId, page, desc);
             return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
+    }
+
+    @GetMapping("/cpu")
+    public ResponseEntity<DtoResponse<ProductListDto>> getCpuList(
+            @RequestParam(name = "page") String pageParam,
+            @RequestBody CpuRequest request) {
+        int page = ParameterUtil.checkPage(pageParam);
+        ProductListDto result = productService.getCpuList(request, page);
+        return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
+    }
+
+    @GetMapping("/vga")
+    public ResponseEntity<DtoResponse<ProductListDto>> getVgaList(
+            @RequestParam(name = "page") String pageParam,
+            @RequestBody VgaRequest request) {
+        int page = ParameterUtil.checkPage(pageParam);
+        ProductListDto result = productService.getVgaList(request, page);
+        return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
+    }
+
+    @GetMapping("/mainboard")
+    public ResponseEntity<DtoResponse<ProductListDto>> getMainBoardList(
+            @RequestParam(name = "page") String pageParam,
+            @RequestBody MainBoardRequest request) {
+        int page = ParameterUtil.checkPage(pageParam);
+        ProductListDto result = productService.getMainBoardList(request, page);
+        return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
+    }
+
+    @GetMapping("/psu")
+    public ResponseEntity<DtoResponse<ProductListDto>> getPsuList(
+            @RequestParam(name = "page") String pageParam,
+            @RequestBody PsuRequest request) {
+        int page = ParameterUtil.checkPage(pageParam);
+        ProductListDto result = productService.getPsuList(request, page);
+        return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
+    }
+
+    @GetMapping("/ram")
+    public ResponseEntity<DtoResponse<ProductListDto>> getRamList(
+            @RequestParam(name = "page") String pageParam,
+            @RequestBody RamRequest request) {
+        int page = ParameterUtil.checkPage(pageParam);
+        ProductListDto result = productService.getRamList(request, page);
+        return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
+    }
+
+    @GetMapping("/hdd")
+    public ResponseEntity<DtoResponse<ProductListDto>> getHddList(
+            @RequestParam(name = "page") String pageParam,
+            @RequestBody HddRequest request) {
+        int page = ParameterUtil.checkPage(pageParam);
+        ProductListDto result = productService.getHddList(request, page);
+        return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
+    }
+
+    @GetMapping("/ssd")
+    public ResponseEntity<DtoResponse<ProductListDto>> getSsdList(
+            @RequestParam(name = "page") String pageParam,
+            @RequestBody SsdRequest request) {
+        int page = ParameterUtil.checkPage(pageParam);
+        ProductListDto result = productService.getSsdList(request, page);
+        return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
+    }
+
+    @GetMapping("/cases")
+    public ResponseEntity<DtoResponse<ProductListDto>> getCasesList(
+            @RequestParam(name = "page") String pageParam,
+            @RequestBody CasesRequest request) {
+        int page = ParameterUtil.checkPage(pageParam);
+        ProductListDto result = productService.getCasesList(request, page);
+        return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
+    }
+
+    @GetMapping("/cooler")
+    public ResponseEntity<DtoResponse<ProductListDto>> getCoolerList(
+            @RequestParam(name = "page") String pageParam,
+            @RequestBody CoolerRequest request) {
+        int page = ParameterUtil.checkPage(pageParam);
+        ProductListDto result = productService.getCoolerList(request, page);
+        return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
     }
 }
