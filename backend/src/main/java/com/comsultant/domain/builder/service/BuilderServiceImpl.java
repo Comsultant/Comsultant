@@ -100,7 +100,7 @@ public class BuilderServiceImpl implements BuilderService {
     }
 
     @Override
-    @javax.transaction.Transactional
+    @Transactional
     public boolean reNameMyBuilder(Account account, long myBuilderIdx, MyBuilderDto myBuilderDto) {
         if (account == null || account.getIdx() == 0) {
             return false;
