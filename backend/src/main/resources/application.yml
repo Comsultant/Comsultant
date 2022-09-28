@@ -1,0 +1,81 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+spring:
+  profiles:
+    include: mail, social
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/comsultant?serverTimezone=UTC&useLegacyDatetimeCode=false&useUnicode=true&characterEncoding=utf8
+    username: ssafy
+    password: ssafy
+  jpa:
+    hibernate:
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    generate-ddl: true
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+      jdbc:
+        time_zone: UTC
+  redis:
+    host: localhost
+    port: 6379
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      authentication-database: admin
+      database: comsultant
+      username: ssafy
+      password: ssafy
+logging:
+  file:
+    name: logs/app.log
+  pattern:
+    console: "[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] %clr([%M]){cyan}  %clr(%-5level) %clr(%logger{36}){magenta} - %msg%n"
+    file: "[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%M] %-5level %logger{36} - %msg%n"
+  logback:
+    rollingpolicy:
+      file-name-pattern: "logs/app.%d{yyyy-MM-dd}.%i.log"
+      max-file-size: 10MB
+  level:
+    root: WARN
+    org.hibernate.type.descriptor.sql: trace
+    com.comsultant: debug
+response:
+  success: success
+  fail: fail
+expire-time:
+  authEmail: 300000
+  authorizedEmail: 1800000
+  passwordToken: 300000
+jwt:
+  secret-key: sl14Aelf52Bzk4t35aBkuh1
+  access-token-expire-time: 1800000
+  refresh-token-expire-time: 1209600000
+frontend:
+  protocol: http
+  host: localhost
+  port: 3000
+const:
+  password-token-length: 12
+  email-auth-length: 6
+  comment-list-size: 10
+  wish-list-size: 10
+  product-list-size: 10
