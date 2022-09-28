@@ -1,0 +1,15 @@
+$font-size-big: 25px;
+
+.left-box {
+    margin: 10px;
+    font-size: $font-size-big;
+    padding: 0px 20px;
+    border-right: solid 2px black;
+}
+
+.filter-list {
+    display: flex;
+    white-space: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+}

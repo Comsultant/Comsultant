@@ -5,7 +5,7 @@ import RecommendBuilder from "./main/PopularProduct";
 import style from "@/styles/Home.module.scss"
 
 const Home = () => {
-  const carouselContents = ["/assets/monitor.png", "/assets/keyboard.jpg"];
+  const carouselContents = ["/assets/keyboard.jpg", "/assets/cpu.jpg"];
 
   return (
     <>
