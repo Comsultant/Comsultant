@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import java.util.HashMap;
 
 @Getter
 @NoArgsConstructor
@@ -13,15 +14,7 @@ public class RecommendBuilderDto {
 
     private String id;
     // 부품을 선택했을 경우, 해당 부품의 idx가 들어갈 배열
-    private long[] cpu;
-    private long[] ram;
-    private long[] hdd;
-    private long[] ssd;
-    private long[] psu;
-    private long[] cooler;
-    private long[] cases;
-    private long[] mainboard;
-    private long[] vga;
+    private HashMap<String, Integer> prods;
 
     // 추천받고 싶은 부품 개수 배열
     // 선택한 부품 개수 미포함
@@ -44,5 +37,8 @@ public class RecommendBuilderDto {
     private int year;
     private int price;
     private String price_date;
+
+    // 총 카운트
+    private int cnt;
 
 }
