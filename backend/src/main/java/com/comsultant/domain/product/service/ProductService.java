@@ -1,6 +1,7 @@
 package com.comsultant.domain.product.service;
 
 import com.comsultant.domain.product.dto.*;
+import com.comsultant.domain.product.dto.filterResponse.*;
 import com.comsultant.domain.product.dto.request.*;
 
 public interface ProductService {
@@ -26,4 +27,13 @@ public interface ProductService {
     ProductListDto getCasesList(CasesRequest request, int page);
     ProductListDto getHddList(HddRequest request, int page);
     ProductListDto getSsdList(SsdRequest request, int page);
+    FilterCpuResponse getCpufilter();
+    FilterVgaResponse getVgafilter();
+    FilterRamResponse getRamfilter();
+    FilterHddResponse getHddfilter();
+    FilterSsdResponse getSsdfilter();
+    FilterPsuResponse getPsufilter();
+    FilterCasesResponse getCasesfilter();
+    FilterCoolerResponse getCoolerfilter();
+    FilterMainBoardResponse getMainBoardfilter();
 }
