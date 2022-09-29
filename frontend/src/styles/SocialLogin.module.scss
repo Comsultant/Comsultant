@@ -1,0 +1,25 @@
+$font-size-large : 28px;
+$border-color: rgb(190, 190, 190);
+$button-color: rgb(225, 225, 225);
+
+
+.social-button-list {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    
+    .google-button { 
+        border: solid rgb(228, 228, 228) 1px;
+        border-radius: 4px;
+    }
+    
+    .social-button {
+        cursor: pointer;
+        margin: 3px 0;
+
+        img {
+            max-width: 200px;
+        }
+    }
+}
+
