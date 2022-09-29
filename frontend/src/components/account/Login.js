@@ -5,7 +5,7 @@ import style from "@/styles/Login.module.scss";
 import { useNavigate } from "react-router-dom";
 import { loginRequest } from "@/services/accountService";
 import { useDispatch, useSelector } from "react-redux";
-
+import SocialLogin from "./SocailLogin";
 
 const LoginInput = styled(Input)`
   border-style: none;
@@ -162,17 +162,7 @@ const Login = () => {
           |
           <span onClick={() => navigate('/account/password')}>비밀번호 찾기</span>
         </div>
-        <div className={style["social-button-list"]}>
-          <div className={style["social-button"]}>
-            <img src="/assets/buttons/google_button.png" alt="" />
-          </div>
-          <div className={style["social-button"]}>
-            <img src="/assets/buttons/kakao_button.png" alt="" />
-          </div>
-          <div className={style["social-button"]}>
-            <img src="/assets/buttons/naver_button.png" alt="" />
-          </div>
-        </div>
+        <SocialLogin />
       </div>
     </div>
   );
