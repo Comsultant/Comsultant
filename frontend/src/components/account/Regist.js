@@ -100,17 +100,19 @@ const Regist = () => {
     }
   };
 
-  const onSendAuthNumberClicked = () => {
+  const onSendAuthNumberClicked = async () => {
     let title = '인증 메일 전송 실패!';
     let isSuccess = false;
     if(isEmailValid){
       const dataToSubmit = {
         email
       }
-      title = '인증 메일 전송 완료!'
-      isSuccess = true;
-      sendAuthNumberEmail(dataToSubmit);
-      setIsAuthNumberSended(true);
+      const result = await sendAuthNumberEmail(dataToSubmit);
+      if (result?.status === 200) {
+        title = '인증 메일 전송 완료!'
+        isSuccess = true;
+        setIsAuthNumberSended(true);
+      }
     }
     countDown(title, isSuccess);
   }
