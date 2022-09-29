@@ -11,7 +11,7 @@ import { useState, useEffect } from "react";
 
 const Navbar = ({isMain}) => {
   const pages = [
-    [`부품 검색`, `/products/search`],
+    [`부품 검색`, `/product/search`],
     [`맞춤 견적`, `/recommend`],
   ];
 
@@ -94,15 +94,16 @@ const Navbar = ({isMain}) => {
         >
           마이페이지
         </Link>
-        <span 
-        className={
+        <Link 
+          to={'/'}
+          className={
           classNames(style['nav-menu-item'],
           isLogin ? `${style.active}` : `${style.inactive}`)
         }
         onClick={onLogOutClicked}
         >
           로그아웃
-        </span>
+        </Link>
       </div>
     </div>
   );

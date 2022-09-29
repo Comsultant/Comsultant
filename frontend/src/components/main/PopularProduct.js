@@ -48,7 +48,7 @@ const RecommendBuilder = () => {
     <div className={style['popular-builder-box']}>
       <div className={style['title-box']}>
         <p>인기 상품</p>
-        <span> &gt;&gt; 다른 상품 보러가기</span>
+        <span> &gt;&gt; 다른 상품</span>
       </div>
       <div className={style['builder-container']}>
         {builderList.map((builder, idx) => {
