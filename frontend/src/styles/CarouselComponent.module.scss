@@ -22,10 +22,11 @@ $color-yellow: rgb(241, 241, 87);
 }
 
 .content-box {
+  display: flex;
   height: 550px;
   justify-content: center;
   align-items: center;
-  background-color: black;
+  // background-color: black;
   position: relative;
   background-repeat: no-repeat;
   background-size: cover;
@@ -35,11 +36,9 @@ $color-yellow: rgb(241, 241, 87);
 .content {
   display: flex;
   flex-direction: column;
-  margin: 0;
-  padding: 0;
-  position: absolute;
-  top: 40%;
-  left: 30%;
+  width: fit-content;
+  justify-content: center;
+  align-items: center;
   .content-title {
     color: white;
     font-size: $font-size-largest;

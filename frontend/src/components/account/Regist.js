@@ -100,17 +100,19 @@ const Regist = () => {
     }
   };
 
-  const onSendAuthNumberClicked = () => {
+  const onSendAuthNumberClicked = async () => {
     let title = '인증 메일 전송 실패!';
     let isSuccess = false;
     if(isEmailValid){
       const dataToSubmit = {
         email
       }
-      title = '인증 메일 전송 완료!'
-      isSuccess = true;
-      sendAuthNumberEmail(dataToSubmit);
-      setIsAuthNumberSended(true);
+      const result = await sendAuthNumberEmail(dataToSubmit);
+      if (result?.status === 200) {
+        title = '인증 메일 전송 완료!'
+        isSuccess = true;
+        setIsAuthNumberSended(true);
+      }
     }
     countDown(title, isSuccess);
   }
@@ -387,8 +389,8 @@ const Regist = () => {
               message: "닉네임을 입력해주세요!",
             },
             {
-              pattern: "^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,8}$",
-              message: "2 ~ 8자 / 영어 또는 숫자 또는 한글 (초성 불가)"
+              pattern: "^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,15}$",
+              message: "2 ~ 15자 / 영어 또는 숫자 또는 한글 (초성 불가)"
             },
           ]}
         >

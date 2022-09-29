@@ -5,6 +5,7 @@ import { LOGIN, LOGOUT, TOKEN_DELETE } from "@/reducer/type";
 /* 요청 URL*/
 const ACCOUNT_URL = "/api/account";
 const AUTH_URL = "/api/auth";
+const SOCIAL_AUTH_URL = "/api/social"
 
 // 회원가입
 export const registRequest = async (dataToSubmit) => {
@@ -17,9 +18,10 @@ export const registRequest = async (dataToSubmit) => {
 };
 
 // 이메일 인증번호 전송
-export const sendAuthNumberEmail = (dataToSubmit) => {
+export const sendAuthNumberEmail = async (dataToSubmit) => {
   try {
-    request.post(`${ACCOUNT_URL}/verify-email`, dataToSubmit);
+    const payload = await request.post(`${ACCOUNT_URL}/verify-email`, dataToSubmit);
+    return payload;
   } catch (err) {
     return err;
   }
@@ -77,6 +79,43 @@ export const logoutRequest = async () => {
   }
 };
 
+//소셜로그인
+//구글
+export const googleLoginRequest = async (dataToSubmit) => {
+  try {
+    const payload = await request.get(`${SOCIAL_AUTH_URL}/${dataToSubmit.service}?code=${dataToSubmit.code}&scope=email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+openid&authuser=0&prompt=consent`);
+    return {
+      type: LOGIN,
+      payload
+    };
+  }catch (err){
+    return err;
+  }
+}
+//카카오
+export const kakaoLoginRequest = async (dataToSubmit) => {
+  try {
+    const payload = await request.get(`${SOCIAL_AUTH_URL}/${dataToSubmit.service}?code=${dataToSubmit.code}`);
+    return {
+      type: LOGIN,
+      payload
+    };
+  }catch (err){
+    return err;
+  }
+}
+//네이버
+export const naverLoginRequest = async (dataToSubmit) => {
+  try {
+    const payload = await request.get(`${SOCIAL_AUTH_URL}/${dataToSubmit.service}?state=${dataToSubmit.state}&code=${dataToSubmit.code}`);
+    return {
+      type: LOGIN,
+      payload
+    };
+  }catch (err){
+    return err;
+  }
+}
 // 토큰 재발급
 export const getToken = async () => {
   try {
