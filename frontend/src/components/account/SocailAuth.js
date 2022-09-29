@@ -27,9 +27,7 @@ const SocailAuth = () => {
         result = await naverLoginRequest({ service, state, code });
         break;
     }
-    console.log(result);
     const message = result?.payload?.data?.message;
-    console.log(message);
     if(message === "success"){
       dispatch(result);
       popMessage("로그인 성공!", true);
