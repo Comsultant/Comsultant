@@ -10,7 +10,5 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 @ConstructorBinding
 @ConfigurationProperties(prefix = "frontend")
 public class FrontendProperties {
-    private final String protocol;
-    private final String host;
-    private final int port;
+    private final String url;
 }

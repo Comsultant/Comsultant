@@ -70,9 +70,7 @@ jwt:
   access-token-expire-time: 1800000
   refresh-token-expire-time: 1209600000
 frontend:
-  protocol: http
-  host: localhost
-  port: 3000
+  url: http://localhost:3000
 const:
   password-token-length: 12
   email-auth-length: 6
