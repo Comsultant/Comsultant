@@ -1,6 +1,7 @@
 package com.comsultant.domain.product.service;
 
 import com.comsultant.domain.product.dto.*;
+import com.comsultant.domain.product.dto.filterResponse.*;
 import com.comsultant.domain.product.dto.request.*;
 import com.comsultant.domain.product.entity.*;
 import com.comsultant.domain.product.mapper.*;
@@ -558,6 +559,104 @@ public class ProductServiceImpl implements ProductService {
         return ProductListDto.builder()
                 .productDtoList(list)
                 .totalPage(totalPages)
+                .build();
+    }
+
+    @Override
+    public FilterCpuResponse getCpufilter() {
+        FilterCpuResponse result = new FilterCpuResponse();
+        return result.builder()
+                .corp(cpuRepository.findDistinctCorp())
+                .core(cpuRepository.findDistinctCore())
+                .amdCpu(cpuRepository.findDistinctAmdCpu())
+                .socket(cpuRepository.findDistinctSocket())
+                .intelCpu(cpuRepository.findDistinctIntelCpu())
+                .build();
+    }
+
+    @Override
+    public FilterVgaResponse getVgafilter() {
+        FilterVgaResponse result = new FilterVgaResponse();
+        return result.builder()
+                .corp(vgaRepository.findDistinctCorp())
+                .chipsetCorp(vgaRepository.findDistinctChipsetCorp())
+                .nvidia(vgaRepository.findDistinctNvidia())
+                .amd(vgaRepository.findDistinctAmd())
+                .memoryVolume(vgaRepository.findDistinctMemoryVolume())
+                .build();
+    }
+
+    @Override
+    public FilterRamResponse getRamfilter() {
+        FilterRamResponse result = new FilterRamResponse();
+        return result.builder()
+                .corp(ramRepository.findDistinctCorp())
+                .useDevice(ramRepository.findDistinctUseDevice())
+                .type(ramRepository.findDistinctType())
+                .memoryVolume(ramRepository.findDistinctMemoryVolume())
+                .build();
+    }
+
+    @Override
+    public FilterHddResponse getHddfilter() {
+        FilterHddResponse result = new FilterHddResponse();
+        return result.builder()
+                .corp(hddRepository.findDistinctCorp())
+                .diskVolume(hddRepository.findDistinctDiskVolume())
+                .build();
+    }
+
+    @Override
+    public FilterSsdResponse getSsdfilter() {
+        FilterSsdResponse result = new FilterSsdResponse();
+        return result.builder()
+                .corp(ssdRepository.findDistinctCorp())
+                .formFactor(ssdRepository.findDistinctFormFactor())
+                .volume(ssdRepository.findDistinctVolume())
+                .memoryType(ssdRepository.findDistinctMemoryType())
+                .build();
+    }
+
+    @Override
+    public FilterPsuResponse getPsufilter() {
+        FilterPsuResponse result = new FilterPsuResponse();
+        return result.builder()
+                .corp(psuRepository.findDistinctCorp())
+                .type(psuRepository.findDistinctType())
+                .ratedPower(psuRepository.findDistinctRatedPower())
+                .build();
+    }
+
+    @Override
+    public FilterCasesResponse getCasesfilter() {
+        FilterCasesResponse result = new FilterCasesResponse();
+        return result.builder()
+                .corp(casesRepository.findDistinctCorp())
+                .classType(casesRepository.findDistinctClassType())
+                .size(casesRepository.findDistinctSize())
+                .powerSize(casesRepository.findDistinctPowerSize())
+                .build();
+    }
+
+    @Override
+    public FilterCoolerResponse getCoolerfilter() {
+        FilterCoolerResponse result = new FilterCoolerResponse();
+        return result.builder()
+                .corp(coolerRepository.findDistinctCorp())
+                .type(coolerRepository.findDistinctType())
+                .coolingSystem(coolerRepository.findDistinctCoolingSystem())
+                .coolerHeight(coolerRepository.findDistinctCoolerHeight())
+                .build();
+    }
+
+    @Override
+    public FilterMainBoardResponse getMainBoardfilter() {
+        FilterMainBoardResponse result = new FilterMainBoardResponse();
+        return result.builder()
+                .corp(mainBoardRepository.findDistinctCorp())
+                .cpuSocket(mainBoardRepository.findDistinctCpuSocket())
+                .type(mainBoardRepository.findDistinctType())
+                .detailChipset(mainBoardRepository.findDistinctDetailChipset())
                 .build();
     }
 }
