@@ -4,6 +4,7 @@ import { Slider, Checkbox } from "antd";
 import style from "@/styles/RecommendFilter.module.scss";
 import classNames from "classnames";
 import "@/styles/RecommendFilter.scss"
+import PriceFormatter from "@/tools/PriceFormatter";
 
 const RecommendFilter = () => {
   
@@ -41,7 +42,7 @@ const RecommendFilter = () => {
     } 
   ];
 
-  const formatter = (value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")+`원`;
+  // const formatter = (value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")+`원`;
 
   const onPriceChange = (e) => {
     setMinPrice(e[0]);
@@ -89,7 +90,7 @@ const RecommendFilter = () => {
               className={style.slider}
               tooltip={{
                 open: true,
-                formatter,
+                formatter: PriceFormatter,
               }}
               trackStyle={{"backgroundColor": "#377BB9", "height" : "8px"}}
               handleStyle={{"borderColor": "black", "width" : "25px", "height": "16px", "borderRadius" : "5px"}}

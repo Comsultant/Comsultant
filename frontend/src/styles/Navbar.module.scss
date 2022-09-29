@@ -28,6 +28,7 @@ $border-color: rgb(190, 190, 190);
     .right-menu {
         margin: auto 10px;
         font-size: $font-size-medium;
+        font-weight: bold;
         span {
             cursor: pointer;
         }
@@ -75,6 +76,7 @@ $border-color: rgb(190, 190, 190);
     
     .right-menu {
         margin: auto 10px;
+        font-weight: bold;
         font-size: $font-size-medium;
         span {
             cursor: pointer;

@@ -1,10 +1,14 @@
 $font-size-big: 25px;
+$gray-color: rgb(175, 175, 175);
 
 .left-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin: 10px;
     font-size: $font-size-big;
-    padding: 0px 20px;
-    border-right: solid 2px black;
+    padding: 0px 20px;  
+    border-right: solid 1px rgb(175, 175, 175);
 }
 
 .filter-list {
@@ -12,4 +16,11 @@ $font-size-big: 25px;
     white-space: nowrap;
     justify-content: flex-start;
     align-items: center;
+}
+
+.filter-table {
+    margin: 20px;
+    tr {
+        margin: 10px;
+    }
 }
