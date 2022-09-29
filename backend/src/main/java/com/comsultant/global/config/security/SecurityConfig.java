@@ -42,6 +42,7 @@ public class SecurityConfig {
             "/account",
             "/account/verify-email",
             "/auth/refresh",
+            "/product/**",
     };
 
     private static final String[] PATCH_PUBLIC_URI = {
