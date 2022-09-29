@@ -16,5 +16,6 @@ public interface AccountMapper extends EntityMapper<AccountDto, Account> {
     AccountDto toDto(final Account entity);
 
     @Override
+    @Mapping(target = "idx", constant = "0L")
     Account toEntity(final AccountDto dto);
 }
