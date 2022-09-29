@@ -48,7 +48,7 @@ const PopluarBuilder = () => {
     <div className={style['popular-builder-box']}>
       <div className={style['title-box']}>
         <p>인기 견적</p>
-        <span> &gt;&gt; 다른견적 추천받기</span>
+        <span> &gt;&gt; 다른견적</span>
       </div>
       <div className={style['builder-container']}>
         {builderList.map((builder, idx) => {
