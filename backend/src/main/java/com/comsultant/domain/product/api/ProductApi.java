@@ -42,7 +42,7 @@ public class ProductApi {
             return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
     }
 
-    @GetMapping("/cpu")
+    @PostMapping("/cpu")
     public ResponseEntity<DtoResponse<ProductListDto>> getCpuList(
             @RequestParam(name = "page") String pageParam,
             @RequestBody CpuRequest request) {
@@ -51,7 +51,7 @@ public class ProductApi {
         return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
     }
 
-    @GetMapping("/vga")
+    @PostMapping("/vga")
     public ResponseEntity<DtoResponse<ProductListDto>> getVgaList(
             @RequestParam(name = "page") String pageParam,
             @RequestBody VgaRequest request) {
@@ -60,7 +60,7 @@ public class ProductApi {
         return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
     }
 
-    @GetMapping("/mainboard")
+    @PostMapping("/mainboard")
     public ResponseEntity<DtoResponse<ProductListDto>> getMainBoardList(
             @RequestParam(name = "page") String pageParam,
             @RequestBody MainBoardRequest request) {
@@ -69,7 +69,7 @@ public class ProductApi {
         return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
     }
 
-    @GetMapping("/psu")
+    @PostMapping("/psu")
     public ResponseEntity<DtoResponse<ProductListDto>> getPsuList(
             @RequestParam(name = "page") String pageParam,
             @RequestBody PsuRequest request) {
@@ -78,7 +78,7 @@ public class ProductApi {
         return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
     }
 
-    @GetMapping("/ram")
+    @PostMapping("/ram")
     public ResponseEntity<DtoResponse<ProductListDto>> getRamList(
             @RequestParam(name = "page") String pageParam,
             @RequestBody RamRequest request) {
@@ -87,7 +87,7 @@ public class ProductApi {
         return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
     }
 
-    @GetMapping("/hdd")
+    @PostMapping("/hdd")
     public ResponseEntity<DtoResponse<ProductListDto>> getHddList(
             @RequestParam(name = "page") String pageParam,
             @RequestBody HddRequest request) {
@@ -96,7 +96,7 @@ public class ProductApi {
         return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
     }
 
-    @GetMapping("/ssd")
+    @PostMapping("/ssd")
     public ResponseEntity<DtoResponse<ProductListDto>> getSsdList(
             @RequestParam(name = "page") String pageParam,
             @RequestBody SsdRequest request) {
@@ -105,7 +105,7 @@ public class ProductApi {
         return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
     }
 
-    @GetMapping("/cases")
+    @PostMapping("/cases")
     public ResponseEntity<DtoResponse<ProductListDto>> getCasesList(
             @RequestParam(name = "page") String pageParam,
             @RequestBody CasesRequest request) {
@@ -114,7 +114,7 @@ public class ProductApi {
         return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
     }
 
-    @GetMapping("/cooler")
+    @PostMapping("/cooler")
     public ResponseEntity<DtoResponse<ProductListDto>> getCoolerList(
             @RequestParam(name = "page") String pageParam,
             @RequestBody CoolerRequest request) {
