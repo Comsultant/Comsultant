@@ -2,19 +2,17 @@ package com.comsultant.domain.product.api;
 
 import com.comsultant.domain.comment.dto.CommentListDto;
 import com.comsultant.domain.comment.service.CommentService;
-import com.comsultant.domain.product.dto.CpuDto;
 import com.comsultant.domain.product.dto.ProductListDto;
+import com.comsultant.domain.product.dto.filterResponse.*;
 import com.comsultant.domain.product.dto.request.*;
 import com.comsultant.domain.product.service.ProductService;
 import com.comsultant.global.common.response.DtoResponse;
-import com.comsultant.global.config.security.AccountDetails;
 import com.comsultant.global.properties.ResponseProperties;
 import com.comsultant.global.util.ParameterUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -122,6 +120,60 @@ public class ProductApi {
             @RequestBody CoolerRequest request) {
         int page = ParameterUtil.checkPage(pageParam);
         ProductListDto result = productService.getCoolerList(request, page);
+        return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
+    }
+
+    @GetMapping("/filter/cpu")
+    public ResponseEntity<DtoResponse<FilterCpuResponse>> getCpuFilter() {
+        FilterCpuResponse result = productService.getCpufilter();
+        return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
+    }
+
+    @GetMapping("/filter/vga")
+    public ResponseEntity<DtoResponse<FilterVgaResponse>> getVgaFilter() {
+        FilterVgaResponse result = productService.getVgafilter();
+        return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
+    }
+
+    @GetMapping("/filter/ram")
+    public ResponseEntity<DtoResponse<FilterRamResponse>> getRamFilter() {
+        FilterRamResponse result = productService.getRamfilter();
+        return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
+    }
+
+    @GetMapping("/filter/hdd")
+    public ResponseEntity<DtoResponse<FilterHddResponse>> getHddFilter() {
+        FilterHddResponse result = productService.getHddfilter();
+        return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
+    }
+
+    @GetMapping("/filter/ssd")
+    public ResponseEntity<DtoResponse<FilterSsdResponse>> getSsdFilter() {
+        FilterSsdResponse result = productService.getSsdfilter();
+        return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
+    }
+
+    @GetMapping("/filter/mainboard")
+    public ResponseEntity<DtoResponse<FilterMainBoardResponse>> getMainBoardFilter() {
+        FilterMainBoardResponse result = productService.getMainBoardfilter();
+        return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
+    }
+
+    @GetMapping("/filter/cooler")
+    public ResponseEntity<DtoResponse<FilterCoolerResponse>> getCoolerFilter() {
+        FilterCoolerResponse result = productService.getCoolerfilter();
+        return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
+    }
+
+    @GetMapping("/filter/psu")
+    public ResponseEntity<DtoResponse<FilterPsuResponse>> getPsuFilter() {
+        FilterPsuResponse result = productService.getPsufilter();
+        return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
+    }
+
+    @GetMapping("/filter/cases")
+    public ResponseEntity<DtoResponse<FilterCasesResponse>> getCasesFilter() {
+        FilterCasesResponse result = productService.getCasesfilter();
         return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
     }
 }
