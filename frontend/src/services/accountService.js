@@ -18,9 +18,10 @@ export const registRequest = async (dataToSubmit) => {
 };
 
 // 이메일 인증번호 전송
-export const sendAuthNumberEmail = (dataToSubmit) => {
+export const sendAuthNumberEmail = async (dataToSubmit) => {
   try {
-    request.post(`${ACCOUNT_URL}/verify-email`, dataToSubmit);
+    const payload = await request.post(`${ACCOUNT_URL}/verify-email`, dataToSubmit);
+    return payload;
   } catch (err) {
     return err;
   }
