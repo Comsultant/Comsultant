@@ -682,6 +682,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public int getProductPriceOne(String category, long productId) {
         PriceDto data = getProductPriceDto(category, productId);
+        if(data == null) return 0;
         List<List<Integer>> dateData = data.getDate();
         int dateSize = dateData.size();
         List<Integer> dateAndPrice = dateData.get(dateSize-1);
