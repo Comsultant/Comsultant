@@ -16,6 +16,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,6 +28,8 @@ import java.util.List;
 @RequiredArgsConstructor //생성자 주입. final이 붙거나 @NotNull 이 붙은 필드의 생성자를 자동 생성. AutoWired 불필요
 @Slf4j //로깅 어노테이션
 public class ProductServiceImpl implements ProductService {
+
+    private final MongoTemplate mongoTemplate;
 
     private final ProductRepository productRepository;
     private final CasesRepository casesRepository;
@@ -658,5 +663,31 @@ public class ProductServiceImpl implements ProductService {
                 .type(mainBoardRepository.findDistinctType())
                 .detailChipset(mainBoardRepository.findDistinctDetailChipset())
                 .build();
+    }
+
+    @Override
+    //category: "cpu", "ram", "vga", "mainboard", "psu", "hdd", "ssd", "cases", "cooler"
+    public PriceDto getProductPriceDto(String category, long productId) {
+        Criteria defaultCriteria = Criteria.where("_id").is(Long.toString(productId));
+        Query defaultQuery = Query.query(defaultCriteria);
+        PriceDto result = mongoTemplate.findOne(
+                defaultQuery,
+                PriceDto.class,
+                category
+        );
+
+        return result;
+    }
+
+    @Override
+    public int getProductPriceOne(String category, long productId) {
+        PriceDto data = getProductPriceDto(category, productId);
+        List<List<Integer>> dateData = data.getDate();
+        int dateSize = dateData.size();
+        List<Integer> dateAndPrice = dateData.get(dateSize-1);
+//        int date = dateAndPrice.get(0);
+        int price = dateAndPrice.get(1);
+
+        return price;
     }
 }
