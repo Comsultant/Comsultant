@@ -36,4 +36,6 @@ public interface ProductService {
     FilterCasesResponse getCasesfilter();
     FilterCoolerResponse getCoolerfilter();
     FilterMainBoardResponse getMainBoardfilter();
+    PriceDto getProductPriceDto(String category, long productId);
+    int getProductPriceOne(String category, long productId);
 }
