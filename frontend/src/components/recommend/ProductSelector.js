@@ -17,6 +17,8 @@ const ProductSelector = ({isRecommendPressed, setIsRecommendPressed}) => {
   const [ramList, setRamList] = useState(initProduct);
   const [powerList, setPowerList] = useState(initProduct);
   const [ssdList, setSsdList] = useState(initProduct);
+  const [caseList, setCaseList] = useState(initProduct);
+  const [coolerList, setCoolerList] = useState(initProduct);
   const [hddList, setHddList] = useState(initProduct);
 
   const [cpuChecked, setCpuChecked] = useState(true);
@@ -25,7 +27,11 @@ const ProductSelector = ({isRecommendPressed, setIsRecommendPressed}) => {
   const [ramChecked, setRamChecked] = useState(true);
   const [powerChecked, setPowerChecked] = useState(true);
   const [ssdChecked, setSsdChecked] = useState(true);
+  const [caseChecked, setCaseChecked] = useState(true);
+  const [coolerChecked, setCoolerChecked] = useState(true);
   const [hddChecked, setHddChecked] = useState(false);
+
+  const [currTybeTab, setCurrTypeTab] = useState("");
 
   const [isOnlyViewRecommend, setIsOnlyViewRecommend] = useState(true);
 
@@ -54,58 +60,128 @@ const ProductSelector = ({isRecommendPressed, setIsRecommendPressed}) => {
     getTotalPrice();
   }, [cpuList, mbList, vgaList, ramList, powerList, ssdList, hddList])
 
+  const getProductFilterData = async type => {
+    const result = await getProductFilterRequest(type);
+    if (result?.data?.message === "success") {
+      const data = result.data.responseDto;
+      const keys = Object.keys(data);
+      setFilterList(keys);
+      const list = [];
+
+      keys.map(key => {
+        data[key].map(curr => {
+          if (curr !== "0" && curr !== "") {
+            if (list[key] === undefined) {
+              list[key] = [curr];
+            } else {
+              list[key].push(curr);
+            }
+          }
+        });
+      });
+
+      keys.map(key => {
+        list[key].sort();
+      });
+
+      // console.log(list);
+      setFilterDetailList(list);
+    }
+  };
+
   return (
     <>
       <div className={style["content-box"]}>
         <ContentItem
           name="CPU"
+          type="cpu"
+          currTybeTab={currTybeTab}
           checkState={cpuChecked}
           checkSetter={setCpuChecked}
           contentList={cpuList}
           contentSetter={setCpuList}
+          getProductFilterData={getProductFilterData}
         />
         <ContentItem
           name="M/B"
+          type="mainboard"
+          currTybeTab={currTybeTab}
           checkState={mbChecked}
           checkSetter={setMbChecked}
           contentList={mbList}
           contentSetter={setMbList}
+          getProductFilterData={getProductFilterData}
         />
         <ContentItem
           name="그래픽카드"
+          type="vga"
+          currTybeTab={currTybeTab}
           checkState={vgaChecked}
           checkSetter={setVgaChecked}
           contentList={vgaList}
           contentSetter={setVgaList}
+          getProductFilterData={getProductFilterData}
         />
         <ContentItem
           name="RAM"
+          type="ram"
+          currTybeTab={currTybeTab}
           checkState={ramChecked}
           checkSetter={setRamChecked}
           contentList={ramList}
           contentSetter={setRamList}
+          getProductFilterData={getProductFilterData}
         />
         <ContentItem
           name="POWER"
+          type="psu"
+          currTybeTab={currTybeTab}
           checkState={powerChecked}
           checkSetter={setPowerChecked}
           contentList={powerList}
           contentSetter={setPowerList}
+          getProductFilterData={getProductFilterData}
         />
         <ContentItem
           name="SSD"
+          type="ssd"
+          currTybeTab={currTybeTab}
           checkState={ssdChecked}
           checkSetter={setSsdChecked}
           contentList={ssdList}
           contentSetter={setSsdList}
+          getProductFilterData={getProductFilterData}
+        />
+        <ContentItem
+        name="케이스"
+          type="cases"
+        currTybeTab={currTybeTab}
+        checkState={caseChecked}
+        checkSetter={setCaseChecked}
+        contentList={caseList}
+        contentSetter={setCaseList}
+        getProductFilterData={getProductFilterData}
+        />          
+        <ContentItem
+        name="쿨러"
+          type="cooler"
+        currTybeTab={currTybeTab}
+        checkState={coolerChecked}
+        checkSetter={setCoolerChecked}
+        contentList={coolerList}
+        contentSetter={setCoolerList}
+        getProductFilterData={getProductFilterData}
         />
         <ContentItem
           name="HDD"
+          type="hdd"
+          currTybeTab={currTybeTab}
           checkState={hddChecked}
           checkSetter={setHddChecked}
           contentList={hddList}
           contentSetter={setHddList}
-        />      
+          
+        />    
         <div className={style['bottom-box']}>
           <div className={style['bottom-left']}>
             <span>

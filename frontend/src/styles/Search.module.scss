@@ -25,7 +25,7 @@ $gray-color: rgb(238, 237, 237);
 
 .product-filter {
   display: flex;
-  min-height: 150px;
+  min-height: 170px;
   width: 100%;
   background: #fafafa;
   border: 1px solid #ebedf0;
@@ -138,4 +138,14 @@ $gray-color: rgb(238, 237, 237);
 .side-menu-item{
   display: flex;
   justify-content: space-between;
+}
+
+
+.ant-tooltip-inner {
+  background-color: #fafafa;
+  
+}
+
+.ant-drawer-wrapper-body {
+  z-index: 0;
 }

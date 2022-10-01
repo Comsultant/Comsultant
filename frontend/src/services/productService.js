@@ -13,11 +13,12 @@ export const getProductFilterRequest = async (dataToSubmit) => {
   }
 };
 
-// cpu 상품 가져오기
-export const getCpuRequest = async (dataToSubmit) => {
+// 상품 카테고리별 목록 가져오기
+export const getProductRequest = async (dataToSubmit) => {
   try {
     const page = dataToSubmit.page;
-    const payload = await request.post(`${PRODUCT_URL}/cpu?page=${page}`, dataToSubmit.body);
+    const type = dataToSubmit.type;
+    const payload = await request.post(`${PRODUCT_URL}/${type}?page=${page}`, dataToSubmit.body);
     return payload;
   } catch (err) {
     return err;
