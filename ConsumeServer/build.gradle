@@ -1,0 +1,42 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.4'
+	id 'io.spring.dependency-management' version '1.0.14.RELEASE'
+	id 'java'
+}
+
+group = 'com.consume'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+
+	all {
+		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation group: 'org.apache.kafka', name: 'kafka-clients', version: '3.2.0'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+	//hdfs
+	testImplementation group: 'org.apache.hadoop', name: 'hadoop-hdfs', version: '3.3.4'
+	implementation group: 'org.apache.hadoop', name: 'hadoop-hdfs-client', version: '3.3.4'
+	implementation group: 'org.apache.hadoop', name: 'hadoop-common', version: '3.3.4'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
