@@ -13,4 +13,5 @@ public class KafkaConsumerProperties {
     private final String bootstrapServers;
     private final String groupId;
     private final boolean enableAutoCommit;
+    private final String autoOffsetReset;
 }

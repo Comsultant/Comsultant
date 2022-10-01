@@ -16,7 +16,7 @@ public class KafkaConsumerProvider {
     private final KafkaConsumerConfig kafkaConsumerConfig;
     private final String TOPIC_NAME = "test";
     private KafkaConsumer<String, String> consumer;
-
+    
     @PostConstruct
     protected void init(){
         consumer = new KafkaConsumer<String, String>(kafkaConsumerConfig.kafkaConfigs());

@@ -27,6 +27,7 @@ public class HdfsSaverServiceImpl implements HdfsSaverService{
             bw.close();
             fsdos.close();
         } catch (IOException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
         return true;

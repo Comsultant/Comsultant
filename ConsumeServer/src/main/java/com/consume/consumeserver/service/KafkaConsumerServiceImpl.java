@@ -14,12 +14,16 @@ public class KafkaConsumerServiceImpl implements KafkaConsumerService{
 
     @Override
     public ConsumerRecords<String, String> getData() {
-        ConsumerRecords<String, String> records = kafkaConsumerProvider.getConsumer().poll(Duration.ofSeconds(30));
+        ConsumerRecords<String, String> records = kafkaConsumerProvider.getConsumer().poll(Duration.ofSeconds(1));
         return records.isEmpty() ? null : records;
     }
 
     @Override
     public void commit(){
-        kafkaConsumerProvider.getConsumer().commitSync();
+        try{
+            kafkaConsumerProvider.getConsumer().commitSync();
+        } catch(Exception e){
+            e.printStackTrace();
+        }
     }
 }
