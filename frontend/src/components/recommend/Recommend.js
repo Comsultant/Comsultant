@@ -7,7 +7,11 @@ import RecommendList from "./RecommendList";
 
 const Recommend = () => {
 
+  const defaultMaxPrice = 5000000;
+
   const [isRecommendPressed, setIsRecommendPressed] = useState(false);
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(defaultMaxPrice);
 
   return (
     <div className={style["container"]}>
