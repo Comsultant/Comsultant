@@ -1,4 +1,4 @@
-$font-size-medium: 15px;
+$font-size-medium: 16px;
 $gray-color: rgb(212, 212, 212);
 
 .product-item {
@@ -11,7 +11,7 @@ $gray-color: rgb(212, 212, 212);
 
 .left-item{
     display: flex;
-    width: 60%;
+    width: 58%;
     margin: 5px 10px;
     align-items: center;
 }
@@ -43,9 +43,24 @@ $gray-color: rgb(212, 212, 212);
 }
 
 .right-item {
-    width: 40%;
+    width: 42%;
     .price {
+        padding: 20px;
         font-size: $font-size-medium;
         font-weight: bold;
     }    
+}
+
+.right-button-box {
+    display: flex;
+    align-items: center;
+    >div {
+        margin: 0px 10px;
+    }
+}
+
+.put-button {
+    background-color: #377BB9;
+    color: white;
+    border: solid 1px $gray-color;
 }

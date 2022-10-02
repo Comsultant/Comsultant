@@ -4,6 +4,7 @@ import { Pagination } from "antd";
 import ProductNumMapper from "@/tools/ProductNumMapper";
 import { getProductRequest } from "@/services/productService";
 import ProductDetail from "./ProductDetail";
+import { HeartOutlined } from "@ant-design/icons";
 
 const SearchProductListComponent = (
   {
@@ -68,9 +69,13 @@ const SearchProductListComponent = (
                   <div>
                     <span className={style.price}>100,000 원</span>
                   </div>
-                  <div>
-                    <button>견적담기</button>
-                    <button>찜하기</button>
+                  <div className={style['right-button-box']}>
+                    <div>
+                      <button className={style['put-button']}>견적담기</button>
+                    </div>
+                    <div>
+                      <HeartOutlined/>
+                    </div>
                   </div>
                 </div>
               </div>

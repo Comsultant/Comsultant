@@ -4,7 +4,7 @@ import ProductSearchFilter from "../search/ProductSearchFilter";
 import DescFilter from "../recommend/DescFilter";
 import { Affix, Slider, Drawer, Tabs } from "antd";
 import PriceFormatter from "@/tools/PriceFormatter";
-import { SearchOutlined, PlusOutlined, CloseOutlined } from "@ant-design/icons";
+import { SearchOutlined, PlusOutlined, CloseOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import SearchProductListComponent from "./SearchProductListComponent";
 import { getProductFilterRequest, getProductRequest } from "@/services/productService";
 import ProductFilterKorean from "@/tools/ProductFilterKorean";
@@ -12,6 +12,7 @@ import { AddtionalCoolerFilterList } from "@/tools/AddtionalCoolerFilterList";
 import { AdditionalCasesFilterList } from "@/tools/AddtionalCasesFilterLIst";
 import { filter, max } from "lodash";
 import ProductNumMapper from "@/tools/ProductNumMapper";
+import DrawerBody from "./DrawerBody";
 
 
 const Search = () => {
@@ -28,6 +29,7 @@ const Search = () => {
   const [currPage, setCurrPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
   const [selectedFilterList, setSelectedFilterList] = useState();
+  const [currBuilder, setCurrBuilder] = useState([]);
 
   const [accountBuildList, setAccountBuildList] = useState([]);
 
@@ -53,8 +55,16 @@ const Search = () => {
 
   const onSearchButtonClicked = (e) => {
     setFilterBody(
-      { ...filterBody, name: searchValue }
+      { ...filterBody, name: searchValue.trim() }
     );
+  }
+
+  const onSearchInputKeyDown = (e) => {
+    if (e.key == 'Enter') {
+      setFilterBody(
+        { ...filterBody, name: searchValue.trim() }
+      );
+    }
   }
 
   const onFilterBodyItemDelete = (key, value) => {
@@ -298,12 +308,17 @@ const Search = () => {
                 onChange={e => {
                   setSearchValue(e.target.value);
                 }}
+                onKeyDown={onSearchInputKeyDown}
               />
               <SearchOutlined className={style["search-icon"]} onClick={onSearchButtonClicked} />
             </div>
             <div className={style["builder-tab-button"]}>
               <button onClick={toggleDrawer}>
-                {tabOpen ? "견적 탭 닫기" : "견적 탭 열기"}
+                {tabOpen ?
+                    <span>견적 탭 <RightOutlined /></span>
+                  :
+                    <span>견적 탭 <LeftOutlined /></span>
+                  }
               </button>
             </div>
           </div>
@@ -341,7 +356,7 @@ const Search = () => {
                 position: "absolute",
               }}
             >
-              <div>견적아이템들</div>
+              <DrawerBody currBuilder={currBuilder} setCurrBuilder={setCurrBuilder} />
             </Drawer>
           </div>
         </div>
