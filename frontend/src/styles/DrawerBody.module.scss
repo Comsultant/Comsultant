@@ -1,0 +1,23 @@
+.container {
+  >div {
+    margin: 10px 0px;
+  }
+}
+
+.product-box{
+  border: solid 1px lightgray;
+  border-radius: 2px;
+}
+
+.title {
+  // margin: 5px 0px;
+  padding: 5px;
+  background-color: #fafafa;
+  color: black;
+  text-align: start;
+  border-bottom: solid 1px lightgray;
+  >span {
+    font-weight: bold;
+    padding: 10px;
+  }
+}
