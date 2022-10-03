@@ -33,6 +33,9 @@ public class Ram {
     @Column(name = "name", columnDefinition = "VARCHAR(255)")
     private String name;
 
+    @Column(name = "price", columnDefinition = "INT")
+    private int price;
+
     @Column(name = "img_cnt", columnDefinition = "INT")
     private int imgCnt;
 
@@ -129,4 +132,7 @@ public class Ram {
     @Column(name = "dist_corp", columnDefinition = "VARCHAR(255)")
     private String distCorp;
 
+    public void modifyPrice(int price) {
+        this.price = price;
+    }
 }
