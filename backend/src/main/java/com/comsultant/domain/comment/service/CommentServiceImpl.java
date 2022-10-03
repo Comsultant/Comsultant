@@ -122,7 +122,7 @@ public class CommentServiceImpl implements CommentService {
             CommentDetailDto ret = CommentDetailDto.builder()
                     .commentDto(CommentMapper.mapper.toDto(comment))
                     .build();
-            ret.getCommentDto().setNickName(nickName);
+            ret.getCommentDto().updateNickName(nickName);
             result.add(ret);
         }
 

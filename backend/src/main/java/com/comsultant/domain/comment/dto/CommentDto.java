@@ -22,7 +22,7 @@ public class CommentDto {
         this.productIdx = productIdx;
     }
 
-    public void setNickName(String nickName) {
+    public void updateNickName(String nickName) {
         this.nickName = nickName;
     }
 }
