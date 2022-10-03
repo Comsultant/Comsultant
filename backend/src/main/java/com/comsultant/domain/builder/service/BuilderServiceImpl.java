@@ -355,12 +355,7 @@ public class BuilderServiceImpl implements BuilderService {
         // 물품 가격 날짜
         for (int dateIdx = 0; dateIdx < len; dateIdx++) {
             if (!isSame[dateIdx]) {
-                String dateS = Integer.toString(date[dateIdx]);
-                if (dateS.length() >= 8) {
-                    sb.append(dateS.substring(0, 4)).append(".").append(dateS.substring(4, 6)).append(".").append(dateS.substring(6, 8)).append(",");
-                } else {
-                    sb.append(0);
-                }
+                sb.append(date[dateIdx]).append(",");
             }
         }
         sb.deleteCharAt(sb.length() - 1).append("|");
