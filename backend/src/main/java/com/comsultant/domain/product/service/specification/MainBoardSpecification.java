@@ -21,7 +21,7 @@ public class MainBoardSpecification {
     public static Specification<MainBoard> equalDetailChipset(List<String> detailChipset) {
         return (root, query, criteriaBuilder) -> root.get("detailChipset").in(detailChipset);
     }
-    public static Specification<MainBoard> price(int minPrice, int maxPrice) { //price 추후 수정
-        return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("intelMainBoard"), minPrice, maxPrice);
+    public static Specification<MainBoard> betweenPrice(int minPrice, int maxPrice) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("price"), minPrice, maxPrice);
     }
 }

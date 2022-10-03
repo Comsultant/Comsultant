@@ -24,7 +24,7 @@ public class CpuSpecification {
     public static Specification<Cpu> equalCorp(List<String> corp) {
         return (root, query, criteriaBuilder) -> root.get("corp").in(corp);
     }
-    public static Specification<Cpu> price(int minPrice, int maxPrice) { //price 추후 수정
-        return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("intelCpu"), minPrice, maxPrice);
+    public static Specification<Cpu> betweenPrice(int minPrice, int maxPrice) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("price"), minPrice, maxPrice);
     }
 }

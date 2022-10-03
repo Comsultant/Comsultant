@@ -14,7 +14,6 @@ import java.util.Optional;
 public interface CpuRepository extends JpaRepository<Cpu, Long>, JpaSpecificationExecutor<Cpu> {
     Page<Cpu> findAll(Specification<Cpu> spec, Pageable pageable); //페이지네이션
     Optional<Cpu> findByIdx(long idx);
-
     @Query("select distinct c.corp from Cpu c")
     List<String> findDistinctCorp();
     @Query("select distinct c.intelCpu from Cpu c")

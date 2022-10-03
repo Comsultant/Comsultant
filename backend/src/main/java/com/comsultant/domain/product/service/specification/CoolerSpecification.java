@@ -109,7 +109,7 @@ public class CoolerSpecification {
     public static Specification<Cooler> equalFmxAmx(boolean fmxAmx) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("fmxAmx"), fmxAmx);
     }
-    public static Specification<Cooler> price(int minPrice, int maxPrice) { //price 추후 수정
-        return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("intelCooler"), minPrice, maxPrice);
+    public static Specification<Cooler> betweenPrice(int minPrice, int maxPrice) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("price"), minPrice, maxPrice);
     }
 }

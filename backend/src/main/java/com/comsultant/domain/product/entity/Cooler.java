@@ -33,6 +33,9 @@ public class Cooler {
     @Column(name = "name", columnDefinition = "VARCHAR(255)")
     private String name;
 
+    @Column(name = "price", columnDefinition = "INT")
+    private int price;
+
     @Column(name = "img_cnt", columnDefinition = "INT")
     private int imgCnt;
 
@@ -276,4 +279,7 @@ public class Cooler {
     @Column(name = "lcd", columnDefinition = "TINYINT(1)")
     private boolean lcd;
 
+    public void modifyPrice(int price) {
+        this.price = price;
+    }
 }

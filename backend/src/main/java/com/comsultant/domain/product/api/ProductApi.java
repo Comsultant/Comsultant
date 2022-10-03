@@ -45,81 +45,99 @@ public class ProductApi {
     @PostMapping("/cpu")
     public ResponseEntity<DtoResponse<ProductListDto>> getCpuList(
             @RequestParam(name = "page") String pageParam,
+            @RequestParam(name = "desc") int desc,
             @RequestBody CpuRequest request) {
         int page = ParameterUtil.checkPage(pageParam);
-        ProductListDto result = productService.getCpuList(request, page);
+        desc = ParameterUtil.checkProductDesc(desc);
+        ProductListDto result = productService.getCpuList(request, page, desc);
         return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
     }
 
     @PostMapping("/vga")
     public ResponseEntity<DtoResponse<ProductListDto>> getVgaList(
             @RequestParam(name = "page") String pageParam,
+            @RequestParam(name = "desc") int desc,
             @RequestBody VgaRequest request) {
         int page = ParameterUtil.checkPage(pageParam);
-        ProductListDto result = productService.getVgaList(request, page);
+        desc = ParameterUtil.checkProductDesc(desc);
+        ProductListDto result = productService.getVgaList(request, page, desc);
         return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
     }
 
     @PostMapping("/mainboard")
     public ResponseEntity<DtoResponse<ProductListDto>> getMainBoardList(
             @RequestParam(name = "page") String pageParam,
+            @RequestParam(name = "desc") int desc,
             @RequestBody MainBoardRequest request) {
         int page = ParameterUtil.checkPage(pageParam);
-        ProductListDto result = productService.getMainBoardList(request, page);
+        desc = ParameterUtil.checkProductDesc(desc);
+        ProductListDto result = productService.getMainBoardList(request, page, desc);
         return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
     }
 
     @PostMapping("/psu")
     public ResponseEntity<DtoResponse<ProductListDto>> getPsuList(
             @RequestParam(name = "page") String pageParam,
+            @RequestParam(name = "desc") int desc,
             @RequestBody PsuRequest request) {
         int page = ParameterUtil.checkPage(pageParam);
-        ProductListDto result = productService.getPsuList(request, page);
+        desc = ParameterUtil.checkProductDesc(desc);
+        ProductListDto result = productService.getPsuList(request, page, desc);
         return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
     }
 
     @PostMapping("/ram")
     public ResponseEntity<DtoResponse<ProductListDto>> getRamList(
             @RequestParam(name = "page") String pageParam,
+            @RequestParam(name = "desc") int desc,
             @RequestBody RamRequest request) {
         int page = ParameterUtil.checkPage(pageParam);
-        ProductListDto result = productService.getRamList(request, page);
+        desc = ParameterUtil.checkProductDesc(desc);
+        ProductListDto result = productService.getRamList(request, page, desc);
         return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
     }
 
     @PostMapping("/hdd")
     public ResponseEntity<DtoResponse<ProductListDto>> getHddList(
             @RequestParam(name = "page") String pageParam,
+            @RequestParam(name = "desc") int desc,
             @RequestBody HddRequest request) {
         int page = ParameterUtil.checkPage(pageParam);
-        ProductListDto result = productService.getHddList(request, page);
+        desc = ParameterUtil.checkProductDesc(desc);
+        ProductListDto result = productService.getHddList(request, page, desc);
         return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
     }
 
     @PostMapping("/ssd")
     public ResponseEntity<DtoResponse<ProductListDto>> getSsdList(
             @RequestParam(name = "page") String pageParam,
+            @RequestParam(name = "desc") int desc,
             @RequestBody SsdRequest request) {
         int page = ParameterUtil.checkPage(pageParam);
-        ProductListDto result = productService.getSsdList(request, page);
+        desc = ParameterUtil.checkProductDesc(desc);
+        ProductListDto result = productService.getSsdList(request, page, desc);
         return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
     }
 
     @PostMapping("/cases")
     public ResponseEntity<DtoResponse<ProductListDto>> getCasesList(
             @RequestParam(name = "page") String pageParam,
+            @RequestParam(name = "desc") int desc,
             @RequestBody CasesRequest request) {
         int page = ParameterUtil.checkPage(pageParam);
-        ProductListDto result = productService.getCasesList(request, page);
+        desc = ParameterUtil.checkProductDesc(desc);
+        ProductListDto result = productService.getCasesList(request, page, desc);
         return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
     }
 
     @PostMapping("/cooler")
     public ResponseEntity<DtoResponse<ProductListDto>> getCoolerList(
             @RequestParam(name = "page") String pageParam,
+            @RequestParam(name = "desc") int desc,
             @RequestBody CoolerRequest request) {
         int page = ParameterUtil.checkPage(pageParam);
-        ProductListDto result = productService.getCoolerList(request, page);
+        desc = ParameterUtil.checkProductDesc(desc);
+        ProductListDto result = productService.getCoolerList(request, page, desc);
         return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
     }
 

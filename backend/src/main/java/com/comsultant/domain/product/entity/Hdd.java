@@ -33,6 +33,9 @@ public class Hdd {
     @Column(name = "name", columnDefinition = "VARCHAR(255)")
     private String name;
 
+    @Column(name = "price", columnDefinition = "INT")
+    private int price;
+
     @Column(name = "img_cnt", columnDefinition = "INT")
     private int imgCnt;
 
@@ -126,4 +129,7 @@ public class Hdd {
     @Column(name = "restore1", columnDefinition = "TINYINT(1)")
     private boolean restore1;
 
+    public void modifyPrice(int price) {
+        this.price = price;
+    }
 }

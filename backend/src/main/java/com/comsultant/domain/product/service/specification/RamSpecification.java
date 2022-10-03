@@ -21,7 +21,7 @@ public class RamSpecification {
     public static Specification<Ram> equalMemoryVolume(List<Double> memoryVolume) {
         return (root, query, criteriaBuilder) -> root.get("memoryVolume").in(memoryVolume);
     }
-    public static Specification<Ram> price(int minPrice, int maxPrice) { //price 추후 수정
-        return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("intelRam"), minPrice, maxPrice);
+    public static Specification<Ram> betweenPrice(int minPrice, int maxPrice) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("price"), minPrice, maxPrice);
     }
 }

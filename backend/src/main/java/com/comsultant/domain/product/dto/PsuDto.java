@@ -13,6 +13,8 @@ public class PsuDto {
 
     private long idx;
 
+    private int price;
+
     private String name; //제품명
 
     private int imgCnt; //img_cnt
