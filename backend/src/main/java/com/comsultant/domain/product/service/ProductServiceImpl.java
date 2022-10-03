@@ -22,7 +22,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -131,7 +130,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional()
     public ProductListDto getCpuList(CpuRequest request, int page, int desc) {
         //필터링 조건
         Specification<Cpu> spec = (root, query, criteriaBuilder) -> null;
@@ -175,7 +173,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional()
     public ProductListDto getRamList(RamRequest request, int page, int desc) {
         Specification<Ram> spec = (root, query, criteriaBuilder) -> null;
         if(request.getName() != null) {
@@ -215,7 +212,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional()
     public ProductListDto getVgaList(VgaRequest request, int page, int desc) {
         Specification<Vga> spec = (root, query, criteriaBuilder) -> null;
         if(request.getName() != null) {
@@ -258,7 +254,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional()
     public ProductListDto getPsuList(PsuRequest request, int page, int desc) {
         Specification<Psu> spec = (root, query, criteriaBuilder) -> null;
         if(request.getName() != null) {
@@ -295,7 +290,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional()
     public ProductListDto getMainBoardList(MainBoardRequest request, int page, int desc) {
         Specification<MainBoard> spec = (root, query, criteriaBuilder) -> null;
         if(request.getName() != null) {
@@ -335,7 +329,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional()
     public ProductListDto getCoolerList(CoolerRequest request, int page, int desc) {
         Specification<Cooler> spec = (root, query, criteriaBuilder) -> null;
         if(request.getName() != null) {
@@ -456,7 +449,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional()
     public ProductListDto getCasesList(CasesRequest request, int page, int desc) {
         Specification<Cases> spec = (root, query, criteriaBuilder) -> null;
         if(request.getName() != null) {
@@ -478,28 +470,28 @@ public class ProductServiceImpl implements ProductService {
             spec = spec.and(CasesSpecification.equalExtendedAtx(true));
         }
         if(request.isStandardAtx()) {
-            spec = spec.and(CasesSpecification.equalStandardAtx(true));
+            spec = spec.or(CasesSpecification.equalStandardAtx(true));
         }
         if(request.isMicroAtx()) {
-            spec = spec.and(CasesSpecification.equalMicroAtx(true));
+            spec = spec.or(CasesSpecification.equalMicroAtx(true));
         }
         if(request.isFlexAtx()) {
-            spec = spec.and(CasesSpecification.equalFlexAtx(true));
+            spec = spec.or(CasesSpecification.equalFlexAtx(true));
         }
         if(request.isStandardItx()) {
-            spec = spec.and(CasesSpecification.equalStandardItx(true));
+            spec = spec.or(CasesSpecification.equalStandardItx(true));
         }
         if(request.isMiniItx()) {
-            spec = spec.and(CasesSpecification.equalMiniItx(true));
+            spec = spec.or(CasesSpecification.equalMiniItx(true));
         }
         if(request.isSsiCeb()) {
-            spec = spec.and(CasesSpecification.equalSsiCeb(true));
+            spec = spec.or(CasesSpecification.equalSsiCeb(true));
         }
         if(request.isSsiEeb()) {
-            spec = spec.and(CasesSpecification.equalSsiEeb(true));
+            spec = spec.or(CasesSpecification.equalSsiEeb(true));
         }
         if(request.isMiniDtx()) {
-            spec = spec.and(CasesSpecification.equalMiniDtx(true));
+            spec = spec.or(CasesSpecification.equalMiniDtx(true));
         }
         if(request.getPrice() != null && request.getPrice().size() > 1) {
             spec = spec.and(CasesSpecification.betweenPrice(request.getPrice().get(0), request.getPrice().get(1)));
@@ -523,7 +515,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional()
     public ProductListDto getHddList(HddRequest request, int page, int desc) {
         Specification<Hdd> spec = (root, query, criteriaBuilder) -> null;
         if(request.getName() != null) {
@@ -557,7 +548,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional()
     public ProductListDto getSsdList(SsdRequest request, int page, int desc) {
         Specification<Ssd> spec = (root, query, criteriaBuilder) -> null;
         if(request.getName() != null) {
