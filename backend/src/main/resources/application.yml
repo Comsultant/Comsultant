@@ -78,3 +78,4 @@ const:
   comment-list-size: 10
   wish-list-size: 10
   product-list-size: 10
+  builder-list-size: 10

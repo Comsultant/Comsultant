@@ -15,4 +15,5 @@ public class ConstProperties {
     private final int commentListSize;
     private final int wishListSize;
     private final int productListSize;
+    private final int builderListSize;
 }
