@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CommentDto {
     private Long idx;
+    private String nickName;
     private Long accountIdx;
     private Long productIdx;
     private String content;
@@ -19,5 +20,9 @@ public class CommentDto {
     public void updateUserInfo(long accountIdx, long productIdx) {
         this.accountIdx = accountIdx;
         this.productIdx = productIdx;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 }
