@@ -21,7 +21,7 @@ public class SsdSpecification {
     public static Specification<Ssd> equalMemoryType(List<String> memoryType) {
         return (root, query, criteriaBuilder) -> root.get("memoryType").in(memoryType);
     }
-    public static Specification<Ssd> price(int minPrice, int maxPrice) { //price 추후 수정
-        return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("intelSsd"), minPrice, maxPrice);
+    public static Specification<Ssd> betweenPrice(int minPrice, int maxPrice) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("price"), minPrice, maxPrice);
     }
 }

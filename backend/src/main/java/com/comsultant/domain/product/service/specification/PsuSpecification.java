@@ -18,7 +18,7 @@ public class PsuSpecification {
     public static Specification<Psu> equalRatedPower(List<Integer> ratedPower) {
         return (root, query, criteriaBuilder) -> root.get("ratedPower").in(ratedPower);
     }
-    public static Specification<Psu> price(int minPrice, int maxPrice) { //price 추후 수정
-        return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("intelPsu"), minPrice, maxPrice);
+    public static Specification<Psu> betweenPrice(int minPrice, int maxPrice) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("price"), minPrice, maxPrice);
     }
 }

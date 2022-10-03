@@ -15,12 +15,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +44,6 @@ public class ProductServiceImpl implements ProductService {
     private final SsdRepository ssdRepository;
     private final VgaRepository vgaRepository;
     private final ConstProperties constProperties;
-
     @Override
     public ProductDto getProduct(long idx) {
         return ProductMapper.mapper.toDto(productRepository.findById(idx)
@@ -130,9 +131,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductListDto getCpuList(CpuRequest request, int page) {
-
-        Pageable pageable = PageRequest.of(page, constProperties.getProductListSize());
+    @Transactional()
+    public ProductListDto getCpuList(CpuRequest request, int page, int desc) {
+        //필터링 조건
         Specification<Cpu> spec = (root, query, criteriaBuilder) -> null;
         if(request.getName() != null) {
             spec = spec.and(CpuSpecification.containsName(request.getName()));
@@ -152,16 +153,20 @@ public class ProductServiceImpl implements ProductService {
         if(request.getSocket() != null && request.getSocket().size() > 0) {
             spec = spec.and(CpuSpecification.equalSocket(request.getSocket()));
         }
-        //price 추후 추가
+        if(request.getPrice() != null && request.getPrice().size() > 1) {
+            spec = spec.and(CpuSpecification.betweenPrice(request.getPrice().get(0), request.getPrice().get(1)));
+        }
 
+        //페이지네이션
+        Pageable pageable = getPageable(page, desc);
         Page<Cpu> pageCpus = cpuRepository.findAll(spec, pageable);
         List<Cpu> cpus = pageCpus.getContent();
         int totalPages = pageCpus.getTotalPages();
 
         List<Object> list = new ArrayList<>();
-
-        for (Cpu cpu : cpus)
+        for(Cpu cpu : cpus) {
             list.add(CpuMapper.mapper.toDto(cpu));
+        }
 
         return ProductListDto.builder()
                 .productDtoList(list)
@@ -170,9 +175,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductListDto getRamList(RamRequest request, int page) {
-
-        Pageable pageable = PageRequest.of(page, constProperties.getProductListSize());
+    @Transactional()
+    public ProductListDto getRamList(RamRequest request, int page, int desc) {
         Specification<Ram> spec = (root, query, criteriaBuilder) -> null;
         if(request.getName() != null) {
             spec = spec.and(RamSpecification.containsName(request.getName()));
@@ -189,16 +193,20 @@ public class ProductServiceImpl implements ProductService {
         if(request.getMemoryVolume() != null && request.getMemoryVolume().size() > 0) {
             spec = spec.and(RamSpecification.equalMemoryVolume(request.getMemoryVolume()));
         }
-        //price 추후 추가
+        if(request.getPrice() != null && request.getPrice().size() > 1) {
+            spec = spec.and(RamSpecification.betweenPrice(request.getPrice().get(0), request.getPrice().get(1)));
+        }
 
+        //페이지네이션
+        Pageable pageable = getPageable(page, desc);
         Page<Ram> pageRams = ramRepository.findAll(spec, pageable);
         List<Ram> rams = pageRams.getContent();
         int totalPages = pageRams.getTotalPages();
 
         List<Object> list = new ArrayList<>();
-
-        for (Ram ram : rams)
+        for(Ram ram : rams) {
             list.add(RamMapper.mapper.toDto(ram));
+        }
 
         return ProductListDto.builder()
                 .productDtoList(list)
@@ -207,9 +215,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductListDto getVgaList(VgaRequest request, int page) {
-
-        Pageable pageable = PageRequest.of(page, constProperties.getProductListSize());
+    @Transactional()
+    public ProductListDto getVgaList(VgaRequest request, int page, int desc) {
         Specification<Vga> spec = (root, query, criteriaBuilder) -> null;
         if(request.getName() != null) {
             spec = spec.and(VgaSpecification.containsName(request.getName()));
@@ -229,16 +236,20 @@ public class ProductServiceImpl implements ProductService {
         if(request.getMemoryVolume() != null && request.getMemoryVolume().size() > 0) {
             spec = spec.and(VgaSpecification.equalMemoryVolume(request.getMemoryVolume()));
         }
-        //price 추후 추가
+        if(request.getPrice() != null && request.getPrice().size() > 1) {
+            spec = spec.and(VgaSpecification.betweenPrice(request.getPrice().get(0), request.getPrice().get(1)));
+        }
 
+        //페이지네이션
+        Pageable pageable = getPageable(page, desc);
         Page<Vga> pageVgas = vgaRepository.findAll(spec, pageable);
         List<Vga> vgas = pageVgas.getContent();
         int totalPages = pageVgas.getTotalPages();
 
         List<Object> list = new ArrayList<>();
-
-        for (Vga vga : vgas)
+        for(Vga vga : vgas) {
             list.add(VgaMapper.mapper.toDto(vga));
+        }
 
         return ProductListDto.builder()
                 .productDtoList(list)
@@ -247,9 +258,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductListDto getPsuList(PsuRequest request, int page) {
-
-        Pageable pageable = PageRequest.of(page, constProperties.getProductListSize());
+    @Transactional()
+    public ProductListDto getPsuList(PsuRequest request, int page, int desc) {
         Specification<Psu> spec = (root, query, criteriaBuilder) -> null;
         if(request.getName() != null) {
             spec = spec.and(PsuSpecification.containsName(request.getName()));
@@ -263,16 +273,20 @@ public class ProductServiceImpl implements ProductService {
         if(request.getRatedPower() != null && request.getRatedPower().size() > 0) {
             spec = spec.and(PsuSpecification.equalRatedPower(request.getRatedPower()));
         }
-        //price 추후 추가
+        if(request.getPrice() != null && request.getPrice().size() > 1) {
+            spec = spec.and(PsuSpecification.betweenPrice(request.getPrice().get(0), request.getPrice().get(1)));
+        }
 
+        //페이지네이션
+        Pageable pageable = getPageable(page, desc);
         Page<Psu> pagePsus = psuRepository.findAll(spec, pageable);
         List<Psu> psus = pagePsus.getContent();
         int totalPages = pagePsus.getTotalPages();
 
         List<Object> list = new ArrayList<>();
-
-        for (Psu psu : psus)
+        for(Psu psu : psus) {
             list.add(PsuMapper.mapper.toDto(psu));
+        }
 
         return ProductListDto.builder()
                 .productDtoList(list)
@@ -281,9 +295,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductListDto getMainBoardList(MainBoardRequest request, int page) {
-
-        Pageable pageable = PageRequest.of(page, constProperties.getProductListSize());
+    @Transactional()
+    public ProductListDto getMainBoardList(MainBoardRequest request, int page, int desc) {
         Specification<MainBoard> spec = (root, query, criteriaBuilder) -> null;
         if(request.getName() != null) {
             spec = spec.and(MainBoardSpecification.containsName(request.getName()));
@@ -300,16 +313,20 @@ public class ProductServiceImpl implements ProductService {
         if(request.getDetailChipset() != null && request.getDetailChipset().size() > 0) {
             spec = spec.and(MainBoardSpecification.equalDetailChipset(request.getDetailChipset()));
         }
-        //price 추후 추가
+        if(request.getPrice() != null && request.getPrice().size() > 1) {
+            spec = spec.and(MainBoardSpecification.betweenPrice(request.getPrice().get(0), request.getPrice().get(1)));
+        }
 
+        //페이지네이션
+        Pageable pageable = getPageable(page, desc);
         Page<MainBoard> pageMainBoards = mainBoardRepository.findAll(spec, pageable);
         List<MainBoard> mainBoards = pageMainBoards.getContent();
         int totalPages = pageMainBoards.getTotalPages();
 
         List<Object> list = new ArrayList<>();
-
-        for (MainBoard mainBoard : mainBoards)
+        for(MainBoard mainBoard : mainBoards) {
             list.add(MainBoardMapper.mapper.toDto(mainBoard));
+        }
 
         return ProductListDto.builder()
                 .productDtoList(list)
@@ -318,9 +335,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductListDto getCoolerList(CoolerRequest request, int page) {
-
-        Pageable pageable = PageRequest.of(page, constProperties.getProductListSize());
+    @Transactional()
+    public ProductListDto getCoolerList(CoolerRequest request, int page, int desc) {
         Specification<Cooler> spec = (root, query, criteriaBuilder) -> null;
         if(request.getName() != null) {
             spec = spec.and(CoolerSpecification.containsName(request.getName()));
@@ -418,16 +434,20 @@ public class ProductServiceImpl implements ProductService {
         if(request.isFmxAmx()) {
             spec = spec.and(CoolerSpecification.equalFmxAmx(true));
         }
-        //price 추후 추가
+        if(request.getPrice() != null && request.getPrice().size() > 1) {
+            spec = spec.and(CoolerSpecification.betweenPrice(request.getPrice().get(0), request.getPrice().get(1)));
+        }
 
+        //페이지네이션
+        Pageable pageable = getPageable(page, desc);
         Page<Cooler> pageCoolers = coolerRepository.findAll(spec, pageable);
         List<Cooler> coolers = pageCoolers.getContent();
         int totalPages = pageCoolers.getTotalPages();
 
         List<Object> list = new ArrayList<>();
-
-        for (Cooler cooler : coolers)
+        for(Cooler cooler : coolers) {
             list.add(CoolerMapper.mapper.toDto(cooler));
+        }
 
         return ProductListDto.builder()
                 .productDtoList(list)
@@ -436,9 +456,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductListDto getCasesList(CasesRequest request, int page) {
-
-        Pageable pageable = PageRequest.of(page, constProperties.getProductListSize());
+    @Transactional()
+    public ProductListDto getCasesList(CasesRequest request, int page, int desc) {
         Specification<Cases> spec = (root, query, criteriaBuilder) -> null;
         if(request.getName() != null) {
             spec = spec.and(CasesSpecification.containsName(request.getName()));
@@ -482,16 +501,20 @@ public class ProductServiceImpl implements ProductService {
         if(request.isMiniDtx()) {
             spec = spec.and(CasesSpecification.equalMiniDtx(true));
         }
-        //price 추후 추가
+        if(request.getPrice() != null && request.getPrice().size() > 1) {
+            spec = spec.and(CasesSpecification.betweenPrice(request.getPrice().get(0), request.getPrice().get(1)));
+        }
 
+        //페이지네이션
+        Pageable pageable = getPageable(page, desc);
         Page<Cases> pageCasess = casesRepository.findAll(spec, pageable);
         List<Cases> casess = pageCasess.getContent();
         int totalPages = pageCasess.getTotalPages();
 
         List<Object> list = new ArrayList<>();
-
-        for (Cases cases : casess)
+        for(Cases cases : casess) {
             list.add(CasesMapper.mapper.toDto(cases));
+        }
 
         return ProductListDto.builder()
                 .productDtoList(list)
@@ -500,9 +523,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductListDto getHddList(HddRequest request, int page) {
-
-        Pageable pageable = PageRequest.of(page, constProperties.getProductListSize());
+    @Transactional()
+    public ProductListDto getHddList(HddRequest request, int page, int desc) {
         Specification<Hdd> spec = (root, query, criteriaBuilder) -> null;
         if(request.getName() != null) {
             spec = spec.and(HddSpecification.containsName(request.getName()));
@@ -513,16 +535,20 @@ public class ProductServiceImpl implements ProductService {
         if(request.getDiskVolume() != null && request.getDiskVolume().size() > 0) {
             spec = spec.and(HddSpecification.equalDiskVolume(request.getDiskVolume()));
         }
-        //price 추후 추가
+        if(request.getPrice() != null && request.getPrice().size() > 1) {
+            spec = spec.and(HddSpecification.betweenPrice(request.getPrice().get(0), request.getPrice().get(1)));
+        }
 
+        //페이지네이션
+        Pageable pageable = getPageable(page, desc);
         Page<Hdd> pageHdds = hddRepository.findAll(spec, pageable);
         List<Hdd> hdds = pageHdds.getContent();
         int totalPages = pageHdds.getTotalPages();
 
         List<Object> list = new ArrayList<>();
-
-        for (Hdd hdd : hdds)
+        for(Hdd hdd : hdds) {
             list.add(HddMapper.mapper.toDto(hdd));
+        }
 
         return ProductListDto.builder()
                 .productDtoList(list)
@@ -531,9 +557,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductListDto getSsdList(SsdRequest request, int page) {
-
-        Pageable pageable = PageRequest.of(page, constProperties.getProductListSize());
+    @Transactional()
+    public ProductListDto getSsdList(SsdRequest request, int page, int desc) {
         Specification<Ssd> spec = (root, query, criteriaBuilder) -> null;
         if(request.getName() != null) {
             spec = spec.and(SsdSpecification.containsName(request.getName()));
@@ -550,16 +575,20 @@ public class ProductServiceImpl implements ProductService {
         if(request.getMemoryType() != null && request.getMemoryType().size() > 0) {
             spec = spec.and(SsdSpecification.equalMemoryType(request.getMemoryType()));
         }
-        //price 추후 추가
+        if(request.getPrice() != null && request.getPrice().size() > 1) {
+            spec = spec.and(SsdSpecification.betweenPrice(request.getPrice().get(0), request.getPrice().get(1)));
+        }
 
+        //페이지네이션
+        Pageable pageable = getPageable(page, desc);
         Page<Ssd> pageSsds = ssdRepository.findAll(spec, pageable);
         List<Ssd> ssds = pageSsds.getContent();
         int totalPages = pageSsds.getTotalPages();
 
         List<Object> list = new ArrayList<>();
-
-        for (Ssd ssd : ssds)
+        for(Ssd ssd : ssds) {
             list.add(SsdMapper.mapper.toDto(ssd));
+        }
 
         return ProductListDto.builder()
                 .productDtoList(list)
@@ -685,10 +714,22 @@ public class ProductServiceImpl implements ProductService {
         if(data == null) return 0;
         List<List<Integer>> dateData = data.getDate();
         int dateSize = dateData.size();
+        if(dateSize == 0) return 0;
         List<Integer> dateAndPrice = dateData.get(dateSize-1);
 //        int date = dateAndPrice.get(0);
         int price = dateAndPrice.get(1);
 
         return price;
+    }
+    @Override
+    public Pageable getPageable(int page, int desc) {
+        int pageSize = constProperties.getProductListSize();
+        if(desc == 1) {
+            return PageRequest.of(page, pageSize, Sort.by("price").ascending());
+        }
+        else if(desc == 2)
+            return PageRequest.of(page, pageSize, Sort.by("price").descending());
+        else
+            return PageRequest.of(page, pageSize, Sort.by("registeredAt").descending());
     }
 }

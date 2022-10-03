@@ -15,7 +15,7 @@ public class HddSpecification {
     public static Specification<Hdd> equalDiskVolume(List<Integer> diskVolume) {
         return (root, query, criteriaBuilder) -> root.get("diskVolume").in(diskVolume);
     }
-    public static Specification<Hdd> price(int minPrice, int maxPrice) { //price 추후 수정
-        return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("intelHdd"), minPrice, maxPrice);
+    public static Specification<Hdd> betweenPrice(int minPrice, int maxPrice) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("price"), minPrice, maxPrice);
     }
 }

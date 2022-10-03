@@ -33,6 +33,9 @@ public class Psu {
     @Column(name = "name", columnDefinition = "VARCHAR(255)")
     private String name;
 
+    @Column(name = "price", columnDefinition = "INT")
+    private int price;
+
     @Column(name = "img_cnt", columnDefinition = "INT")
     private int imgCnt;
 
@@ -255,4 +258,7 @@ public class Psu {
     @Column(name = "weight", columnDefinition = "DOUBLE")
     private double weight;
 
+    public void modifyPrice(int price) {
+        this.price = price;
+    }
 }

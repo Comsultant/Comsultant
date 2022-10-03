@@ -24,7 +24,7 @@ public class VgaSpecification {
     public static Specification<Vga> equalMemoryVolume(List<Double> memoryVolume) {
         return (root, query, criteriaBuilder) -> root.get("memoryVolume").in(memoryVolume);
     }
-    public static Specification<Vga> price(int minPrice, int maxPrice) { //price 추후 수정
-        return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("intelVga"), minPrice, maxPrice);
+    public static Specification<Vga> betweenPrice(int minPrice, int maxPrice) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("price"), minPrice, maxPrice);
     }
 }

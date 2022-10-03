@@ -48,7 +48,7 @@ public class CasesSpecification {
     public static Specification<Cases> equalMiniDtx(boolean miniDtx) {
         return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("flexAtx"), miniDtx);
     }
-    public static Specification<Cases> price(int minPrice, int maxPrice) { //price 추후 수정
-        return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("intelCases"), minPrice, maxPrice);
+    public static Specification<Cases> betweenPrice(int minPrice, int maxPrice) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("price"), minPrice, maxPrice);
     }
 }

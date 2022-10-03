@@ -1,17 +1,16 @@
 package com.comsultant.domain.product.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Getter
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class PsuDto {
 
     private long idx;
+
+    private int price;
 
     private String name; //제품명
 

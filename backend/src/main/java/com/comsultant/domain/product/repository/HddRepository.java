@@ -1,7 +1,6 @@
 package com.comsultant.domain.product.repository;
 
 import com.comsultant.domain.product.entity.Hdd;
-import com.comsultant.domain.product.entity.Vga;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
