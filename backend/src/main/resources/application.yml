@@ -58,6 +58,7 @@ logging:
     root: WARN
     org.hibernate.type.descriptor.sql: trace
     com.comsultant: debug
+    org.apache.kafka: error
 response:
   success: success
   fail: fail
