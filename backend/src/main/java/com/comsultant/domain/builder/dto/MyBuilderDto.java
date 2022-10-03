@@ -25,6 +25,8 @@ public class MyBuilderDto {
 
     private boolean kafka;
 
+    private boolean capture;
+
     private String use;
 
     private String program;

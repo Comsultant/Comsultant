@@ -43,6 +43,7 @@ public class ProductServiceImpl implements ProductService {
     private final SsdRepository ssdRepository;
     private final VgaRepository vgaRepository;
     private final ConstProperties constProperties;
+
     @Override
     public ProductDto getProduct(long idx) {
         return ProductMapper.mapper.toDto(productRepository.findById(idx)
@@ -107,23 +108,23 @@ public class ProductServiceImpl implements ProductService {
     public Object getObject(long type, long idx) {
         Object obj = null;
 
-        if(type == 1) { // 1.cpu, 2.ram, 3.hdd, 4.ssd, 5.psu, 6.cooler, 7.cases, 8.mainboard, 9.vga
+        if (type == 1) { // 1.cpu, 2.ram, 3.hdd, 4.ssd, 5.psu, 6.cooler, 7.cases, 8.mainboard, 9.vga
             obj = getCpu(idx);
-        }else if(type == 2) {
+        } else if (type == 2) {
             obj = getRam(idx);
-        }else if(type == 3) {
+        } else if (type == 3) {
             obj = getHdd(idx);
-        }else if(type == 4) {
+        } else if (type == 4) {
             obj = getSsd(idx);
-        }else if(type == 5) {
+        } else if (type == 5) {
             obj = getPsu(idx);
-        }else if(type == 6) {
+        } else if (type == 6) {
             obj = getCooler(idx);
-        }else if(type == 7) {
+        } else if (type == 7) {
             obj = getCases(idx);
-        }else if(type == 8) {
+        } else if (type == 8) {
             obj = getMainBoard(idx);
-        }else if(type == 9) {
+        } else if (type == 9) {
             obj = getVga(idx);
         }
         return obj;
@@ -133,25 +134,25 @@ public class ProductServiceImpl implements ProductService {
     public ProductListDto getCpuList(CpuRequest request, int page, int desc) {
         //필터링 조건
         Specification<Cpu> spec = (root, query, criteriaBuilder) -> null;
-        if(request.getName() != null) {
+        if (request.getName() != null) {
             spec = spec.and(CpuSpecification.containsName(request.getName()));
         }
-        if(request.getIntelCpu() != null && request.getIntelCpu().size() > 0) {
+        if (request.getIntelCpu() != null && request.getIntelCpu().size() > 0) {
             spec = spec.and(CpuSpecification.equalIntelCpu(request.getIntelCpu()));
         }
-        if(request.getAmdCpu() != null && request.getAmdCpu().size() > 0) {
+        if (request.getAmdCpu() != null && request.getAmdCpu().size() > 0) {
             spec = spec.and(CpuSpecification.equalAmdCpu(request.getAmdCpu()));
         }
-        if(request.getCore() != null && request.getCore().size() > 0) {
+        if (request.getCore() != null && request.getCore().size() > 0) {
             spec = spec.and(CpuSpecification.equalCore(request.getCore()));
         }
-        if(request.getCorp() != null && request.getCorp().size() > 0) {
+        if (request.getCorp() != null && request.getCorp().size() > 0) {
             spec = spec.and(CpuSpecification.equalCorp(request.getCorp()));
         }
-        if(request.getSocket() != null && request.getSocket().size() > 0) {
+        if (request.getSocket() != null && request.getSocket().size() > 0) {
             spec = spec.and(CpuSpecification.equalSocket(request.getSocket()));
         }
-        if(request.getPrice() != null && request.getPrice().size() > 1) {
+        if (request.getPrice() != null && request.getPrice().size() > 1) {
             spec = spec.and(CpuSpecification.betweenPrice(request.getPrice().get(0), request.getPrice().get(1)));
         }
 
@@ -162,7 +163,7 @@ public class ProductServiceImpl implements ProductService {
         int totalPages = pageCpus.getTotalPages();
 
         List<Object> list = new ArrayList<>();
-        for(Cpu cpu : cpus) {
+        for (Cpu cpu : cpus) {
             list.add(CpuMapper.mapper.toDto(cpu));
         }
 
@@ -175,22 +176,22 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductListDto getRamList(RamRequest request, int page, int desc) {
         Specification<Ram> spec = (root, query, criteriaBuilder) -> null;
-        if(request.getName() != null) {
+        if (request.getName() != null) {
             spec = spec.and(RamSpecification.containsName(request.getName()));
         }
-        if(request.getCorp() != null && request.getCorp().size() > 0) {
+        if (request.getCorp() != null && request.getCorp().size() > 0) {
             spec = spec.and(RamSpecification.equalCorp(request.getCorp()));
         }
-        if(request.getUseDevice() != null && request.getUseDevice().size() > 0) {
+        if (request.getUseDevice() != null && request.getUseDevice().size() > 0) {
             spec = spec.and(RamSpecification.equalUseDevice(request.getUseDevice()));
         }
-        if(request.getType() != null && request.getType().size() > 0) {
+        if (request.getType() != null && request.getType().size() > 0) {
             spec = spec.and(RamSpecification.equalType(request.getType()));
         }
-        if(request.getMemoryVolume() != null && request.getMemoryVolume().size() > 0) {
+        if (request.getMemoryVolume() != null && request.getMemoryVolume().size() > 0) {
             spec = spec.and(RamSpecification.equalMemoryVolume(request.getMemoryVolume()));
         }
-        if(request.getPrice() != null && request.getPrice().size() > 1) {
+        if (request.getPrice() != null && request.getPrice().size() > 1) {
             spec = spec.and(RamSpecification.betweenPrice(request.getPrice().get(0), request.getPrice().get(1)));
         }
 
@@ -201,7 +202,7 @@ public class ProductServiceImpl implements ProductService {
         int totalPages = pageRams.getTotalPages();
 
         List<Object> list = new ArrayList<>();
-        for(Ram ram : rams) {
+        for (Ram ram : rams) {
             list.add(RamMapper.mapper.toDto(ram));
         }
 
@@ -214,25 +215,25 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductListDto getVgaList(VgaRequest request, int page, int desc) {
         Specification<Vga> spec = (root, query, criteriaBuilder) -> null;
-        if(request.getName() != null) {
+        if (request.getName() != null) {
             spec = spec.and(VgaSpecification.containsName(request.getName()));
         }
-        if(request.getCorp() != null && request.getCorp().size() > 0) {
+        if (request.getCorp() != null && request.getCorp().size() > 0) {
             spec = spec.and(VgaSpecification.equalCorp(request.getCorp()));
         }
-        if(request.getChipsetCorp() != null && request.getChipsetCorp().size() > 0) {
+        if (request.getChipsetCorp() != null && request.getChipsetCorp().size() > 0) {
             spec = spec.and(VgaSpecification.equalChipsetCorp(request.getChipsetCorp()));
         }
-        if(request.getNvidia() != null && request.getNvidia().size() > 0) {
+        if (request.getNvidia() != null && request.getNvidia().size() > 0) {
             spec = spec.and(VgaSpecification.equalNvidia(request.getNvidia()));
         }
-        if(request.getAmd() != null && request.getAmd().size() > 0) {
+        if (request.getAmd() != null && request.getAmd().size() > 0) {
             spec = spec.and(VgaSpecification.equalAmd(request.getAmd()));
         }
-        if(request.getMemoryVolume() != null && request.getMemoryVolume().size() > 0) {
+        if (request.getMemoryVolume() != null && request.getMemoryVolume().size() > 0) {
             spec = spec.and(VgaSpecification.equalMemoryVolume(request.getMemoryVolume()));
         }
-        if(request.getPrice() != null && request.getPrice().size() > 1) {
+        if (request.getPrice() != null && request.getPrice().size() > 1) {
             spec = spec.and(VgaSpecification.betweenPrice(request.getPrice().get(0), request.getPrice().get(1)));
         }
 
@@ -243,7 +244,7 @@ public class ProductServiceImpl implements ProductService {
         int totalPages = pageVgas.getTotalPages();
 
         List<Object> list = new ArrayList<>();
-        for(Vga vga : vgas) {
+        for (Vga vga : vgas) {
             list.add(VgaMapper.mapper.toDto(vga));
         }
 
@@ -256,19 +257,19 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductListDto getPsuList(PsuRequest request, int page, int desc) {
         Specification<Psu> spec = (root, query, criteriaBuilder) -> null;
-        if(request.getName() != null) {
+        if (request.getName() != null) {
             spec = spec.and(PsuSpecification.containsName(request.getName()));
         }
-        if(request.getCorp() != null && request.getCorp().size() > 0) {
+        if (request.getCorp() != null && request.getCorp().size() > 0) {
             spec = spec.and(PsuSpecification.equalCorp(request.getCorp()));
         }
-        if(request.getType() != null && request.getType().size() > 0) {
+        if (request.getType() != null && request.getType().size() > 0) {
             spec = spec.and(PsuSpecification.equalType(request.getType()));
         }
-        if(request.getRatedPower() != null && request.getRatedPower().size() > 0) {
+        if (request.getRatedPower() != null && request.getRatedPower().size() > 0) {
             spec = spec.and(PsuSpecification.equalRatedPower(request.getRatedPower()));
         }
-        if(request.getPrice() != null && request.getPrice().size() > 1) {
+        if (request.getPrice() != null && request.getPrice().size() > 1) {
             spec = spec.and(PsuSpecification.betweenPrice(request.getPrice().get(0), request.getPrice().get(1)));
         }
 
@@ -279,7 +280,7 @@ public class ProductServiceImpl implements ProductService {
         int totalPages = pagePsus.getTotalPages();
 
         List<Object> list = new ArrayList<>();
-        for(Psu psu : psus) {
+        for (Psu psu : psus) {
             list.add(PsuMapper.mapper.toDto(psu));
         }
 
@@ -292,22 +293,22 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductListDto getMainBoardList(MainBoardRequest request, int page, int desc) {
         Specification<MainBoard> spec = (root, query, criteriaBuilder) -> null;
-        if(request.getName() != null) {
+        if (request.getName() != null) {
             spec = spec.and(MainBoardSpecification.containsName(request.getName()));
         }
-        if(request.getCorp() != null && request.getCorp().size() > 0) {
+        if (request.getCorp() != null && request.getCorp().size() > 0) {
             spec = spec.and(MainBoardSpecification.equalCorp(request.getCorp()));
         }
-        if(request.getCpuSocket() != null && request.getCpuSocket().size() > 0) {
+        if (request.getCpuSocket() != null && request.getCpuSocket().size() > 0) {
             spec = spec.and(MainBoardSpecification.equalCpuSocket(request.getCpuSocket()));
         }
-        if(request.getType() != null && request.getType().size() > 0) {
+        if (request.getType() != null && request.getType().size() > 0) {
             spec = spec.and(MainBoardSpecification.equalType(request.getType()));
         }
-        if(request.getDetailChipset() != null && request.getDetailChipset().size() > 0) {
+        if (request.getDetailChipset() != null && request.getDetailChipset().size() > 0) {
             spec = spec.and(MainBoardSpecification.equalDetailChipset(request.getDetailChipset()));
         }
-        if(request.getPrice() != null && request.getPrice().size() > 1) {
+        if (request.getPrice() != null && request.getPrice().size() > 1) {
             spec = spec.and(MainBoardSpecification.betweenPrice(request.getPrice().get(0), request.getPrice().get(1)));
         }
 
@@ -318,7 +319,7 @@ public class ProductServiceImpl implements ProductService {
         int totalPages = pageMainBoards.getTotalPages();
 
         List<Object> list = new ArrayList<>();
-        for(MainBoard mainBoard : mainBoards) {
+        for (MainBoard mainBoard : mainBoards) {
             list.add(MainBoardMapper.mapper.toDto(mainBoard));
         }
 
@@ -331,103 +332,103 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductListDto getCoolerList(CoolerRequest request, int page, int desc) {
         Specification<Cooler> spec = (root, query, criteriaBuilder) -> null;
-        if(request.getName() != null) {
+        if (request.getName() != null) {
             spec = spec.and(CoolerSpecification.containsName(request.getName()));
         }
-        if(request.getCorp() != null && request.getCorp().size() > 0) {
+        if (request.getCorp() != null && request.getCorp().size() > 0) {
             spec = spec.and(CoolerSpecification.equalCorp(request.getCorp()));
         }
-        if(request.getCoolingSystem() != null && request.getCoolingSystem().size() > 0) {
+        if (request.getCoolingSystem() != null && request.getCoolingSystem().size() > 0) {
             spec = spec.and(CoolerSpecification.equalCoolingSystem(request.getCoolingSystem()));
         }
-        if(request.getCoolerHeight() != null && request.getCoolerHeight().size() > 0) {
+        if (request.getCoolerHeight() != null && request.getCoolerHeight().size() > 0) {
             spec = spec.and(CoolerSpecification.equalCoolerHeight(request.getCoolerHeight()));
         }
-        if(request.isLga3647()) {
+        if (request.isLga3647()) {
             spec = spec.and(CoolerSpecification.equalLga3647(true));
         }
-        if(request.isLga2066()) {
+        if (request.isLga2066()) {
             spec = spec.and(CoolerSpecification.equalLga2066(true));
         }
-        if(request.isLga2011V3()) {
+        if (request.isLga2011V3()) {
             spec = spec.and(CoolerSpecification.equalLga2011V3(true));
         }
-        if(request.isLga2011()) {
+        if (request.isLga2011()) {
             spec = spec.and(CoolerSpecification.equalLga2011(true));
         }
-        if(request.isLga1700()) {
+        if (request.isLga1700()) {
             spec = spec.and(CoolerSpecification.equalLga1700(true));
         }
-        if(request.isLga1366()) {
+        if (request.isLga1366()) {
             spec = spec.and(CoolerSpecification.equalLga1366(true));
         }
-        if(request.isLga1200()) {
+        if (request.isLga1200()) {
             spec = spec.and(CoolerSpecification.equalLga1200(true));
         }
-        if(request.isLga115x()) {
+        if (request.isLga115x()) {
             spec = spec.and(CoolerSpecification.equalLga115x(true));
         }
-        if(request.isLga775()) {
+        if (request.isLga775()) {
             spec = spec.and(CoolerSpecification.equalLga775(true));
         }
-        if(request.isLga771()) {
+        if (request.isLga771()) {
             spec = spec.and(CoolerSpecification.equalLga771(true));
         }
-        if(request.isLga4677()) {
+        if (request.isLga4677()) {
             spec = spec.and(CoolerSpecification.equalLga4677(true));
         }
-        if(request.isLga4189()) {
+        if (request.isLga4189()) {
             spec = spec.and(CoolerSpecification.equalLga4189(true));
         }
-        if(request.isSocket478()) {
+        if (request.isSocket478()) {
             spec = spec.and(CoolerSpecification.equalSocket478(true));
         }
-        if(request.isSocket370()) {
+        if (request.isSocket370()) {
             spec = spec.and(CoolerSpecification.equalSocket370(true));
         }
-        if(request.isTr4()) {
+        if (request.isTr4()) {
             spec = spec.and(CoolerSpecification.equalTr4(true));
         }
-        if(request.isAm5()) {
+        if (request.isAm5()) {
             spec = spec.and(CoolerSpecification.equalAm5(true));
         }
-        if(request.isAm4()) {
+        if (request.isAm4()) {
             spec = spec.and(CoolerSpecification.equalAm4(true));
         }
-        if(request.isAm3()) {
+        if (request.isAm3()) {
             spec = spec.and(CoolerSpecification.equalAm3(true));
         }
-        if(request.isAm1()) {
+        if (request.isAm1()) {
             spec = spec.and(CoolerSpecification.equalAm1(true));
         }
-        if(request.isSp3()) {
+        if (request.isSp3()) {
             spec = spec.and(CoolerSpecification.equalSp3(true));
         }
-        if(request.isStrx4()) {
+        if (request.isStrx4()) {
             spec = spec.and(CoolerSpecification.equalStrx4(true));
         }
-        if(request.isSocket939()) {
+        if (request.isSocket939()) {
             spec = spec.and(CoolerSpecification.equalSocket939(true));
         }
-        if(request.isSocket754()) {
+        if (request.isSocket754()) {
             spec = spec.and(CoolerSpecification.equalSocket754(true));
         }
-        if(request.isSocket940()) {
+        if (request.isSocket940()) {
             spec = spec.and(CoolerSpecification.equalSocket940(true));
         }
-        if(request.isSwrx8()) {
+        if (request.isSwrx8()) {
             spec = spec.and(CoolerSpecification.equalSwrx8(true));
         }
-        if(request.isSocketa()) {
+        if (request.isSocketa()) {
             spec = spec.and(CoolerSpecification.equalSocketa(true));
         }
-        if(request.isSocketf()) {
+        if (request.isSocketf()) {
             spec = spec.and(CoolerSpecification.equalSocketf(true));
         }
-        if(request.isFmxAmx()) {
+        if (request.isFmxAmx()) {
             spec = spec.and(CoolerSpecification.equalFmxAmx(true));
         }
-        if(request.getPrice() != null && request.getPrice().size() > 1) {
+        if (request.getPrice() != null && request.getPrice().size() > 1) {
             spec = spec.and(CoolerSpecification.betweenPrice(request.getPrice().get(0), request.getPrice().get(1)));
         }
 
@@ -438,7 +439,7 @@ public class ProductServiceImpl implements ProductService {
         int totalPages = pageCoolers.getTotalPages();
 
         List<Object> list = new ArrayList<>();
-        for(Cooler cooler : coolers) {
+        for (Cooler cooler : coolers) {
             list.add(CoolerMapper.mapper.toDto(cooler));
         }
 
@@ -451,49 +452,49 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductListDto getCasesList(CasesRequest request, int page, int desc) {
         Specification<Cases> spec = (root, query, criteriaBuilder) -> null;
-        if(request.getName() != null) {
+        if (request.getName() != null) {
             spec = spec.and(CasesSpecification.containsName(request.getName()));
         }
-        if(request.getCorp() != null && request.getCorp().size() > 0) {
+        if (request.getCorp() != null && request.getCorp().size() > 0) {
             spec = spec.and(CasesSpecification.equalCorp(request.getCorp()));
         }
-        if(request.getClassType() != null && request.getClassType().size() > 0) {
+        if (request.getClassType() != null && request.getClassType().size() > 0) {
             spec = spec.and(CasesSpecification.equalClassType(request.getClassType()));
         }
-        if(request.getSize() != null && request.getSize().size() > 0) {
+        if (request.getSize() != null && request.getSize().size() > 0) {
             spec = spec.and(CasesSpecification.equalSize(request.getSize()));
         }
-        if(request.getPowerSize() != null && request.getPowerSize().size() > 0) {
+        if (request.getPowerSize() != null && request.getPowerSize().size() > 0) {
             spec = spec.and(CasesSpecification.equalPowerSize(request.getPowerSize()));
         }
-        if(request.isExtendedAtx()) {
+        if (request.isExtendedAtx()) {
             spec = spec.and(CasesSpecification.equalExtendedAtx(true));
         }
-        if(request.isStandardAtx()) {
+        if (request.isStandardAtx()) {
             spec = spec.or(CasesSpecification.equalStandardAtx(true));
         }
-        if(request.isMicroAtx()) {
+        if (request.isMicroAtx()) {
             spec = spec.or(CasesSpecification.equalMicroAtx(true));
         }
-        if(request.isFlexAtx()) {
+        if (request.isFlexAtx()) {
             spec = spec.or(CasesSpecification.equalFlexAtx(true));
         }
-        if(request.isStandardItx()) {
+        if (request.isStandardItx()) {
             spec = spec.or(CasesSpecification.equalStandardItx(true));
         }
-        if(request.isMiniItx()) {
+        if (request.isMiniItx()) {
             spec = spec.or(CasesSpecification.equalMiniItx(true));
         }
-        if(request.isSsiCeb()) {
+        if (request.isSsiCeb()) {
             spec = spec.or(CasesSpecification.equalSsiCeb(true));
         }
-        if(request.isSsiEeb()) {
+        if (request.isSsiEeb()) {
             spec = spec.or(CasesSpecification.equalSsiEeb(true));
         }
-        if(request.isMiniDtx()) {
+        if (request.isMiniDtx()) {
             spec = spec.or(CasesSpecification.equalMiniDtx(true));
         }
-        if(request.getPrice() != null && request.getPrice().size() > 1) {
+        if (request.getPrice() != null && request.getPrice().size() > 1) {
             spec = spec.and(CasesSpecification.betweenPrice(request.getPrice().get(0), request.getPrice().get(1)));
         }
 
@@ -504,7 +505,7 @@ public class ProductServiceImpl implements ProductService {
         int totalPages = pageCasess.getTotalPages();
 
         List<Object> list = new ArrayList<>();
-        for(Cases cases : casess) {
+        for (Cases cases : casess) {
             list.add(CasesMapper.mapper.toDto(cases));
         }
 
@@ -517,16 +518,16 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductListDto getHddList(HddRequest request, int page, int desc) {
         Specification<Hdd> spec = (root, query, criteriaBuilder) -> null;
-        if(request.getName() != null) {
+        if (request.getName() != null) {
             spec = spec.and(HddSpecification.containsName(request.getName()));
         }
-        if(request.getCorp() != null && request.getCorp().size() > 0) {
+        if (request.getCorp() != null && request.getCorp().size() > 0) {
             spec = spec.and(HddSpecification.equalCorp(request.getCorp()));
         }
-        if(request.getDiskVolume() != null && request.getDiskVolume().size() > 0) {
+        if (request.getDiskVolume() != null && request.getDiskVolume().size() > 0) {
             spec = spec.and(HddSpecification.equalDiskVolume(request.getDiskVolume()));
         }
-        if(request.getPrice() != null && request.getPrice().size() > 1) {
+        if (request.getPrice() != null && request.getPrice().size() > 1) {
             spec = spec.and(HddSpecification.betweenPrice(request.getPrice().get(0), request.getPrice().get(1)));
         }
 
@@ -537,7 +538,7 @@ public class ProductServiceImpl implements ProductService {
         int totalPages = pageHdds.getTotalPages();
 
         List<Object> list = new ArrayList<>();
-        for(Hdd hdd : hdds) {
+        for (Hdd hdd : hdds) {
             list.add(HddMapper.mapper.toDto(hdd));
         }
 
@@ -550,22 +551,22 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductListDto getSsdList(SsdRequest request, int page, int desc) {
         Specification<Ssd> spec = (root, query, criteriaBuilder) -> null;
-        if(request.getName() != null) {
+        if (request.getName() != null) {
             spec = spec.and(SsdSpecification.containsName(request.getName()));
         }
-        if(request.getCorp() != null && request.getCorp().size() > 0) {
+        if (request.getCorp() != null && request.getCorp().size() > 0) {
             spec = spec.and(SsdSpecification.equalCorp(request.getCorp()));
         }
-        if(request.getFormFactor() != null && request.getFormFactor().size() > 0) {
+        if (request.getFormFactor() != null && request.getFormFactor().size() > 0) {
             spec = spec.and(SsdSpecification.equalFormFactor(request.getFormFactor()));
         }
-        if(request.getVolume() != null && request.getVolume().size() > 0) {
+        if (request.getVolume() != null && request.getVolume().size() > 0) {
             spec = spec.and(SsdSpecification.equalVolume(request.getVolume()));
         }
-        if(request.getMemoryType() != null && request.getMemoryType().size() > 0) {
+        if (request.getMemoryType() != null && request.getMemoryType().size() > 0) {
             spec = spec.and(SsdSpecification.equalMemoryType(request.getMemoryType()));
         }
-        if(request.getPrice() != null && request.getPrice().size() > 1) {
+        if (request.getPrice() != null && request.getPrice().size() > 1) {
             spec = spec.and(SsdSpecification.betweenPrice(request.getPrice().get(0), request.getPrice().get(1)));
         }
 
@@ -576,7 +577,7 @@ public class ProductServiceImpl implements ProductService {
         int totalPages = pageSsds.getTotalPages();
 
         List<Object> list = new ArrayList<>();
-        for(Ssd ssd : ssds) {
+        for (Ssd ssd : ssds) {
             list.add(SsdMapper.mapper.toDto(ssd));
         }
 
@@ -699,25 +700,24 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public int getProductPriceOne(String category, long productId) {
+    public List<Integer> getProductPriceOne(String category, long productId) {
         PriceDto data = getProductPriceDto(category, productId);
-        if(data == null) return 0;
+        int[] priceAndDate = new int[2];
+        if (data == null) return null;
         List<List<Integer>> dateData = data.getDate();
         int dateSize = dateData.size();
-        if(dateSize == 0) return 0;
-        List<Integer> dateAndPrice = dateData.get(dateSize-1);
+        if (dateSize == 0) return null;
+        List<Integer> dateAndPrice = dateData.get(dateSize - 1);
 //        int date = dateAndPrice.get(0);
-        int price = dateAndPrice.get(1);
-
-        return price;
+        return dateAndPrice;
     }
+
     @Override
     public Pageable getPageable(int page, int desc) {
         int pageSize = constProperties.getProductListSize();
-        if(desc == 1) {
+        if (desc == 1) {
             return PageRequest.of(page, pageSize, Sort.by("price").ascending());
-        }
-        else if(desc == 2)
+        } else if (desc == 2)
             return PageRequest.of(page, pageSize, Sort.by("price").descending());
         else
             return PageRequest.of(page, pageSize, Sort.by("registeredAt").descending());

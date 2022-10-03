@@ -1,11 +1,15 @@
 package com.comsultant.domain.builder.api;
 
 import com.comsultant.domain.account.entity.Account;
+import com.comsultant.domain.builder.dto.MyBuilderDetailDto;
+import com.comsultant.domain.builder.dto.MyBuilderDetailListDto;
 import com.comsultant.domain.builder.dto.MyBuilderDto;
 import com.comsultant.domain.builder.service.BuilderService;
+import com.comsultant.global.common.response.DtoResponse;
 import com.comsultant.global.common.response.MessageResponse;
 import com.comsultant.global.config.security.AccountDetails;
 import com.comsultant.global.properties.ResponseProperties;
+import com.comsultant.global.util.ParameterUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,17 +25,6 @@ public class BuilderApi {
 
     private final ResponseProperties responseProperties;
 
-/*    @PostMapping("")
-    public ResponseEntity<MessageResponse> createBuilder(@RequestBody BuilderDto builderDto) {
-        boolean result = builderService.createBuilder(builderDto);
-
-        if (result) {
-            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getSuccess()));
-        } else {
-            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getFail()));
-        }
-    }*/
-
     @PostMapping("")
     public ResponseEntity<MessageResponse> createMyBuilder(@AuthenticationPrincipal AccountDetails accountDetails, @RequestBody MyBuilderDto myBuilderDto) {
         Account account = new Account();
@@ -45,6 +38,37 @@ public class BuilderApi {
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getFail()));
         }
+    }
+
+    @PostMapping("/capture")
+    public ResponseEntity<MessageResponse> capture(@RequestBody MyBuilderDto myBuilderDto) {
+
+        boolean result = builderService.captureBuilder(myBuilderDto);
+
+        if (result) {
+            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getSuccess()));
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getFail()));
+        }
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<DtoResponse<MyBuilderDetailListDto>> getMyBuilderDetailList(@AuthenticationPrincipal AccountDetails accountDetails) {
+        MyBuilderDetailListDto result = builderService.getMyBuilderDetails(accountDetails.getAccount());
+        return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
+    }
+
+    @GetMapping("")
+    public ResponseEntity<DtoResponse<MyBuilderDetailListDto>> getMyBuilderPageList(@RequestParam(name = "page", required = false) String pageParam, @AuthenticationPrincipal AccountDetails accountDetails) {
+        int page = ParameterUtil.checkPage(pageParam);
+        MyBuilderDetailListDto result = builderService.getMyBuilderPageList(accountDetails.getAccount(), page);
+        return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
+    }
+
+    @GetMapping("/{myBuilderIdx}")
+    public ResponseEntity<DtoResponse<MyBuilderDetailDto>> getBuilder(@PathVariable("myBuilderIdx") long myBuilderIdx, @AuthenticationPrincipal AccountDetails accountDetails) {
+        MyBuilderDetailDto result = builderService.getBuilder(myBuilderIdx, accountDetails.getAccount());
+        return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
     }
 
     @PatchMapping("/{myBuilderIdx}")
