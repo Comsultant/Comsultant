@@ -5,7 +5,6 @@ import com.comsultant.domain.account.repository.AccountRepository;
 import com.comsultant.domain.comment.dto.CommentDetailDto;
 import com.comsultant.domain.comment.dto.CommentDto;
 import com.comsultant.domain.comment.dto.CommentListDto;
-import com.comsultant.domain.comment.dto.CommentResponse;
 import com.comsultant.domain.comment.entity.Comment;
 import com.comsultant.domain.comment.mapper.CommentMapper;
 import com.comsultant.domain.comment.repository.CommentRepository;
@@ -119,9 +118,11 @@ public class CommentServiceImpl implements CommentService {
         List<CommentDetailDto> result = new ArrayList<>();
 
         for (Comment comment : comments) {
+            String nickName = comment.getAccount().getNickname();
             CommentDetailDto ret = CommentDetailDto.builder()
                     .commentDto(CommentMapper.mapper.toDto(comment))
                     .build();
+            ret.getCommentDto().updateNickName(nickName);
             result.add(ret);
         }
 
