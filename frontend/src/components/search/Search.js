@@ -282,7 +282,18 @@ const Search = () => {
                     return (
                       <>
                       <span>
-                          {ProductFilterKorean[key]} : {value.map((v) => { return (<span className={style['filter-body-item']}>{v}<CloseOutlined onClick={()=>onFilterBodyItemDelete(key, v) } style={{color:'red'}}/></span>); })}
+                          {ProductFilterKorean[key]} : {value.map((v, idx) => {
+                            return (
+                              <span
+                                key={idx}
+                                className={style['filter-body-item']}>
+                                {v}
+                                <CloseOutlined
+                                  onClick={() => onFilterBodyItemDelete(key, v)}
+                                  style={{ color: 'red' }}
+                                />
+                              </span>);
+                          })}
                       </span>
                         
                       <br/>

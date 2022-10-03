@@ -10,15 +10,15 @@ const ProductDetail = ({ currTypeTab, product }) => {
         currTypeTab == 0 ?
         <>
         <div className={style['product-detail']}>
-              {product.socket != '0' ? `${product.socket}` : null}
-              {product.nano != '0' ? ` / ${product.nano}` : null}
-              {product.core != '0' ? ` / ${product.core}` : null}
-              {product.threadCnt != '0' ? ` / ${product.threadCnt}` : null}
-              {product.clockOriginal != '0' ? ` / 기본 클럭 : ${product.clockOriginal} GHz` : null}
-              {product.clockMax != '0' ? `최대 클럭: ${product.clockMax}GHz` : null}
-              {product.includeVga != '0' ? ` / 내장그래픽 : ${product.includeVga}` : " / 내장그래픽 : 미탑재"}
+              {product.socket != '0' ? `${product.socket} / ` : null}
+              {product.nano != '0' ? `${product.nano} / ` : null}
+              {product.core != '0' ? `${product.core} / ` : null}
+              {product.threadCnt != '0' ? `${product.threadCnt} / ` : null}
+              {product.clockOriginal != '0' ? `기본 클럭 : ${product.clockOriginal} GHz / ` : null}
+              {product.clockMax != '0' ? `최대 클럭: ${product.clockMax}GHz / ` : null}
+              {product.includeVga != '0' ? `내장그래픽 : ${product.includeVga} / ` : "내장그래픽 : 미탑재 / "}
               {product.includeVgaName != `0` ? `(${product.includeVgaName})` : null} 
-              {product.includeCooler != '0' ? " / 쿨러 : 포함" : " / 쿨러 : 미포함"}
+              {product.includeCooler != '0' ? "쿨러 : 포함 / " : "쿨러 : 미포함 / "}
             
         </div>
         <div>
