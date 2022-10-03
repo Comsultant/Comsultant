@@ -4,7 +4,7 @@ import style from "@/styles/DescFilter.module.scss"
 
 const DescFilter = ({currDescNum, setCurrDescNum}) => {
 
-  const descFilterList = ["인기상품순", "신상품순", "낮은 가격순", "높은 가격순"];
+  const descFilterList = ["신상품순", "낮은 가격순", "높은 가격순"];
 
   const onTabChange = (e) => {
     setCurrDescNum(e)

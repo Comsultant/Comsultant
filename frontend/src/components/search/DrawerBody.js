@@ -59,7 +59,7 @@ const DrawerBody = ({ currBuilder, setCurrBuilder }) => {
   //     setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
   //   }
   // }
-  console.log(currBuilder);
+  // console.log(currBuilder);
   return (
     <div className={style['container']}>
         <div className={style['product-box']}>
