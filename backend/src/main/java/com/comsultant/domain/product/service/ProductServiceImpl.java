@@ -22,6 +22,11 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +48,7 @@ public class ProductServiceImpl implements ProductService {
     private final SsdRepository ssdRepository;
     private final VgaRepository vgaRepository;
     private final ConstProperties constProperties;
+    private final EntityManager entityManager;
 
     @Override
     public ProductDto getProduct(long idx) {
@@ -331,6 +337,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductListDto getCoolerList(CoolerRequest request, int page, int desc) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Cooler> criteriaQuery = cb.createQuery(Cooler.class);
+        Root<Cooler> itemRoot = (Root<Cooler>) criteriaQuery.from(Cooler.class).alias("generatedAlias0");
+        Predicate p = null;
+
         Specification<Cooler> spec = (root, query, criteriaBuilder) -> null;
         if (request.getName() != null) {
             spec = spec.and(CoolerSpecification.containsName(request.getName()));
@@ -344,93 +355,182 @@ public class ProductServiceImpl implements ProductService {
         if (request.getCoolerHeight() != null && request.getCoolerHeight().size() > 0) {
             spec = spec.and(CoolerSpecification.equalCoolerHeight(request.getCoolerHeight()));
         }
+        if (request.getType() != null && request.getType().size() > 0) {
+            spec = spec.and(CoolerSpecification.equalType(request.getType()));
+        }
         if (request.isLga3647()) {
-            spec = spec.and(CoolerSpecification.equalLga3647(true));
+            if (p == null)
+                p = CoolerSpecification.equalLga3647(cb, itemRoot, true);
+            else
+                p = cb.or(p, CoolerSpecification.equalLga3647(cb, itemRoot, true));
         }
         if (request.isLga2066()) {
-            spec = spec.and(CoolerSpecification.equalLga2066(true));
+            if (p == null)
+                p = CoolerSpecification.equalLga2066(cb, itemRoot, true);
+            else
+                p = cb.or(p, CoolerSpecification.equalLga2066(cb, itemRoot, true));
         }
         if (request.isLga2011V3()) {
-            spec = spec.and(CoolerSpecification.equalLga2011V3(true));
+            if (p == null)
+                p = CoolerSpecification.equalLga2011V3(cb, itemRoot, true);
+            else
+                p = cb.or(p, CoolerSpecification.equalLga2011V3(cb, itemRoot, true));
         }
         if (request.isLga2011()) {
-            spec = spec.and(CoolerSpecification.equalLga2011(true));
+            if (p == null)
+                p = CoolerSpecification.equalLga2011(cb, itemRoot, true);
+            else
+                p = cb.or(p, CoolerSpecification.equalLga2011(cb, itemRoot, true));
         }
         if (request.isLga1700()) {
-            spec = spec.and(CoolerSpecification.equalLga1700(true));
+            if (p == null)
+                p = CoolerSpecification.equalLga1700(cb, itemRoot, true);
+            else
+                p = cb.or(p, CoolerSpecification.equalLga1700(cb, itemRoot, true));
         }
         if (request.isLga1366()) {
-            spec = spec.and(CoolerSpecification.equalLga1366(true));
+            if (p == null)
+                p = CoolerSpecification.equalLga1366(cb, itemRoot, true);
+            else
+                p = cb.or(p, CoolerSpecification.equalLga1366(cb, itemRoot, true));
         }
         if (request.isLga1200()) {
-            spec = spec.and(CoolerSpecification.equalLga1200(true));
+            if (p == null)
+                p = CoolerSpecification.equalLga1200(cb, itemRoot, true);
+            else
+                p = cb.or(p, CoolerSpecification.equalLga1200(cb, itemRoot, true));
         }
         if (request.isLga115x()) {
-            spec = spec.and(CoolerSpecification.equalLga115x(true));
+            if (p == null)
+                p = CoolerSpecification.equalLga115x(cb, itemRoot, true);
+            else
+                p = cb.or(p, CoolerSpecification.equalLga115x(cb, itemRoot, true));
         }
         if (request.isLga775()) {
-            spec = spec.and(CoolerSpecification.equalLga775(true));
+            if (p == null)
+                p = CoolerSpecification.equalLga775(cb, itemRoot, true);
+            else
+                p = cb.or(p, CoolerSpecification.equalLga775(cb, itemRoot, true));
         }
         if (request.isLga771()) {
-            spec = spec.and(CoolerSpecification.equalLga771(true));
+            if (p == null)
+                p = CoolerSpecification.equalLga771(cb, itemRoot, true);
+            else
+                p = cb.or(p, CoolerSpecification.equalLga771(cb, itemRoot, true));
         }
         if (request.isLga4677()) {
-            spec = spec.and(CoolerSpecification.equalLga4677(true));
+            if (p == null)
+                p = CoolerSpecification.equalLga4677(cb, itemRoot, true);
+            else
+                p = cb.or(p, CoolerSpecification.equalLga4677(cb, itemRoot, true));
         }
         if (request.isLga4189()) {
-            spec = spec.and(CoolerSpecification.equalLga4189(true));
+            if (p == null)
+                p = CoolerSpecification.equalLga4189(cb, itemRoot, true);
+            else
+                p = cb.or(p, CoolerSpecification.equalLga4189(cb, itemRoot, true));
         }
         if (request.isSocket478()) {
-            spec = spec.and(CoolerSpecification.equalSocket478(true));
+            if (p == null)
+                p = CoolerSpecification.equalSocket478(cb, itemRoot, true);
+            else
+                p = cb.or(p, CoolerSpecification.equalSocket478(cb, itemRoot, true));
         }
         if (request.isSocket370()) {
-            spec = spec.and(CoolerSpecification.equalSocket370(true));
+            if (p == null)
+                p = CoolerSpecification.equalSocket370(cb, itemRoot, true);
+            else
+                p = cb.or(p, CoolerSpecification.equalSocket370(cb, itemRoot, true));
         }
         if (request.isTr4()) {
-            spec = spec.and(CoolerSpecification.equalTr4(true));
+            if (p == null)
+                p = CoolerSpecification.equalTr4(cb, itemRoot, true);
+            else
+                p = cb.or(p, CoolerSpecification.equalTr4(cb, itemRoot, true));
         }
         if (request.isAm5()) {
-            spec = spec.and(CoolerSpecification.equalAm5(true));
+            if (p == null)
+                p = CoolerSpecification.equalAm5(cb, itemRoot, true);
+            else
+                p = cb.or(p, CoolerSpecification.equalAm5(cb, itemRoot, true));
         }
         if (request.isAm4()) {
-            spec = spec.and(CoolerSpecification.equalAm4(true));
+            if (p == null)
+                p = CoolerSpecification.equalAm4(cb, itemRoot, true);
+            else
+                p = cb.or(p, CoolerSpecification.equalAm4(cb, itemRoot, true));
         }
         if (request.isAm3()) {
-            spec = spec.and(CoolerSpecification.equalAm3(true));
+            if (p == null)
+                p = CoolerSpecification.equalAm3(cb, itemRoot, true);
+            else
+                p = cb.or(p, CoolerSpecification.equalAm3(cb, itemRoot, true));
         }
         if (request.isAm1()) {
-            spec = spec.and(CoolerSpecification.equalAm1(true));
+            if (p == null)
+                p = CoolerSpecification.equalAm1(cb, itemRoot, true);
+            else
+                p = cb.or(p, CoolerSpecification.equalAm1(cb, itemRoot, true));
         }
         if (request.isSp3()) {
-            spec = spec.and(CoolerSpecification.equalSp3(true));
+            if (p == null)
+                p = CoolerSpecification.equalSp3(cb, itemRoot, true);
+            else
+                p = cb.or(p, CoolerSpecification.equalSp3(cb, itemRoot, true));
         }
         if (request.isStrx4()) {
-            spec = spec.and(CoolerSpecification.equalStrx4(true));
+            if (p == null)
+                p = CoolerSpecification.equalStrx4(cb, itemRoot, true);
+            else
+                p = cb.or(p, CoolerSpecification.equalStrx4(cb, itemRoot, true));
         }
         if (request.isSocket939()) {
-            spec = spec.and(CoolerSpecification.equalSocket939(true));
+            if (p == null)
+                p = CoolerSpecification.equalSocket939(cb, itemRoot, true);
+            else
+                p = cb.or(p, CoolerSpecification.equalSocket939(cb, itemRoot, true));
         }
         if (request.isSocket754()) {
-            spec = spec.and(CoolerSpecification.equalSocket754(true));
+            if (p == null)
+                p = CoolerSpecification.equalSocket754(cb, itemRoot, true);
+            else
+                p = cb.or(p, CoolerSpecification.equalSocket754(cb, itemRoot, true));
         }
         if (request.isSocket940()) {
-            spec = spec.and(CoolerSpecification.equalSocket940(true));
+            if (p == null)
+                p = CoolerSpecification.equalSocket940(cb, itemRoot, true);
+            else
+                p = cb.or(p, CoolerSpecification.equalSocket940(cb, itemRoot, true));
         }
         if (request.isSwrx8()) {
-            spec = spec.and(CoolerSpecification.equalSwrx8(true));
+            if (p == null)
+                p = CoolerSpecification.equalSwrx8(cb, itemRoot, true);
+            else
+                p = cb.or(p, CoolerSpecification.equalSwrx8(cb, itemRoot, true));
         }
         if (request.isSocketa()) {
-            spec = spec.and(CoolerSpecification.equalSocketa(true));
+            if (p == null)
+                p = CoolerSpecification.equalSocketa(cb, itemRoot, true);
+            else
+                p = cb.or(p, CoolerSpecification.equalSocketa(cb, itemRoot, true));
         }
         if (request.isSocketf()) {
-            spec = spec.and(CoolerSpecification.equalSocketf(true));
+            if (p == null)
+                p = CoolerSpecification.equalSocketf(cb, itemRoot, true);
+            else
+                p = cb.or(p, CoolerSpecification.equalSocketf(cb, itemRoot, true));
         }
         if (request.isFmxAmx()) {
-            spec = spec.and(CoolerSpecification.equalFmxAmx(true));
+            if (p == null)
+                p = CoolerSpecification.equalFmxAmx(cb, itemRoot, true);
+            else
+                p = cb.or(p, CoolerSpecification.equalFmxAmx(cb, itemRoot, true));
         }
         if (request.getPrice() != null && request.getPrice().size() > 1) {
             spec = spec.and(CoolerSpecification.betweenPrice(request.getPrice().get(0), request.getPrice().get(1)));
         }
+        if (p != null)
+            spec = spec.and(CoolerSpecification.result(p));
 
         //페이지네이션
         Pageable pageable = getPageable(page, desc);
@@ -451,6 +551,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductListDto getCasesList(CasesRequest request, int page, int desc) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Cases> criteriaQuery = cb.createQuery(Cases.class);
+        Root<Cases> itemRoot = (Root<Cases>) criteriaQuery.from(Cases.class).alias("generatedAlias0");
+        Predicate p = null;
+
         Specification<Cases> spec = (root, query, criteriaBuilder) -> null;
         if (request.getName() != null) {
             spec = spec.and(CasesSpecification.containsName(request.getName()));
@@ -468,35 +573,64 @@ public class ProductServiceImpl implements ProductService {
             spec = spec.and(CasesSpecification.equalPowerSize(request.getPowerSize()));
         }
         if (request.isExtendedAtx()) {
-            spec = spec.and(CasesSpecification.equalExtendedAtx(true));
+            if (p == null)
+                p = CasesSpecification.equalExtendedAtx(cb, itemRoot, true);
+            else
+                p = cb.or(p, CasesSpecification.equalExtendedAtx(cb, itemRoot, true));
         }
         if (request.isStandardAtx()) {
-            spec = spec.or(CasesSpecification.equalStandardAtx(true));
+            if (p == null)
+                p = CasesSpecification.equalStandardAtx(cb, itemRoot, true);
+            else
+                p = cb.or(p, CasesSpecification.equalStandardAtx(cb, itemRoot, true));
         }
         if (request.isMicroAtx()) {
-            spec = spec.or(CasesSpecification.equalMicroAtx(true));
+            if (p == null)
+                p = CasesSpecification.equalMicroAtx(cb, itemRoot, true);
+            else
+                p = cb.or(p, CasesSpecification.equalMicroAtx(cb, itemRoot, true));
         }
         if (request.isFlexAtx()) {
-            spec = spec.or(CasesSpecification.equalFlexAtx(true));
+            if (p == null)
+                p = CasesSpecification.equalFlexAtx(cb, itemRoot, true);
+            else
+                p = cb.or(p, CasesSpecification.equalFlexAtx(cb, itemRoot, true));
         }
         if (request.isStandardItx()) {
-            spec = spec.or(CasesSpecification.equalStandardItx(true));
+            if (p == null)
+                p = CasesSpecification.equalStandardItx(cb, itemRoot, true);
+            else
+                p = cb.or(p, CasesSpecification.equalStandardItx(cb, itemRoot, true));
         }
         if (request.isMiniItx()) {
-            spec = spec.or(CasesSpecification.equalMiniItx(true));
+            if (p == null)
+                p = CasesSpecification.equalMiniItx(cb, itemRoot, true);
+            else
+                p = cb.or(p, CasesSpecification.equalMiniItx(cb, itemRoot, true));
         }
         if (request.isSsiCeb()) {
-            spec = spec.or(CasesSpecification.equalSsiCeb(true));
+            if (p == null)
+                p = CasesSpecification.equalSsiCeb(cb, itemRoot, true);
+            else
+                p = cb.or(p, CasesSpecification.equalSsiCeb(cb, itemRoot, true));
         }
         if (request.isSsiEeb()) {
-            spec = spec.or(CasesSpecification.equalSsiEeb(true));
+            if (p == null)
+                p = CasesSpecification.equalSsiEeb(cb, itemRoot, true);
+            else
+                p = cb.or(p, CasesSpecification.equalSsiEeb(cb, itemRoot, true));
         }
         if (request.isMiniDtx()) {
-            spec = spec.or(CasesSpecification.equalMiniDtx(true));
+            if (p == null)
+                p = CasesSpecification.equalMiniDtx(cb, itemRoot, true);
+            else
+                p = cb.or(p, CasesSpecification.equalMiniDtx(cb, itemRoot, true));
         }
         if (request.getPrice() != null && request.getPrice().size() > 1) {
             spec = spec.and(CasesSpecification.betweenPrice(request.getPrice().get(0), request.getPrice().get(1)));
         }
+        if (p != null)
+            spec = spec.and(CasesSpecification.result(p));
 
         //페이지네이션
         Pageable pageable = getPageable(page, desc);
@@ -702,13 +836,12 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Integer> getProductPriceOne(String category, long productId) {
         PriceDto data = getProductPriceDto(category, productId);
-        int[] priceAndDate = new int[2];
         if (data == null) return null;
         List<List<Integer>> dateData = data.getDate();
         int dateSize = dateData.size();
         if (dateSize == 0) return null;
         List<Integer> dateAndPrice = dateData.get(dateSize - 1);
-//        int date = dateAndPrice.get(0);
+
         return dateAndPrice;
     }
 
