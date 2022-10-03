@@ -1,0 +1,58 @@
+$font-size-medium: 16px;
+$font-size-small: 12px;
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.replies {
+  width: 100%;
+  border-bottom: solid 1px #dadada;
+}
+
+.comment-box{
+  width: 100%;
+  display: flex;
+  padding: 20px 0px;
+  border-bottom: solid 1px #dadada;
+}
+
+.avatar {
+  padding: 0px 10px;
+}
+
+.content {
+  width: 100%;
+  font-size: $font-size-medium;
+}
+
+.time {
+  display: flex;
+  justify-content: space-between;
+  font-size: $font-size-small;
+  color: gray;
+}
+
+.comment-input-box {
+  margin-top: 20px;
+  min-height: 80px;
+  display: flex;
+}
+
+.comment-input {
+  height: 150px;
+}
+
+.submit-button {
+  background-color: #377BB9;
+  color: white;
+  border: none;
+  border-radius: 2px;
+  padding: 5px 20px;
+  white-space: nowrap;
+}
+
+.edit-button, .delete-button {
+  cursor: pointer;
+}

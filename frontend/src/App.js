@@ -7,6 +7,7 @@ import Account from "./routes/Account";
 import Recommend from "./components/recommend/Recommend";
 import Search from "./components/search/Search";
 import SocailAuth from "./components/account/SocailAuth";
+import ProductInfo from "./components/product/ProductInfo";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/account/*" element={<Account />} />
           <Route path="/recommend/" element={<Recommend />} />
           <Route path="/product/search" element={<Search />} />
+          <Route path="/product/info" element={<ProductInfo />} />
       </Route>
       <Route path="/social/*" element={<SocailAuth />} />
     </Routes>
