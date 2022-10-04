@@ -172,7 +172,7 @@ const Regist = () => {
       email,
       password,
       nickname,
-      birthyear : birthYear,
+      birthYear : birthYear,
     }
     const result = await registRequest(account);
     if (result?.data?.message === "success") {
