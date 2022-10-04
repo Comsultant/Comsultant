@@ -16,7 +16,7 @@ public class MongoConfig {
 
     @Bean
     public MongoDatabaseFactory mongoDatabaseFactory() {
-        return new SimpleMongoClientDatabaseFactory(String.format("mongodb://%s:%d/%s?authSource=admin",
+        return new SimpleMongoClientDatabaseFactory(String.format("mongodb://ssafy:ssafy@%s:%d/%s?authSource=admin",
                 mongoProperties.getHost(), mongoProperties.getPort(), mongoProperties.getDatabase()));
     }
 
