@@ -7,15 +7,15 @@ import org.springframework.http.HttpStatus;
 @Getter
 @RequiredArgsConstructor
 public enum ProductCategory {
-    CPU(1, "CPU"),
-    RAM(2, "Memory"),
-    HDD(3, "HDD"),
-    SSD(4, "SSD"),
-    PSU(5, "Power Supplier"),
-    COOLER(6, "Custom and etc"),
-    CASES(7, "Computer Case"),
-    MB(8, "Main Board"),
-    VGA(9, "Graphic Card");
+    CPU(1, "cpu"),
+    RAM(2, "ram"),
+    HDD(3, "hdd"),
+    SSD(4, "ssd"),
+    PSU(5, "psu"),
+    COOLER(6, "cooler"),
+    CASES(7, "cases"),
+    MB(8, "mainboard"),
+    VGA(9, "vga");
 
 
     private final int idx;

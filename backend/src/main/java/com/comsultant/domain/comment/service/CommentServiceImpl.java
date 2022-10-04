@@ -1,11 +1,9 @@
 package com.comsultant.domain.comment.service;
 
 import com.comsultant.domain.account.entity.Account;
-import com.comsultant.domain.account.repository.AccountRepository;
 import com.comsultant.domain.comment.dto.CommentDetailDto;
 import com.comsultant.domain.comment.dto.CommentDto;
 import com.comsultant.domain.comment.dto.CommentListDto;
-import com.comsultant.domain.comment.dto.CommentResponse;
 import com.comsultant.domain.comment.entity.Comment;
 import com.comsultant.domain.comment.mapper.CommentMapper;
 import com.comsultant.domain.comment.repository.CommentRepository;
@@ -51,12 +49,12 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public boolean createComment(Account account, long productIdx, CommentDto commentDto) {
-        if(account == null || account.getIdx() == 0) {
+        if (account == null || account.getIdx() == 0) {
             return false;
         }
 
         commentDto.updateUserInfo(account.getIdx(), productIdx);
-        if(!productRepository.existsById(productIdx)) {
+        if (!productRepository.existsById(productIdx)) {
             throw new CommentApiException(CommentErrorCode.PRODUCT_NOT_FOUND);
         }
 
@@ -66,7 +64,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentListDto getComments(Account account, int page, boolean desc) {
-        if(account == null || account.getIdx() == 0) {
+        if (account == null || account.getIdx() == 0) {
             return null;
         }
         Pageable pageable;
@@ -119,9 +117,11 @@ public class CommentServiceImpl implements CommentService {
         List<CommentDetailDto> result = new ArrayList<>();
 
         for (Comment comment : comments) {
+            String nickName = comment.getAccount().getNickname();
             CommentDetailDto ret = CommentDetailDto.builder()
                     .commentDto(CommentMapper.mapper.toDto(comment))
                     .build();
+            ret.getCommentDto().updateNickName(nickName);
             result.add(ret);
         }
 
@@ -134,7 +134,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional()
     public boolean updateComment(Account account, long commentIdx, CommentDto commentDto) {
-        if(account == null || account.getIdx() == 0) {
+        if (account == null || account.getIdx() == 0) {
             return false;
         }
         Comment comment = commentRepository.findById(commentIdx).orElseThrow(
@@ -151,7 +151,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public boolean deleteComment(Account account, long commentIdx) {
-        if(account == null || account.getIdx() == 0) {
+        if (account == null || account.getIdx() == 0) {
             return false;
         }
         Comment comment = commentRepository.findById(commentIdx).orElseThrow(
@@ -165,59 +165,58 @@ public class CommentServiceImpl implements CommentService {
         }
     }
 
-
-    private Map<String, String> getProductNameImgByIdx(long idx, int productCategory) {
+    public Map<String, String> getProductNameImgByIdx(long idx, int productCategory) {
         Map<String, String> ret = new HashMap<>();
-        if(productCategory == 1) {
+        if (productCategory == 1) {
             Cpu cpu = cpuRepository.findByIdx(idx).orElseThrow(
                     () -> new CommentApiException(CommentErrorCode.PRODUCT_NOT_FOUND)
             );
             ret.put("name", cpu.getName());
             ret.put("img", String.valueOf(cpu.getImgCnt()));
             return ret;
-        } else if(productCategory == 2) {
+        } else if (productCategory == 2) {
             Ram product = ramRepository.findByIdx(idx).orElseThrow(
                     () -> new CommentApiException(CommentErrorCode.PRODUCT_NOT_FOUND)
             );
             ret.put("name", product.getName());
             ret.put("img", String.valueOf(product.getImgCnt()));
             return ret;
-        } else if(productCategory == 3) {
+        } else if (productCategory == 3) {
             Hdd product = hddRepository.findByIdx(idx).orElseThrow(
                     () -> new CommentApiException(CommentErrorCode.PRODUCT_NOT_FOUND)
             );
             ret.put("name", product.getName());
             ret.put("img", String.valueOf(product.getImgCnt()));
             return ret;
-        } else if(productCategory == 4) {
+        } else if (productCategory == 4) {
             Ssd product = ssdRepository.findByIdx(idx).orElseThrow(
                     () -> new CommentApiException(CommentErrorCode.PRODUCT_NOT_FOUND)
             );
             ret.put("name", product.getName());
             ret.put("img", String.valueOf(product.getImgCnt()));
             return ret;
-        } else if(productCategory == 5) {
+        } else if (productCategory == 5) {
             Psu product = psuRepository.findByIdx(idx).orElseThrow(
                     () -> new CommentApiException(CommentErrorCode.PRODUCT_NOT_FOUND)
             );
             ret.put("name", product.getName());
             ret.put("img", String.valueOf(product.getImgCnt()));
             return ret;
-        } else if(productCategory == 6) {
+        } else if (productCategory == 6) {
             Cooler product = coolerRepository.findByIdx(idx).orElseThrow(
                     () -> new CommentApiException(CommentErrorCode.PRODUCT_NOT_FOUND)
             );
             ret.put("name", product.getName());
             ret.put("img", String.valueOf(product.getImgCnt()));
             return ret;
-        } else if(productCategory == 7) {
+        } else if (productCategory == 7) {
             Cases product = casesRepository.findByIdx(idx).orElseThrow(
                     () -> new CommentApiException(CommentErrorCode.PRODUCT_NOT_FOUND)
             );
             ret.put("name", product.getName());
             ret.put("img", String.valueOf(product.getImgCnt()));
             return ret;
-        } else if(productCategory == 8) {
+        } else if (productCategory == 8) {
             MainBoard product = mainBoardRepository.findByIdx(idx).orElseThrow(
                     () -> new CommentApiException(CommentErrorCode.PRODUCT_NOT_FOUND)
             );
