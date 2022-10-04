@@ -25,13 +25,13 @@ public class CommentApi {
     private final ResponseProperties responseProperties;
 
     @PostMapping("/{productIdx}")
-    public ResponseEntity<MessageResponse> createComment(@PathVariable("productIdx") long productIdx, @RequestBody CommentDto commentDto, @AuthenticationPrincipal AccountDetails accountDetails) {
+    public ResponseEntity<DtoResponse> createComment(@PathVariable("productIdx") long productIdx, @RequestBody CommentDto commentDto, @AuthenticationPrincipal AccountDetails accountDetails) {
         // TODO : 토큰에서 유저 정보 꺼내서 사용
-        boolean result = commentService.createComment(accountDetails.getAccount(), productIdx, commentDto);
-        if (result) {
-            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getSuccess()));
+        CommentDto result = commentService.createComment(accountDetails.getAccount(), productIdx, commentDto);
+        if (result != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
         } else {
-            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getFail()));
+            return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getFail(), null));
         }
     }
 

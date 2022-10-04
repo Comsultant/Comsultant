@@ -6,7 +6,7 @@ import com.comsultant.domain.comment.dto.CommentListDto;
 
 public interface CommentService {
 
-    boolean createComment(Account account, long productIdx, CommentDto commentDto);
+    CommentDto createComment(Account account, long productIdx, CommentDto commentDto);
 
     boolean updateComment(Account account, long commentIdx, CommentDto commentDto);
 
