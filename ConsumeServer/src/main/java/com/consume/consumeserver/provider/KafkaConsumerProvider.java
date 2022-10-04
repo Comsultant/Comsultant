@@ -14,7 +14,7 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 public class KafkaConsumerProvider {
     private final KafkaConsumerConfig kafkaConsumerConfig;
-    private final String TOPIC_NAME = "test";
+    private final String TOPIC_NAME = "builder";
     private KafkaConsumer<String, String> consumer;
     
     @PostConstruct

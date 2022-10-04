@@ -16,11 +16,9 @@ public class KafkaScheduler {
     private final KafkaConsumerService kafkaConsumerService;
     private StringBuffer sb = new StringBuffer();
 
-    @Scheduled(fixedRate = 30000)
+    // 실행 주기 : 2분
+    @Scheduled(fixedRate = 120000)
     public void runHdfs(){
-        if(sb.length() == 0)
-            return;
-
         if(hdfsSaverService.save(sb.toString())){
             kafkaConsumerService.commit();
             sb = new StringBuffer();
@@ -29,6 +27,7 @@ public class KafkaScheduler {
             System.out.println("fail : save data");
     }
 
+    // 실행 주기 : 0.1초
     @Scheduled(fixedDelay = 100)
     public void runConsumer(){
         ConsumerRecords<String, String> records = kafkaConsumerService.getData();

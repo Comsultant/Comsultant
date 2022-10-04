@@ -18,6 +18,7 @@ public class HdfsSaverServiceImpl implements HdfsSaverService{
 
     @Override
     public boolean save(String data) {
+        // 데이터 저장 위치 지정
         Path path = new Path(hdfsProvider.getHdfsProperties().getFileName());
 
         try{

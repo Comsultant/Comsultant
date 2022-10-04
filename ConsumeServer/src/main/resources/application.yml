@@ -5,11 +5,10 @@ spring:
   kafka:
     consumer:
       bootstrap-servers: localhost:9092
-      group-id: tester
+      group-id: comsultant
       enable-auto-commit: false
       auto-offset-reset: earliest
 
-
 hdfs:
   uri: "hdfs://localhost:9000"
-  file-name: "test.txt"
+  file-name: "/user/hadoop/comsultant/comsultant-data.txt"
