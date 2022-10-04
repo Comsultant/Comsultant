@@ -8,13 +8,15 @@ import DescFilter from "./DescFilter";
 import { SearchOutlined } from "@ant-design/icons";
 import ProductListComponent from "./ProductListComponent";
 
-const RecommendModal = ({ currProduct, type }) => {
+const RecommendModal = ({ currProduct, name, type, getProductFilterData }) => {
 
   const [selectProduct, setSelectProduct] = useState("");
   const [searchValue, setSearchValue] = useState("");
   const [currDescNum, setCurrDescNum] = useState(0);
   const [filterList, setFilterList] = useState([]);
   const [filterDetailList, setFilterDetailList] = useState([]);
+  const [filterBody, setFilterBody] = useState({});
+
   const productList = [
     {
       id:"123",
@@ -97,6 +99,9 @@ const RecommendModal = ({ currProduct, type }) => {
         <ProductFilter 
           filterList={filterList} 
           filterDetailList={filterDetailList} 
+          filterBody={filterBody}
+          setFilterBody={setFilterBody}
+          getProductFilterData={getProductFilterData}
         />
       </div>
       <div className={style['bottom']}>
