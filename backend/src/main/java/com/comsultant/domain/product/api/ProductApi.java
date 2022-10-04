@@ -2,6 +2,7 @@ package com.comsultant.domain.product.api;
 
 import com.comsultant.domain.comment.dto.CommentListDto;
 import com.comsultant.domain.comment.service.CommentService;
+import com.comsultant.domain.product.dto.PriceDto;
 import com.comsultant.domain.product.dto.ProductListDto;
 import com.comsultant.domain.product.dto.filterResponse.*;
 import com.comsultant.domain.product.dto.request.*;
@@ -192,6 +193,17 @@ public class ProductApi {
     @GetMapping("/filter/cases")
     public ResponseEntity<DtoResponse<FilterCasesResponse>> getCasesFilter() {
         FilterCasesResponse result = productService.getCasesfilter();
+        return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
+    }
+
+    @GetMapping("/price/{productId}")
+    public ResponseEntity<DtoResponse<PriceDto>> getProductPrice(
+            @PathVariable("productId") long idx,
+            @RequestParam(name = "period") int period) {
+        period = ParameterUtil.checkPeriod(period);
+        PriceDto result = productService.getProductPeriodPriceDto(idx, period);
+        if(result == null)
+            return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getFail(), result));
         return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
     }
 }

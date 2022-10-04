@@ -7,6 +7,7 @@ import com.comsultant.domain.product.entity.*;
 import com.comsultant.domain.product.mapper.*;
 import com.comsultant.domain.product.repository.*;
 import com.comsultant.domain.product.service.specification.*;
+import com.comsultant.global.common.model.ProductCategory;
 import com.comsultant.global.error.exception.ProductApiException;
 import com.comsultant.global.error.model.ProductErrorCode;
 import com.comsultant.global.properties.ConstProperties;
@@ -27,8 +28,10 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor //생성자 주입. final이 붙거나 @NotNull 이 붙은 필드의 생성자를 자동 생성. AutoWired 불필요
@@ -854,5 +857,61 @@ public class ProductServiceImpl implements ProductService {
             return PageRequest.of(page, pageSize, Sort.by("price").descending());
         else
             return PageRequest.of(page, pageSize, Sort.by("registeredAt").descending());
+    }
+
+    @Override
+    public PriceDto getProductPeriodPriceDto(long productId, int period) {
+        if(period == 0)
+            return null;
+        ProductDto productDto = ProductMapper.mapper.toDto((productRepository.findById(productId)
+                .orElseThrow(() -> new ProductApiException(ProductErrorCode.PRODUCT_NOT_FOUND))));
+        int categoryNum = productDto.getCategory();
+        ProductCategory[] categoryArr = ProductCategory.values();
+        String categoryStr = categoryArr[categoryNum-1].getCategory();
+        PriceDto priceDto = getProductPriceDto(categoryStr, productId);
+        //시세가 없는 경우
+        if(priceDto == null)
+            return null;
+
+        List<List<Integer>> dates = priceDto.getDate();
+        //시세가 없는 경우2
+        if(dates == null)
+            return null;
+
+        //현재 시간 기준. 언제부터 가져올 지 정하기 ex.20221004
+        LocalDate now = LocalDate.now();
+        int year = now.getYear();
+        int month = now.getMonthValue();
+        int day = now.getDayOfMonth();
+        if(month <= period) {
+            year--;
+            month += 12;
+        }
+        int standard = year*10000 + (month-period)*100 + day;
+        int startIdx = 0;
+        int size = dates.size();
+        for(int i=0; i<size; i++) {
+            if(dates.get(i).get(0)>=standard) {
+                startIdx = i;
+                break;
+            }
+        }
+        int subSize = size - startIdx;
+        if(subSize == 0)
+            return null;
+        List<List<Integer>> result = new ArrayList<>();
+        if(subSize <= 10)
+            result = dates.subList(startIdx, size);
+        else {
+            int num = subSize / 10;
+            for(int i=startIdx; i<size; i+=num) {
+                result.add(dates.get(i));
+            }
+        }
+        return PriceDto.builder()
+                .id(priceDto.getId())
+                .name(priceDto.getName())
+                .date(result)
+                .build();
     }
 }
