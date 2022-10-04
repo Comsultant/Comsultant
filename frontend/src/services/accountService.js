@@ -119,7 +119,7 @@ export const naverLoginRequest = async (dataToSubmit) => {
 // 토큰 재발급
 export const getToken = async () => {
   try {
-    const payload = await request.get(`${AUTH_URL}/refresh`);
+    const payload = await request.post(`${AUTH_URL}/refresh`);
     return payload;
   } catch (err) {
     return err;
