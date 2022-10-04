@@ -5,13 +5,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CategoryDto {
-
-    private long type; // 1.cpu, 2.ram, 3.hdd, 4.ssd, 5.psu, 6.cooler, 7.cases, 8.mainboard, 9.vga
-
+public class PriceDto {
+    private String id;
     private String name;
+    private List<List<Integer>> date;
 }

@@ -33,6 +33,9 @@ public class Cases {
     @Column(name = "name", columnDefinition = "VARCHAR(255)")
     private String name;
 
+    @Column(name = "price", columnDefinition = "INT")
+    private int price;
+
     @Column(name = "img_cnt", columnDefinition = "INT")
     private int imgCnt;
 
@@ -206,5 +209,9 @@ public class Cases {
 
     @Column(name = "outside_led", columnDefinition = "TINYINT(1)")
     private boolean outsideLed;
+
+    public void modifyPrice(int price) {
+        this.price = price;
+    }
 
 }

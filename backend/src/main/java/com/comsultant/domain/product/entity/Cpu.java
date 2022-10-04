@@ -36,6 +36,9 @@ public class Cpu {
     @Column(name = "img_cnt", columnDefinition = "INT")
     private int imgCnt;
 
+    @Column(name = "price", columnDefinition = "INT")
+    private int price;
+    
     @Column(name = "corp", columnDefinition = "VARCHAR(255)")
     private String corp;
 
@@ -143,5 +146,9 @@ public class Cpu {
 
     @Column(name = "include_cooler", columnDefinition = "VARCHAR(255)")
     private String includeCooler;
+
+    public void modifyPrice(int price) {
+        this.price = price;
+    }
 
 }

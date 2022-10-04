@@ -5,14 +5,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.HashMap;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BuilderDto {
-    private String _id;
-
-    private String name;
-
-    private String createDate;
+public class RecommendBuilderResponseDto {
+    private HashMap<String, Integer> []prodDetail;
+    String priceDate;
+    int price;
 }

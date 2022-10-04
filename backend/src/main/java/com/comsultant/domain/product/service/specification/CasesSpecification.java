@@ -3,6 +3,9 @@ package com.comsultant.domain.product.service.specification;
 import com.comsultant.domain.product.entity.Cases;
 import org.springframework.data.jpa.domain.Specification;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 public class CasesSpecification {
@@ -21,34 +24,37 @@ public class CasesSpecification {
     public static Specification<Cases> equalPowerSize(List<String> powerSize) {
         return (root, query, criteriaBuilder) -> root.get("powerSize").in(powerSize);
     }
-    public static Specification<Cases> equalExtendedAtx(boolean extendedAtx) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("extendedAtx"), extendedAtx);
+    public static Predicate equalExtendedAtx(CriteriaBuilder cb, Root root, boolean extendedAtx) {
+        return cb.equal(root.get("extendedAtx"), extendedAtx);
     }
-    public static Specification<Cases> equalStandardAtx(boolean standardAtx) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("standardAtx"), standardAtx);
+    public static Predicate equalStandardAtx(CriteriaBuilder cb, Root root, boolean standardAtx) {
+        return cb.equal(root.get("standardAtx"), standardAtx);
     }
-    public static Specification<Cases> equalMicroAtx(boolean microAtx) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("microAtx"), microAtx);
+    public static Predicate equalMicroAtx(CriteriaBuilder cb, Root root, boolean microAtx) {
+        return cb.equal(root.get("microAtx"), microAtx);
     }
-    public static Specification<Cases> equalFlexAtx(boolean flexAtx) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("flexAtx"), flexAtx);
+    public static Predicate equalFlexAtx(CriteriaBuilder cb, Root root, boolean flexAtx) {
+        return cb.equal(root.get("flexAtx"), flexAtx);
     }
-    public static Specification<Cases> equalStandardItx(boolean standardItx) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("standardItx"), standardItx);
+    public static Predicate equalStandardItx(CriteriaBuilder cb, Root root, boolean standardItx) {
+        return cb.equal(root.get("standardItx"), standardItx);
     }
-    public static Specification<Cases> equalMiniItx(boolean miniItx) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("miniItx"), miniItx);
+    public static Predicate equalMiniItx(CriteriaBuilder cb, Root root, boolean miniItx) {
+        return cb.equal(root.get("miniItx"), miniItx);
     }
-    public static Specification<Cases> equalSsiCeb(boolean ssiCeb) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("ssiCeb"), ssiCeb);
+    public static Predicate equalSsiCeb(CriteriaBuilder cb, Root root, boolean ssiCeb) {
+        return cb.equal(root.get("ssiCeb"), ssiCeb);
     }
-    public static Specification<Cases> equalSsiEeb(boolean ssiEeb) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("ssiEeb"), ssiEeb);
+    public static Predicate equalSsiEeb(CriteriaBuilder cb, Root root, boolean ssiEeb) {
+        return cb.equal(root.get("ssiEeb"), ssiEeb);
     }
-    public static Specification<Cases> equalMiniDtx(boolean miniDtx) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("flexAtx"), miniDtx);
+    public static Predicate equalMiniDtx(CriteriaBuilder cb, Root root, boolean miniDtx) {
+        return cb.equal(root.get("flexAtx"), miniDtx);
     }
-    public static Specification<Cases> price(int minPrice, int maxPrice) { //price 추후 수정
-        return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("intelCases"), minPrice, maxPrice);
+    public static Specification<Cases> betweenPrice(int minPrice, int maxPrice) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.between(root.get("price"), minPrice, maxPrice);
+    }
+    public static Specification<Cases> result(Predicate p) {
+        return (root, query, criteriaBuilder) -> p;
     }
 }

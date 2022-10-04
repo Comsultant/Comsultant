@@ -24,4 +24,27 @@ public class ParameterUtil {
             return "true".equals(desc);
         }
     }
+
+    /**
+     * 잘못된 값이면 0으로 리턴
+     * 0: 신상품 순
+     * 1: 낮은 가격 순
+     * 2: 높은 가격 순
+     * @param desc
+     * @return
+     */
+    public static int checkProductDesc(int desc) {
+        if(desc != 0 && desc != 1 && desc != 2){
+            return 0;
+        } else {
+            return desc;
+        }
+    }
+
+    public static int checkPeriod(int period) {
+        if(period != 1 && period != 3 && period != 6 && period != 9)
+            return 0;
+        else
+            return period;
+    }
 }

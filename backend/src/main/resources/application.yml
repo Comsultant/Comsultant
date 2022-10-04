@@ -58,6 +58,7 @@ logging:
     root: WARN
     org.hibernate.type.descriptor.sql: trace
     com.comsultant: debug
+    org.apache.kafka: error
 response:
   success: success
   fail: fail
@@ -77,3 +78,4 @@ const:
   comment-list-size: 10
   wish-list-size: 10
   product-list-size: 10
+  builder-list-size: 10

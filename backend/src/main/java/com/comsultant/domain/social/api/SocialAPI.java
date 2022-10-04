@@ -8,6 +8,7 @@ import com.comsultant.domain.social.service.SocialService;
 import com.comsultant.global.common.response.DtoResponse;
 import com.comsultant.global.properties.ResponseProperties;
 import com.comsultant.global.properties.SocialProperties;
+import com.comsultant.global.util.CookieUtil;
 import com.github.scribejava.apis.GoogleApi20;
 import com.github.scribejava.apis.KakaoApi;
 import com.github.scribejava.apis.NaverApi;
@@ -74,6 +75,8 @@ public class SocialAPI {
 
             Account account = socialService.checkSignUp(userid, birthYear, SnsTypeCode.NAVER_SNS_TYPE);
             AuthDto dto = authService.socialSignIn(account);
+            CookieUtil.setRefreshTokenCookie(httpResponse, dto
+                    .getRefreshToken());
             return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), dto));
 
         } catch (NullPointerException e) {
@@ -113,6 +116,8 @@ public class SocialAPI {
 
             Account account = socialService.checkSignUp(userid, birthYear, SnsTypeCode.KAKAO_SNS_TYPE);
             AuthDto dto = authService.socialSignIn(account);
+            CookieUtil.setRefreshTokenCookie(httpResponse, dto
+                    .getRefreshToken());
             return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), dto));
 
         } catch (NullPointerException e) {
@@ -153,6 +158,8 @@ public class SocialAPI {
 
             Account account = socialService.checkSignUp(userid, birthYear, SnsTypeCode.GOOGLE_SNS_TYPE);
             AuthDto dto = authService.socialSignIn(account);
+            CookieUtil.setRefreshTokenCookie(httpResponse, dto
+                    .getRefreshToken());
             return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), dto));
 
         } catch (NullPointerException e) {

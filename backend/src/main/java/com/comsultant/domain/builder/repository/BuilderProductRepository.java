@@ -7,5 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface BuilderProductRepository extends JpaRepository<BuilderProduct, Long> {
-    List<BuilderProduct> deleteAllByMyBuilder(MyBuilder myBuilder);
+    void deleteAllByMyBuilder(MyBuilder myBuilder);
+
+    List<BuilderProduct> findAllByMyBuilder(MyBuilder myBuilder);
+
 }
