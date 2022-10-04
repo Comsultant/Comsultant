@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import style from "@/styles/PopularBuilder.module.scss"
 import { getPopularRecommendRequest } from "@/services/recommendService";
+import { RightOutlined } from '@ant-design/icons';
 const PopluarBuilder = () => {
 
   const [builderList, setBuilderList] = useState([]);
@@ -66,7 +68,7 @@ const PopluarBuilder = () => {
     <div className={style['popular-builder-box']}>
       <div className={style['title-box']}>
         <p>인기 견적</p>
-        <span> &gt;&gt; 다른견적</span>
+        <span className={style['main-product-more']}><Link to='/recommend'>맞춤 견적 <RightOutlined /></Link></span>
       </div>
       <div className={style['builder-container']}>
         {builderList.map((builder, idx) => {

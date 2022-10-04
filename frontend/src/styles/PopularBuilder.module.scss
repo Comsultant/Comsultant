@@ -24,7 +24,7 @@ $border-color: rgb(122, 122, 122);
     text-decoration-thickness: $text-decoration-thickness;
   }
   span {
-    font-size: $font-size-medium;
+    // font-size: $font-size-medium;
   }
 }
 
@@ -101,4 +101,21 @@ $border-color: rgb(122, 122, 122);
     cursor: pointer;
     -webkit-filter: brightness(20%);
   }
+}
+
+.main-product-more {
+  font-size: 1.1rem;
+  border: 2px solid black;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 10px;
+  transition: all 0.1s linear;
+  a {
+    color: black;
+  }
+}
+
+.main-product-more:hover {
+  background-color: #e7e7e7;
+  cursor: pointer;
 }
