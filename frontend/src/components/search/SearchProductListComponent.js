@@ -5,8 +5,8 @@ import ProductNumMapper from "@/tools/ProductNumMapper";
 import { getProductRequest } from "@/services/productService";
 import ProductDetail from "./ProductDetail";
 import { HeartOutlined } from "@ant-design/icons";
-import { postBuilderRequest } from "@/services/builderService.js"
-
+import { postBuilderRequest } from "@/services/builderService.js";
+import { postWishRequest } from "@/services/wishService.js";
 
 const SearchProductListComponent = (
   {
@@ -32,6 +32,11 @@ const SearchProductListComponent = (
   }
 ) => {
   
+  const onWishClicked = async(productIdx) => {
+    const result = await postWishRequest(productIdx);
+    console.log(result);
+  }
+
   useEffect(() => {
     const builderProducts = [];
 
@@ -188,7 +193,7 @@ const SearchProductListComponent = (
                       <button className={style['put-button']} onClick={() => onPutBuilder(product.idx, product.price, product.name)}>견적담기</button>
                     </div>
                     <div>
-                      <HeartOutlined/>
+                      <HeartOutlined onClick={() => onWishClicked(product.idx)} />
                     </div>
                   </div>
                 </div>
