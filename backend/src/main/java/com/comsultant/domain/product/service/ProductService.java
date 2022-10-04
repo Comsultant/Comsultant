@@ -70,5 +70,7 @@ public interface ProductService {
 
     List<Integer> getProductPriceOne(String category, long productId);
 
-    public Pageable getPageable(int page, int desc);
+    Pageable getPageable(int page, int desc);
+
+    PriceDto getProductPeriodPriceDto(long productId, int period);
 }

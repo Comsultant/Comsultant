@@ -40,4 +40,11 @@ public class ParameterUtil {
             return desc;
         }
     }
+
+    public static int checkPeriod(int period) {
+        if(period != 1 && period != 3 && period != 6 && period != 9)
+            return 0;
+        else
+            return period;
+    }
 }
