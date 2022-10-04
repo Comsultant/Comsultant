@@ -861,21 +861,21 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public PriceDto getProductPeriodPriceDto(long productId, int period) {
-        if(period == 0)
+        if (period == 0)
             return null;
         ProductDto productDto = ProductMapper.mapper.toDto((productRepository.findById(productId)
                 .orElseThrow(() -> new ProductApiException(ProductErrorCode.PRODUCT_NOT_FOUND))));
         int categoryNum = productDto.getCategory();
         ProductCategory[] categoryArr = ProductCategory.values();
-        String categoryStr = categoryArr[categoryNum-1].getCategory();
+        String categoryStr = categoryArr[categoryNum - 1].getCategory();
         PriceDto priceDto = getProductPriceDto(categoryStr, productId);
         //시세가 없는 경우
-        if(priceDto == null)
+        if (priceDto == null)
             return null;
 
         List<List<Integer>> dates = priceDto.getDate();
         //시세가 없는 경우2
-        if(dates == null)
+        if (dates == null)
             return null;
 
         //현재 시간 기준. 언제부터 가져올 지 정하기 ex.20221004
@@ -883,28 +883,28 @@ public class ProductServiceImpl implements ProductService {
         int year = now.getYear();
         int month = now.getMonthValue();
         int day = now.getDayOfMonth();
-        if(month <= period) {
+        if (month <= period) {
             year--;
             month += 12;
         }
-        int standard = year*10000 + (month-period)*100 + day;
+        int standard = year * 10000 + (month - period) * 100 + day;
         int startIdx = 0;
         int size = dates.size();
-        for(int i=0; i<size; i++) {
-            if(dates.get(i).get(0)>=standard) {
+        for (int i = 0; i < size; i++) {
+            if (dates.get(i).get(0) >= standard) {
                 startIdx = i;
                 break;
             }
         }
         int subSize = size - startIdx;
-        if(subSize == 0)
+        if (subSize == 0)
             return null;
         List<List<Integer>> result = new ArrayList<>();
-        if(subSize <= 10)
+        if (subSize <= 10)
             result = dates.subList(startIdx, size);
         else {
             int num = subSize / 10;
-            for(int i=startIdx; i<size; i+=num) {
+            for (int i = startIdx; i < size; i += num) {
                 result.add(dates.get(i));
             }
         }
