@@ -22,7 +22,7 @@ const ProductDetail = ({ currTypeTab, product }) => {
             
         </div>
         <div>
-          등록월 : {product.createdAt != `0` ? product.createdAt : "미등록"}    
+          등록월 : {product.registeredAt != `0` ? product.registeredAt : "미등록"}    
         </div>
         </>
           :

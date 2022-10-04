@@ -5,13 +5,122 @@ import ProductNumMapper from "@/tools/ProductNumMapper";
 import { getProductRequest } from "@/services/productService";
 import ProductDetail from "./ProductDetail";
 import { HeartOutlined } from "@ant-design/icons";
+import { postBuilderRequest } from "@/services/builderService.js"
+
 
 const SearchProductListComponent = (
   {
-    productList, setProductList, currPage, setCurrPage, currDescNum, setCurrDescNum, filterBody, setFilterBody, totalPage, setTotalPage, currTypeTab
+    productList, setProductList, currPage, setCurrPage, currDescNum, setCurrDescNum, filterBody, setFilterBody, totalPage, setTotalPage, currTypeTab, currBuilder, setCurrBuilder, currBuilerIdx,
+    cpuList,
+    setCpuList,
+    ramList,
+    setRamList,
+    hddList,
+    setHddList,
+    ssdList,
+    setSsdList,
+    powerList,
+    setPowerList,
+    coolerList,
+    setCoolerList,
+    caseList,
+    setCaseList,
+    mbList,
+    setMbList,
+    vgaList,
+    setVgaList,
   }
 ) => {
   
+  useEffect(() => {
+    const builderProducts = [];
+
+    cpuList.map((product, idx) => {
+      const item = { productIdx: product.productIdx, cnt: product.cnt };
+      builderProducts.push(item);
+    })
+    ramList.map((product, idx) => {
+      const item = { productIdx: product.productIdx, cnt: product.cnt };
+      builderProducts.push(item);
+    })
+    hddList.map((product, idx) => {
+      const item = { productIdx: product.productIdx, cnt: product.cnt };
+      builderProducts.push(item);
+    })
+    ssdList.map((product, idx) => {
+      const item = { productIdx: product.productIdx, cnt: product.cnt };
+      builderProducts.push(item);
+    })
+    powerList.map((product, idx) => {
+      const item = { productIdx: product.productIdx, cnt: product.cnt };
+      builderProducts.push(item);
+    })
+    coolerList.map((product, idx) => {
+      const item = { productIdx: product.productIdx, cnt: product.cnt };
+      builderProducts.push(item);
+    })
+    caseList.map((product, idx) => {
+      const item = { productIdx: product.productIdx, cnt: product.cnt };
+      builderProducts.push(item);
+    })
+    mbList.map((product, idx) => {
+      const item = { productIdx: product.productIdx, cnt: product.cnt };
+      builderProducts.push(item);
+    })
+    vgaList.map((product, idx) => {
+      const item = { productIdx: product.productIdx, cnt: product.cnt };
+      builderProducts.push(item);
+    })
+
+    
+    
+    const postData = async () => {
+      const idx = currBuilder?.idx;
+      if (idx != undefined) {
+        const dataToSubmit = {
+          idx,
+          builderProducts,
+        }
+        const result = await postBuilderRequest(dataToSubmit);
+      }
+    }
+    postData();
+
+  },[cpuList, ramList, hddList, ssdList, powerList, coolerList, caseList, mbList, vgaList])
+
+
+  const onPutBuilder = (productIdx, price, productName) => {
+    switch (currTypeTab) {
+      case '0':
+        setCpuList([...cpuList, { productIdx, price, productName, cnt: 1 }]);
+        break;
+      case '1':
+        setMbList([...mbList, { productIdx, price, productName, cnt: 1 }]);
+        break;
+      case '2':
+        setVgaList([...vgaList, { productIdx, price, productName, cnt: 1 }]);
+        break;
+      case '3':
+        setRamList([...ramList, { productIdx, price, productName, cnt: 1 }]);
+        break;
+      case '4':
+        setPowerList([...powerList, { productIdx, price, productName, cnt: 1 }]);
+        break;
+      case '5':
+        setSsdList([...ssdList, { productIdx, price, productName, cnt: 1 }]);
+        break;
+      case '6':
+        setHddList([...hddList, { productIdx, price, productName, cnt: 1 }]);
+        break;
+      case '7':
+        setCaseList([...caseList, { productIdx, price, productName, cnt: 1 }]);
+        break;
+      case '8':
+        setCoolerList([...coolerList, { productIdx, price, productName, cnt: 1 }]);
+        break;
+        }
+  } 
+
   useEffect(() => {
     let type = ProductNumMapper[currTypeTab];
     const dataToSubmit = {
@@ -76,7 +185,7 @@ const SearchProductListComponent = (
                   </div>
                   <div className={style['right-button-box']}>
                     <div>
-                      <button className={style['put-button']}>견적담기</button>
+                      <button className={style['put-button']} onClick={() => onPutBuilder(product.idx, product.price, product.name)}>견적담기</button>
                     </div>
                     <div>
                       <HeartOutlined/>

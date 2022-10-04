@@ -1,8 +1,9 @@
 import React from "react";
-import { Menu } from 'antd';
+import { Collapse } from 'antd';
 import { useState } from "react";
 import { reduce } from "lodash";
 import style from "@/styles/DrawerBody.module.scss";
+import DrawerBodyItem from "./DrawerBodyItem";
 // import "@/styles/DrawerBody.scss";
 
 // function getItem(label, key, icon, children, type) {
@@ -47,91 +48,208 @@ import style from "@/styles/DrawerBody.module.scss";
 
 // const rootSubmenuKeys = ['cpu', 'mainboard', 'vga'];
 
-const DrawerBody = ({ currBuilder, setCurrBuilder }) => {
-  // const [openKeys, setOpenKeys] = useState(['cpu']);
+const { Panel } = Collapse;
 
-  // const onOpenChange = (keys) => {
-  //   const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
+const DrawerBody = ({ currBuilder, setCurrBuilder, cpuList, setCpuList, ramList, setRamList, hddList, setHddList, ssdList, setSsdList, powerList, setPowerList, coolerList, setCoolerList, caseList, setCaseList, mbList, setMbList, vgaList, setVgaList }) => {
 
-  //   if (rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
-  //     setOpenKeys(keys);
-  //   } else {
-  //     setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
-  //   }
-  // }
   // console.log(currBuilder);
   return (
-    <div className={style['container']}>
-        <div className={style['product-box']}>
-          <div className={style['title']}>
-            <span>CPU</span>
-          </div>
-          <div className={style['product']}>
-            hello
-          </div>
-        </div>
-
-        <div className={style['item']}>
-          <div className={style['title']}>
-            <span>메인보드</span>
-          </div>
-        </div>
-
-      <div className={style['title']}>
-        <span>그래픽카드</span>
-      </div>
-
-      <div className={style['title']}>
-        <span>RAM</span>
-      </div>
-
-      <div className={style['title']}>
-        <span>파워</span>
-      </div>
-
-      <div className={style['title']}>
-        <span>SSD</span>
-      </div>
-
-      <div className={style['title']}>
-        <span>HDD</span>
-      </div>
-
-      <div className={style['title']}>
-        <span>케이스</span>
-      </div>
-
-      <div className={style['title']}>
-        <span>쿨러/기타</span>
-      </div>
-    </div>
-    // <>
-    /* <Menu
-      mode="inline"
-      openKeys={openKeys}
-      onOpenChange={onOpenChange}
-      // style={{
-      //   backgroundColor: 'rgb(227, 62, 56)',
-      //   color: 'white'
-      //   // width: 256,
-      // }}
-      items={items}
-      /> */
-
-      /* <Menu
-          mode="inline">
-      <Menu.Item>CPU</Menu.Item>
-      <Menu.Item>그래픽카드</Menu.Item>
-      <Menu.SubMenu title="sub menu">
-          <Menu.Item>
-            <div>
-              <div>hello</div>
-              <div>10000원</div>
-            </div>
-          </Menu.Item>
-      </Menu.SubMenu>
-    </Menu> */
-    // </>
+    <>
+      <Collapse defaultActiveKey={'1'}>
+        <Panel header="CPU" key="1" >
+          <DrawerBodyItem
+            type={1}
+            cpuList={cpuList}
+            setCpuList={setCpuList}
+            mbList={mbList}
+            setMbList={setMbList}
+            vgaList={vgaList}
+            setVgaList={setVgaList}
+            ramList={ramList}
+            setRamList={setRamList}
+            powerList={powerList}
+            setPowerList={setPowerList}
+            ssdList={ssdList}
+            setSsdList={setSsdList}
+            hddList={hddList}
+            setHddList={setHddList}
+            caseList={caseList}
+            setCaseList={setCaseList}
+            coolerList={coolerList}
+            setCoolerList={setCoolerList}
+        />
+      </Panel>
+      <Panel header="메인보드" key="2">
+          <DrawerBodyItem
+            type={8}
+            cpuList={cpuList}
+            setCpuList={setCpuList}
+            mbList={mbList}
+            setMbList={setMbList}
+            vgaList={vgaList}
+            setVgaList={setVgaList}
+            ramList={ramList}
+            setRamList={setRamList}
+            powerList={powerList}
+            setPowerList={setPowerList}
+            ssdList={ssdList}
+            setSsdList={setSsdList}
+            hddList={hddList}
+            setHddList={setHddList}
+            caseList={caseList}
+            setCaseList={setCaseList}
+            coolerList={coolerList}
+            setCoolerList={setCoolerList} />
+      </Panel>
+      <Panel header="그래픽카드" key="3">
+          <DrawerBodyItem type={9}
+          cpuList={cpuList}
+          setCpuList={setCpuList}
+          mbList={mbList}
+          setMbList={setMbList}
+          vgaList={vgaList}
+          setVgaList={setVgaList}
+          ramList={ramList}
+          setRamList={setRamList}
+          powerList={powerList}
+          setPowerList={setPowerList}
+          ssdList={ssdList}
+          setSsdList={setSsdList}
+          hddList={hddList}
+          setHddList={setHddList}
+          caseList={caseList}
+          setCaseList={setCaseList}
+          coolerList={coolerList}
+          setCoolerList={setCoolerList}/>
+      </Panel>
+      <Panel header="RAM" key="4">
+          <DrawerBodyItem type={2}
+          cpuList={cpuList}
+          setCpuList={setCpuList}
+          mbList={mbList}
+          setMbList={setMbList}
+          vgaList={vgaList}
+          setVgaList={setVgaList}
+          ramList={ramList}
+          setRamList={setRamList}
+          powerList={powerList}
+          setPowerList={setPowerList}
+          ssdList={ssdList}
+          setSsdList={setSsdList}
+          hddList={hddList}
+          setHddList={setHddList}
+          caseList={caseList}
+          setCaseList={setCaseList}
+          coolerList={coolerList}
+          setCoolerList={setCoolerList}/>
+      </Panel>
+      <Panel header="파워" key="5">
+          <DrawerBodyItem type={5}
+          cpuList={cpuList}
+          setCpuList={setCpuList}
+          mbList={mbList}
+          setMbList={setMbList}
+          vgaList={vgaList}
+          setVgaList={setVgaList}
+          ramList={ramList}
+          setRamList={setRamList}
+          powerList={powerList}
+          setPowerList={setPowerList}
+          ssdList={ssdList}
+          setSsdList={setSsdList}
+          hddList={hddList}
+          setHddList={setHddList}
+          caseList={caseList}
+          setCaseList={setCaseList}
+          coolerList={coolerList}
+          setCoolerList={setCoolerList}/>
+      </Panel>
+      <Panel header="SSD" key="6">
+          <DrawerBodyItem type={4}
+          cpuList={cpuList}
+          setCpuList={setCpuList}
+          mbList={mbList}
+          setMbList={setMbList}
+          vgaList={vgaList}
+          setVgaList={setVgaList}
+          ramList={ramList}
+          setRamList={setRamList}
+          powerList={powerList}
+          setPowerList={setPowerList}
+          ssdList={ssdList}
+          setSsdList={setSsdList}
+          hddList={hddList}
+          setHddList={setHddList}
+          caseList={caseList}
+          setCaseList={setCaseList}
+          coolerList={coolerList}
+          setCoolerList={setCoolerList}/>
+      </Panel>
+      <Panel header="HDD" key="7">
+          <DrawerBodyItem type={3}
+          cpuList={cpuList}
+          setCpuList={setCpuList}
+          mbList={mbList}
+          setMbList={setMbList}
+          vgaList={vgaList}
+          setVgaList={setVgaList}
+          ramList={ramList}
+          setRamList={setRamList}
+          powerList={powerList}
+          setPowerList={setPowerList}
+          ssdList={ssdList}
+          setSsdList={setSsdList}
+          hddList={hddList}
+          setHddList={setHddList}
+          caseList={caseList}
+          setCaseList={setCaseList}
+          coolerList={coolerList}
+          setCoolerList={setCoolerList}/>
+      </Panel>
+      <Panel header="케이스" key="8">
+          <DrawerBodyItem type={7}
+          cpuList={cpuList}
+          setCpuList={setCpuList}
+          mbList={mbList}
+          setMbList={setMbList}
+          vgaList={vgaList}
+          setVgaList={setVgaList}
+          ramList={ramList}
+          setRamList={setRamList}
+          powerList={powerList}
+          setPowerList={setPowerList}
+          ssdList={ssdList}
+          setSsdList={setSsdList}
+          hddList={hddList}
+          setHddList={setHddList}
+          caseList={caseList}
+          setCaseList={setCaseList}
+          coolerList={coolerList}
+          setCoolerList={setCoolerList}/>
+      </Panel>
+      <Panel header="쿨러/기타" key="9">
+          <DrawerBodyItem type={6}
+          cpuList={cpuList}
+          setCpuList={setCpuList}
+          mbList={mbList}
+          setMbList={setMbList}
+          vgaList={vgaList}
+          setVgaList={setVgaList}
+          ramList={ramList}
+          setRamList={setRamList}
+          powerList={powerList}
+          setPowerList={setPowerList}
+          ssdList={ssdList}
+          setSsdList={setSsdList}
+          hddList={hddList}
+          setHddList={setHddList}
+          caseList={caseList}
+          setCaseList={setCaseList}
+          coolerList={coolerList}
+          setCoolerList={setCoolerList}/>
+      </Panel>
+      </Collapse>
+    </>
        
   );
 }

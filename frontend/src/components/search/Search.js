@@ -13,12 +13,14 @@ import { AdditionalCasesFilterList } from "@/tools/AddtionalCasesFilterLIst";
 import { filter, max } from "lodash";
 import ProductNumMapper from "@/tools/ProductNumMapper";
 import DrawerBody from "./DrawerBody";
+import { useSelector } from "react-redux";
+import { getAllBuilderRequest, postBuilderRequest, getBuilderDetailRequest, deleteBuilderRequest } from "@/services/builderService.js"
 
 
 const Search = () => {
   const defaultMaxPrice = 5000000;
 
-  const [currTypeTab, setCurrTypeTab] = useState(0);
+  const [currTypeTab, setCurrTypeTab] = useState('0');
   const [filterList, setFilterList] = useState([]);
   const [filterDetailList, setFilterDetailList] = useState([]);
   const [currDescNum, setCurrDescNum] = useState(0);
@@ -29,13 +31,27 @@ const Search = () => {
   const [currPage, setCurrPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
   const [selectedFilterList, setSelectedFilterList] = useState();
-  const [currBuilder, setCurrBuilder] = useState([]);
+  const [currBuilder, setCurrBuilder] = useState({});
 
   const [accountBuildList, setAccountBuildList] = useState([]);
 
   const [tabOpen, setTabOpen] = useState(false);
 
   const [filterBody, setFilterBody] = useState({});
+
+  
+  const [cpuList, setCpuList] = useState([]);
+  const [mbList, setMbList] = useState([]);
+  const [vgaList, setVgaList] = useState([]);
+  const [ramList, setRamList] = useState([]);
+  const [powerList, setPowerList] = useState([]);
+  const [ssdList, setSsdList] = useState([]);
+  const [hddList, setHddList] = useState([]);
+  const [caseList, setCaseList] = useState([]);
+  const [coolerList, setCoolerList] = useState([]);
+  
+  const isLogin = useSelector(state => state.account.isLogin);
+
 
   const toggleDrawer = () => {
     setTabOpen(curr => !curr);
@@ -75,22 +91,130 @@ const Search = () => {
   
   }
 
-  const onAddAccountBuildItem = () => {
+  const onBuilderCliked = (builder) => {
+
+    setCurrBuilder(builder);
+    // const dataToSubmit = {
+    //   idx: builder.idx,
+    //   builderProducts: [
+    //     {
+    //       productIdx: 17157083,
+    //       cnt: 1,
+    //     },
+    //     {
+    //       productIdx: 16451030,
+    //       cnt: 1,
+    //     }
+    //   ]
+    // }
+    // postBuilderRequest(dataToSubmit);
+
+    
+    
+    const fetchDetailData = async () => {
+      const newCpuList = [];
+      const newRamList = [];
+      const newHddList = [];
+      const newSsdList = [];
+      const newPowerList = [];
+      const newCoolerList = [];
+      const newCaseList = [];
+      const newMbList = [];
+      const newVgaList = [];
+      setCpuList([]);
+      setRamList([]);
+      setHddList([]);
+      setSsdList([]);
+      setPowerList([]);
+      setCoolerList([]);
+      setCaseList([]);
+      setMbList([]);
+      setVgaList([]);
+      const result = await getBuilderDetailRequest(builder.idx);
+      if (result?.data?.message === "success") {        
+
+        const builderProductDetailDtos = result.data.responseDto.builderProductDetailDtos;
+        builderProductDetailDtos.map((product, idx) => {
+          const item = {
+            productIdx: product?.productIdx,
+            productName: product?.productName,
+            price: product?.price,
+            cnt: product?.cnt,
+          }
+          switch (product?.category) {
+            case 1:
+              newCpuList.push(item);
+              break;
+            case 2:
+              newRamList.push(item);
+              break;
+            case 3:
+              newHddList.push(item);
+              break;
+            case 4:
+              newSsdList.push(item);
+              break;
+            case 5:
+              newPowerList.push(item);
+              break;
+            case 6:
+              newCoolerList.push(item);
+              break;
+            case 7:
+              newCaseList.push(item);
+              break;
+            case 8:
+              newMbList.push(item);
+              break;
+            case 9:
+              newVgaList.push(item);
+              break;
+          }
+          
+        })
+      }
+      setCpuList(newCpuList);
+      setRamList(newRamList);
+      setHddList(newHddList);
+      setSsdList(newSsdList);
+      setPowerList(newPowerList);
+      setCoolerList(newCoolerList);
+      setCaseList(newCaseList);
+      setMbList(newMbList);
+      setVgaList(newVgaList);
+    }
+    fetchDetailData();
+    
+  }
+
+
+  const onAddAccountBuildItem = async() => {
     //프론트단에서 추가
     const newBuild = {
-      name: "PC" + parseInt(accountBuildList.length + 1),
-      builderProducts: [],
-    };
-    setAccountBuildList([...accountBuildList, newBuild]);
+      myBuilderDto: {
+        name: "PC" + parseInt(accountBuildList.length + 1),
+      },
+      builderProductDetailDtos: [],
+    }
     // axios 요청으로 사용자 저장 견적 데이터 추가
+    const fetchData = async () => {
+      const requestBody = {
+        name: "PC" + parseInt(accountBuildList.length + 1),
+        builderProducts: [],
+      }
+      const result = await postBuilderRequest(requestBody);    
+      setAccountBuildList([...accountBuildList, newBuild]);
+    }
+    fetchData();
   };
   
-  const onRemoveAccountBuildItem = (idx) => {
+  const onRemoveAccountBuildItem = (idx, index) => {
     // 프론트단에서 제거
     setAccountBuildList(
       accountBuildList.filter((accountBuild, i) => i !== idx)
     );
     // 실제 axios 요청으로 사용자 저장 견적 데이터 제거
+    deleteBuilderRequest(index);
   };
 
   // 현재 선택된 부품 필터키리스트, 필터밸류리스트 받아오기
@@ -125,93 +249,18 @@ const Search = () => {
   useEffect(() => {
     // 초기 페이지 로딩 시 cpu 필터링 데이터 가져오기
     getProductFilterData("cpu");
+    // 사용자 저장 견적 데이터 가져오기 
+    if (isLogin) {
+      const fetchData = async() => {
+        const result = await getAllBuilderRequest();
+        if (result?.data?.message === "success") {
+          setAccountBuildList(result.data.responseDto.myBuilderDetailDtoList);
+        }
+      }
+      fetchData();
+    }
 
-
-    // 사용자 저장 견적 데이터 가져오기 (임시로 상수로 설정함)
-    setAccountBuildList([
-      {
-        name: "pc1",
-        builderProducts: [
-          {
-            productIdx: 16756757,
-            cnt: 1,
-          },
-          {
-            productIdx: 11790199,
-            cnt: 2,
-          },
-          {
-            productIdx: 12397271,
-            cnt: 1,
-          },
-          {
-            productIdx: 16331876,
-            cnt: 1,
-          },
-          {
-            productIdx: 16178162,
-            cnt: 1,
-          },
-        ],
-        kafka: true,
-        use: "work",
-      },
-      {
-        name: "pc2",
-        builderProducts: [
-          {
-            productIdx: 16756757,
-            cnt: 1,
-          },
-          {
-            productIdx: 11790199,
-            cnt: 2,
-          },
-          {
-            productIdx: 12397271,
-            cnt: 1,
-          },
-          {
-            productIdx: 16331876,
-            cnt: 1,
-          },
-          {
-            productIdx: 16178162,
-            cnt: 1,
-          },
-        ],
-        kafka: true,
-        use: "work",
-      },
-    ]);
   }, []);
-
-  useEffect(() => {
-    // 순서 변경한 상품 데이터 받아오기
-  }, [currDescNum]);
-
-  // const fetchProductList = async (dataToSubmit) => {
-  //   const result = await getProductRequest(dataToSubmit);
-  //   return result;
-  // }
-
-  // useEffect(() => {
-  //   console.log("filterBody changed!");
-  //   console.log(filterBody);
-  //   let type = ProductNumMapper[currTypeTab];
-  //   const dataToSubmit = {
-  //     page: currPage,
-  //     type,
-  //     body: filterBody
-  //   }
-  //   const result = fetchProductList(dataToSubmit);
-  //   if (result?.message === "success") {
-  //     setProductList(result?.responseDto?.productList);
-  //     setTotalPage(result?.responseDto?.totalPage);
-  //     console.log(productList);
-  //   }
-  // }, [filterBody]);
-
 
   const productTypeList = [
     { label: "CPU", key: "0" },
@@ -351,10 +400,30 @@ const Search = () => {
                 filterBody={filterBody}
                 setFilterBody={setFilterBody}
                 currTypeTab={currTypeTab}
+                currBuilder={currBuilder}
+                setCurrBuilder={setCurrBuilder}
+                cpuList={cpuList}
+                setCpuList={setCpuList}
+                ramList={ramList}
+                setRamList={setRamList}
+                hddList={hddList}
+                setHddList={setHddList}
+                mbList={mbList}
+                setMbList={setMbList}
+                ssdList={ssdList}
+                setSsdList={setSsdList}
+                coolerList={coolerList}
+                setCoolerList={setCoolerList}
+                powerList={powerList}
+                setPowerList={setPowerList}
+                caseList={caseList}
+                setCaseList={setCaseList}
+                vgaList={vgaList}
+                setVgaList={setVgaList}
               />
             </div>
             <Drawer
-              title="현재 견적 이름"
+              title={currBuilder?.name != undefined ? currBuilder?.name : "현재 견적 이름"}
               placement="right"
               // closable={false}
               onClose={onClose}
@@ -367,12 +436,35 @@ const Search = () => {
                 position: "absolute",
               }}
             >
-              <DrawerBody currBuilder={currBuilder} setCurrBuilder={setCurrBuilder} />
+              <DrawerBody
+                currTypeTab={currTypeTab}
+                currBuilder={currBuilder}
+                setCurrBuilder={setCurrBuilder}
+                cpuList={cpuList}
+                setCpuList={setCpuList}
+                ramList={ramList}
+                setRamList={setRamList}
+                hddList={hddList}
+                setHddList={setHddList}
+                mbList={mbList}
+                setMbList={setMbList}
+                ssdList={ssdList}
+                setSsdList={setSsdList}
+                coolerList={coolerList}
+                setCoolerList={setCoolerList}
+                powerList={powerList}
+                setPowerList={setPowerList}
+                caseList={caseList}
+                setCaseList={setCaseList}
+                vgaList={vgaList}
+                setVgaList={setVgaList}
+              />
             </Drawer>
           </div>
         </div>
       </div>
-      <Affix
+      {
+        isLogin ? <Affix
         offsetTop={200}
         style={{ position: "absolute", top: 80, right: 20 }}
       >
@@ -389,8 +481,8 @@ const Search = () => {
             {accountBuildList.map((accountBuild, idx) => {
               return (
                 <div key={idx} className={style["side-menu-item"]}>
-                  <span>{accountBuild.name}</span>
-                  <span onClick={() => onRemoveAccountBuildItem(idx)}>
+                  <span onClick={() => onBuilderCliked(accountBuild.myBuilderDto)}>{accountBuild?.myBuilderDto?.name}</span>
+                  <span onClick={() => onRemoveAccountBuildItem(idx, accountBuild.myBuilderDto?.idx)}>
                     <CloseOutlined />
                   </span>
                 </div>
@@ -399,6 +491,9 @@ const Search = () => {
           </div>
         </div>
       </Affix>
+        : null
+      }
+      
     </>
   );
 };
