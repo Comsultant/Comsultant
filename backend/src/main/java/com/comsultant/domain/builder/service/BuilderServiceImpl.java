@@ -52,37 +52,7 @@ public class BuilderServiceImpl implements BuilderService {
 
     @Transactional
     @Override
-    public boolean createMyBuilder(Account account, MyBuilderDto myBuilderDto) {
-        // 캡처가 아닌 저장이면
-        if (!myBuilderDto.isCapture()) {
-            MyBuilder myBuilder;
-            // 있던 빌더라면 연결된 아이템들 삭제
-            if (myBuilderDto.getIdx() != 0) {
-                myBuilder = myBuilderRepository.findById(myBuilderDto.getIdx()).orElseThrow(
-                        () -> new BuilderApiException(BuilderErrorCode.Builder_NOT_FOUND)
-                );
-                builderProductRepository.deleteAllByMyBuilder(myBuilder);
-            }
-            // 새 빌더라면 마이빌더 생성
-            else {
-                myBuilderDto.updateUserInfo(account.getIdx());
-                myBuilder = myBuilderRepository.save(MyBuilderMapper.mapper.toEntity(myBuilderDto));
-            }
-            // builderProduct 저장
-            if (myBuilderDto.getBuilderProducts() != null) {
-                for (BuilderProductDto builderProductDto : myBuilderDto.getBuilderProducts()) {
-                    if (!productRepository.existsById(builderProductDto.getProductIdx())) {
-                        throw new BuilderApiException(BuilderErrorCode.PRODUCT_NOT_FOUND);
-                    }
-                    builderProductDto.updateMyBuilderInfo(myBuilder.getIdx());
-                    BuilderProduct savedBuilderProduct = builderProductRepository.save(BuilderProductMapper.mapper.toEntity(builderProductDto));
-                    if (savedBuilderProduct.getIdx() == 0) {
-                        return false;
-                    }
-                }
-            }
-        }
-
+    public MyBuilderDto createMyBuilder(Account account, MyBuilderDto myBuilderDto) {
         // 카프카 데이터 전송
         if (myBuilderDto.isKafka()) {
             String toKafka = toKafka(myBuilderDto, account);
@@ -95,7 +65,42 @@ public class BuilderServiceImpl implements BuilderService {
             }
         }
 
-        return true;
+        // 캡쳐면
+        if (myBuilderDto.isCapture()) {
+            return myBuilderDto;
+        }
+
+        MyBuilder myBuilder;
+        // 있던 빌더라면 연결된 아이템들 삭제
+        if (myBuilderDto.getIdx() != 0) {
+            myBuilder = myBuilderRepository.findById(myBuilderDto.getIdx()).orElseThrow(
+                    () -> new BuilderApiException(BuilderErrorCode.Builder_NOT_FOUND)
+            );
+            builderProductRepository.deleteAllByMyBuilder(myBuilder);
+        }
+        // 새 빌더라면 마이빌더 생성
+        else {
+            myBuilderDto.updateUserInfo(account.getIdx());
+            myBuilder = myBuilderRepository.save(MyBuilderMapper.mapper.toEntity(myBuilderDto));
+        }
+        // builderProduct 저장
+        if (myBuilderDto.getBuilderProducts() != null) {
+            for (BuilderProductDto builderProductDto : myBuilderDto.getBuilderProducts()) {
+                if (!productRepository.existsById(builderProductDto.getProductIdx())) {
+                    throw new BuilderApiException(BuilderErrorCode.PRODUCT_NOT_FOUND);
+                }
+                builderProductDto.updateMyBuilderInfo(myBuilder.getIdx());
+                BuilderProduct savedBuilderProduct = builderProductRepository.save(BuilderProductMapper.mapper.toEntity(builderProductDto));
+                if (savedBuilderProduct.getIdx() == 0) {
+                    return null;
+                }
+            }
+        }
+        if (myBuilder.getIdx() != 0) {
+            return MyBuilderMapper.mapper.toDto(myBuilder);
+        } else {
+            return null;
+        }
     }
 
     @Override
