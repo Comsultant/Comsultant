@@ -26,17 +26,19 @@ public class BuilderApi {
     private final ResponseProperties responseProperties;
 
     @PostMapping("")
-    public ResponseEntity<MessageResponse> createMyBuilder(@AuthenticationPrincipal AccountDetails accountDetails, @RequestBody MyBuilderDto myBuilderDto) {
+    public ResponseEntity<DtoResponse> createMyBuilder(@AuthenticationPrincipal AccountDetails accountDetails, @RequestBody MyBuilderDto myBuilderDto) {
         Account account = new Account();
         if (accountDetails != null)
             account = accountDetails.getAccount();
 
-        boolean result = builderService.createMyBuilder(account, myBuilderDto);
+        MyBuilderDto result = builderService.createMyBuilder(account, myBuilderDto);
 
-        if (result) {
-            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getSuccess()));
+        if (result.isCapture()) {
+            return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), null));
+        } else if (result.getIdx() == 0) {
+            return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getFail(), null));
         } else {
-            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getFail()));
+            return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
         }
     }
 

@@ -7,7 +7,7 @@ import com.comsultant.domain.builder.dto.MyBuilderDto;
 
 public interface BuilderService {
 
-    boolean createMyBuilder(Account account, MyBuilderDto myBuilderDto);
+    MyBuilderDto createMyBuilder(Account account, MyBuilderDto myBuilderDto);
 
     MyBuilderDetailListDto getMyBuilderDetails(Account account);
 

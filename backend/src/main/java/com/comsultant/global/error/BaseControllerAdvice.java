@@ -3,6 +3,7 @@ package com.comsultant.global.error;
 import com.comsultant.global.common.response.ErrorResponse;
 import com.comsultant.global.common.response.MessageResponse;
 import com.comsultant.global.error.exception.AccountApiException;
+import com.comsultant.global.error.exception.BuilderApiException;
 import com.comsultant.global.error.exception.CommentApiException;
 import com.comsultant.global.error.exception.ProductApiException;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +46,18 @@ public class BaseControllerAdvice {
     }
 
     @ExceptionHandler(CommentApiException.class)
-    public ResponseEntity<ErrorResponse> accountApiException(CommentApiException e, HttpServletRequest req) {
+    public ResponseEntity<ErrorResponse> commentApiException(CommentApiException e, HttpServletRequest req) {
+        log.error(req.getRequestURI());
+        log.error(e.getClass().getCanonicalName());
+        e.printStackTrace();
+        log.error(e.getMessage());
+
+        return ResponseEntity.status(e.getErrorCode().getHttpStatus())
+                .body(ErrorResponse.of(e.getErrorCode()));
+    }
+
+    @ExceptionHandler(BuilderApiException.class)
+    public ResponseEntity<ErrorResponse> builderApiException(BuilderApiException e, HttpServletRequest req) {
         log.error(req.getRequestURI());
         log.error(e.getClass().getCanonicalName());
         e.printStackTrace();
@@ -86,6 +98,7 @@ public class BaseControllerAdvice {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(MessageResponse.of(HttpStatus.OK, "Wrong Password"));
     }
+
     @ExceptionHandler(InternalAuthenticationServiceException.class)
     public ResponseEntity<MessageResponse> internalAuthenticationServiceException(Exception e, HttpServletRequest req) {
         log.debug("Auth Failed");
@@ -95,7 +108,7 @@ public class BaseControllerAdvice {
         log.error(e.getMessage());
         Throwable cause = e.getCause();
 
-        if ( cause instanceof AccountApiException) {
+        if (cause instanceof AccountApiException) {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(MessageResponse.of(HttpStatus.OK, "User Not Found"));
         } else {
@@ -105,7 +118,7 @@ public class BaseControllerAdvice {
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<MessageResponse> httpMessageNotReadableException (Exception e, HttpServletRequest req) {
+    public ResponseEntity<MessageResponse> httpMessageNotReadableException(Exception e, HttpServletRequest req) {
         log.debug("HttpMessageNotReadableException");
         log.error(req.getRequestURI());
         log.error(e.getClass().getCanonicalName());
