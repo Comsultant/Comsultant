@@ -1,14 +1,15 @@
 import axios from "axios";
 import { store } from "..";
 import { message } from "antd";
-import { SET_TOKEN } from "@/reducer/type";
+import { SET_TOKEN, LOGOUT } from "@/reducer/type";
+import { getToken } from "./accountService";
 
 /**
  * 인증 필요없는 Axios
  */
 export const request = axios.create({
   baseURL: process.env.REACT_APP_SERVER_URL,
-  // withCredentials: true,
+  withCredentials: true,
 });
 
 request.interceptors.response.use(

@@ -20,6 +20,7 @@ $font-size-small: 12px;
 
 .avatar {
   padding: 0px 10px;
+  margin: auto;
 }
 
 .content {
@@ -55,4 +56,9 @@ $font-size-small: 12px;
 
 .edit-button, .delete-button {
   cursor: pointer;
+}
+
+.nickname {
+  font-size: $font-size-small;
+  color: gray;
 }
