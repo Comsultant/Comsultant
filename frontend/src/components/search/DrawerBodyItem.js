@@ -25,24 +25,10 @@ const DrawerBodyItem = ({
 
   const [cnt, setCnt] = useState(0);
 
-  const onMinusClicked = (idx) => {
+  const onMinusClicked = (productIdx) => {
+    let idx = -1;
     switch (type) {
       case 1:
-        const newCpuList = [...cpuList];
-        newCpuList.map((curr) => {
-          if (curr.productIdx === idx && curr.cnt > 1) {
-            curr.cnt--;
-          }
-        })
-        setCpuList([...cpuList])
-        break;
-    }
-  }
-
-  const onPlusClicked = (productIdx) => {
-    switch (type) {
-      case 1:
-        let idx = -1;
         cpuList?.map((curr, i) => {
           if (curr.productIdx == productIdx) {
             idx = i;
@@ -50,16 +36,220 @@ const DrawerBodyItem = ({
         })
         const newCpuList = [...cpuList];
         if (idx != -1) {
-          newCpuList[idx] = { ...newCpuList[idx], cnt: cnt + 1 };
+          newCpuList[idx] = { ...newCpuList[idx], cnt: newCpuList[idx].cnt - 1 };
         }
-        setCpuList({ newCpuList });
-        // console.log(cpuList);
-        // setCpuList([...newCpuList.map((curr) => {
-        //   if (curr.productIdx == idx) {
-        //     curr.cnt += 1;
-        //   }
-        // })])
+        setCpuList(newCpuList);
         break;
+      case 2:
+        ramList?.map((curr, i) => {
+          if (curr.productIdx == productIdx) {
+            idx = i;
+          }
+        })
+        const newRamList = [...ramList];
+        if (idx != -1) {
+          newRamList[idx] = { ...newRamList[idx], cnt: newRamList[idx].cnt - 1 };
+        }
+        setRamList(newRamList);
+        break;
+      case 3:
+        hddList?.map((curr, i) => {
+          if (curr.productIdx == productIdx) {
+            idx = i;
+          }
+        })
+        const newHddList = [...hddList];
+        if (idx != -1) {
+          newHddList[idx] = { ...newHddList[idx], cnt: newHddList[idx].cnt - 1 };
+        }
+        setHddList(newHddList);
+        break;
+      case 4:
+        ssdList?.map((curr, i) => {
+          if (curr.productIdx == productIdx) {
+            idx = i;
+          }
+        })
+        const newSsdList = [...ssdList];
+        if (idx != -1) {
+          newSsdList[idx] = { ...newSsdList[idx], cnt: newSsdList[idx].cnt - 1 };
+        }
+        setSsdList(newSsdList);
+        break;
+      case 5:
+        powerList?.map((curr, i) => {
+          if (curr.productIdx == productIdx) {
+            idx = i;
+          }
+        })
+        const newPowerList = [...powerList];
+        if (idx != -1) {
+          newPowerList[idx] = { ...newPowerList[idx], cnt: newPowerList[idx].cnt - 1 };
+        }
+        setPowerList(newPowerList);
+        break;
+      case 6:
+        coolerList?.map((curr, i) => {
+          if (curr.productIdx == productIdx) {
+            idx = i;
+          }
+        })
+        const newCoolerList = [...coolerList];
+        if (idx != -1) {
+          newCoolerList[idx] = { ...newCoolerList[idx], cnt: newCoolerList[idx].cnt - 1 };
+        }
+        setCoolerList(newCoolerList);
+        break;
+      case 7:
+        caseList?.map((curr, i) => {
+          if (curr.productIdx == productIdx) {
+            idx = i;
+          }
+        })
+        const newCaseList = [...caseList];
+        if (idx != -1) {
+          newCaseList[idx] = { ...newCaseList[idx], cnt: newCaseList[idx].cnt - 1 };
+        }
+        setCaseList(newCaseList);
+        break;
+        case 8:
+          mbList?.map((curr, i) => {
+            if (curr.productIdx == productIdx) {
+              idx = i;
+            }
+          })
+          const newMbList = [...mbList];
+          if (idx != -1) {
+            newMbList[idx] = { ...newMbList[idx], cnt: newMbList[idx].cnt - 1 };
+          }
+          setMbList(newMbList);
+        break;
+        case 9:
+          vgaList?.map((curr, i) => {
+            if (curr.productIdx == productIdx) {
+              idx = i;
+            }
+          })
+          const newVgaList = [...vgaList];
+          if (idx != -1) {
+            newVgaList[idx] = { ...newVgaList[idx], cnt: newVgaList[idx].cnt - 1 };
+          }
+          setVgaList(newVgaList);
+          break;
+    }
+  }
+
+  const onPlusClicked = (productIdx) => {
+    let idx = -1;
+    switch (type) {
+      case 1:
+        cpuList?.map((curr, i) => {
+          if (curr.productIdx == productIdx) {
+            idx = i;
+          }
+        })
+        const newCpuList = [...cpuList];
+        if (idx != -1) {
+          newCpuList[idx] = { ...newCpuList[idx], cnt: newCpuList[idx].cnt + 1 };
+        }
+        setCpuList(newCpuList);
+        break;
+      case 2:
+        ramList?.map((curr, i) => {
+          if (curr.productIdx == productIdx) {
+            idx = i;
+          }
+        })
+        const newRamList = [...ramList];
+        if (idx != -1) {
+          newRamList[idx] = { ...newRamList[idx], cnt: newRamList[idx].cnt + 1 };
+        }
+        setRamList(newRamList);
+        break;
+      case 3:
+        hddList?.map((curr, i) => {
+          if (curr.productIdx == productIdx) {
+            idx = i;
+          }
+        })
+        const newHddList = [...hddList];
+        if (idx != -1) {
+          newHddList[idx] = { ...newHddList[idx], cnt: newHddList[idx].cnt + 1 };
+        }
+        setHddList(newHddList);
+        break;
+      case 4:
+        ssdList?.map((curr, i) => {
+          if (curr.productIdx == productIdx) {
+            idx = i;
+          }
+        })
+        const newSsdList = [...ssdList];
+        if (idx != -1) {
+          newSsdList[idx] = { ...newSsdList[idx], cnt: newSsdList[idx].cnt + 1 };
+        }
+        setSsdList(newSsdList);
+        break;
+      case 5:
+        powerList?.map((curr, i) => {
+          if (curr.productIdx == productIdx) {
+            idx = i;
+          }
+        })
+        const newPowerList = [...powerList];
+        if (idx != -1) {
+          newPowerList[idx] = { ...newPowerList[idx], cnt: newPowerList[idx].cnt + 1 };
+        }
+        setPowerList(newPowerList);
+        break;
+      case 6:
+        coolerList?.map((curr, i) => {
+          if (curr.productIdx == productIdx) {
+            idx = i;
+          }
+        })
+        const newCoolerList = [...coolerList];
+        if (idx != -1) {
+          newCoolerList[idx] = { ...newCoolerList[idx], cnt: newCoolerList[idx].cnt + 1 };
+        }
+        setCoolerList(newCoolerList);
+        break;
+      case 7:
+        caseList?.map((curr, i) => {
+          if (curr.productIdx == productIdx) {
+            idx = i;
+          }
+        })
+        const newCaseList = [...caseList];
+        if (idx != -1) {
+          newCaseList[idx] = { ...newCaseList[idx], cnt: newCaseList[idx].cnt + 1 };
+        }
+        setCaseList(newCaseList);
+        break;
+        case 8:
+          mbList?.map((curr, i) => {
+            if (curr.productIdx == productIdx) {
+              idx = i;
+            }
+          })
+          const newMbList = [...mbList];
+          if (idx != -1) {
+            newMbList[idx] = { ...newMbList[idx], cnt: newMbList[idx].cnt + 1 };
+          }
+          setMbList(newMbList);
+        break;
+        case 9:
+          vgaList?.map((curr, i) => {
+            if (curr.productIdx == productIdx) {
+              idx = i;
+            }
+          })
+          const newVgaList = [...vgaList];
+          if (idx != -1) {
+            newVgaList[idx] = { ...newVgaList[idx], cnt: newVgaList[idx].cnt + 1 };
+          }
+          setVgaList(newVgaList);
+          break;
     }
   }
 
@@ -103,8 +293,13 @@ const DrawerBodyItem = ({
             return (
               <div key={idx}>
                 <div>{product.productName}</div>
-                <div>{product.price * product.cnt}원</div>
-                <div>{product.cnt}</div>
+                <div style={{ display: 'flex', justifyContent: "center" }}>
+                  <button onClick={()=>onMinusClicked(product.productIdx)}>-</button>
+                  <input value={product.cnt} style={{ width: '25px' }} onChange={onCntChange} />
+                  <button onClick={()=>onPlusClicked(product.productIdx)}>+</button>
+                  <span>{product.price * product.cnt}원</span>
+                  <span onClick={()=>onDeleteClicked(product.productIdx)}>X</span>
+                </div>
               </div>
             );
           })}
@@ -114,8 +309,14 @@ const DrawerBodyItem = ({
           {hddList?.map((product, idx) => {
             return (
               <div key={idx}>
-                <div>{product.productName}</div>                
-                <div>{product.cnt} <span>{product.price * product.cnt}원</span></div>
+                <div>{product.productName}</div>
+                <div style={{ display: 'flex', justifyContent: "center" }}>
+                  <button onClick={()=>onMinusClicked(product.productIdx)}>-</button>
+                  <input value={product.cnt} style={{ width: '25px' }} onChange={onCntChange} />
+                  <button onClick={()=>onPlusClicked(product.productIdx)}>+</button>
+                  <span>{product.price * product.cnt}원</span>
+                  <span onClick={()=>onDeleteClicked(product.productIdx)}>X</span>
+                </div>
               </div>
             );
           })}
@@ -126,8 +327,13 @@ const DrawerBodyItem = ({
             return (
               <div key={idx}>
                 <div>{product.productName}</div>
-                <div>{product.price * product.cnt}원</div>
-                <div>{product.cnt}</div>
+                <div style={{ display: 'flex', justifyContent: "center" }}>
+                  <button onClick={()=>onMinusClicked(product.productIdx)}>-</button>
+                  <input value={product.cnt} style={{ width: '25px' }} onChange={onCntChange} />
+                  <button onClick={()=>onPlusClicked(product.productIdx)}>+</button>
+                  <span>{product.price * product.cnt}원</span>
+                  <span onClick={()=>onDeleteClicked(product.productIdx)}>X</span>
+                </div>
               </div>
             );
           })}
@@ -138,8 +344,13 @@ const DrawerBodyItem = ({
             return (
               <div key={idx}>
                 <div>{product.productName}</div>
-                <div>{product.price * product.cnt}원</div>
-                <div>{product.cnt}</div>
+                <div style={{ display: 'flex', justifyContent: "center" }}>
+                  <button onClick={()=>onMinusClicked(product.productIdx)}>-</button>
+                  <input value={product.cnt} style={{ width: '25px' }} onChange={onCntChange} />
+                  <button onClick={()=>onPlusClicked(product.productIdx)}>+</button>
+                  <span>{product.price * product.cnt}원</span>
+                  <span onClick={()=>onDeleteClicked(product.productIdx)}>X</span>
+                </div>
               </div>
             );
           })}
@@ -150,8 +361,13 @@ const DrawerBodyItem = ({
             return (
               <div key={idx}>
                 <div>{product.productName}</div>
-                <div>{product.price * product.cnt}원</div>
-                <div>{product.cnt}</div>
+                <div style={{ display: 'flex', justifyContent: "center" }}>
+                  <button onClick={()=>onMinusClicked(product.productIdx)}>-</button>
+                  <input value={product.cnt} style={{ width: '25px' }} onChange={onCntChange} />
+                  <button onClick={()=>onPlusClicked(product.productIdx)}>+</button>
+                  <span>{product.price * product.cnt}원</span>
+                  <span onClick={()=>onDeleteClicked(product.productIdx)}>X</span>
+                </div>
               </div>
             );
           })}
@@ -162,8 +378,13 @@ const DrawerBodyItem = ({
             return (
               <div key={idx}>
                 <div>{product.productName}</div>
-                <div>{product.price * product.cnt}원</div>
-                <div>{product.cnt}</div>
+                <div style={{ display: 'flex', justifyContent: "center" }}>
+                  <button onClick={()=>onMinusClicked(product.productIdx)}>-</button>
+                  <input value={product.cnt} style={{ width: '25px' }} onChange={onCntChange} />
+                  <button onClick={()=>onPlusClicked(product.productIdx)}>+</button>
+                  <span>{product.price * product.cnt}원</span>
+                  <span onClick={()=>onDeleteClicked(product.productIdx)}>X</span>
+                </div>
               </div>
             );
           })}
@@ -174,8 +395,13 @@ const DrawerBodyItem = ({
             return (
               <div key={idx}>
                 <div>{product.productName}</div>
-                <div>{product.price * product.cnt}원</div>
-                <div>{product.cnt}</div>
+                <div style={{ display: 'flex', justifyContent: "center" }}>
+                  <button onClick={()=>onMinusClicked(product.productIdx)}>-</button>
+                  <input value={product.cnt} style={{ width: '25px' }} onChange={onCntChange} />
+                  <button onClick={()=>onPlusClicked(product.productIdx)}>+</button>
+                  <span>{product.price * product.cnt}원</span>
+                  <span onClick={()=>onDeleteClicked(product.productIdx)}>X</span>
+                </div>
               </div>
             );
           })}
@@ -186,8 +412,13 @@ const DrawerBodyItem = ({
             return (
               <div key={idx}>
                 <div>{product.productName}</div>
-                <div>{product.price * product.cnt}원</div>
-                <div>{product.cnt}</div>
+                <div style={{ display: 'flex', justifyContent: "center" }}>
+                  <button onClick={()=>onMinusClicked(product.productIdx)}>-</button>
+                  <input value={product.cnt} style={{ width: '25px' }} onChange={onCntChange} />
+                  <button onClick={()=>onPlusClicked(product.productIdx)}>+</button>
+                  <span>{product.price * product.cnt}원</span>
+                  <span onClick={()=>onDeleteClicked(product.productIdx)}>X</span>
+                </div>
               </div>
             );
           })}
