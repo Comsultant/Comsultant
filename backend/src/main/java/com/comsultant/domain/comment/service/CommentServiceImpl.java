@@ -48,9 +48,9 @@ public class CommentServiceImpl implements CommentService {
     private final VgaRepository vgaRepository;
 
     @Override
-    public boolean createComment(Account account, long productIdx, CommentDto commentDto) {
+    public CommentDto createComment(Account account, long productIdx, CommentDto commentDto) {
         if (account == null || account.getIdx() == 0) {
-            return false;
+            return null;
         }
 
         commentDto.updateUserInfo(account.getIdx(), productIdx);
@@ -59,7 +59,11 @@ public class CommentServiceImpl implements CommentService {
         }
 
         Comment savedComment = commentRepository.save(CommentMapper.mapper.toEntity(commentDto));
-        return savedComment.getIdx() != 0;
+        if ( savedComment.getIdx() != 0 ) {
+            return CommentMapper.mapper.toDto(savedComment);
+        } else {
+            return null;
+        }
     }
 
     @Override
