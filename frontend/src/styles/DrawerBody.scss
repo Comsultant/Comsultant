@@ -1,0 +1,59 @@
+.ant-menu-submenu-title{
+  background-color: rgb(227, 62, 56);
+  color: white;
+}
+.ant-menu-light .ant-menu-item:hover, .ant-menu-light .ant-menu-item-active, .ant-menu-light .ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open, .ant-menu-light .ant-menu-submenu-active, .ant-menu-light .ant-menu-submenu-title:hover {
+  color: white;
+}
+
+::selection {
+  color: #fff;
+}
+
+.ant-menu-submenu:hover {
+  color: white;
+}
+
+.ant-menu-submenu-arrow {
+  color: white;
+}
+
+.ant-menu-submenu-arrow::before {
+  color:white;
+}
+
+.ant-menu-submenu-arrow::after {
+  color:white;
+}
+
+// .ant-menu ant-menu-sub {
+//   border: solid 1px rgb(227, 62, 56);
+// }
+// .ant-menu-inline {
+//   border-left: solid 1px rgb(227, 62, 56);
+//   border-right: solid 1px rgb(227, 62, 56);
+//   border-bottom: solid 1px rgb(227, 62, 56);
+// }
+
+.ant-menu-item ant-menu-item-active {
+  color: black;
+}
+.ant-menu-item-only-child {
+  color: black;
+}
+
+.ant-menu-title-content::selection {
+  color: black;
+}
+
+.ant-menu-title-content::after {
+  color: black;
+}
+
+.ant-menu-vertical .ant-menu-item::after, .ant-menu-vertical-left .ant-menu-item::after, .ant-menu-vertical-right .ant-menu-item::after, .ant-menu-inline .ant-menu-item::after {
+  border-right: 3px solid rgb(227, 62, 56);
+}
+
+.ant-menu-item .ant-menu-item-active .ant-menu-item-selected .ant-menu-item-only-child {
+  height: fit-content;
+}

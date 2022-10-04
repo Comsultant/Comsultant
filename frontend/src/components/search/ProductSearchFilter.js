@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Checkbox from "antd/lib/checkbox/Checkbox";
-import style from "@/styles/ProductFilter.module.scss"
+import style from "@/styles/ProductSeachFilter.module.scss"
 import ProductFilterKorean from "@/tools/ProductFilterKorean";
 import { useEffect } from "react";
 import { AddtionalCoolerFilterList } from "@/tools/AddtionalCoolerFilterList";
@@ -10,13 +10,14 @@ const ProductFilter = ({ filterList, filterDetailList, currTypeTab, getProductFi
 
   const [isClicked, setIsClicked] = useState(false);
 
-
   useEffect(() => {
     let init = {};
-    console.log(currTypeTab);
     switch (currTypeTab) {
       case '0':
         getProductFilterData("cpu");
+        // setFilterBody(
+        //   { corp: [], intelCpu: [], amdCpu: [], socket:[],core:[],name:"",price: [minPrice, maxPrice] }
+        // );
         init = {
           "corp": [],
           "intelCpu": [],
@@ -98,15 +99,15 @@ const ProductFilter = ({ filterList, filterDetailList, currTypeTab, getProductFi
           "classType": [],
           "size": [],
           "powerSize": [],
-          "extendedAtx": false,
-          "standardAtx": false,
-          "microAtx": false,
-          "flexAtx": false,
-          "standardItx": false,
-          "miniItx": false,
-          "ssiCeb": false,
-          "ssiEeb": false,
-          "miniDtx": false,
+          // "extendedAtx": false,
+          // "standardAtx": false,
+          // "microAtx": false,
+          // "flexAtx": false,
+          // "standardItx": false,
+          // "miniItx": false,
+          // "ssiCeb": false,
+          // "ssiEeb": false,
+          // "miniDtx": false,
           "name": "",
           "price": [minPrice, maxPrice]
         }
@@ -118,34 +119,34 @@ const ProductFilter = ({ filterList, filterDetailList, currTypeTab, getProductFi
           "type": [],
           "coolingSystem": [],
           "coolerHeight": [],
-          "lga3647": false,
-          "lga2066": false,
-          "lga2011V3": false,
-          "lga2011": false,
-          "lga1700": false,
-          "lga1366": false,
-          "lga1200": false,
-          "lga115x": false,
-          "lga775": false,
-          "lga771": false,
-          "lga4677": false,
-          "lga4189": false,
-          "socket478": false,
-          "socket370": false,
-          "tr4": false,
-          "am5": false,
-          "am4": false,
-          "am3": false,
-          "am1": false,
-          "sp3": false,
-          "strx4": false,
-          "socket939": false,
-          "socket754": false,
-          "socket940": false,
-          "swrx8": false,
-          "socketa": false,
-          "socketf": false,
-          "fmxAmx": false,
+          // "lga3647": false,
+          // "lga2066": false,
+          // "lga2011V3": false,
+          // "lga2011": false,
+          // "lga1700": false,
+          // "lga1366": false,
+          // "lga1200": false,
+          // "lga115x": false,
+          // "lga775": false,
+          // "lga771": false,
+          // "lga4677": false,
+          // "lga4189": false,
+          // "socket478": false,
+          // "socket370": false,
+          // "tr4": false,
+          // "am5": false,
+          // "am4": false,
+          // "am3": false,
+          // "am1": false,
+          // "sp3": false,
+          // "strx4": false,
+          // "socket939": false,
+          // "socket754": false,
+          // "socket940": false,
+          // "swrx8": false,
+          // "socketa": false,
+          // "socketf": false,
+          // "fmxAmx": false,
           "name": "",
           "price": [minPrice, maxPrice]
         }
@@ -157,33 +158,26 @@ const ProductFilter = ({ filterList, filterDetailList, currTypeTab, getProductFi
   
   const onCheckBoxChanged = (e, key, value) => {
     let isChecked = e.target.checked;
-    //케이스
-    if (currTypeTab === '7') {
-      if (key in ["corp", "classType", "size", "powerSize"]) {
-        console.log("here!");
-      }
-      
-    //쿨러
-    } else if (currTypeTab === '8') {
-      
+
+    //추가
+    if (isChecked) {      
+      setFilterBody(
+        { ...filterBody, [key]: [...filterBody[key], value] }
+      );
+    //제거
     } else {
-      //추가
-      if (isChecked) {      
-        setFilterBody(
-          { ...filterBody, [key]: [...filterBody[key], value] }
-        );
-      //제거
-      } else {
-        setFilterBody(
-          { ...filterBody, [key] : filterBody[key].filter((curr) => curr != value)}
-        )
-      }
+      setFilterBody(
+        { ...filterBody, [key] : filterBody[key].filter((curr) => curr != value)}
+      )
     }
+    
     
   }
 
   const onSelectChanged = (e, key) => {
     const value = e.target.value;
+    if (value === '')
+      return;
     //추가
     setFilterBody(
       { ...filterBody, [key]: [...filterBody[key], value] }
@@ -192,21 +186,13 @@ const ProductFilter = ({ filterList, filterDetailList, currTypeTab, getProductFi
   }
 
   const onAdditionalSelectChanged = (e) => {
-    const value = e;
-    console.log(value);
-    //케이스
-    if (currTypeTab === '7') {
-        console.log("케이스!");
-    }
-      
-      //쿨러
-     else if (currTypeTab === '8') {
-      console.log("쿨러!");
-    } else {
-
-    }
+    const key = e.target.value;
+    if (key === '')
+      return;
+    setFilterBody(
+      { ...filterBody, [key]: true }
+    );
   }
-
   
   useEffect(() => {
     let init = {
@@ -251,6 +237,7 @@ const ProductFilter = ({ filterList, filterDetailList, currTypeTab, getProductFi
                           onChange={(e) => onSelectChanged(e, filter)}
                           className={'filter-detail-select'}
                         >
+                          <option value=''>선택해주세요</option>
                           {filterDetailList[filter]?.map((filterDetail, idx2) => {
                             return (
                               <option key={idx2} value={filterDetail}>
@@ -272,7 +259,8 @@ const ProductFilter = ({ filterList, filterDetailList, currTypeTab, getProductFi
                     지원 보드 규격
                   </td>
                   <td>
-                    <select name="boardSize" onChange={(e) => onAdditionalSelectChanged(e)}>
+                    <select name="boardSize" onChange={onAdditionalSelectChanged}>
+                      <option value=''>선택해주세요</option>
                     {AdditionalCasesFilterList.map((data, idx) => {
                       return (
                         <option key={idx} value={Object.keys(data)[0]}>
@@ -289,7 +277,8 @@ const ProductFilter = ({ filterList, filterDetailList, currTypeTab, getProductFi
                       소켓
                     </td> 
                     <td>
-                      <select name="socket">
+                      <select name="socket" onChange={onAdditionalSelectChanged}>
+                        <option value=''>선택해주세요</option>
                         {AddtionalCoolerFilterList.map((data, idx) => {
                           return (
                             <option key={idx} value={Object.keys(data)[0]}>

@@ -11,7 +11,7 @@ import RecommendModal from "./RecommendModal";
 
 const checkboxColor = "pink";
 
-const ContentItem = ({checkState, numberState, checkSetter, numberSetter, contentList, contentSetter, name}) => {
+const ContentItem = ({checkState, numberState, checkSetter, numberSetter, contentList, contentSetter, name, type, currTypeTab, getProductFilterData}) => {
   
   const onChangeCount = (curr, idx) =>{
     contentSetter((contentList) => contentList.map((content, i) => i == idx ? {...content, count: curr} : content));
@@ -49,6 +49,7 @@ const ContentItem = ({checkState, numberState, checkSetter, numberSetter, conten
     contentSetter(contentList.filter((content, idx) => idx !== i))
   }
 
+
   return (
     <>
     <Modal
@@ -68,7 +69,7 @@ const ContentItem = ({checkState, numberState, checkSetter, numberSetter, conten
         okText="확인"
         cancelText="취소"
         >
-          <RecommendModal currProduct={currProduct} type={name} />
+        <RecommendModal currProduct={currProduct} name={name} type={type} currTypeTab={currTypeTab} getProductFilterData={getProductFilterData} />
       </Modal>
     <div className={style["content-item"]}>
         

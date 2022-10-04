@@ -1,25 +1,164 @@
+$gray-color: rgb(238, 237, 237);
+
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin: 0px 15%;
+  min-width: 500px;
+  >div {
+    margin: 20px 0px;
+  }
 }
 
 .product-tab {
   margin: 10px;
+  white-space: nowrap;
+  font-weight: bold;
+  white-space: nowrap;
   span {
-    font-weight: bold;
     margin: 0px 30px;
-    white-space: nowrap;
     cursor: pointer;
   }
 }
 
 .product-filter {
   display: flex;
-  background-color: lightgray;
+  min-height: 170px;
+  width: 100%;
+  background: #fafafa;
+  border: 1px solid #ebedf0;
 }
 
-.desc-filter{
+.price-filter {
   display: flex;
+  >span {
+    padding:20px
+  }
+  width: 100%;
+  justify-self: start;
+  align-items: center;
+
+  .slider {
+    min-width: 340px;
+  }
+  
+}
+
+
+.main-content{
+  width: 100%;
+}
+
+.filter-box{
+  display: flex;
+  justify-content: space-between;
+}
+
+.desc-filter {
+  width: 50%;
+  width: fit-content;
+}
+
+.search-bar {
+  position: relative;
+  width: 50%;
+  min-width: 150px;
+  >input {
+    padding: 0px 15px;
+    background-color: #fafafa;
+    border: none;
+    width: 100%;
+    border-radius: 10px;
+    height: 35px;
+  }
+
+  .search-icon{
+    position: absolute;
+    right: 2%;
+    top:20%;
+    cursor: pointer;
+  }
+}
+
+.builder-tab-button {
+  >button {
+    white-space: nowrap;
+    border: none;
+    background-color: #fafafa;
+    border: 1px solid #ebedf0;
+    border-radius: 3px;
+    height: 35px;
+    cursor: pointer;
+  }
+}
+
+.product-list {
+  text-align: start;
+}
+
+.builder-drawer {
+  position: relative;
+  min-height: 500px;
+  padding: 10px;
+  overflow-y: scroll;
+  text-align: center;
+  background: #fafafa;
+  border: 1px solid #ebedf0;
+  border-radius: 2px;
+}
+
+.ant-drawer-mask {
+  background: white;
+}
+
+.side-menu {
+  background-color: #fafafa;
+  width: 200px;
+}
+
+.side-menu-header{
+  display: flex;
+  justify-content: space-between;
+}
+
+.side-menu-title{
+  width: 90%;
+  border: solid 1px lightgray;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.side-menu-body{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 15px
+}
+
+.side-menu-item{
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.ant-tooltip-inner {
+  background-color: #fafafa;
+  
+}
+
+.ant-drawer-wrapper-body {
+  z-index: 0;
+}
+
+
+.filter-body-item {
+  background-color: #fafafa;
+  margin: 10px 3px;
+  padding: 3px;
+  border: solid 1px #ebedf0;
+  >span{
+    padding: 10px 0px;
+  }
 }
