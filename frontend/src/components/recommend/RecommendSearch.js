@@ -12,7 +12,6 @@ import RecommendProductList from '@/components/recommend/RecommendProductList'
 
 const RecommendSearch = ({type, pickProduct, setPickProduct}) => {
   const defaultMaxPrice = 1000000;
-  console.log(type)
   const productType = {"cpu" : 0, "vga" : 2, "ram" : 3, "hdd": 6, "ssd": 5, "psu": 4, "cooler": 8, "cases": 7, "mainboard": 1};
 
 

@@ -1,0 +1,23 @@
+.detail-main {
+  margin: 3% 20%
+}
+
+.detail-button-div {
+  margin-top: 30px;
+  text-align: center;
+
+  button {
+    background-color: #377bb9;
+    border: 0px;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: white;
+    width: 100px;
+    height: 40px;
+    transition: all 0.5s linear;
+  }
+  button:hover {
+    background-color: #95bcdf;
+    cursor: pointer;
+  }
+}

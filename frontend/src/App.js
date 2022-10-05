@@ -8,6 +8,7 @@ import Recommend from "./components/recommend/Recommend";
 import Search from "./components/search/Search";
 import SocailAuth from "./components/account/SocailAuth";
 import ProductInfo from "./components/product/ProductInfo";
+import RecommendDetail from "./components/recommend/RecommendDetail";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="/account/*" element={<Account />} />
           <Route path="/recommend/" element={<Recommend />} />
+          <Route path="/recommend/detail" element={<RecommendDetail />}></Route>
           <Route path="/product/search" element={<Search />} />
           <Route path="/product/info" element={<ProductInfo />} />
       </Route>
