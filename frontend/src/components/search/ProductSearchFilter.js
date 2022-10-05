@@ -194,7 +194,7 @@ const ProductFilter = ({ filterList, filterDetailList, currTypeTab, getProductFi
     );
   }
 
-  
+
   return (
     <div className={style['container']}>
       <div className={style["left-box"]}>
