@@ -195,7 +195,6 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
           contentList={cpuList}
           contentSetter={setCpuList}
         />
-        <p>uasdfadsfasd</p>
         <ContentItem
           name="M/B"
           type="mainboard"
