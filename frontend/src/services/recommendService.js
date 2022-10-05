@@ -12,3 +12,13 @@ export const getPopularRecommendRequest = async () => {
     return err;
   }
 };
+
+// 추천 받기
+export const getRecommendBuilder = async (option) => {
+  try {
+    const payload = await request.post(`${RECOMMEND_URL}`, option);
+    return payload
+  } catch (err) {
+    return err;
+  }
+}

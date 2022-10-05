@@ -33,6 +33,7 @@ $gray-color: rgb(238, 237, 237);
 
 .price-filter {
   display: flex;
+  position: relative;
   >span {
     padding:20px
   }
@@ -46,6 +47,17 @@ $gray-color: rgb(238, 237, 237);
   
 }
 
+.price-tooptip {
+  position: absolute;
+  background-color: rgb(64,64,64);
+  color: white;
+  border-radius: 8px;
+  height: 40px;
+  line-height: 0px;
+  padding: 0;
+  // left: 400px;
+  top: -20px;
+}
 
 .main-content{
   width: 100%;
