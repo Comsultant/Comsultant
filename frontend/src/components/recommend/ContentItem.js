@@ -57,6 +57,12 @@ const ContentItem = ({checkState, checkSetter, contentList, contentSetter, name,
     contentSetter(contentList.filter((content, idx) => idx !== i))
   }
 
+  const deletePickProduct = (idx) => {
+    console.log(contentList, idx)
+    contentSetter(contentList.map((item, item_idx) => 
+      item_idx == idx ? {... item, id: '', name: '', price: 0} : item
+    ))
+  }
 
   return (
     <>
@@ -118,7 +124,7 @@ const ContentItem = ({checkState, checkSetter, contentList, contentSetter, name,
                 
                 <CloseCircleOutlined 
                   className={style["delete-button"]} 
-                  onClick={() => onDeleteButtonClicked(idx)}
+                  onClick={() => deletePickProduct(idx)}
                   // onClick={onDeleteButtonClicked}
                   // 이건 선택된 부품 삭제하는 거!!!!!
                 />
