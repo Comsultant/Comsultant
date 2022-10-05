@@ -10,7 +10,7 @@ import {
 import CustomCheckbox from "../CustomCheckbox";
 import RecommendModal from "./RecommendModal";
 
-const checkboxColor = "pink";
+const checkboxColor = "#377BB9";
 
 const ContentItem = ({checkState, checkSetter, contentList, contentSetter, name, type, currTypeTab}) => {
   
@@ -72,10 +72,11 @@ const ContentItem = ({checkState, checkSetter, contentList, contentSetter, name,
         onOk={handleOk}
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
-        width={"1200px"}
+        width={"80vw"}
         centered
         bodyStyle={
-          {"height" : "80vh",
+          {"height" : "70vh",
+            "width" : "80vw",
           "overflowY": 'scroll',
           "backgroundColor" : "lightgray",
           }}
@@ -135,10 +136,11 @@ const ContentItem = ({checkState, checkSetter, contentList, contentSetter, name,
                 </div> : null
               }
               
-              <div>
+              <div className={style['product-item-right']}>
                 <InputNumber
                   className={style["input-number"]}
                   min={1}
+                  max={10}
                   value={content.count}
                   defaultValue={1}
                   onChange={(curr)=> {

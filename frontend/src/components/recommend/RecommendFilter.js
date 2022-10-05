@@ -92,7 +92,7 @@ const RecommendFilter = ({filterItem, setFilterItem}) => {
       <div className={style.filter}>
         <div className={style.purpose}>
           <div>
-            <span>용도</span>
+            <span className={style["recommend-filter-title"]}>용도</span>
             <select onChange={onUseChange} className={style["select-input-blue"]}>
               {filterList.map((filter, idx)=>{
                 return(
@@ -104,7 +104,7 @@ const RecommendFilter = ({filterItem, setFilterItem}) => {
             </select>
           </div>
           <div>
-            <span>사용 프로그램</span>
+            <span className={style["recommend-filter-title"]}>사용 프로그램</span>
             <select onChange={onProgramChange} value={program} className={classNames(`${style["select-input"]}`,`${style['usage-program']}`)}>
               {filterList.filter((curr)=>curr.purpose === purpose)[0].programList.map((pr, idx)=>{
                 return(
