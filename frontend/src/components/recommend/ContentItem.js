@@ -23,6 +23,7 @@ const ContentItem = ({checkState, checkSetter, contentList, contentSetter, name,
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [currIdx, setCurrIdx] = useState(0);
   const [pickProduct, setPickProduct] = useState({id:"", name:"", count:1, price:0});
+  const productType = {"cpu" : 0, "vga" : 2, "ram" : 3, "hdd": 6, "ssd": 5, "psu": 4, "cooler": 8, "cases": 7, "mainboard": 1};
 
   const showModal = (idx) => {
     setCurrIdx(idx);
@@ -39,7 +40,7 @@ const ContentItem = ({checkState, checkSetter, contentList, contentSetter, name,
         idx === currIdx ? { ...item, id: pickProduct.id, name: pickProduct.name, price: pickProduct.price } : item
        ));
       setPickProduct({id:"", name:"", count:1, price:0})
-    }, 1000);
+    }, 300);
     
   };
 
@@ -78,7 +79,7 @@ const ContentItem = ({checkState, checkSetter, contentList, contentSetter, name,
           {"height" : "70vh",
             "width" : "80vw",
           "overflowY": 'scroll',
-          "backgroundColor" : "lightgray",
+          "padding": "0px",
           }}
         zIndex={2000}
         okText="확인"
@@ -132,7 +133,7 @@ const ContentItem = ({checkState, checkSetter, contentList, contentSetter, name,
               </div>
               {
                 content.id !== "" ? <div>
-                <button className={style["detail-button"]}>상세보기</button>
+                <button className={style["detail-button"]}><a target="_blank" href={`/product/info?idx=${content.id}&type=${productType[type]}`}>상세보기</a></button>
                 </div> : null
               }
               

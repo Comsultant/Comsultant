@@ -87,7 +87,7 @@ const RecommendProductList = (
                   </div>
                   <div className={style['right-button-box']}>
                     <div>
-                      <button onClick={pickingProduct} pid={product.idx} pname={product.name} price={product.price}>견적추가</button>
+                      <button onClick={pickingProduct} pid={product.idx} pname={product.name} price={product.price}>선택하기</button>
                     </div>
                   </div>
                 </div>
