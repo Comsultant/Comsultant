@@ -36,6 +36,9 @@ const DrawerBodyItem = ({
             idx = i;
           }
         })
+        if(cpuList[idx].cnt <= 1){
+          return;
+        } 
         const newCpuList = [...cpuList];
         if (idx != -1) {
           newCpuList[idx] = { ...newCpuList[idx], cnt: newCpuList[idx].cnt - 1 };
@@ -48,6 +51,9 @@ const DrawerBodyItem = ({
             idx = i;
           }
         })
+        if(ramList[idx].cnt <= 1){
+          return;
+        } 
         const newRamList = [...ramList];
         if (idx != -1) {
           newRamList[idx] = { ...newRamList[idx], cnt: newRamList[idx].cnt - 1 };
@@ -60,18 +66,24 @@ const DrawerBodyItem = ({
             idx = i;
           }
         })
+        if(hddList[idx].cnt <= 1){
+          return;
+        } 
         const newHddList = [...hddList];
         if (idx != -1) {
           newHddList[idx] = { ...newHddList[idx], cnt: newHddList[idx].cnt - 1 };
         }
         setHddList(newHddList);
         break;
-      case 4:
+      case 4:        
         ssdList?.map((curr, i) => {
           if (curr.productIdx == productIdx) {
             idx = i;
           }
         })
+        if(ssdList[idx].cnt <= 1){
+          return;
+        } 
         const newSsdList = [...ssdList];
         if (idx != -1) {
           newSsdList[idx] = { ...newSsdList[idx], cnt: newSsdList[idx].cnt - 1 };
@@ -84,6 +96,9 @@ const DrawerBodyItem = ({
             idx = i;
           }
         })
+        if(powerList[idx].cnt <= 1){
+          return;
+        } 
         const newPowerList = [...powerList];
         if (idx != -1) {
           newPowerList[idx] = { ...newPowerList[idx], cnt: newPowerList[idx].cnt - 1 };
@@ -96,6 +111,9 @@ const DrawerBodyItem = ({
             idx = i;
           }
         })
+        if(coolerList[idx].cnt <= 1){
+          return;
+        } 
         const newCoolerList = [...coolerList];
         if (idx != -1) {
           newCoolerList[idx] = { ...newCoolerList[idx], cnt: newCoolerList[idx].cnt - 1 };
@@ -108,6 +126,9 @@ const DrawerBodyItem = ({
             idx = i;
           }
         })
+        if(caseList[idx].cnt <= 1){
+          return;
+        } 
         const newCaseList = [...caseList];
         if (idx != -1) {
           newCaseList[idx] = { ...newCaseList[idx], cnt: newCaseList[idx].cnt - 1 };
@@ -120,6 +141,9 @@ const DrawerBodyItem = ({
               idx = i;
             }
           })
+          if(mbList[idx].cnt <= 1){
+            return;
+          } 
           const newMbList = [...mbList];
           if (idx != -1) {
             newMbList[idx] = { ...newMbList[idx], cnt: newMbList[idx].cnt - 1 };
@@ -132,6 +156,9 @@ const DrawerBodyItem = ({
               idx = i;
             }
           })
+          if(vgaList[idx].cnt <= 1){
+            return;
+          } 
           const newVgaList = [...vgaList];
           if (idx != -1) {
             newVgaList[idx] = { ...newVgaList[idx], cnt: newVgaList[idx].cnt - 1 };
