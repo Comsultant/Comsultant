@@ -133,4 +133,10 @@ public class CasesDto {
 
     private boolean outsideLed; //외부 LED
 
+    private boolean wish;
+
+    public void inputWish(boolean wish) {
+        this.wish = wish;
+    }
+
 }
