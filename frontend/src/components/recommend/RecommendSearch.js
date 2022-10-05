@@ -5,19 +5,13 @@ import DescFilter from "../recommend/DescFilter";
 import { Slider, Drawer, Tabs } from "antd";
 import PriceFormatter from "@/tools/PriceFormatter";
 import { SearchOutlined, PlusOutlined, CloseOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
-import SearchProductListComponent from "@/components/search/SearchProductListComponent";
 import { getProductFilterRequest, getProductRequest } from "@/services/productService";
 import ProductFilterKorean from "@/tools/ProductFilterKorean";
-import { AddtionalCoolerFilterList } from "@/tools/AddtionalCoolerFilterList";
-import { AdditionalCasesFilterList } from "@/tools/AddtionalCasesFilterLIst";
-import { filter, max } from "lodash";
-import ProductNumMapper from "@/tools/ProductNumMapper";
-import DrawerBody from "@/components/search/DrawerBody";
 import RecommendProductList from '@/components/recommend/RecommendProductList'
 
 
 const RecommendSearch = ({type, pickProduct, setPickProduct}) => {
-  const defaultMaxPrice = 5000000;
+  const defaultMaxPrice = 1000000;
   console.log(type)
   const productType = {"cpu" : 0, "vga" : 2, "ram" : 3, "hdd": 6, "ssd": 5, "psu": 4, "cooler": 8, "cases": 7, "mainboard": 1};
 
@@ -154,12 +148,14 @@ const RecommendSearch = ({type, pickProduct, setPickProduct}) => {
         </div>
         <div className={style["price-filter"]}>
           <span>가격</span>
+          <span className={style["price-tooptip"]} style={{left: `${((minPrice/defaultMaxPrice) * 330) + 40}px`}}>{PriceFormatter(minPrice)}</span>
+          <span className={style["price-tooptip"]} style={{left: `${((maxPrice/defaultMaxPrice) * 330) + 40}px`}}>{PriceFormatter(maxPrice)}</span>
           <Slider
             range={{ draggableTrack: true }}
             onAfterChange={onPriceChange}
             defaultValue={[0, defaultMaxPrice]}
-            max={10000000}
-            step={100000}
+            max={defaultMaxPrice}
+            step={1000}
             className={style.slider}
             trackStyle={{ backgroundColor: "#377BB9", height: "8px" }}
             handleStyle={{
@@ -169,10 +165,7 @@ const RecommendSearch = ({type, pickProduct, setPickProduct}) => {
               borderRadius: "5px",
             }}
           />
-          <div style={{display: "inline"}}>
-            {PriceFormatter(minPrice)}
-            {PriceFormatter(maxPrice)}
-          </div>
+
           <div className={style["selected-filter-box"]}>
               {
                 Object.entries(filterBody).map((curr) => {
@@ -205,7 +198,6 @@ const RecommendSearch = ({type, pickProduct, setPickProduct}) => {
 
           </div>
         </div>
-
         <div className={style["main-content"]}>
           <div className={style["filter-box"]}>
             <div className={style["desc-filter"]}>
