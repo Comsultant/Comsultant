@@ -10,7 +10,7 @@ import CustomCheckbox from "../CustomCheckbox";
 
 const initProduct = [{ id: "", name: "", count: 1, price: 0 }];
 
-const ProductSelector = ({isRecommendPressed, setIsRecommendPressed, filterItem}) => {
+const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
   const [cpuList, setCpuList] = useState(initProduct);
   const [mbList, setMbList] = useState(initProduct);
   const [vgaList, setVgaList] = useState(initProduct);
@@ -52,14 +52,47 @@ const ProductSelector = ({isRecommendPressed, setIsRecommendPressed, filterItem}
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 
-  const onRecommendButtonClicked = () => {
-    console.log(filterItem)
-    setIsRecommendPressed(true);
+  const onRecommendButtonClicked = async () => {
+    await getRecommendList()
   }
 
+  const getProdCount = (prodList) => {
+    let s = 0
+    prodList.map((i) => {
+      s += i.count
+    })
+    return s
+  }
+
+  /**
+   * 부품 개수 계산
+   */
   useEffect(() => {
     getTotalPrice();
-  }, [cpuList, mbList, vgaList, ramList, powerList, ssdList, hddList])
+    const cpuCount = getProdCount(cpuList);
+    const ramCount = getProdCount(ramList);
+    const hddCount = getProdCount(hddList);
+    const ssdCount = getProdCount(ssdList);
+    const psuCount = getProdCount(powerList);
+    const coolerCount = getProdCount(coolerList);
+    const caseCount = getProdCount(caseList);
+    const mainboardCount = getProdCount(mbList);
+    const vgaCount = getProdCount(vgaList);
+
+    setFilterItem({
+      ...filterItem, 
+      cpu_cnt: cpuChecked ? cpuCount : 0,
+      ram_cnt: ramChecked ? ramCount : 0,
+      hdd_cnt: hddChecked ? hddCount : 0,
+      ssd_cnt: ssdChecked ? ssdCount : 0,
+      psu_cnt: powerChecked ? psuCount : 0,
+      cooler_cnt: coolerChecked ? coolerCount : 0,
+      cases_cnt: caseChecked ? caseCount : 0,
+      mainboard_cnt: mbChecked ? mainboardCount : 0,
+      vga_cnt: vgaChecked ? vgaCount : 0,
+    })
+  }, [cpuList, mbList, vgaList, ramList, powerList, ssdList, hddList, coolerList, caseList, 
+    cpuChecked, ramChecked, hddChecked, ssdChecked, powerChecked, coolerChecked, caseChecked, mbChecked, vgaChecked])
 
   const getProductFilterData = async type => {
     const result = await getProductFilterRequest(type);
@@ -103,6 +136,7 @@ const ProductSelector = ({isRecommendPressed, setIsRecommendPressed, filterItem}
           contentSetter={setCpuList}
           getProductFilterData={getProductFilterData}
         />
+        <p>uasdfadsfasd</p>
         <ContentItem
           name="M/B"
           type="mainboard"

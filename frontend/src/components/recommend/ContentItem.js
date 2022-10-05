@@ -4,6 +4,7 @@ import { InputNumber, Modal } from "antd";
 import {
   InfoCircleOutlined,
   PlusSquareOutlined,
+  MinusSquareOutlined,
   CloseCircleOutlined,
 } from "@ant-design/icons";
 import CustomCheckbox from "../CustomCheckbox";
@@ -81,15 +82,22 @@ const ContentItem = ({checkState, numberState, checkSetter, numberSetter, conten
           setter={checkSetter}
         />
         <span className={style.title}>{name}</span>
-        <PlusSquareOutlined 
-          className={style["plus-button"]}
-          onClick={onPlusButtonClicked} 
-        />
         </div>      
         <div className={style['item-right-box']}>  
         {contentList.map((content, idx)=>{
           return(
-            <div key={idx} className={style['product-item']}>            
+            <div key={idx} className={style['product-item']}>   
+              {
+                idx == 0 ?
+                <PlusSquareOutlined 
+                  className={style["plus-button"]}
+                  onClick={onPlusButtonClicked} 
+                /> : <MinusSquareOutlined 
+                className={style["plus-button"]}
+                onClick={() => onDeleteButtonClicked(idx)} 
+              />
+              }
+                     
               <div className={style["item-selector"]}>
                 <div className={style["item-input-box"]} onClick={()=>showModal(idx)}>
                   <input 
@@ -98,10 +106,12 @@ const ContentItem = ({checkState, numberState, checkSetter, numberSetter, conten
                   value={content?.name !== "" ? content.name : ""}
                   />
                 </div>
+                
                 <CloseCircleOutlined 
                   className={style["delete-button"]} 
                   onClick={() => onDeleteButtonClicked(idx)}
                   // onClick={onDeleteButtonClicked}
+                  // 이건 선택된 부품 삭제하는 거!!!!!
                 />
               </div>
               {

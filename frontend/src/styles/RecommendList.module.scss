@@ -1,11 +1,6 @@
 $font-size-medium: 20px;
 
-.builder-item {
-  border: solid 1.5px black;
-  margin: 10px 20px;
-  cursor: pointer;
-  white-space: nowrap;
-}
+
 
 .builder-box {
   display: flex;
@@ -13,23 +8,33 @@ $font-size-medium: 20px;
   flex-direction: column;
 }
 
-.more-button {
-  display: flex;
-  justify-content: center;
-  span {
-    font-size: $font-size-medium;
-    cursor: pointer;
-  }
-}
-
 .price-box {
-  border-top: solid 1.5px black;
+  // border-top: solid 1.5px black;
   text-align: right;
+  font-size: 1rem;
+  font-weight: 600;
   span{
     margin: 10px;
   }
 }
 
-.no-result-box {
-  color: red;
+.builder-table {
+  width: 100%;
+}
+
+.builder-table-head {
+  // background-color: blue;
+  // font-style: italic;
+  td {
+    border-bottom: 2px solid #377BB9;
+    padding: 0 0 2px;
+  }
+}
+
+
+.builder-table-body {
+  tr {
+    // border: 1px solid black;
+    border-bottom: 1px solid grey;
+  }
 }

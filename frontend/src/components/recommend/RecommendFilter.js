@@ -17,7 +17,7 @@ const RecommendFilter = ({filterItem, setFilterItem}) => {
       purpose : "게임용",
       programList : ["기본", "최하사양", "저사양", "중사양", "고사양", "최상사양"],
       purposeMapping: "game",
-      programListMapping: ["", "1", "2", "3", "4", "5"]
+      programListMapping: ["", 1, 2, 3, 4, 5]
     },
     {
       purpose: "방송용",
@@ -108,7 +108,7 @@ const RecommendFilter = ({filterItem, setFilterItem}) => {
             <select onChange={onProgramChange} value={program} className={classNames(`${style["select-input"]}`,`${style['usage-program']}`)}>
               {filterList.filter((curr)=>curr.purpose === purpose)[0].programList.map((pr, idx)=>{
                 return(
-                <option key={idx} value={pr} selected = {pr == "기본"? true:false}>
+                <option key={idx} value={pr} >
                   {pr}
                 </option>
                 );
