@@ -149,7 +149,7 @@ const Regist = () => {
   }
 
   const onNicknameChanged = async(event) => {
-    const regNickname = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,8}$/;
+    const regNickname = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,15}$/;
     const tmpNickname = event.target.value.trim();
     const nicknameValidation = regNickname.test(tmpNickname);
     setNickname(tmpNickname);
@@ -429,7 +429,7 @@ const Regist = () => {
               }>
               가입하기
             </Button>
-            <Button type="primary">
+            <Button type="primary" onClick={() => navigate("/")}>
               돌아가기
             </Button>
           </Space>
