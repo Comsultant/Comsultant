@@ -19,6 +19,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/builder")
@@ -100,8 +101,8 @@ public class BuilderApi {
     }
 
     @PostMapping("/check")
-    public ResponseEntity<MessageResponse> checkCompatibility(@RequestBody List<BuilderProductDto> builderProducts){
-        boolean result = compatibilityUtil.checkCompatibility(builderProducts);
+    public ResponseEntity<MessageResponse> checkCompatibility(@RequestBody Map<String, List<BuilderProductDto>> builderProducts){
+        boolean result = compatibilityUtil.checkCompatibility(builderProducts.get("products"));
         if(result){
             return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getSuccess()));
         } else{
