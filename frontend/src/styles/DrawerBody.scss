@@ -57,3 +57,8 @@
 .ant-menu-item .ant-menu-item-active .ant-menu-item-selected .ant-menu-item-only-child {
   height: fit-content;
 }
+
+.ant-drawer-content {
+  height: 100%;
+  overflow-y: scroll;
+}
