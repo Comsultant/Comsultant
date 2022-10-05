@@ -208,18 +208,6 @@ const ProductFilter = ({ filterList, filterDetailList, currTypeTab, getProductFi
   }
 
   
-  useEffect(() => {
-    let init = {
-      "corp": [],
-      "intelCpu": [],
-      "amdCpu": [],
-      "socket": [],
-      "core": [],
-      "name": "",
-      "price": [minPrice, maxPrice]
-    }
-    setFilterBody(init);
-  },[])
   return (
     <div className={style['container']}>
       <div className={style["left-box"]}>
