@@ -12,7 +12,7 @@ import RecommendModal from "./RecommendModal";
 
 const checkboxColor = "pink";
 
-const ContentItem = ({checkState, numberState, checkSetter, numberSetter, contentList, contentSetter, name, type, currTypeTab, getProductFilterData}) => {
+const ContentItem = ({checkState, checkSetter, contentList, contentSetter, name, type, currTypeTab}) => {
   
   const onChangeCount = (curr, idx) =>{
     contentSetter((contentList) => contentList.map((content, i) => i == idx ? {...content, count: curr} : content));
@@ -21,10 +21,11 @@ const ContentItem = ({checkState, numberState, checkSetter, numberSetter, conten
   const initProduct = {id:"", name:"", count:1, price:0};
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [currProduct, setCurrProduct] = useState("");
+  const [currIdx, setCurrIdx] = useState(0);
+  const [pickProduct, setPickProduct] = useState({id:"", name:"", count:1, price:0});
 
   const showModal = (idx) => {
-    setCurrProduct(contentList[idx]);
+    setCurrIdx(idx);
     setOpen(true);
   };
 
@@ -33,7 +34,13 @@ const ContentItem = ({checkState, numberState, checkSetter, numberSetter, conten
     setTimeout(() => {
       setOpen(false);
       setConfirmLoading(false);
+      contentSetter((contentList) =>
+       contentList.map((item, idx) => 
+        idx === currIdx ? { ...item, id: pickProduct.id, name: pickProduct.name, price: pickProduct.price } : item
+       ));
+      setPickProduct({id:"", name:"", count:1, price:0})
     }, 1000);
+    
   };
 
   const handleCancel = () => {
@@ -59,7 +66,7 @@ const ContentItem = ({checkState, numberState, checkSetter, numberSetter, conten
         onOk={handleOk}
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
-        width={"800px"}
+        width={"1200px"}
         centered
         bodyStyle={
           {"height" : "80vh",
@@ -70,10 +77,12 @@ const ContentItem = ({checkState, numberState, checkSetter, numberSetter, conten
         okText="확인"
         cancelText="취소"
         >
-        <RecommendModal currProduct={currProduct} name={name} type={type} currTypeTab={currTypeTab} getProductFilterData={getProductFilterData} />
+        <RecommendModal 
+        pickProduct={pickProduct}
+        setPickProduct={setPickProduct}
+        type={type} />
       </Modal>
     <div className={style["content-item"]}>
-        
       <div className={style["item-left-box"]}>
         <InfoCircleOutlined />
         <CustomCheckbox
@@ -86,7 +95,7 @@ const ContentItem = ({checkState, numberState, checkSetter, numberSetter, conten
         <div className={style['item-right-box']}>  
         {contentList.map((content, idx)=>{
           return(
-            <div key={idx} className={style['product-item']}>   
+            <div key={idx} className={style['product-item']}>
               {
                 idx == 0 ?
                 <PlusSquareOutlined 
@@ -99,7 +108,7 @@ const ContentItem = ({checkState, numberState, checkSetter, numberSetter, conten
               }
                      
               <div className={style["item-selector"]}>
-                <div className={style["item-input-box"]} onClick={()=>showModal(idx)}>
+                <div className={style["item-input-box"]} onClick={checkState ? ()=>showModal(idx) : null}>
                   <input 
                   disabled={true} 
                   className={style['product-input']}

@@ -1,73 +1,8 @@
 import React, { useEffect, useState } from "react";
 import style from "@/styles/RecommendModal.module.scss"
-import classNames from "classnames";
-import { Checkbox } from "antd";
-import ProductFilter from "./ProductFilter";
-import { filter } from "lodash";
-import DescFilter from "./DescFilter";
-import { SearchOutlined } from "@ant-design/icons";
-import ProductListComponent from "./ProductListComponent";
+import RecommendSearch from "./RecommendSearch";
 
-const RecommendModal = ({ currProduct, name, type, getProductFilterData }) => {
-
-  const [selectProduct, setSelectProduct] = useState("");
-  const [searchValue, setSearchValue] = useState("");
-  const [currDescNum, setCurrDescNum] = useState(0);
-  const [filterList, setFilterList] = useState([]);
-  const [filterDetailList, setFilterDetailList] = useState([]);
-  const [filterBody, setFilterBody] = useState({});
-
-  const productList = [
-    {
-      id:"123",
-      img:"/assets/monitor.png",
-      name: "상품명1",
-      price: "가격",
-      detail: "상품정보",
-    }, 
-    {
-      id:"1234",
-      img:"/assets/monitor.png",
-      name: "상품명2",
-      price: "가격",
-      detail: "상품정보",
-    }, 
-    {
-      id:"1235",
-      img:"/assets/monitor.png",
-      name: "상품명3",
-      price: "가격",
-      detail: "상품정보",
-    }, 
-    {
-      id:"1236",
-      img:"/assets/monitor.png",
-      name: "상품명4",
-      price: "가격",
-      detail: "상품정보",
-    }, 
-    {
-      id:"1237",
-      img:"/assets/monitor.png",
-      name: "상품명5",
-      price: "가격",
-      detail: "상품정보",
-    }, 
-  ];
-  useEffect(()=>{
-    //필터링 데이터, 인기상품순 상품 데이터 받아오기
-    switch(type){
-      case 'CPU':
-        setFilterList(["제조회사", "코어 수"]);
-        setFilterDetailList([["인텔","AMD"], ["2코어", "4코어", "8코어"]]);
-        break;
-      default:
-        break;
-    }
-  },[])
-  useEffect(()=> {
-    // 순서 변경한 상품 데이터 받아오기
-  },[currDescNum])
+const RecommendModal = ({type, pickProduct, setPickProduct}) => {
   return (
     <div>
       <div className={style['top']}>
@@ -90,35 +25,16 @@ const RecommendModal = ({ currProduct, name, type, getProductFilterData }) => {
               <img src="/assets/monitor.png" alt="" />
             </div>
             <div className={style['detail-button']}>
-              <span>상세보기</span>
+              <span>{pickProduct.name}</span>
             </div>
           </div>
         </div>
-      </div>  
-      <div className={style['mid']}>
-        <ProductFilter 
-          filterList={filterList} 
-          filterDetailList={filterDetailList} 
-          filterBody={filterBody}
-          setFilterBody={setFilterBody}
-          getProductFilterData={getProductFilterData}
-        />
       </div>
-      <div className={style['bottom']}>
-          <div className={style['bottom-header']}>
-            <DescFilter 
-              currDescNum={currDescNum}
-              setCurrDescNum={setCurrDescNum}
-            />
-            <div className={style['search-bar']}>
-              <input 
-                onChange={(e)=>{setSearchValue(e.target.value)}}
-              />
-              <SearchOutlined className={style['search-icon']}/>
-            </div>
-          </div>
-          <ProductListComponent productList={productList}/>
-      </div>
+      <RecommendSearch
+        pickProduct={pickProduct}
+        setPickProduct={setPickProduct}
+        type = {type}
+      />
     </div>
   );
 };
