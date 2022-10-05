@@ -52,88 +52,107 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
 
   const getTotalProds = () => {
     let newObj = {};
-    caseList.map((curr) => {
-      if (curr.id != '') {
-        if(newObj[curr.id] != undefined) {
-          newObj[curr.id] += curr.count
-        } else {
-          newObj[curr.id] = curr.count
+    if(caseChecked) {
+      caseList.map((curr) => {
+        if (curr.id != '') {
+          if(newObj[curr.id] != undefined) {
+            newObj[curr.id] += curr.count
+          } else {
+            newObj[curr.id] = curr.count
+          }
         }
-      }
-    })
-    coolerList.map((curr) => {
-      if (curr.id != '') {
-        if(newObj[curr.id] != undefined) {
-          newObj[curr.id] += curr.count
-        } else {
-          newObj[curr.id] = curr.count
-        }
-      }
-    })
-    hddList.map((curr) => {
-      if (curr.id != '') {
-        if(newObj[curr.id] != undefined) {
-          newObj[curr.id] += curr.count
-        } else {
-          newObj[curr.id] = curr.count
-        }
-      }
-    })
-    ssdList.map((curr) => {
-      if (curr.id != '') {
-        if(newObj[curr.id] != undefined) {
-          newObj[curr.id] += curr.count
-        } else {
-          newObj[curr.id] = curr.count
-        }
-      }
-    })
-    powerList.map((curr) => {
-      if (curr.id != '') {
-        if(newObj[curr.id] != undefined) {
-          newObj[curr.id] += curr.count
-        } else {
-          newObj[curr.id] = curr.count
-        }
-      }
-    })
-    cpuList.map((curr) => {
-      if (curr.id != '') {
-        if(newObj[curr.id] != undefined) {
-          newObj[curr.id] += curr.count
-        } else {
-          newObj[curr.id] = curr.count
-        }
-      }
-    })
-    vgaList.map((curr) => {
-      if (curr.id != '') {
-        if(newObj[curr.id] != undefined) {
-          newObj[curr.id] += curr.count
-        } else {
-          newObj[curr.id] = curr.count
-        }
-      }
-    })
-    mbList.map((curr) => {
-      if (curr.id != '') {
-        if(newObj[curr.id] != undefined) {
-          newObj[curr.id] += curr.count
-        } else {
-          newObj[curr.id] = curr.count
-        }
-      }
-    })
-    ramList.map((curr) => {
-      if (curr.id != '') {
-        if(newObj[curr.id] != undefined) {
-          newObj[curr.id] += curr.count
-        } else {
-          newObj[curr.id] = curr.count
-        }
-      }
-    })
+      })
+    }
 
+    if(coolerChecked) {
+      coolerList.map((curr) => {
+        if (curr.id != '') {
+          if(newObj[curr.id] != undefined) {
+            newObj[curr.id] += curr.count
+          } else {
+            newObj[curr.id] = curr.count
+          }
+        }
+      })
+    }
+
+    if(hddChecked) {
+      hddList.map((curr) => {
+        if (curr.id != '') {
+          if(newObj[curr.id] != undefined) {
+            newObj[curr.id] += curr.count
+          } else {
+            newObj[curr.id] = curr.count
+          }
+        }
+      })
+    }
+    if(ssdChecked) {
+      ssdList.map((curr) => {
+        if (curr.id != '') {
+          if(newObj[curr.id] != undefined) {
+            newObj[curr.id] += curr.count
+          } else {
+            newObj[curr.id] = curr.count
+          }
+        }
+      })
+    }
+    if(powerChecked) {
+      powerList.map((curr) => {
+        if (curr.id != '') {
+          if(newObj[curr.id] != undefined) {
+            newObj[curr.id] += curr.count
+          } else {
+            newObj[curr.id] = curr.count
+          }
+        }
+      })
+    }
+    if(cpuChecked) {
+      cpuList.map((curr) => {
+        if (curr.id != '') {
+          if(newObj[curr.id] != undefined) {
+            newObj[curr.id] += curr.count
+          } else {
+            newObj[curr.id] = curr.count
+          }
+        }
+      })
+    }
+    if(vgaChecked) {
+      vgaList.map((curr) => {
+        if (curr.id != '') {
+          if(newObj[curr.id] != undefined) {
+            newObj[curr.id] += curr.count
+          } else {
+            newObj[curr.id] = curr.count
+          }
+        }
+      })
+    }
+    if(mbChecked) {
+      mbList.map((curr) => {
+        if (curr.id != '') {
+          if(newObj[curr.id] != undefined) {
+            newObj[curr.id] += curr.count
+          } else {
+            newObj[curr.id] = curr.count
+          }
+        }
+      })
+    }
+    if(ramChecked) {
+      ramList.map((curr) => {
+        if (curr.id != '') {
+          if(newObj[curr.id] != undefined) {
+            newObj[curr.id] += curr.count
+          } else {
+            newObj[curr.id] = curr.count
+          }
+        }
+      })
+    }
     return newObj
   }
 
