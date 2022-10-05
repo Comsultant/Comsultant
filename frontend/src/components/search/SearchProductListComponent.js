@@ -4,9 +4,10 @@ import { Pagination } from "antd";
 import ProductNumMapper from "@/tools/ProductNumMapper";
 import { getProductRequest } from "@/services/productService";
 import ProductDetail from "./ProductDetail";
-import { HeartOutlined } from "@ant-design/icons";
+import { HeartOutlined, HeartFilled } from "@ant-design/icons";
 import { postBuilderRequest } from "@/services/builderService.js";
-import { postWishRequest } from "@/services/wishService.js";
+import { deleteWishRequest, postWishRequest } from "@/services/wishService.js";
+import { useSelector } from "react-redux";
 
 const SearchProductListComponent = (
   {
@@ -29,12 +30,19 @@ const SearchProductListComponent = (
     setMbList,
     vgaList,
     setVgaList,
+    activeKey,
+    setActiveKey,
   }
 ) => {
   
+  const isLogin = useSelector(state => state.account.isLogin);
+
   const onWishClicked = async(productIdx) => {
     const result = await postWishRequest(productIdx);
-    console.log(result);
+  }
+
+  const onWishCancelClicked = async(productIdx) => {
+    const result = await deleteWishRequest(productIdx);
   }
 
   useEffect(() => {
@@ -95,33 +103,136 @@ const SearchProductListComponent = (
 
 
   const onPutBuilder = (productIdx, price, productName) => {
+    let idx = -1;
     switch (currTypeTab) {
       case '0':
-        setCpuList([...cpuList, { productIdx, price, productName, cnt: 1 }]);
+        setActiveKey('1');
+        cpuList.map((product, i) => {
+          if(product.productIdx == productIdx){
+            idx = i;
+          }
+        });
+        if(idx != -1){
+          const newList = [...cpuList];
+          newList[idx] = {...newList[idx], cnt: cpuList[idx].cnt + 1};
+          setCpuList(newList)
+        }else{
+          setCpuList([...cpuList, { productIdx, price, productName, cnt: 1 }]);
+        }
         break;
       case '1':
-        setMbList([...mbList, { productIdx, price, productName, cnt: 1 }]);
+        setActiveKey('2');
+        mbList.map((product, i) => {
+          if(product.productIdx == productIdx){
+            idx = i;
+          }
+        });
+        if(idx != -1){
+          const newList = [...mbList];
+          newList[idx] = {...newList[idx], cnt: mbList[idx].cnt + 1};
+          setMbList(newList)
+        }else{
+          setMbList([...mbList, { productIdx, price, productName, cnt: 1 }]);
+        }
         break;
       case '2':
-        setVgaList([...vgaList, { productIdx, price, productName, cnt: 1 }]);
+        setActiveKey('3');
+        vgaList.map((product, i) => {
+          if(product.productIdx == productIdx){
+            idx = i;
+          }
+        });
+        if(idx != -1){
+          const newList = [...vgaList];
+          newList[idx] = {...newList[idx], cnt: vgaList[idx].cnt + 1};
+          setVgaList(newList)
+        }else{
+          setVgaList([...vgaList, { productIdx, price, productName, cnt: 1 }]);
+        }
         break;
       case '3':
-        setRamList([...ramList, { productIdx, price, productName, cnt: 1 }]);
+        ramList.map((product, i) => {
+          if(product.productIdx == productIdx){
+            idx = i;
+          }
+        });
+        if(idx != -1){
+          const newList = [...ramList];
+          newList[idx] = {...newList[idx], cnt: ramList[idx].cnt + 1};
+          setRamList(newList)
+        }else{
+          setRamList([...ramList, { productIdx, price, productName, cnt: 1 }]);
+        }
         break;
       case '4':
-        setPowerList([...powerList, { productIdx, price, productName, cnt: 1 }]);
+        powerList.map((product, i) => {
+          if(product.productIdx == productIdx){
+            idx = i;
+          }
+        });
+        if(idx != -1){
+          const newList = [...powerList];
+          newList[idx] = {...newList[idx], cnt: powerList[idx].cnt + 1};
+          setPowerList(newList)
+        }else{
+          setPowerList([...powerList, { productIdx, price, productName, cnt: 1 }]);
+        }
         break;
       case '5':
-        setSsdList([...ssdList, { productIdx, price, productName, cnt: 1 }]);
+        ssdList.map((product, i) => {
+          if(product.productIdx == productIdx){
+            idx = i;
+          }
+        });
+        if(idx != -1){
+          const newList = [...ssdList];
+          newList[idx] = {...newList[idx], cnt: ssdList[idx].cnt + 1};
+          setSsdList(newList)
+        }else{
+          setSsdList([...ssdList, { productIdx, price, productName, cnt: 1 }]);
+        }
         break;
       case '6':
-        setHddList([...hddList, { productIdx, price, productName, cnt: 1 }]);
+        hddList.map((product, i) => {
+          if(product.productIdx == productIdx){
+            idx = i;
+          }
+        });
+        if(idx != -1){
+          const newList = [...hddList];
+          newList[idx] = {...newList[idx], cnt: hddList[idx].cnt + 1};
+          setHddList(newList)
+        }else{
+          setHddList([...hddList, { productIdx, price, productName, cnt: 1 }]);
+        }
         break;
       case '7':
-        setCaseList([...caseList, { productIdx, price, productName, cnt: 1 }]);
+        caseList.map((product, i) => {
+          if(product.productIdx == productIdx){
+            idx = i;
+          }
+        });
+        if(idx != -1){
+          const newList = [...caseList];
+          newList[idx] = {...newList[idx], cnt: caseList[idx].cnt + 1};
+          setCaseList(newList)
+        }else{
+          setCaseList([...caseList, { productIdx, price, productName, cnt: 1 }]);
+        }
         break;
       case '8':
-        setCoolerList([...coolerList, { productIdx, price, productName, cnt: 1 }]);
+        coolerList.map((product, i) => {
+          if(product.productIdx == productIdx){
+            idx = i;
+          }
+        });
+        if(idx != -1){
+          const newList = [...coolerList];
+          newList[idx] = {...newList[idx], cnt: coolerList[idx].cnt + 1};
+          setCoolerList(newList)
+        }else{
+          setCoolerList([...coolerList, { productIdx, price, productName, cnt: 1 }]);
+        }
         break;
         }
   } 
@@ -163,6 +274,13 @@ const SearchProductListComponent = (
     fetchData();
   }, [currPage, currDescNum])
 
+  useEffect(()=> {
+    //회원 wishList 불러오기
+    if(isLogin){
+
+    }
+  },[])
+
   return(
     <>
       {productList !== undefined ? productList.map((product, idx)=>{
@@ -186,15 +304,19 @@ const SearchProductListComponent = (
                 </div>
                 <div className={style['right-item']}>
                   <div>
-                    <span className={style.price}>{product.price.toLocaleString()} 원</span>
+                    <span className={style.price}>{product.price == 0 ? `재고없음 ` : `${product.price.toLocaleString()} 원`}</span>
                   </div>
                   <div className={style['right-button-box']}>
                     <div>
                       <button className={style['put-button']} onClick={() => onPutBuilder(product.idx, product.price, product.name)}>견적담기</button>
                     </div>
+                    {isLogin ?
                     <div>
                       <HeartOutlined onClick={() => onWishClicked(product.idx)} />
-                    </div>
+                      <HeartFilled onClick={() => onWishCancelClicked(product.idx)} />
+                    </div> 
+                    : null}
+                    
                   </div>
                 </div>
               </div>

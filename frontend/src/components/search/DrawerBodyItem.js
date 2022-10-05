@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { InputNumber } from "antd";
+import style from "@/styles/DrawerBodyItem.module.scss";
+import { MinusOutlined, PlusOutlined, CloseOutlined } from "@ant-design/icons";
 
 const DrawerBodyItem = ({
   type,
@@ -275,13 +277,17 @@ const DrawerBodyItem = ({
           {cpuList?.map((product, idx) => {
             return (
               <div key={idx}>
-                <div>{product.productName}</div>
-                <div style={{ display: 'flex', justifyContent: "center" }}>
-                  <button onClick={()=>onMinusClicked(product.productIdx)}>-</button>
-                  <input value={product.cnt} style={{ width: '25px' }} onChange={onCntChange} />
-                  <button onClick={()=>onPlusClicked(product.productIdx)}>+</button>
-                  <span>{product.price * product.cnt}원</span>
-                  <span onClick={()=>onDeleteClicked(product.productIdx)}>X</span>
+                <div className={style['product-name']}>{product.productName}</div>
+                <div style={{ display: 'flex', justifyContent:"space-between" }}>
+                  <div>
+                    <button onClick={()=>onMinusClicked(product.productIdx)}><MinusOutlined /></button>
+                    <input value={product.cnt} style={{ width: '25px' }} onChange={onCntChange} />
+                    <button onClick={()=>onPlusClicked(product.productIdx)}><PlusOutlined /></button>
+                  </div>
+                  <div>
+                    <span className={style['price']}>{(product.price * product.cnt).toLocaleString()}원</span>
+                    <span className={style['delete-button']} onClick={()=>onDeleteClicked(product.productIdx)}><CloseOutlined /></span>
+                  </div>
                 </div>
               </div>
             );
@@ -292,13 +298,17 @@ const DrawerBodyItem = ({
           {ramList?.map((product, idx) => {
             return (
               <div key={idx}>
-                <div>{product.productName}</div>
-                <div style={{ display: 'flex', justifyContent: "center" }}>
-                  <button onClick={()=>onMinusClicked(product.productIdx)}>-</button>
-                  <input value={product.cnt} style={{ width: '25px' }} onChange={onCntChange} />
-                  <button onClick={()=>onPlusClicked(product.productIdx)}>+</button>
-                  <span>{product.price * product.cnt}원</span>
-                  <span onClick={()=>onDeleteClicked(product.productIdx)}>X</span>
+                <div className={style['product-name']}>{product.productName}</div>
+                <div style={{ display: 'flex', justifyContent:"space-between" }}>
+                  <div>
+                    <button onClick={()=>onMinusClicked(product.productIdx)}><MinusOutlined /></button>
+                    <input value={product.cnt} style={{ width: '25px' }} onChange={onCntChange} />
+                    <button onClick={()=>onPlusClicked(product.productIdx)}><PlusOutlined /></button>
+                  </div>
+                  <div>
+                    <span className={style['price']}>{(product.price * product.cnt).toLocaleString()}원</span>
+                    <span className={style['delete-button']} onClick={()=>onDeleteClicked(product.productIdx)}><CloseOutlined /></span>
+                  </div>
                 </div>
               </div>
             );
@@ -309,13 +319,17 @@ const DrawerBodyItem = ({
           {hddList?.map((product, idx) => {
             return (
               <div key={idx}>
-                <div>{product.productName}</div>
-                <div style={{ display: 'flex', justifyContent: "center" }}>
-                  <button onClick={()=>onMinusClicked(product.productIdx)}>-</button>
-                  <input value={product.cnt} style={{ width: '25px' }} onChange={onCntChange} />
-                  <button onClick={()=>onPlusClicked(product.productIdx)}>+</button>
-                  <span>{product.price * product.cnt}원</span>
-                  <span onClick={()=>onDeleteClicked(product.productIdx)}>X</span>
+                <div className={style['product-name']}>{product.productName}</div>
+                <div style={{ display: 'flex', justifyContent:"space-between" }}>
+                  <div>
+                    <button onClick={()=>onMinusClicked(product.productIdx)}><MinusOutlined /></button>
+                    <input value={product.cnt} style={{ width: '25px' }} onChange={onCntChange} />
+                    <button onClick={()=>onPlusClicked(product.productIdx)}><PlusOutlined /></button>
+                  </div>
+                  <div>
+                    <span className={style['price']}>{(product.price * product.cnt).toLocaleString()}원</span>
+                    <span className={style['delete-button']} onClick={()=>onDeleteClicked(product.productIdx)}><CloseOutlined /></span>
+                  </div>
                 </div>
               </div>
             );
@@ -326,13 +340,17 @@ const DrawerBodyItem = ({
           {ssdList?.map((product, idx) => {
             return (
               <div key={idx}>
-                <div>{product.productName}</div>
-                <div style={{ display: 'flex', justifyContent: "center" }}>
-                  <button onClick={()=>onMinusClicked(product.productIdx)}>-</button>
-                  <input value={product.cnt} style={{ width: '25px' }} onChange={onCntChange} />
-                  <button onClick={()=>onPlusClicked(product.productIdx)}>+</button>
-                  <span>{product.price * product.cnt}원</span>
-                  <span onClick={()=>onDeleteClicked(product.productIdx)}>X</span>
+                <div className={style['product-name']}>{product.productName}</div>
+                <div style={{ display: 'flex', justifyContent:"space-between" }}>
+                  <div>
+                    <button onClick={()=>onMinusClicked(product.productIdx)}><MinusOutlined /></button>
+                    <input value={product.cnt} style={{ width: '25px' }} onChange={onCntChange} />
+                    <button onClick={()=>onPlusClicked(product.productIdx)}><PlusOutlined /></button>
+                  </div>
+                  <div>
+                    <span className={style['price']}>{(product.price * product.cnt).toLocaleString()}원</span>
+                    <span className={style['delete-button']} onClick={()=>onDeleteClicked(product.productIdx)}><CloseOutlined /></span>
+                  </div>
                 </div>
               </div>
             );
@@ -343,13 +361,17 @@ const DrawerBodyItem = ({
           {powerList?.map((product, idx) => {
             return (
               <div key={idx}>
-                <div>{product.productName}</div>
-                <div style={{ display: 'flex', justifyContent: "center" }}>
-                  <button onClick={()=>onMinusClicked(product.productIdx)}>-</button>
-                  <input value={product.cnt} style={{ width: '25px' }} onChange={onCntChange} />
-                  <button onClick={()=>onPlusClicked(product.productIdx)}>+</button>
-                  <span>{product.price * product.cnt}원</span>
-                  <span onClick={()=>onDeleteClicked(product.productIdx)}>X</span>
+                <div className={style['product-name']}>{product.productName}</div>
+                <div style={{ display: 'flex', justifyContent:"space-between" }}>
+                  <div>
+                    <button onClick={()=>onMinusClicked(product.productIdx)}><MinusOutlined /></button>
+                    <input value={product.cnt} style={{ width: '25px' }} onChange={onCntChange} />
+                    <button onClick={()=>onPlusClicked(product.productIdx)}><PlusOutlined /></button>
+                  </div>
+                  <div>
+                    <span className={style['price']}>{(product.price * product.cnt).toLocaleString()}원</span>
+                    <span className={style['delete-button']} onClick={()=>onDeleteClicked(product.productIdx)}><CloseOutlined /></span>
+                  </div>
                 </div>
               </div>
             );
@@ -360,13 +382,17 @@ const DrawerBodyItem = ({
           {coolerList?.map((product, idx) => {
             return (
               <div key={idx}>
-                <div>{product.productName}</div>
-                <div style={{ display: 'flex', justifyContent: "center" }}>
-                  <button onClick={()=>onMinusClicked(product.productIdx)}>-</button>
-                  <input value={product.cnt} style={{ width: '25px' }} onChange={onCntChange} />
-                  <button onClick={()=>onPlusClicked(product.productIdx)}>+</button>
-                  <span>{product.price * product.cnt}원</span>
-                  <span onClick={()=>onDeleteClicked(product.productIdx)}>X</span>
+                <div className={style['product-name']}>{product.productName}</div>
+                <div style={{ display: 'flex', justifyContent:"space-between" }}>
+                  <div>
+                    <button onClick={()=>onMinusClicked(product.productIdx)}><MinusOutlined /></button>
+                    <input value={product.cnt} style={{ width: '25px' }} onChange={onCntChange} />
+                    <button onClick={()=>onPlusClicked(product.productIdx)}><PlusOutlined /></button>
+                  </div>
+                  <div>
+                    <span className={style['price']}>{(product.price * product.cnt).toLocaleString()}원</span>
+                    <span className={style['delete-button']} onClick={()=>onDeleteClicked(product.productIdx)}><CloseOutlined /></span>
+                  </div>
                 </div>
               </div>
             );
@@ -377,13 +403,17 @@ const DrawerBodyItem = ({
           {caseList?.map((product, idx) => {
             return (
               <div key={idx}>
-                <div>{product.productName}</div>
-                <div style={{ display: 'flex', justifyContent: "center" }}>
-                  <button onClick={()=>onMinusClicked(product.productIdx)}>-</button>
-                  <input value={product.cnt} style={{ width: '25px' }} onChange={onCntChange} />
-                  <button onClick={()=>onPlusClicked(product.productIdx)}>+</button>
-                  <span>{product.price * product.cnt}원</span>
-                  <span onClick={()=>onDeleteClicked(product.productIdx)}>X</span>
+                <div className={style['product-name']}>{product.productName}</div>
+                <div style={{ display: 'flex', justifyContent:"space-between" }}>
+                  <div>
+                    <button onClick={()=>onMinusClicked(product.productIdx)}><MinusOutlined /></button>
+                    <input value={product.cnt} style={{ width: '25px' }} onChange={onCntChange} />
+                    <button onClick={()=>onPlusClicked(product.productIdx)}><PlusOutlined /></button>
+                  </div>
+                  <div>
+                    <span className={style['price']}>{(product.price * product.cnt).toLocaleString()}원</span>
+                    <span className={style['delete-button']} onClick={()=>onDeleteClicked(product.productIdx)}><CloseOutlined /></span>
+                  </div>
                 </div>
               </div>
             );
@@ -394,13 +424,17 @@ const DrawerBodyItem = ({
           {mbList?.map((product, idx) => {
             return (
               <div key={idx}>
-                <div>{product.productName}</div>
-                <div style={{ display: 'flex', justifyContent: "center" }}>
-                  <button onClick={()=>onMinusClicked(product.productIdx)}>-</button>
-                  <input value={product.cnt} style={{ width: '25px' }} onChange={onCntChange} />
-                  <button onClick={()=>onPlusClicked(product.productIdx)}>+</button>
-                  <span>{product.price * product.cnt}원</span>
-                  <span onClick={()=>onDeleteClicked(product.productIdx)}>X</span>
+                <div className={style['product-name']}>{product.productName}</div>
+                <div style={{ display: 'flex', justifyContent:"space-between" }}>
+                  <div>
+                    <button onClick={()=>onMinusClicked(product.productIdx)}><MinusOutlined /></button>
+                    <input value={product.cnt} style={{ width: '25px' }} onChange={onCntChange} />
+                    <button onClick={()=>onPlusClicked(product.productIdx)}><PlusOutlined /></button>
+                  </div>
+                  <div>
+                    <span className={style['price']}>{(product.price * product.cnt).toLocaleString()}원</span>
+                    <span className={style['delete-button']} onClick={()=>onDeleteClicked(product.productIdx)}><CloseOutlined /></span>
+                  </div>
                 </div>
               </div>
             );
@@ -411,13 +445,17 @@ const DrawerBodyItem = ({
           {vgaList?.map((product, idx) => {
             return (
               <div key={idx}>
-                <div>{product.productName}</div>
-                <div style={{ display: 'flex', justifyContent: "center" }}>
-                  <button onClick={()=>onMinusClicked(product.productIdx)}>-</button>
-                  <input value={product.cnt} style={{ width: '25px' }} onChange={onCntChange} />
-                  <button onClick={()=>onPlusClicked(product.productIdx)}>+</button>
-                  <span>{product.price * product.cnt}원</span>
-                  <span onClick={()=>onDeleteClicked(product.productIdx)}>X</span>
+                <div className={style['product-name']}>{product.productName}</div>
+                <div style={{ display: 'flex', justifyContent:"space-between" }}>
+                  <div>
+                    <button onClick={()=>onMinusClicked(product.productIdx)}><MinusOutlined /></button>
+                    <input value={product.cnt} style={{ width: '25px' }} onChange={onCntChange} />
+                    <button onClick={()=>onPlusClicked(product.productIdx)}><PlusOutlined /></button>
+                  </div>
+                  <div>
+                    <span className={style['price']}>{(product.price * product.cnt).toLocaleString()}원</span>
+                    <span className={style['delete-button']} onClick={()=>onDeleteClicked(product.productIdx)}><CloseOutlined /></span>
+                  </div>
                 </div>
               </div>
             );

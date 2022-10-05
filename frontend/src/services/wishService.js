@@ -12,3 +12,13 @@ export const postWishRequest = async (dataToSubmit) => {
     return err;
   }
 };
+
+//찜리스트 조회
+export const deleteWishRequest = async (dataToSubmit) => {
+  try {
+    const payload = await axiosAuth.delete(`${WISH_URL}/${dataToSubmit}`);
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};

@@ -49,7 +49,8 @@ const Search = () => {
   const [hddList, setHddList] = useState([]);
   const [caseList, setCaseList] = useState([]);
   const [coolerList, setCoolerList] = useState([]);
-  
+  const [activeKey, setActiveKey] = useState(['1']);
+
   const isLogin = useSelector(state => state.account.isLogin);
 
 
@@ -239,7 +240,7 @@ const Search = () => {
       });
 
       keys.map(key => {
-        list[key].sort();
+        list[key]?.sort();
       });
 
       setFilterDetailList(list);
@@ -277,15 +278,17 @@ const Search = () => {
   return (
     <>
       <div className={style.container}>
-        <div className={style["product-tab"]}>
-          <Tabs
-            defaultActiveKey="0"
-            items={productTypeList}
-            size={"large"}
-            onChange={key => { setCurrTypeTab(key); }}
-            className={style['tabs']}
-          />
-        </div>
+        <Affix>
+          <div className={style["product-tab"]}>
+            <Tabs
+              defaultActiveKey="0"
+              items={productTypeList}
+              size={"large"}
+              onChange={key => { setCurrTypeTab(key); }}
+              className={style['tabs']}
+              />
+          </div>
+        </Affix>
 
         <div className={style["product-filter"]}>
           <ProductSearchFilter
@@ -420,6 +423,8 @@ const Search = () => {
                 setCaseList={setCaseList}
                 vgaList={vgaList}
                 setVgaList={setVgaList}
+                activeKey={activeKey}
+                setActiveKey={setActiveKey}
               />
             </div>
             <Drawer
@@ -458,6 +463,8 @@ const Search = () => {
                 setCaseList={setCaseList}
                 vgaList={vgaList}
                 setVgaList={setVgaList}
+                activeKey={activeKey}
+                setActiveKey={setActiveKey}
               />
             </Drawer>
           </div>

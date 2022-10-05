@@ -1,3 +1,5 @@
+$font-size-big: 18px;
+
 .container {
   >div {
     margin: 10px 0px;
@@ -20,4 +22,15 @@
     font-weight: bold;
     padding: 10px;
   }
+}
+
+.price {
+  margin: 0 auto;
+  width: fit-content;
+  padding: 10px;
+  background-color: #fafafa;;
+  border: solid 1px #eeeeee;
+  border-radius: 5px;
+  font-size: $font-size-big;
+  font-weight: bold;
 }
