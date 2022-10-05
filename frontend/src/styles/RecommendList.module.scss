@@ -22,6 +22,11 @@ $font-size-medium: 20px;
   width: 100%;
 }
 
+.builder-table:hover {
+  cursor: pointer;
+  background-color: aliceblue;
+}
+
 .builder-table-head {
   // background-color: blue;
   // font-style: italic;
