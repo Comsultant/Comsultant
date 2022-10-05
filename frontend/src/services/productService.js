@@ -48,3 +48,15 @@ export const getProductCommentRequest = async (dataToSubmit) => {
     return err;
   }
 };
+
+// 부품 시세 조회
+export const getProductPriceRequest = async (dataToSubmit) => {
+  const idx = dataToSubmit.idx;
+  const period = dataToSubmit.period;
+  try {
+    const payload = await request.get(`${PRODUCT_URL}/price/${idx}?period=${period}`);
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};

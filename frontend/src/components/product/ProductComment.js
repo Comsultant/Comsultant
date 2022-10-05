@@ -74,7 +74,6 @@ const ProductComment = ({ idx, type }) => {
       content,
     };
     const result = await postCommentRequest(dataToSubmit);
-    console.log(result);
   };
 
   const elapsedTime = (date) => {

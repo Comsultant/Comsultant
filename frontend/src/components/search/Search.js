@@ -327,12 +327,12 @@ const Search = () => {
           />
           <div className={style["selected-filter-box"]}>
               {
-                Object.entries(filterBody).map((curr) => {
+                Object.entries(filterBody).map((curr, idx) => {
                   const key = curr[0];
                   const value = curr[1];
                   if (key !== "name" && key !== "price" && value.length > 0) {
                     return (
-                      <>
+                      <div key={idx}>
                       <span>
                           {ProductFilterKorean[key]} : {value.map((v, idx) => {
                             return (
@@ -349,7 +349,7 @@ const Search = () => {
                       </span>
                         
                       <br/>
-                      </>
+                      </div>
                     );
                   }
                 })
