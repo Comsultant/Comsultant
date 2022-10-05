@@ -192,22 +192,15 @@ const ProductFilter = ({ filterList, filterDetailList, currTypeTab, getProductFi
   }
 
   const onAdditionalSelectChanged = (e) => {
-    const value = e;
-    console.log(value);
-    //케이스
-    if (currTypeTab === '7') {
-        console.log("케이스!");
-    }
-      
-      //쿨러
-     else if (currTypeTab === '8') {
-      console.log("쿨러!");
-    } else {
-
-    }
+    const key = e.target.value;
+    if (key === '')
+      return;
+    setFilterBody(
+      { ...filterBody, [key]: true }
+    );
   }
-
   
+
   return (
     <div className={style['container']}>
       <div className={style["left-box"]}>
