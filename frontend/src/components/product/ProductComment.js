@@ -4,7 +4,7 @@ import { Avatar, Button, Comment, Form, Input, List } from "antd";
 import moment from "moment";
 import style from "@/styles/ProductComment.module.scss";
 import { useSelector } from "react-redux";
-import { postCommentRequest } from "@/services/CommentService";
+import { deleteCommentRequest, postCommentRequest, putCommentRequest } from "@/services/CommentService";
 import { Empty } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 
@@ -43,9 +43,12 @@ const ProductComment = ({ idx, type }) => {
   const [totalPage, setTotalPage] = useState(1);
   const [submitting, setSubmitting] = useState(false);
   const [content, setContent] = useState("");
+  const [editContent, setEditContent] = useState("");
+  const [editIdx, setEditIdx] = useState(-1);
+  const [editCommentIdx, setEditCommentIdx] = useState(-1);
 
   const isLogin = useSelector(state => state.account.isLogin);
-  const nickName = useSelector(state => state.account.nickName);
+  const nickname = useSelector(state => state.account.nickname);
 
   const handleSubmit = () => {
     if (!content) return;
@@ -67,14 +70,61 @@ const ProductComment = ({ idx, type }) => {
     setContent(e.target.value);
   };
 
+  const onEditClicked = (i, value, commentIdx) => {
+    setEditContent(value);
+    setEditIdx(i);
+    setEditCommentIdx(commentIdx);
+  }
+
+  const onDeleteClicked = (idx, commentIdx) => {
+    setComments(comments.filter((curr, i) => i != idx));
+    const dataToSubmit = {
+      idx: commentIdx,
+    }
+    deleteCommentRequest(dataToSubmit);
+  }
+
   const onHandleSubmit = async () => {
     if (!content) return;
+
     const dataToSubmit = {
       idx,
-      content,
+      content: content.trim(),
     };
     const result = await postCommentRequest(dataToSubmit);
+    if (result?.data?.message === "success") {
+      const newObj = {
+      commentDto: {
+        idx: result?.data?.responseDto?.idx,
+        nickName: nickname,
+        content: content.trim(),
+      },
+      productImg: 0,
+      productName: null,
+    }
+    setComments([newObj, ...comments]);
+    setContent("");
+    } else {
+      return;
+    }
+
+    
   };
+
+  const onHandleEditSubmit = () => {
+    const dataToSubmit = {
+      idx: editCommentIdx,
+      content: editContent.trim()
+    };
+    putCommentRequest(dataToSubmit);
+    let copyArr = [...comments];
+    if (editIdx != -1) {
+      copyArr[editIdx] = { ...copyArr[editIdx], commentDto : { ...copyArr[editIdx].commentDto, content: editContent.trim() } };
+    }
+    setComments([...copyArr]);
+    setEditIdx(-1);
+    setEditContent('');
+  }
 
   const elapsedTime = (date) => {
     const start = new Date(date);
@@ -132,26 +182,48 @@ const ProductComment = ({ idx, type }) => {
           <div className={style['replies']}>
           {comments.length} replies
           </div>
+          {editIdx != -1 ?
+                  <div className={style['comment-input-box']}>
+  
+                    <TextArea
+                      className={style["comment-input"]}
+                      value={editContent}
+                      onChange={e => setEditContent(e.target.value)}
+                    />
+                    <button
+                      className={style["submit-button"]}
+                      onSubmit={onHandleEditSubmit}
+                      onClick={onHandleEditSubmit}
+                    >
+                      수정
+                    </button>
+                  </div>
+                  : null}
           {comments.map((comment, idx) => {
             return (
-              <div className={style['comment-box']} key={idx}>
+              <div key={idx}>
+              {editIdx != idx ?                 
+                <div className={style['comment-box']}>
                 <div className={style['avatar']}>
                   <Avatar size={32} icon={<UserOutlined />}/>
                 </div>
-                <div style={{ width: '100%'}}>
+                <div style={{ width: '100%' }}>
+                  <div className={style['nickname']}>{comment.commentDto.nickName}</div>
                   <div className={style['content']}>{comment.commentDto.content}</div>
                   <div className={style['time']}>{elapsedTime(comment.commentDto.createDate)}
-                    {isLogin && nickName === comment.commentDto.nickName ?
+                    {isLogin && nickname == comment.commentDto.nickName ?
                       <div>
-                        <span className={style['edit-button']}>수정</span>
+                        <span className={style['edit-button']} onClick={()=>onEditClicked(idx, comment.commentDto.content, comment.commentDto.idx)}>수정</span>
                         <span> / </span>
-                        <span className={style['delete-button']}>삭제</span>
+                        <span className={style['delete-button']} onClick={()=>onDeleteClicked(idx, comment.commentDto.idx)}>삭제</span>
                       </div>
                       : null}
                     
                   </div>
-                    
                 </div>
+              </div>                
+               : null}
+              
               </div>
             );
           })}
