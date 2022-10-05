@@ -16,6 +16,7 @@ public interface HddMapper extends EntityMapper<HddDto, Hdd> {
 
     @Override
     @Mapping(source = "product.idx", target = "idx") // 변수명이 다를 경우. source = Entity, target = DTO
+    @Mapping(target = "wish", ignore = true)
     HddDto toDto(final Hdd entity);
 
     @Override

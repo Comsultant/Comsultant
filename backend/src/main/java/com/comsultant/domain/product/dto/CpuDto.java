@@ -91,4 +91,10 @@ public class CpuDto {
 
     private String includeCooler; //쿨러
 
+    private boolean wish;
+
+    public void inputWish(boolean wish) {
+        this.wish = wish;
+    }
+
 }

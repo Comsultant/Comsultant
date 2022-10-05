@@ -159,4 +159,10 @@ public class SsdDto {
 
     private boolean subPower; //보조전원
 
+    private boolean wish;
+
+    public void inputWish(boolean wish) {
+        this.wish = wish;
+    }
+
 }

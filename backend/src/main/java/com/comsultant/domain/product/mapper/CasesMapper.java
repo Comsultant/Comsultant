@@ -16,6 +16,7 @@ public interface CasesMapper extends EntityMapper<CasesDto, Cases> {
 
     @Override
     @Mapping(source = "product.idx", target = "idx") // 변수명이 다를 경우. source = Entity, target = DTO
+    @Mapping(target = "wish", ignore = true)
     CasesDto toDto(final Cases entity);
 
     @Override
