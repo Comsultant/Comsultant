@@ -18,6 +18,7 @@ const ProductInfo = () => {
   const [priceData, setPriceData] = useState([]);
   const [builderList, setBuilderList] = useState([]);
   const [currBuilder, setCurrBuilder] = useState(-1);
+  const [isWishClicked, setIsWishClicked] = useState(false);
 
   const idx = param.get('idx');
   const type = param.get('type');
@@ -26,10 +27,14 @@ const ProductInfo = () => {
 
   const onWishClicked = async(productIdx) => {
     const result = await postWishRequest(productIdx);
+    message.success("찜 목록에 추가되었습니다.");
+    setIsWishClicked(true);
   }
-
+  
   const onWishCancelClicked = async(productIdx) => {
     const result = await deleteWishRequest(productIdx);
+    message.error("찜 목록에서 제거되었습니다.")
+    setIsWishClicked(false);
   }
 
   const onBuilderSelectChange = (e) => {
@@ -157,14 +162,13 @@ const ProductInfo = () => {
                 window.open(`https://search.shopping.naver.com/search/all?query=${data?.name}`)}>
                   네이버 쇼핑검색
                   </span> 
-                  <HeartOutlined 
+                  {!data?.wish && !isWishClicked ? <HeartOutlined 
                     className={style['wish-button']} 
                     onClick={() => onWishClicked(data?.idx)}
-                  />
-                  <HeartFilled 
-                    className={style['wish-button']}
-                    onClick={() => onWishCancelClicked(data?.idx)} 
-                  />
+                  /> : <HeartFilled 
+                  className={style['wish-button']}
+                  onClick={() => onWishCancelClicked(data?.idx)} 
+                />}                  
                 </div>
               <div className={style['builder-select-box']}>
                 <select onChange={onBuilderSelectChange}>

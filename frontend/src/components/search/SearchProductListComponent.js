@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import style from "@/styles/SearchProductListComponent.module.scss"
-import { Pagination } from "antd";
+import { message, Pagination } from "antd";
 import ProductNumMapper from "@/tools/ProductNumMapper";
 import { getProductRequest } from "@/services/productService";
 import ProductDetail from "./ProductDetail";
@@ -39,10 +39,30 @@ const SearchProductListComponent = (
 
   const onWishClicked = async(productIdx) => {
     const result = await postWishRequest(productIdx);
+    message.success("찜 목록에 추가되었습니다.");
+    let idx = -1;
+    productList.map((product, i)=> {
+      if(product.idx == productIdx){
+        idx = i;
+      }
+    });
+    const newList = [...productList];
+    newList[idx] = {...productList[idx], wish: true};
+    setProductList(newList);
   }
-
+  
   const onWishCancelClicked = async(productIdx) => {
     const result = await deleteWishRequest(productIdx);
+    message.error("찜 목록에서 제거되었습니다.");
+    let idx = -1;
+    productList.map((product, i)=> {
+      if(product.idx == productIdx){
+        idx = i;
+      }
+    });
+    const newList = [...productList];
+    newList[idx] = {...productList[idx], wish: false};
+    setProductList(newList);
   }
 
   useEffect(() => {
@@ -276,14 +296,12 @@ const SearchProductListComponent = (
 
   useEffect(()=> {
     //회원 wishList 불러오기
-    if(isLogin){
-
-    }
-  },[])
+    console.log("productList changed!");
+  },[productList])
 
   return(
     <>
-      {productList !== undefined ? productList.map((product, idx)=>{
+      {productList?.map((product, idx)=>{
             return(
               <div key={idx} className={style['product-item']}>
                 <div
@@ -311,17 +329,22 @@ const SearchProductListComponent = (
                       <button className={style['put-button']} onClick={() => onPutBuilder(product.idx, product.price, product.name)}>견적담기</button>
                     </div>
                     {isLogin ?
+                    !product.wish ? 
                     <div>
                       <HeartOutlined onClick={() => onWishClicked(product.idx)} />
+                    </div>
+                    : 
+                    <div>
                       <HeartFilled onClick={() => onWishCancelClicked(product.idx)} />
                     </div> 
-                    : null}
+                    : 
+                    null}
                     
                   </div>
                 </div>
               </div>
             );
-      }):null
+      })
         }
           <div className={style['pagination']}>
             <Pagination 
