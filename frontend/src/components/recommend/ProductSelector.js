@@ -10,7 +10,7 @@ import CustomCheckbox from "../CustomCheckbox";
 
 const initProduct = [{ id: "", name: "", count: 1, price: 0 }];
 
-const ProductSelector = ({isRecommendPressed, setIsRecommendPressed}) => {
+const ProductSelector = ({isRecommendPressed, setIsRecommendPressed, filterItem}) => {
   const [cpuList, setCpuList] = useState(initProduct);
   const [mbList, setMbList] = useState(initProduct);
   const [vgaList, setVgaList] = useState(initProduct);
@@ -53,6 +53,7 @@ const ProductSelector = ({isRecommendPressed, setIsRecommendPressed}) => {
   }
 
   const onRecommendButtonClicked = () => {
+    console.log(filterItem)
     setIsRecommendPressed(true);
   }
 
