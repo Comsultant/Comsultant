@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import style from "@/styles/Search.module.scss";
 import ProductSearchFilter from "../search/ProductSearchFilter";
 import DescFilter from "../recommend/DescFilter";
-import { Affix, Slider, Drawer, Tabs } from "antd";
+import { Affix, Slider, Drawer, Tabs, Popconfirm, message } from "antd";
 import PriceFormatter from "@/tools/PriceFormatter";
 import { SearchOutlined, PlusOutlined, CloseOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import SearchProductListComponent from "./SearchProductListComponent";
@@ -92,9 +92,10 @@ const Search = () => {
   
   }
 
-  const onBuilderCliked = (builder) => {
+  const onBuilderClicked = (builder) => {
 
     setCurrBuilder(builder);
+    setTabOpen(true);
     // const dataToSubmit = {
     //   idx: builder.idx,
     //   builderProducts: [
@@ -190,21 +191,28 @@ const Search = () => {
 
 
   const onAddAccountBuildItem = async() => {
-    //프론트단에서 추가
-    const newBuild = {
-      myBuilderDto: {
-        name: "PC" + parseInt(accountBuildList.length + 1),
-      },
-      builderProductDetailDtos: [],
-    }
+    console.log(accountBuildList);
     // axios 요청으로 사용자 저장 견적 데이터 추가
     const fetchData = async () => {
       const requestBody = {
         name: "PC" + parseInt(accountBuildList.length + 1),
         builderProducts: [],
       }
-      const result = await postBuilderRequest(requestBody);    
-      setAccountBuildList([...accountBuildList, newBuild]);
+      const result = await postBuilderRequest(requestBody); 
+      console.log(result);
+      if (result?.data?.message === "success") {
+        message.success("생성되었습니다!");
+        const newBuild = {
+          myBuilderDto: {
+            name: result.data.responseDto.name,
+            idx: result.data.responseDto.idx,
+          },
+          builderProductDetailDtos: [],
+        }
+        setAccountBuildList([...accountBuildList, newBuild]);
+        console.log(accountBuildList);
+      }
+      
     }
     fetchData();
   };
@@ -311,7 +319,7 @@ const Search = () => {
             onAfterChange={onPriceChange}
             defaultValue={[0, defaultMaxPrice]}
             max={10000000}
-            step={100000}
+            step={50000}
             className={style.slider}
             tooltip={{
               open: true,
@@ -425,6 +433,7 @@ const Search = () => {
                 setVgaList={setVgaList}
                 activeKey={activeKey}
                 setActiveKey={setActiveKey}
+                tabOpen={tabOpen}
               />
             </div>
             <Drawer
@@ -479,19 +488,24 @@ const Search = () => {
           <div className={style["side-menu-header"]}>
             <div className={style["side-menu-title"]}>
               <span>PC 추가하기</span>
-            </div>
-            <div>
-              <PlusOutlined onClick={onAddAccountBuildItem} />
+              </div>
+              
+              <div>
+                <Popconfirm placement="left" title={"PC를 추가하시겠습니까?"} onConfirm={onAddAccountBuildItem} okText="확인" cancelText="취소">
+                    <PlusOutlined />
+                </Popconfirm>
             </div>
           </div>
           <div className={style["side-menu-body"]}>
             {accountBuildList.map((accountBuild, idx) => {
               return (
                 <div key={idx} className={style["side-menu-item"]}>
-                  <span onClick={() => onBuilderCliked(accountBuild.myBuilderDto)}>{accountBuild?.myBuilderDto?.name}</span>
-                  <span onClick={() => onRemoveAccountBuildItem(idx, accountBuild.myBuilderDto?.idx)}>
-                    <CloseOutlined />
-                  </span>
+                  <span onClick={() => onBuilderClicked(accountBuild.myBuilderDto)}>{accountBuild?.myBuilderDto?.name}</span>
+                  <Popconfirm placement="left" title={"정말 삭제하시겠습니까?"} onConfirm={()=>onRemoveAccountBuildItem(idx, accountBuild.myBuilderDto?.idx)} okText="삭제" cancelText="취소">
+                    <span style={{cursor: 'pointer'}}>
+                      <CloseOutlined />
+                    </span>
+                  </Popconfirm>
                 </div>
               );
             })}

@@ -163,10 +163,19 @@ const ProductInfo = () => {
                   네이버 쇼핑검색
                   </span> 
                   {!data?.wish && !isWishClicked ? <HeartOutlined 
-                    className={style['wish-button']} 
+                    style={{
+                      fontSize: '40px',
+                      cursor: 'pointer',
+                      marginLeft: '20px',
+                    }}
                     onClick={() => onWishClicked(data?.idx)}
-                  /> : <HeartFilled 
-                  className={style['wish-button']}
+                    /> : <HeartFilled 
+                        style={{
+                          fontSize: '40px',
+                          color: '#FF4300',
+                          cursor: 'pointer',
+                          marginLeft: '20px',
+                        }}
                   onClick={() => onWishCancelClicked(data?.idx)} 
                 />}                  
                 </div>

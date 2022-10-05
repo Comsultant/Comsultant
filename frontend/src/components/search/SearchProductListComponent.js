@@ -32,6 +32,7 @@ const SearchProductListComponent = (
     setVgaList,
     activeKey,
     setActiveKey,
+    tabOpen,
   }
 ) => {
   
@@ -305,7 +306,7 @@ const SearchProductListComponent = (
             return(
               <div key={idx} className={style['product-item']}>
                 <div
-                  className={style['left-item']}
+                  className={tabOpen ? style['left-item-tab-open'] : style['left-item-tab-close']}
                   onClick={() => { window.open(`/product/info?idx=${product.idx}&type=${currTypeTab}`) }}
                 >
                   <div className={style['product-img']}>
@@ -320,7 +321,7 @@ const SearchProductListComponent = (
                     </div>
                   </div> 
                 </div>
-                <div className={style['right-item']}>
+                <div className={tabOpen ? style['right-item-tab-open'] : style['right-item-tab-close']}>
                   <div>
                     <span className={style.price}>{product.price == 0 ? `재고없음 ` : `${product.price.toLocaleString()} 원`}</span>
                   </div>
@@ -331,11 +332,11 @@ const SearchProductListComponent = (
                     {isLogin ?
                     !product.wish ? 
                     <div>
-                      <HeartOutlined onClick={() => onWishClicked(product.idx)} />
+                          <HeartOutlined onClick={() => onWishClicked(product.idx)} style={{ fontSize: '22px' }} />
                     </div>
                     : 
                     <div>
-                      <HeartFilled onClick={() => onWishCancelClicked(product.idx)} />
+                      <HeartFilled onClick={() => onWishCancelClicked(product.idx)} style={{ fontSize: '22px', color: '#FF4300'}} />
                     </div> 
                     : 
                     null}
