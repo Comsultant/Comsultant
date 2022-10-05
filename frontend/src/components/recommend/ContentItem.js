@@ -60,6 +60,10 @@ const ContentItem = ({checkState, checkSetter, contentList, contentSetter, name,
 
   const deletePickProduct = (idx) => {
     console.log(contentList, idx)
+    if(contentList[idx].id == '') {
+      console.log("empty")
+      return;
+    }
     contentSetter(contentList.map((item, item_idx) => 
       item_idx == idx ? {... item, id: '', name: '', price: 0} : item
     ))
