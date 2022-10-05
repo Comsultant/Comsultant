@@ -32,7 +32,9 @@ public class SecurityConfig {
             "/account/verify-email/*",
             "/account/send-verify-link/*",
             "/account/verify-token/*",
-            "/product/**",
+            "/product/comment/*",
+            "/product/filter/*",
+            "/product/price/*",
             "/social/*",
             "/static/**",
     };
@@ -42,7 +44,6 @@ public class SecurityConfig {
             "/account",
             "/account/verify-email",
             "/auth/refresh",
-            "/product/**",
             "/builder/capture",
     };
 
@@ -76,7 +77,7 @@ public class SecurityConfig {
                 .csrf().disable();
 
         http.authorizeHttpRequests()
-                .antMatchers("/recommend/**").permitAll()
+                .antMatchers("/recommend/**", "/product/*").permitAll()
                 .anyRequest().authenticated();
 
         http.sessionManagement()

@@ -1,5 +1,6 @@
 package com.comsultant.domain.product.service;
 
+import com.comsultant.domain.account.entity.Account;
 import com.comsultant.domain.product.dto.*;
 import com.comsultant.domain.product.dto.filterResponse.*;
 import com.comsultant.domain.product.dto.request.*;
@@ -7,7 +8,9 @@ import com.comsultant.domain.product.entity.*;
 import com.comsultant.domain.product.mapper.*;
 import com.comsultant.domain.product.repository.*;
 import com.comsultant.domain.product.service.specification.*;
+import com.comsultant.domain.wish.repository.WishRepository;
 import com.comsultant.global.common.model.ProductCategory;
+import com.comsultant.global.config.security.AccountDetails;
 import com.comsultant.global.error.exception.ProductApiException;
 import com.comsultant.global.error.model.ProductErrorCode;
 import com.comsultant.global.properties.ConstProperties;
@@ -31,7 +34,6 @@ import javax.persistence.criteria.Root;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor //생성자 주입. final이 붙거나 @NotNull 이 붙은 필드의 생성자를 자동 생성. AutoWired 불필요
@@ -50,6 +52,7 @@ public class ProductServiceImpl implements ProductService {
     private final RamRepository ramRepository;
     private final SsdRepository ssdRepository;
     private final VgaRepository vgaRepository;
+    private final WishRepository wishRepository;
     private final ConstProperties constProperties;
     private final EntityManager entityManager;
 
@@ -60,87 +63,132 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public CpuDto getCpu(long idx) {
-        return CpuMapper.mapper.toDto(cpuRepository.findById(idx)
+    public CpuDto getCpu(long idx, AccountDetails accountDetails) {
+        Account account = null;
+        if(accountDetails != null) account = accountDetails.getAccount();
+        boolean wishVal = isWish(account, Product.builder().idx(idx).build());
+        CpuDto result = CpuMapper.mapper.toDto(cpuRepository.findById(idx)
                 .orElseThrow(() -> new ProductApiException(ProductErrorCode.PRODUCT_NOT_FOUND)));
+        result.inputWish(wishVal);
+        return result;
     }
 
     @Override
-    public RamDto getRam(long idx) {
-        return RamMapper.mapper.toDto(ramRepository.findById(idx)
+    public RamDto getRam(long idx, AccountDetails accountDetails) {
+        Account account = null;
+        if(accountDetails != null) account = accountDetails.getAccount();
+        boolean wishVal = isWish(account, Product.builder().idx(idx).build());
+        RamDto result = RamMapper.mapper.toDto(ramRepository.findById(idx)
                 .orElseThrow(() -> new ProductApiException(ProductErrorCode.PRODUCT_NOT_FOUND)));
+        result.inputWish(wishVal);
+        return result;
     }
 
     @Override
-    public CasesDto getCases(long idx) {
-        return CasesMapper.mapper.toDto(casesRepository.findById(idx)
+    public CasesDto getCases(long idx, AccountDetails accountDetails) {
+        Account account = null;
+        if(accountDetails != null) account = accountDetails.getAccount();
+        boolean wishVal = isWish(account, Product.builder().idx(idx).build());
+        CasesDto result = CasesMapper.mapper.toDto(casesRepository.findById(idx)
                 .orElseThrow(() -> new ProductApiException(ProductErrorCode.PRODUCT_NOT_FOUND)));
+        result.inputWish(wishVal);
+        return result;
     }
 
     @Override
-    public HddDto getHdd(long idx) {
-        return HddMapper.mapper.toDto(hddRepository.findById(idx)
+    public HddDto getHdd(long idx, AccountDetails accountDetails) {
+        Account account = null;
+        if(accountDetails != null) account = accountDetails.getAccount();
+        boolean wishVal = isWish(account, Product.builder().idx(idx).build());
+        HddDto result = HddMapper.mapper.toDto(hddRepository.findById(idx)
                 .orElseThrow(() -> new ProductApiException(ProductErrorCode.PRODUCT_NOT_FOUND)));
+        result.inputWish(wishVal);
+        return result;
     }
 
     @Override
-    public MainBoardDto getMainBoard(long idx) {
-        return MainBoardMapper.mapper.toDto(mainBoardRepository.findById(idx)
+    public MainBoardDto getMainBoard(long idx, AccountDetails accountDetails) {
+        Account account = null;
+        if(accountDetails != null) account = accountDetails.getAccount();
+        boolean wishVal = isWish(account, Product.builder().idx(idx).build());
+        MainBoardDto result = MainBoardMapper.mapper.toDto(mainBoardRepository.findById(idx)
                 .orElseThrow(() -> new ProductApiException(ProductErrorCode.PRODUCT_NOT_FOUND)));
+        result.inputWish(wishVal);
+        return result;
     }
 
     @Override
-    public CoolerDto getCooler(long idx) {
-        return CoolerMapper.mapper.toDto(coolerRepository.findById(idx)
+    public CoolerDto getCooler(long idx, AccountDetails accountDetails) {
+        Account account = null;
+        if(accountDetails != null) account = accountDetails.getAccount();
+        boolean wishVal = isWish(account, Product.builder().idx(idx).build());
+        CoolerDto result = CoolerMapper.mapper.toDto(coolerRepository.findById(idx)
                 .orElseThrow(() -> new ProductApiException(ProductErrorCode.PRODUCT_NOT_FOUND)));
+        result.inputWish(wishVal);
+        return result;
     }
 
     @Override
-    public PsuDto getPsu(long idx) {
-        return PsuMapper.mapper.toDto(psuRepository.findById(idx)
+    public PsuDto getPsu(long idx, AccountDetails accountDetails) {
+        Account account = null;
+        if(accountDetails != null) account = accountDetails.getAccount();
+        boolean wishVal = isWish(account, Product.builder().idx(idx).build());
+        PsuDto result = PsuMapper.mapper.toDto(psuRepository.findById(idx)
                 .orElseThrow(() -> new ProductApiException(ProductErrorCode.PRODUCT_NOT_FOUND)));
+        result.inputWish(wishVal);
+        return result;
     }
 
     @Override
-    public SsdDto getSsd(long idx) {
-        return SsdMapper.mapper.toDto(ssdRepository.findById(idx)
+    public SsdDto getSsd(long idx, AccountDetails accountDetails) {
+        Account account = null;
+        if(accountDetails != null) account = accountDetails.getAccount();
+        boolean wishVal = isWish(account, Product.builder().idx(idx).build());
+        SsdDto result = SsdMapper.mapper.toDto(ssdRepository.findById(idx)
                 .orElseThrow(() -> new ProductApiException(ProductErrorCode.PRODUCT_NOT_FOUND)));
+        result.inputWish(wishVal);
+        return result;
     }
 
     @Override
-    public VgaDto getVga(long idx) {
-        return VgaMapper.mapper.toDto(vgaRepository.findById(idx)
+    public VgaDto getVga(long idx, AccountDetails accountDetails) {
+        Account account = null;
+        if(accountDetails != null) account = accountDetails.getAccount();
+        boolean wishVal = isWish(account, Product.builder().idx(idx).build());
+        VgaDto result = VgaMapper.mapper.toDto(vgaRepository.findById(idx)
                 .orElseThrow(() -> new ProductApiException(ProductErrorCode.PRODUCT_NOT_FOUND)));
+        result.inputWish(wishVal);
+        return result;
     }
 
     @Override
-    public Object getObject(long type, long idx) {
+    public Object getObject(long type, long idx, AccountDetails accountDetails) {
         Object obj = null;
 
         if (type == 1) { // 1.cpu, 2.ram, 3.hdd, 4.ssd, 5.psu, 6.cooler, 7.cases, 8.mainboard, 9.vga
-            obj = getCpu(idx);
+            obj = getCpu(idx, accountDetails);
         } else if (type == 2) {
-            obj = getRam(idx);
+            obj = getRam(idx, accountDetails);
         } else if (type == 3) {
-            obj = getHdd(idx);
+            obj = getHdd(idx, accountDetails);
         } else if (type == 4) {
-            obj = getSsd(idx);
+            obj = getSsd(idx, accountDetails);
         } else if (type == 5) {
-            obj = getPsu(idx);
+            obj = getPsu(idx, accountDetails);
         } else if (type == 6) {
-            obj = getCooler(idx);
+            obj = getCooler(idx, accountDetails);
         } else if (type == 7) {
-            obj = getCases(idx);
+            obj = getCases(idx, accountDetails);
         } else if (type == 8) {
-            obj = getMainBoard(idx);
+            obj = getMainBoard(idx, accountDetails);
         } else if (type == 9) {
-            obj = getVga(idx);
+            obj = getVga(idx, accountDetails);
         }
         return obj;
     }
 
     @Override
-    public ProductListDto getCpuList(CpuRequest request, int page, int desc) {
+    public ProductListDto getCpuList(CpuRequest request, int page, int desc, AccountDetails accountDetails) {
         //필터링 조건
         Specification<Cpu> spec = (root, query, criteriaBuilder) -> null;
         if (request.getName() != null) {
@@ -171,9 +219,16 @@ public class ProductServiceImpl implements ProductService {
         List<Cpu> cpus = pageCpus.getContent();
         int totalPages = pageCpus.getTotalPages();
 
+        //account 꺼내기
+        Account account = null;
+        if(accountDetails != null) account = accountDetails.getAccount();
+
         List<Object> list = new ArrayList<>();
         for (Cpu cpu : cpus) {
-            list.add(CpuMapper.mapper.toDto(cpu));
+            boolean wishVal = isWish(account, Product.builder().idx(cpu.getIdx()).build());
+            CpuDto cpuDto = CpuMapper.mapper.toDto(cpu);
+            cpuDto.inputWish(wishVal);
+            list.add(cpuDto);
         }
 
         return ProductListDto.builder()
@@ -183,7 +238,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductListDto getRamList(RamRequest request, int page, int desc) {
+    public ProductListDto getRamList(RamRequest request, int page, int desc, AccountDetails accountDetails) {
         Specification<Ram> spec = (root, query, criteriaBuilder) -> null;
         if (request.getName() != null) {
             spec = spec.and(RamSpecification.containsName(request.getName()));
@@ -210,9 +265,16 @@ public class ProductServiceImpl implements ProductService {
         List<Ram> rams = pageRams.getContent();
         int totalPages = pageRams.getTotalPages();
 
+        //account 꺼내기
+        Account account = null;
+        if(accountDetails != null) account = accountDetails.getAccount();
+
         List<Object> list = new ArrayList<>();
         for (Ram ram : rams) {
-            list.add(RamMapper.mapper.toDto(ram));
+            boolean wishVal = isWish(account, Product.builder().idx(ram.getIdx()).build());
+            RamDto ramDto = RamMapper.mapper.toDto(ram);
+            ramDto.inputWish(wishVal);
+            list.add(ramDto);
         }
 
         return ProductListDto.builder()
@@ -222,7 +284,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductListDto getVgaList(VgaRequest request, int page, int desc) {
+    public ProductListDto getVgaList(VgaRequest request, int page, int desc, AccountDetails accountDetails) {
         Specification<Vga> spec = (root, query, criteriaBuilder) -> null;
         if (request.getName() != null) {
             spec = spec.and(VgaSpecification.containsName(request.getName()));
@@ -252,9 +314,16 @@ public class ProductServiceImpl implements ProductService {
         List<Vga> vgas = pageVgas.getContent();
         int totalPages = pageVgas.getTotalPages();
 
+        //account 꺼내기
+        Account account = null;
+        if(accountDetails != null) account = accountDetails.getAccount();
+
         List<Object> list = new ArrayList<>();
         for (Vga vga : vgas) {
-            list.add(VgaMapper.mapper.toDto(vga));
+            boolean wishVal = isWish(account, Product.builder().idx(vga.getIdx()).build());
+            VgaDto vgaDto = VgaMapper.mapper.toDto(vga);
+            vgaDto.inputWish(wishVal);
+            list.add(vgaDto);
         }
 
         return ProductListDto.builder()
@@ -264,7 +333,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductListDto getPsuList(PsuRequest request, int page, int desc) {
+    public ProductListDto getPsuList(PsuRequest request, int page, int desc, AccountDetails accountDetails) {
         Specification<Psu> spec = (root, query, criteriaBuilder) -> null;
         if (request.getName() != null) {
             spec = spec.and(PsuSpecification.containsName(request.getName()));
@@ -288,9 +357,16 @@ public class ProductServiceImpl implements ProductService {
         List<Psu> psus = pagePsus.getContent();
         int totalPages = pagePsus.getTotalPages();
 
+        //account 꺼내기
+        Account account = null;
+        if(accountDetails != null) account = accountDetails.getAccount();
+
         List<Object> list = new ArrayList<>();
         for (Psu psu : psus) {
-            list.add(PsuMapper.mapper.toDto(psu));
+            boolean wishVal = isWish(account, Product.builder().idx(psu.getIdx()).build());
+            PsuDto psuDto = PsuMapper.mapper.toDto(psu);
+            psuDto.inputWish(wishVal);
+            list.add(psuDto);
         }
 
         return ProductListDto.builder()
@@ -300,7 +376,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductListDto getMainBoardList(MainBoardRequest request, int page, int desc) {
+    public ProductListDto getMainBoardList(MainBoardRequest request, int page, int desc, AccountDetails accountDetails) {
         Specification<MainBoard> spec = (root, query, criteriaBuilder) -> null;
         if (request.getName() != null) {
             spec = spec.and(MainBoardSpecification.containsName(request.getName()));
@@ -327,9 +403,16 @@ public class ProductServiceImpl implements ProductService {
         List<MainBoard> mainBoards = pageMainBoards.getContent();
         int totalPages = pageMainBoards.getTotalPages();
 
+        //account 꺼내기
+        Account account = null;
+        if(accountDetails != null) account = accountDetails.getAccount();
+
         List<Object> list = new ArrayList<>();
         for (MainBoard mainBoard : mainBoards) {
-            list.add(MainBoardMapper.mapper.toDto(mainBoard));
+            boolean wishVal = isWish(account, Product.builder().idx(mainBoard.getIdx()).build());
+            MainBoardDto mainBoardDto = MainBoardMapper.mapper.toDto(mainBoard);
+            mainBoardDto.inputWish(wishVal);
+            list.add(mainBoardDto);
         }
 
         return ProductListDto.builder()
@@ -339,7 +422,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductListDto getCoolerList(CoolerRequest request, int page, int desc) {
+    public ProductListDto getCoolerList(CoolerRequest request, int page, int desc, AccountDetails accountDetails) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Cooler> criteriaQuery = cb.createQuery(Cooler.class);
         Root<Cooler> itemRoot = (Root<Cooler>) criteriaQuery.from(Cooler.class).alias("generatedAlias0");
@@ -541,9 +624,16 @@ public class ProductServiceImpl implements ProductService {
         List<Cooler> coolers = pageCoolers.getContent();
         int totalPages = pageCoolers.getTotalPages();
 
+        //account 꺼내기
+        Account account = null;
+        if(accountDetails != null) account = accountDetails.getAccount();
+
         List<Object> list = new ArrayList<>();
         for (Cooler cooler : coolers) {
-            list.add(CoolerMapper.mapper.toDto(cooler));
+            boolean wishVal = isWish(account, Product.builder().idx(cooler.getIdx()).build());
+            CoolerDto coolerDto = CoolerMapper.mapper.toDto(cooler);
+            coolerDto.inputWish(wishVal);
+            list.add(coolerDto);
         }
 
         return ProductListDto.builder()
@@ -553,7 +643,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductListDto getCasesList(CasesRequest request, int page, int desc) {
+    public ProductListDto getCasesList(CasesRequest request, int page, int desc, AccountDetails accountDetails) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Cases> criteriaQuery = cb.createQuery(Cases.class);
         Root<Cases> itemRoot = (Root<Cases>) criteriaQuery.from(Cases.class).alias("generatedAlias0");
@@ -641,9 +731,16 @@ public class ProductServiceImpl implements ProductService {
         List<Cases> casess = pageCasess.getContent();
         int totalPages = pageCasess.getTotalPages();
 
+        //account 꺼내기
+        Account account = null;
+        if(accountDetails != null) account = accountDetails.getAccount();
+
         List<Object> list = new ArrayList<>();
         for (Cases cases : casess) {
-            list.add(CasesMapper.mapper.toDto(cases));
+            boolean wishVal = isWish(account, Product.builder().idx(cases.getIdx()).build());
+            CasesDto casesDto = CasesMapper.mapper.toDto(cases);
+            casesDto.inputWish(wishVal);
+            list.add(casesDto);
         }
 
         return ProductListDto.builder()
@@ -653,7 +750,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductListDto getHddList(HddRequest request, int page, int desc) {
+    public ProductListDto getHddList(HddRequest request, int page, int desc, AccountDetails accountDetails) {
         Specification<Hdd> spec = (root, query, criteriaBuilder) -> null;
         if (request.getName() != null) {
             spec = spec.and(HddSpecification.containsName(request.getName()));
@@ -674,9 +771,16 @@ public class ProductServiceImpl implements ProductService {
         List<Hdd> hdds = pageHdds.getContent();
         int totalPages = pageHdds.getTotalPages();
 
+        //account 꺼내기
+        Account account = null;
+        if(accountDetails != null) account = accountDetails.getAccount();
+
         List<Object> list = new ArrayList<>();
         for (Hdd hdd : hdds) {
-            list.add(HddMapper.mapper.toDto(hdd));
+            boolean wishVal = isWish(account, Product.builder().idx(hdd.getIdx()).build());
+            HddDto hddDto = HddMapper.mapper.toDto(hdd);
+            hddDto.inputWish(wishVal);
+            list.add(hddDto);
         }
 
         return ProductListDto.builder()
@@ -686,7 +790,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductListDto getSsdList(SsdRequest request, int page, int desc) {
+    public ProductListDto getSsdList(SsdRequest request, int page, int desc, AccountDetails accountDetails) {
         Specification<Ssd> spec = (root, query, criteriaBuilder) -> null;
         if (request.getName() != null) {
             spec = spec.and(SsdSpecification.containsName(request.getName()));
@@ -713,9 +817,16 @@ public class ProductServiceImpl implements ProductService {
         List<Ssd> ssds = pageSsds.getContent();
         int totalPages = pageSsds.getTotalPages();
 
+        //account 꺼내기
+        Account account = null;
+        if(accountDetails != null) account = accountDetails.getAccount();
+
         List<Object> list = new ArrayList<>();
         for (Ssd ssd : ssds) {
-            list.add(SsdMapper.mapper.toDto(ssd));
+            boolean wishVal = isWish(account, Product.builder().idx(ssd.getIdx()).build());
+            SsdDto ssdDto = SsdMapper.mapper.toDto(ssd);
+            ssdDto.inputWish(wishVal);
+            list.add(ssdDto);
         }
 
         return ProductListDto.builder()
@@ -913,5 +1024,14 @@ public class ProductServiceImpl implements ProductService {
                 .name(priceDto.getName())
                 .date(result)
                 .build();
+    }
+
+    @Override
+    public boolean isWish(Account account, Product product) {
+        if(account == null || product == null)
+            return false;
+        if(wishRepository.findByAccountAndProduct(account, product) == null)
+            return false;
+        return true;
     }
 }

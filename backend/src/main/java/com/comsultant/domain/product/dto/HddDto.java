@@ -79,4 +79,10 @@ public class HddDto {
 
     private boolean restore1; //데이터 복구 1년
 
+    private boolean wish;
+
+    public void inputWish(boolean wish) {
+        this.wish = wish;
+    }
+
 }

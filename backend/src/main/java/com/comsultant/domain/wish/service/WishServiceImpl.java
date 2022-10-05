@@ -37,7 +37,8 @@ public class WishServiceImpl implements WishService {
             return false;
         Product product = productRepository.findById(productIdx)
                 .orElseThrow(() -> new ProductApiException(ProductErrorCode.PRODUCT_NOT_FOUND));
-
+        if(wishRepository.findByAccountAndProduct(account, product) != null)
+            return false;
         Wish savedWish = wishRepository.save(Wish.builder().account(account).product(product).build());
         if (savedWish.getIdx() == 0)
             return false;
@@ -51,7 +52,8 @@ public class WishServiceImpl implements WishService {
         Product product = productRepository.findById(productIdx)
                 .orElseThrow(() -> new ProductApiException(ProductErrorCode.PRODUCT_NOT_FOUND));
         Wish wish = wishRepository.findByAccountAndProduct(account, product);
-
+        if(wish == null)
+            return false;
         wishRepository.deleteById(wish.getIdx());
         return true;
     }

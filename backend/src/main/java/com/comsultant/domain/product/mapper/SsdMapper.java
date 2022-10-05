@@ -16,6 +16,7 @@ public interface SsdMapper extends EntityMapper<SsdDto, Ssd> {
 
     @Override
     @Mapping(source = "product.idx", target = "idx") // 변수명이 다를 경우. source = Entity, target = DTO
+    @Mapping(target = "wish", ignore = true)
     SsdDto toDto(final Ssd entity);
 
     @Override
