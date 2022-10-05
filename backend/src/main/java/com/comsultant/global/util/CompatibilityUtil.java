@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Component
@@ -27,7 +28,7 @@ public class CompatibilityUtil {
     private final MainBoardRepository mainBoardRepository;
     private final VgaRepository vgaRepository;
 
-    public boolean checkCompatibility(List<BuilderProductDto> builderProducts){
+    public String checkCompatibility(List<BuilderProductDto> builderProducts){
         Cpu cpu = null;
         ArrayList<Ram> ramList = new ArrayList<>();
         ArrayList<Hdd> hddList = new ArrayList<>();
@@ -102,49 +103,49 @@ public class CompatibilityUtil {
 
         // 호환성 검사
         // cpu<->mainboard 제조사 소켓 비교
-        if(!cpu.getCorp().equals(mb.getCorp()) || !cpu.getSocket().equals(mb.getCpuSocket()))
-            return false;
+        if(!cpu.getSocket().equals(mb.getCpuSocket()))
+            return "Error : cpu and mainboard";
 
         // mainboard<->cases 크기(ATX) 비교
         switch (mb.getFormFactor()){
             case "ATX":
                 if(!cases.isStandardAtx())
-                    return false;
+                    return "Error : ATX Mainboard";
                 break;
             case "M-ATX":
                 if(!cases.isMicroAtx())
-                    return false;
+                    return "Error : M-ATX Mainboard";
                 break;
             case "E-ATX":
                 if(!cases.isExtendedAtx())
-                    return false;
+                    return "Error : E-ATX Mainboard";
                 break;
             case "CEB":
                 if(!cases.isSsiCeb())
-                    return false;
+                    return "Error : CEB Mainboard";
                 break;
             case "EEB":
                 if(!cases.isSsiEeb())
-                    return false;
+                    return "Error : EEB Mainboard";
                 break;
             case "M-ITX":
                 if(!cases.isMiniItx())
-                    return false;
+                    return "Error : M-ITX Mainboard";
                 break;
             case "M-DTX":
                 if(!cases.isMiniDtx())
-                    return false;
+                    return "Error : M-DTX Mainboard";
                 break;
             case "XL-ATX":
                 if(!cases.isExtendedAtx())
-                    return false;
+                    return "Error : XL-ATX Mainboard";
                 String pciSlot = cases.getPciSlot();
                 boolean flag = (pciSlot.contains("8개") || pciSlot.contains("9개") || pciSlot.contains("10개") || pciSlot.contains("12개"));
                 if(!flag)
-                    return false;
+                    return "Error : XL-ATX Mainboard Not Enough Slot";
                 break;
             default:
-                return false;
+                return "Error : Unknown mainboard size";
         }
 
         // mainboard<->ram 규격 개수 비교
@@ -152,51 +153,52 @@ public class CompatibilityUtil {
         for(Ram ram : ramList){
             cnt += ram.getLamCnt();
             if(!mb.getMemoryType().equals(ram.getType()) || cnt > mb.getMemorySlot())
-                return false;
+                return "Error : mainboard and ram";
         }
 
         // cases<->vga 가로 비교
         if(vga != null && cases.getGpuMounting() < vga.getWidth())
-            return false;
+            return "Error : case and vga";
 
         // cases<->psu 깊이 크기 비교
-        if(cases.getPowerMounting() < psu.getDepth())
-            return false;
+        if(cases.getPowerMounting() != 0 && cases.getPowerMounting() < psu.getDepth())
+            return "Error : case and psu";
         int pSize = sep(cases.getPowerSize());
         switch (psu.getType()){
             case "ATX 파워":
                 if(pSize < 3)
-                    return false;
+                    return "Error : ATX Power";
                 break;
             case "M-ATX(SFX) 파워":
                 if(pSize < 2)
-                    return false;
+                    return "Error : SFX Power";
                 break;
             case "Flex-ATX 파워":
             case "TFX 파워":
                 if(pSize != 100)
-                    return false;
+                    return "Error : TFX, FATX Power";
                 break;
             case "DC to DC":
                 if(pSize < 1)
-                    return false;
+                    return "Error : DC Power";
                 break;
             case "서버용 파워":
                 if(!"랙마운트".equals(cases.getClassType()))
-                    return false;
+                    return "Error : Server Power";
                 break;
             case "리던던트":
                 if(pSize != 200)
-                    return false;
+                    return "Error : Redundant Power";
             default:
                 break;
         }
 
         // cases<->cooler 높이 비교
-        if(cooler != null && cases.getGpuMounting() < cooler.getCoolerHeight())
-            return false;
-
-        return true;
+        if(cooler != null && "공랭".equals(cooler.getCoolingSystem()) && cases.getGpuMounting() < cooler.getCoolerHeight())
+            return "Error : case and cooler";
+        else if(cooler != null && "수랭".equals(cooler.getCoolingSystem()))
+            return "수랭 쿨러는 미완..."
+        return "success";
     }
 
     private int sep(String powerSize) {

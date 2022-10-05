@@ -102,11 +102,11 @@ public class BuilderApi {
 
     @PostMapping("/check")
     public ResponseEntity<MessageResponse> checkCompatibility(@RequestBody Map<String, List<BuilderProductDto>> builderProducts){
-        boolean result = compatibilityUtil.checkCompatibility(builderProducts.get("products"));
-        if(result){
+        String result = compatibilityUtil.checkCompatibility(builderProducts.get("products"));
+        if("success".equals(result)){
             return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getSuccess()));
         } else{
-            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getFail()));
+            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, result));
         }
     }
 }

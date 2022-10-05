@@ -44,6 +44,7 @@ public class SecurityConfig {
             "/auth/refresh",
             "/product/**",
             "/builder/capture",
+            "/builder/check",
     };
 
     private static final String[] PATCH_PUBLIC_URI = {
