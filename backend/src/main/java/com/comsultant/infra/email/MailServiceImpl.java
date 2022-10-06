@@ -17,10 +17,10 @@ public class MailServiceImpl implements MailService {
 
     private final JavaMailSender mailSender;
 
-    private final String authTitle = "이메일 인증 제목";
-    private final String authMessage = "이메일 인증 내용 : ";
-    private final String findPasswordTitle = "비밀번호 찾기";
-    private final String findPasswordMessage = "토큰 : ";
+    private final String authTitle = "COMSULTANT 이메일 인증";
+    private final String authMessage = "이메일 인증 번호 : ";
+    private final String findPasswordTitle = "COMSULTANT 비밀번호 찾기";
+    private final String findPasswordMessage = "비밀번호 찾기 토큰 : ";
 
 
     @Override

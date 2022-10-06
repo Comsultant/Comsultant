@@ -205,10 +205,8 @@ public class CompatibilityUtil {
 
         // cases<->cooler 높이 비교
         if(cases != null && cooler != null) {
-            if (cooler != null && "공랭".equals(cooler.getCoolingSystem()) && cases.getGpuMounting() < cooler.getCoolerHeight())
+            if ("공랭".equals(cooler.getCoolingSystem()) && cases.getGpuMounting() < cooler.getCoolerHeight())
                 return "Error : case and cooler";
-            else if (cooler != null && "수랭".equals(cooler.getCoolingSystem()))
-                return "수랭 쿨러는 미완...";
         }
         return "success";
     }
