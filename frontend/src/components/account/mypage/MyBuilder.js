@@ -6,7 +6,6 @@ const MyBuilder = () => {
   const [myBuilderList, setMyBuilderList] = useState([]);
   const [currPage, setCurrPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
-  const [currDesc, setCurrDesc] = useState(false);
   
   return (
     <div className={style.container}>
@@ -17,8 +16,6 @@ const MyBuilder = () => {
         setCurrPage={setCurrPage}
         totalPage={totalPage}
         setTotalPage={setTotalPage}
-        currDesc={currDesc}
-        setCurrDesc={setCurrDesc}
       />
     </div>
   );

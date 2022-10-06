@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import style from "@/styles/MyBuilderList.module.scss";
-import { getAllBuilderRequest } from "@/services/builderService";
+import { getPageBuilderRequest, deleteBuilderRequest } from "@/services/builderService";
 import { Button, Pagination } from "antd";
 
-const MyBuilderList = ({ myBuilderList, setMyBuilderList, currPage, setCurrPage, currDesc, setCurrDesc, totalPage, setTotalPage }) => {
+const MyBuilderList = ({ myBuilderList, setMyBuilderList, currPage, setCurrPage, totalPage, setTotalPage }) => {
 
   const [category] = useState(["", "CPU", "RAM", "HDD", "SSD", "PSU", "COOLER", "CASE", "MAINBOARD", "VGA"]);
   
@@ -28,10 +28,32 @@ const MyBuilderList = ({ myBuilderList, setMyBuilderList, currPage, setCurrPage,
       return 2;
     }
   }
+
+  const deleteItem = async (dataToSubmit) => {
+    const result = await deleteBuilderRequest(dataToSubmit);
+    if (result?.data?.message === "success") {
+      const result2 = await getPageBuilderRequest(currPage);
+      if (result2?.data?.message === "success") {
+        if (result2?.data?.responseDto?.myBuilderDetailDtoList?.length == 0) {
+          console.log("dd");
+          setCurrPage(currPage - 1);
+          const result3 = await getPageBuilderRequest(currPage);
+          if (result3?.data?.message === "success") {
+            setTotalPage(result3?.data?.responseDto?.totalPage);
+            setMyBuilderList(result3?.data?.responseDto?.myBuilderDetailDtoList);
+          }
+        } else {
+          console.log("ddss");
+          setTotalPage(result2?.data?.responseDto?.totalPage);
+          setMyBuilderList(result2?.data?.responseDto?.myBuilderDetailDtoList);
+        }
+      }
+    }      
+  }
   
   useEffect(() => {
     const fetchData = async () => {
-      const result = await getAllBuilderRequest(currDesc, 1);
+      const result = await getPageBuilderRequest(1);
       if (result?.data?.message === "success") {
         setTotalPage(result?.data?.responseDto?.totalPage);
         setMyBuilderList(result?.data?.responseDto?.myBuilderDetailDtoList);
@@ -39,18 +61,18 @@ const MyBuilderList = ({ myBuilderList, setMyBuilderList, currPage, setCurrPage,
     }
     setCurrPage(1);
     fetchData();
-  }, [currDesc])
-
+  }, [])
+  
   useEffect(() => {
     const fetchData = async () => {
-      const result = await getAllBuilderRequest(currDesc, currPage);
+      const result = await getPageBuilderRequest(currPage);
       if (result?.data?.message === "success") {
         setTotalPage(result?.data?.responseDto?.totalPage);
         setMyBuilderList(result?.data?.responseDto?.myBuilderDetailDtoList);
       }
     }
     fetchData();
-  }, [currDesc, currPage])
+  }, [currPage])
 
   return (
     <>
@@ -89,14 +111,11 @@ const MyBuilderList = ({ myBuilderList, setMyBuilderList, currPage, setCurrPage,
               </>
             </tbody>
           </table>
-          {/* <div className={style["price-box"]}> */}
-          {/* <span>{parseInt(item.price / 10000)} 만원</span> */}
-          {/* <span>{item.priceDate} </span> */}
-          {/* </div> */}
+          <Button className={style["delete-button"]} onClick={()=>deleteItem(myBuilder.myBuilderDto.idx)}>삭제</Button>
         </div>
       );
     }):null
-      }
+  }
         <div className={style['pagination']}>
           <Pagination 
           size="small"
