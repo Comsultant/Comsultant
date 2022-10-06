@@ -87,3 +87,8 @@ $gray-color: rgb(212, 212, 212);
 .product-detail {
     font-size: 12px;
 }
+
+.product-item:hover {
+    cursor: pointer;
+    background-color: rgb(226, 241, 255);
+}

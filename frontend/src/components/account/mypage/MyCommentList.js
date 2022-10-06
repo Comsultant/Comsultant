@@ -58,10 +58,9 @@ const MyCommentList = (
     <>
       {commentDetailDtoList !== undefined ? commentDetailDtoList.map((comment, idx)=>{
             return(
-              <div key={idx} className={style['product-item']}>
+              <div key={idx} className={style['product-item']} onClick={() => { window.open(`/product/info?idx=${comment.commentDto.productIdx}&type=${setCategory(comment.category)}`) }}>
                 <div
                   className={style['left-item-tab-open']}
-                  onClick={() => { window.open(`/product/info?idx=${comment.commentDto.productIdx}&type=${setCategory(comment.category)}`) }}
                 >
                   <div className={style['product-img']}>
                     <img src={`https://j7a602.p.ssafy.io/static/images/${comment.commentDto.productIdx}/0.jpg`} alt=""/>
@@ -79,13 +78,6 @@ const MyCommentList = (
                       </div>
                     </div>
                   </div> 
-                </div>
-                <div className={style['right-item']}>
-                  <div className={style['right-button-box']}>
-                    <div>
-                      <button className={style['put-button']} onClick={() => { window.open(`/product/info?idx=${comment.commentDto.productIdx}&type=${setCategory(comment.category)}`) }}>상세보기</button>
-                    </div>
-                  </div>
                 </div>
               </div>
             );

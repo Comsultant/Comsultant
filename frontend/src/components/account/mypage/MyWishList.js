@@ -77,13 +77,6 @@ const MyWishList = (
                     </div>
                   </div> 
                 </div>
-                <div className={style['right-item']}>
-                  <div className={style['right-button-box']}>
-                    <div>
-                      <button className={style['put-button']} onClick={() => { window.open(`/product/info?idx=${wish.productIdx}&type=${setCategory(wish.category)}`) }}>상세보기</button>
-                    </div>
-                  </div>
-                </div>
               </div>
             );
       }):null
