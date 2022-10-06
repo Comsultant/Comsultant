@@ -278,23 +278,82 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
     console.log(myBuilderList[idx])
 
     // 아래 배열을 탐색하면서 넣어준다.
-    // cpuList에는 어떻게?
-    myBuilderList[idx].builderProductDetailDtos
+    
+    // 백엔드 기준 카테고리로 계산 ( 인덱스 1 부터 시작)
+    let prodCnt = [0,0,0,0,0,0,0,0,0,0];
+    let newProducts = [[],[],[],[],[],[],[],[],[],[]];
+    let products = [];
+    // console.log(myBuilderList[idx].builderProductDetailDtos)
+    for(let builderProduct of myBuilderList[idx].builderProductDetailDtos) {
+      let c = builderProduct.category
+      prodCnt[c] += builderProduct.cnt;
+      newProducts[c].push({id: builderProduct.productIdx, name: builderProduct.productName, count: builderProduct.cnt, price: builderProduct.price})
+      products.push({[builderProduct.productIdx]: builderProduct.cnt})
+    }
+    // console.log(prodCnt, newProducts)
+    setCpuList(newProducts[1].length == 0 ? initProduct : newProducts[1]);
+    setRamList(newProducts[2].length == 0 ? initProduct : newProducts[2]);
+    setHddList(newProducts[3].length == 0 ? initProduct : newProducts[3]);
+    setSsdList(newProducts[4].length == 0 ? initProduct : newProducts[4]);
+    setPowerList(newProducts[5].length == 0 ? initProduct : newProducts[5]);
+    setCoolerList(newProducts[6].length == 0 ? initProduct : newProducts[6]);
+    setCaseList(newProducts[7].length == 0 ? initProduct : newProducts[7]);
+    setMbList(newProducts[8].length == 0 ? initProduct : newProducts[8]);
+    setVgaList(newProducts[9].length == 0 ? initProduct : newProducts[9]);
 
-    // setFilterItem({
-    //   ...filterItem, 
-    //   cpu_cnt: cpuChecked ? cpuCount : 0,
-    //   ram_cnt: ramChecked ? ramCount : 0,
-    //   hdd_cnt: hddChecked ? hddCount : 0,
-    //   ssd_cnt: ssdChecked ? ssdCount : 0,
-    //   psu_cnt: powerChecked ? psuCount : 0,
-    //   cooler_cnt: coolerChecked ? coolerCount : 0,
-    //   cases_cnt: caseChecked ? caseCount : 0,
-    //   mainboard_cnt: mbChecked ? mainboardCount : 0,
-    //   vga_cnt: vgaChecked ? vgaCount : 0,
-    //   prods: getTotalProds()
-    // })
+    setCpuChecked(prodCnt[1] != 0)
+    setRamChecked(prodCnt[2] != 0)
+    setHddChecked(prodCnt[3] != 0)
+    setSsdChecked(prodCnt[4] != 0)
+    setPowerChecked(prodCnt[5] != 0)
+    setCoolerChecked(prodCnt[6] != 0)
+    setCaseChecked(prodCnt[7] != 0)
+    setMbChecked(prodCnt[8] != 0)
+    setVgaChecked(prodCnt[9] != 0)
 
+    setFilterItem({
+      ...filterItem, 
+      cpu_cnt: prodCnt[1],
+      ram_cnt: prodCnt[2],
+      hdd_cnt: prodCnt[3],
+      ssd_cnt: prodCnt[4],
+      psu_cnt: prodCnt[5],
+      cooler_cnt: prodCnt[6],
+      cases_cnt: prodCnt[7],
+      mainboard_cnt: prodCnt[8],
+      vga_cnt:  prodCnt[9],
+      prods: products
+    })
+  }
+
+  const resetBuilderFilter = () => {
+    const result = confirm("선택한 제품들을 초기화 하시겠습니까?")
+    if(!result) {
+      return
+    }
+    setCpuList(initProduct);
+    setRamList(initProduct);
+    setHddList(initProduct);
+    setSsdList(initProduct);
+    setPowerList(initProduct);
+    setCoolerList(initProduct);
+    setCaseList(initProduct);
+    setMbList(initProduct);
+    setVgaList(initProduct);
+    
+    setFilterItem({
+      ...filterItem,
+      prods: {},
+      cpu_cnt: 1,
+      ram_cnt: 1,
+      hdd_cnt: 0,
+      ssd_cnt: 1,
+      psu_cnt: 1,
+      cooler_cnt: 1,
+      cases_cnt: 1,
+      mainboard_cnt: 1,
+      vga_cnt: 1,
+    })
   }
 
   useEffect(() => {
@@ -311,7 +370,9 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
       }
     }
 
-    getMyBuilderList();
+    if(isLogin) {
+      getMyBuilderList();
+    }
   }, [])
 
   return (
@@ -348,7 +409,7 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
               );
             })}
           </select>
-          <button className={style["mybuilder-reset-button"]} onClick={showModal}>견적 초기화</button>
+          <button className={style["mybuilder-reset-button"]} onClick={resetBuilderFilter}>견적 초기화</button>
         </div> : null }
       </div>
       <div className={style["product-selector-tool"]}>
