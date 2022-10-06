@@ -37,7 +37,6 @@ const Recommend = () => {
       setBuilderPage(0);
       setFinalPage(result.data.responseList.length);
     }
-    
   }
 
   const clickNextBuilder = () => {

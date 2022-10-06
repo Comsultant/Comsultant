@@ -297,12 +297,6 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
             </div>
           </div>
           <div className={style['bottom-right']}>
-            <span>추천 품목만 보기</span>
-            <CustomCheckbox
-              backgroundColor="#377BB9"
-              state={isOnlyViewRecommend}
-              setter={setIsOnlyViewRecommend}
-            />
             <button
               className={style.button}
               onClick={onRecommendButtonClicked}

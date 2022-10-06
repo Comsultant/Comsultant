@@ -134,12 +134,12 @@ const RecommendFilter = ({filterItem, setFilterItem}) => {
               handleStyle={{"borderColor": "black", "width" : "25px", "height": "16px", "borderRadius" : "5px"}}
             />
           </div>
-          <div className={style["builder-box"]}>
-            <button className={style.button}>견적 저장하기</button>
-            <select className={style["select-input"]}>
-              <option>견적 불러오기</option>
-            </select>
-          </div>
+        </div>
+        <div className={style["builder-box"]}>
+          <button className={style.button}>견적 저장하기</button>
+          <select className={style["select-input"]}>
+            <option>견적 불러오기</option>
+          </select>
         </div>
       </div>
     </>
