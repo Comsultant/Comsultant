@@ -16,6 +16,7 @@ public interface CoolerMapper extends EntityMapper<CoolerDto, Cooler> {
 
     @Override
     @Mapping(source = "product.idx", target = "idx") // 변수명이 다를 경우. source = Entity, target = DTO
+    @Mapping(target = "wish", ignore = true)
     CoolerDto toDto(final Cooler entity);
 
     @Override

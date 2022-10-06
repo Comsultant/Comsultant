@@ -179,4 +179,10 @@ public class CoolerDto {
 
     private boolean lcd; //LCD
 
+    private boolean wish;
+
+    public void inputWish(boolean wish) {
+        this.wish = wish;
+    }
+
 }

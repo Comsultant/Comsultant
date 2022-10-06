@@ -81,4 +81,10 @@ public class RamDto {
 
     private String distCorp; //유통회사
 
+    private boolean wish;
+
+    public void inputWish(boolean wish) {
+        this.wish = wish;
+    }
+
 }

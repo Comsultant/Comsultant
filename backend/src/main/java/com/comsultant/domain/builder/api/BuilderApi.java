@@ -1,6 +1,7 @@
 package com.comsultant.domain.builder.api;
 
 import com.comsultant.domain.account.entity.Account;
+import com.comsultant.domain.builder.dto.BuilderProductDto;
 import com.comsultant.domain.builder.dto.MyBuilderDetailDto;
 import com.comsultant.domain.builder.dto.MyBuilderDetailListDto;
 import com.comsultant.domain.builder.dto.MyBuilderDto;
@@ -9,12 +10,16 @@ import com.comsultant.global.common.response.DtoResponse;
 import com.comsultant.global.common.response.MessageResponse;
 import com.comsultant.global.config.security.AccountDetails;
 import com.comsultant.global.properties.ResponseProperties;
+import com.comsultant.global.util.CompatibilityUtil;
 import com.comsultant.global.util.ParameterUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/builder")
@@ -24,6 +29,8 @@ public class BuilderApi {
     private final BuilderService builderService;
 
     private final ResponseProperties responseProperties;
+
+    private final CompatibilityUtil compatibilityUtil;
 
     @PostMapping("")
     public ResponseEntity<DtoResponse> createMyBuilder(@AuthenticationPrincipal AccountDetails accountDetails, @RequestBody MyBuilderDto myBuilderDto) {
@@ -93,4 +100,13 @@ public class BuilderApi {
         }
     }
 
+    @PostMapping("/check")
+    public ResponseEntity<MessageResponse> checkCompatibility(@RequestBody Map<String, List<BuilderProductDto>> builderProducts){
+        String result = compatibilityUtil.checkCompatibility(builderProducts.get("products"));
+        if("success".equals(result)){
+            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, responseProperties.getSuccess()));
+        } else{
+            return ResponseEntity.status(HttpStatus.OK).body(MessageResponse.of(HttpStatus.OK, result));
+        }
+    }
 }

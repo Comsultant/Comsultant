@@ -13,4 +13,5 @@ public class CommentDetailDto {
     private CommentDto commentDto;
     private int productImg;
     private String productName;
+    private int category;
 }
