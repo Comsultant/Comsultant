@@ -148,7 +148,6 @@ const RecommendSearch = ({type, pickProduct, setPickProduct}) => {
   return (
     <>
       <div className={style.container}>
-        <button onClick={() => {console.log(filterBody)}}>adsf</button>
         <div className={style["product-filter"]}>
           <ProductSearchFilter
             filterList={filterList}
