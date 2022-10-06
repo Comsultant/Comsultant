@@ -299,6 +299,9 @@ const Search = () => {
     }
   }, []);
 
+  useEffect(() => {
+    setSearchValue("");
+  },[currTypeTab])
   const productTypeList = [
     { label: "CPU", key: "0" },
     { label: "메인보드", key: "1" },
@@ -535,6 +538,7 @@ const Search = () => {
             </div>
             <div className={style["search-bar"]}>
               <input
+                value={searchValue}
                 onChange={e => {
                   setSearchValue(e.target.value);
                 }}
