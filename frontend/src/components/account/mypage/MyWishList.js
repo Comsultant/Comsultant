@@ -9,6 +9,28 @@ const MyWishList = (
   }
 ) => {
 
+  const setCategory = (val) => {
+    if (val == 1) {
+      return 0;
+    } else if (val == 2) {
+      return 3;
+    } else if (val == 3) {
+      return 6;
+    } else if (val == 4) {
+      return 5;
+    } else if (val == 5) {
+      return 4;
+    } else if (val == 6) {
+      return 8;
+    } else if (val == 7) {
+      return 7;
+    } else if (val == 8) {
+      return 1;
+    } else if (val == 9) {
+      return 2;
+    }
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       const result = await getWishListRequest(currDesc, 1);
@@ -39,7 +61,7 @@ const MyWishList = (
               <div key={idx} className={style['product-item']}>
                 <div
                   className={style['left-item-tab-open']}
-                  onClick={() => { window.open(`/product/info?idx=${wish.productIdx}&type=${wish.category}`) }}
+                  onClick={() => { window.open(`/product/info?idx=${wish.productIdx}&type=${setCategory(wish.category)}`) }}
                 >
                   <div className={style['product-img']}>
                     <img src={`https://j7a602.p.ssafy.io/static/images/${wish.productIdx}/0.jpg`} alt=""/>
@@ -58,7 +80,7 @@ const MyWishList = (
                 <div className={style['right-item']}>
                   <div className={style['right-button-box']}>
                     <div>
-                      <button className={style['put-button']} onClick={() => { window.open(`/product/info?idx=${wish.productIdx}&type=${wish.category}`) }}>상세보기</button>
+                      <button className={style['put-button']} onClick={() => { window.open(`/product/info?idx=${wish.productIdx}&type=${setCategory(wish.category)}`) }}>상세보기</button>
                     </div>
                   </div>
                 </div>
