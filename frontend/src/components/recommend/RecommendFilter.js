@@ -1,18 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback, useRef } from "react";
 import { useState } from "react";
-import { Slider } from "antd";
+import { Input, InputNumber, Slider } from "antd";
 import style from "@/styles/RecommendFilter.module.scss";
 import classNames from "classnames";
 import "@/styles/RecommendFilter.scss"
-
 import PriceFormatter from "@/tools/PriceFormatter";
-
+import { debounce, set } from "lodash";
 const RecommendFilter = ({filterItem, setFilterItem}) => {
   const defaultMaxPrice = 5000000;
   
   const [purpose, setPurpose] = useState("게임용");
   const [program, setProgram] = useState("기본");
-
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(defaultMaxPrice);
 
 
 
@@ -59,9 +59,19 @@ const RecommendFilter = ({filterItem, setFilterItem}) => {
   // const formatter = (value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")+`원`;
 
   const onPriceChange = (e) => {
-    console.log(e[0])
-    setFilterItem({...filterItem,  lowPrice: e[0], highPrice: e[1]})
+    setMinPrice(e[0]);
+    setMaxPrice(e[1]);
   }
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setFilterItem({...filterItem,  lowPrice: minPrice, highPrice: maxPrice})
+    }, 100);
+
+    return () => {
+      clearTimeout(timer);
+    }
+  }, [minPrice, maxPrice])
 
   const onUseChange = (e) => {
     // console.log("key: ", e.target.value)
@@ -87,6 +97,14 @@ const RecommendFilter = ({filterItem, setFilterItem}) => {
     })
     setProgram(e.target.value)
   }
+
+  const onChangeMinPrice = (v) => {
+    setMinPrice(v);
+  }
+  const onChangeMaxPrice = (v) => {
+    setMaxPrice(v);
+  }
+
 
   return (
     <>
@@ -117,15 +135,29 @@ const RecommendFilter = ({filterItem, setFilterItem}) => {
             </select>
           </div>
         </div>
+        <br/>
+        <span className={style["recommend-filter-title"]}>가격</span>
         <div className={style["second-box"]}>
           <div className={style["price-box"]}>
-            <span>가격</span>
+            <InputNumber
+              className={style['input-min-price']}
+              min={0}
+              max={maxPrice}
+              value={minPrice}
+              step={10000}
+              onChange={onChangeMinPrice}
+              formatter={value => `${value}원`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+            />
+
+
             <Slider
+              onChange={onPriceChange}
               range={{ draggableTrack: true }}
-              onAfterChange={onPriceChange}
               defaultValue={[0, defaultMaxPrice]}
+              value={[minPrice, maxPrice]}
+              min={0}
               max={10000000}
-              step={100000}
+              step={10000}
               className={style.slider}
               tooltip={{
                 open: true,
@@ -134,6 +166,17 @@ const RecommendFilter = ({filterItem, setFilterItem}) => {
               trackStyle={{"backgroundColor": "#377BB9", "height" : "8px"}}
               handleStyle={{"borderColor": "black", "width" : "25px", "height": "16px", "borderRadius" : "5px"}}
             />
+
+            <InputNumber
+              className={style['input-max-price']}
+              min={minPrice}
+              max={10000000}
+              value={maxPrice}
+              step={10000}
+              onChange={onChangeMaxPrice}
+              formatter={value => `${value}원`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+            />
+
           </div>
         </div>
       </div>
