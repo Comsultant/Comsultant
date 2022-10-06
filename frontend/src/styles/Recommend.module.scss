@@ -7,17 +7,20 @@ $font-size-medium: 18px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  
 }
 
 
 .no-result-box {
+  background-color: white;
+  border-radius: 10px;
   color: red;
 }
 
 .recommend-page-div {
   // background-color: red  ;
   text-align: center;
+  background-color: white;
+  border-radius: 10px;
 
   button {
     width: 180px;

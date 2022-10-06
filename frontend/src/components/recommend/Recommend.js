@@ -62,7 +62,7 @@ const Recommend = () => {
         filterItem = {filterItem}
         setFilterItem = {setFilterItem}
       />
-      <br/>
+      <br />
       <ProductSelector
         filterItem = {filterItem}
         setFilterItem = {setFilterItem}

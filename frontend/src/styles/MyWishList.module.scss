@@ -21,16 +21,15 @@
         font-weight: bold;
     }
 
-    .product-name:hover {
-        text-decoration: underline;
-        cursor: pointer;
-        
-    }
-
     .product-detail {
         font-size: 1rem;
     }
     
+}
+
+.product-item:hover {
+    background-color: rgb(240, 240, 240);
+    cursor: pointer;
 }
 
 .pagination {
