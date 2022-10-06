@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import CustomCheckbox from "../CustomCheckbox";
 import { saveRecommendBuilder } from "@/services/recommendService";
 import { getAllBuilderRequest } from "@/services/builderService";
-import { Modal, Input } from "antd";
+import { Modal, Input, notification } from "antd";
 
 const initProduct = [{ id: "", name: "", count: 1, price: 0 }];
 
@@ -40,6 +40,93 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [builderName, setBuilderName] = useState("");
   const isLogin = useSelector((state) => state.account.isLogin);
+
+  const openNotificationWithIcon = (type, desc) => {
+    notification[type]({
+      message: desc,
+    });
+  };
+
+  const getProductsArray = (exceptIdx) => {
+    console.log(exceptIdx)
+    const builderProducts = [];
+    if(cpuChecked) {
+      cpuList.map((product, idx) => {
+        if(product.id != exceptIdx) {
+          const item = { productIdx: product.id, cnt: product.count };
+          builderProducts.push(item);
+        } 
+      })
+    }
+
+    if(ramChecked) {
+      ramList.map((product, idx) => {
+        if(product.id != exceptIdx) {
+          const item = { productIdx: product.id, cnt: product.count };
+          builderProducts.push(item);
+        } 
+      })
+    }
+    if(hddChecked) {
+      hddList.map((product, idx) => {
+        if(product.id != exceptIdx) {
+          const item = { productIdx: product.id, cnt: product.count };
+          builderProducts.push(item);
+        } 
+      })
+    }
+
+    if(ssdChecked) { 
+      ssdList.map((product, idx) => {
+        if(product.id != exceptIdx) {
+          const item = { productIdx: product.id, cnt: product.count };
+          builderProducts.push(item);
+        } 
+      })
+    }
+    if(powerChecked) {
+      powerList.map((product, idx) => {
+        if(product.id != exceptIdx) {
+          const item = { productIdx: product.id, cnt: product.count };
+          builderProducts.push(item);
+        } 
+      })
+    }
+    if(coolerChecked) {
+      coolerList.map((product, idx) => {
+        if(product.id != exceptIdx) {
+          const item = { productIdx: product.id, cnt: product.count };
+          builderProducts.push(item);
+        } 
+      })
+    }
+    if(caseChecked){
+      caseList.map((product, idx) => {
+        if(product.id != exceptIdx) {
+          const item = { productIdx: product.id, cnt: product.count };
+          builderProducts.push(item);
+        } 
+      })
+    }
+    if(mbChecked) {
+      mbList.map((product, idx) => {
+        if(product.id != exceptIdx) {
+          const item = { productIdx: product.id, cnt: product.count };
+          builderProducts.push(item);
+        } 
+      })
+    }
+
+    if(vgaChecked) {
+      vgaList.map((product, idx) => {
+        if(product.id != exceptIdx) {
+          const item = { productIdx: product.id, cnt: product.count };
+          builderProducts.push(item);
+        } 
+      })
+    }
+    return builderProducts;
+  }
   
   const getTotalPrice = () => {
     let price = 0;
@@ -389,6 +476,10 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
     }
   }, [])
 
+  const notificateError = () => {
+    openNotificationWithIcon('error', "해당 부품은 제외할 수 없습니다");
+  }
+
   return (
     <>
       <div className={style["mybuilder-top-div"]}>
@@ -437,9 +528,12 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
           type="cpu"
           currTybeTab={currTybeTab}
           checkState={cpuChecked}
-          checkSetter={setCpuChecked}
+          checkSetter={() => {no}}
           contentList={cpuList}
           contentSetter={setCpuList}
+          getProductsArray={getProductsArray}
+          getTotalProds={getTotalProds}
+          notificateError={notificateError}
         />
         <ContentItem
           name="M/B"
@@ -449,6 +543,9 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
           checkSetter={setMbChecked}
           contentList={mbList}
           contentSetter={setMbList}
+          getProductsArray={getProductsArray}
+          getTotalProds={getTotalProds}
+          notificateError={notificateError}
         />
         <ContentItem
           name="그래픽카드"
@@ -458,6 +555,9 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
           checkSetter={setVgaChecked}
           contentList={vgaList}
           contentSetter={setVgaList}
+          getProductsArray={getProductsArray}
+          getTotalProds={getTotalProds}
+          notificateError={notificateError}
         />
         <ContentItem
           name="RAM"
@@ -467,6 +567,9 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
           checkSetter={setRamChecked}
           contentList={ramList}
           contentSetter={setRamList}
+          getProductsArray={getProductsArray}
+          getTotalProds={getTotalProds}
+          notificateError={notificateError}
         />
         <ContentItem
           name="POWER"
@@ -476,6 +579,9 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
           checkSetter={setPowerChecked}
           contentList={powerList}
           contentSetter={setPowerList}
+          getProductsArray={getProductsArray}
+          getTotalProds={getTotalProds}
+          notificateError={notificateError}
         />
         <ContentItem
           name="SSD"
@@ -485,6 +591,9 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
           checkSetter={setSsdChecked}
           contentList={ssdList}
           contentSetter={setSsdList}
+          getProductsArray={getProductsArray}
+          getTotalProds={getTotalProds}
+          notificateError={notificateError}
         />
         <ContentItem
         name="케이스"
@@ -494,15 +603,21 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
         checkSetter={setCaseChecked}
         contentList={caseList}
         contentSetter={setCaseList}
-        />          
+        getProductsArray={getProductsArray}
+          getTotalProds={getTotalProds}
+          notificateError={notificateError}
+          />          
         <ContentItem
         name="쿨러"
-          type="cooler"
+        type="cooler"
         currTybeTab={currTybeTab}
         checkState={coolerChecked}
         checkSetter={setCoolerChecked}
         contentList={coolerList}
         contentSetter={setCoolerList}
+        getProductsArray={getProductsArray}
+        getTotalProds={getTotalProds}
+        notificateError={notificateError}
         />
         <ContentItem
           name="HDD"
@@ -512,8 +627,10 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
           checkSetter={setHddChecked}
           contentList={hddList}
           contentSetter={setHddList}
-          
-        />    
+          getProductsArray={getProductsArray}
+          getTotalProds={getTotalProds}
+          notificateError={notificateError}
+          />    
         <div className={style['bottom-box']}>
           <div className={style['bottom-left']}>
             <span>
