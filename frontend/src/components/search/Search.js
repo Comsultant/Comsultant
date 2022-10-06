@@ -326,12 +326,12 @@ const Search = () => {
 
   return (
     <>
-      <Modal title="견적 저장하기" 
+      <Modal title="견적 추가하기" 
             open={isModalOpen} 
             onOk={onAddAccountBuildItem} 
             onCancel={handleCancel}
-            okText="저장하기"
-            cancelText="취소하기"
+            okText="추가"
+            cancelText="취소"
             style={{
               top: "30%"
             }}
