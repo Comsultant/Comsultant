@@ -4,22 +4,22 @@ import { useNavigate } from "react-router-dom";
 import { Button, DatePicker, Form, Input, Space, Modal } from "antd";
 import { registRequest, checkNickNameRequest, changeAccountInfoRequest } from "@/services/accountService";
 import { debounce } from "lodash";
-import style from "@/styles/Regist.module.scss";
+// import style from "@/styles/Regist.module.scss";
+import style from "@/styles/MyProfile.module.scss";
+
 
 const MyProfile = ({
-  email, nickName, birthYear, setNickName, setBirthYear
+  email, nickName, birthYear, setNickName, setBirthYear, snsType
 }) => {
-
   
   const navigate = useNavigate();
 
   const [form] = Form.useForm();
 
-  const [password, setPassword] = useState("");
   
-  const [isPasswordValid, setIsPasswordValid] = useState(false);
+  const [password, setPassword] = useState("");
+  const [isPasswordValid, setIsPasswordValid] = useState(snsType != 0);
   const [isNicknameValid, setIsNicknameValid] = useState(true);
-  const [isRegistSuccess, setRegistSucces] = useState(false);
   const [nicknameChecked, setNicknameChecked] = useState("success");
   const originalNickName = useSelector((state) => state.account.nickname);
   const movePage = () => {
@@ -100,7 +100,6 @@ const MyProfile = ({
     const result = await changeAccountInfoRequest(account);
     if (result?.data?.message === "success") {
       countDown("회원정보 수정 완료!", true);
-      setRegistSucces(true);
       navigate("/");
     } else {
       countDown("회원정보 수정 실패!", false);
@@ -117,10 +116,33 @@ const MyProfile = ({
     }
   }, [nicknameChecked]);
 
+  const formattingEmail = () => {
+    if(snsType == 0) {
+      return email;
+    } else if (snsType == 1) {
+      return "네이버 로그인"
+    } else if (snsType == 2) {
+      return "카카오 로그인"
+    } else if (snsType == 3) {
+      return "구글 로그인" 
+    } else {
+      return "ERROR"
+    }
+  }
+
+  const computeValidate = () => {
+    if(snsType == 0) {
+      return (!email || !password || !isPasswordValid 
+        || !isNicknameValid || nicknameChecked !== "success" || !birthYear)
+    } else {
+      return (!email || !isNicknameValid || nicknameChecked !== "success" || !birthYear)
+    }
+  }
+
   return (
-    <div className={style['regist-container']}>
-      <div className={style.title}>
-        <span>회원 정보</span>
+    <div className={style['profile-container']}>
+      <div className={style['profile-title']}>
+        <span >회원 정보</span>
       </div>
       <Form
         form = {form}
@@ -134,13 +156,12 @@ const MyProfile = ({
         <Form.Item
           label="이메일"
           name="email"
-          value={email}
         >
           <div className={style["horizon-container"]}>
             <div className={style.left}>
               <Input                
                 className={style["space-input"]}
-                value={email}
+                value={formattingEmail()}
                 disabled="block"
               />
             </div>
@@ -184,7 +205,6 @@ const MyProfile = ({
           label="비밀번호"
           name={"password"}
           hasFeedback
-          
           rules={[
             {
               required: true,
@@ -197,23 +217,20 @@ const MyProfile = ({
           ]}
         >
           <div className={style.left}>
-            <Input.Password placeholder="비밀번호" visibilityToggle={false} value={password} onChange={onPasswordChanged}/>
+            <Input.Password placeholder="비밀번호" disabled={snsType != 0} visibilityToggle={false} value={password} onChange={onPasswordChanged}/>
           </div>
         </Form.Item>
 
-        <Form.Item>
+        <Form.Item className={style["mypage-bottom-form"]}>
           <Space>
             <Button
               type="primary"
               htmlType="submit"
               onClick={onSubmitClicked}
-              disabled={
-                !email || !password || !isPasswordValid 
-                || !isNicknameValid || nicknameChecked !== "success" || !birthYear
-              }>
+              disabled={computeValidate()}>
               수정하기
             </Button>
-            <Button type="primary" onClick={movePage}>
+            <Button type="default" onClick={movePage}>
               돌아가기
             </Button>
           </Space>
