@@ -193,7 +193,7 @@ const ProductFilter = ({ filterList, filterDetailList, currTypeTab, getProductFi
       { ...filterBody, [key]: true }
     );
   }
-  
+
 
   return (
     <div className={style['container']}>

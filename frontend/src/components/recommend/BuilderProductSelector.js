@@ -10,26 +10,67 @@ import CustomCheckbox from "../CustomCheckbox";
 
 const initProduct = [{ id: "", name: "", count: 1, price: 0 }];
 
-const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
-  const [cpuList, setCpuList] = useState(initProduct);
-  const [mbList, setMbList] = useState(initProduct);
-  const [vgaList, setVgaList] = useState(initProduct);
-  const [ramList, setRamList] = useState(initProduct);
-  const [powerList, setPowerList] = useState(initProduct);
-  const [ssdList, setSsdList] = useState(initProduct);
-  const [caseList, setCaseList] = useState(initProduct);
-  const [coolerList, setCoolerList] = useState(initProduct);
-  const [hddList, setHddList] = useState(initProduct);
+const BuilderProductSelector = ({
+  filterItem,
+  setFilterItem,
+  builder,
+  products,
+}) => {
+  const [cpuList, setCpuList] = useState(
+    products[0].length != 0 ? products[0] : initProduct
+  );
+  const [mbList, setMbList] = useState(
+    products[7].length != 0 ? products[7] : initProduct
+  );
+  const [vgaList, setVgaList] = useState(
+    products[8].length != 0 ? products[8] : initProduct
+  );
+  const [ramList, setRamList] = useState(
+    products[1].length != 0 ? products[1] : initProduct
+  );
+  const [powerList, setPowerList] = useState(
+    products[4].length != 0 ? products[4] : initProduct
+  );
+  const [ssdList, setSsdList] = useState(
+    products[3].length != 0 ? products[3] : initProduct
+  );
+  const [caseList, setCaseList] = useState(
+    products[6].length != 0 ? products[6] : initProduct
+  );
+  const [coolerList, setCoolerList] = useState(
+    products[5].length != 0 ? products[5] : initProduct
+  );
+  const [hddList, setHddList] = useState(
+    products[2].length != 0 ? products[2] : initProduct
+  );
 
-  const [cpuChecked, setCpuChecked] = useState(true);
-  const [mbChecked, setMbChecked] = useState(true);
-  const [vgaChecked, setVgaChecked] = useState(true);
-  const [ramChecked, setRamChecked] = useState(true);
-  const [powerChecked, setPowerChecked] = useState(true);
-  const [ssdChecked, setSsdChecked] = useState(true);
-  const [caseChecked, setCaseChecked] = useState(true);
-  const [coolerChecked, setCoolerChecked] = useState(true);
-  const [hddChecked, setHddChecked] = useState(false);
+  const [cpuChecked, setCpuChecked] = useState(
+    products[0].length != 0 ? true : false
+  );
+  const [mbChecked, setMbChecked] = useState(
+    products[7].length != 0 ? true : false
+  );
+  const [vgaChecked, setVgaChecked] = useState(
+    products[8].length != 0 ? true : false
+  );
+  const [ramChecked, setRamChecked] = useState(
+    products[1].length != 0 ? true : false
+  );
+  const [powerChecked, setPowerChecked] = useState(
+    products[4].length != 0 ? true : false
+  );
+  const [ssdChecked, setSsdChecked] = useState(
+    products[3].length != 0 ? true : false
+  );
+  const [caseChecked, setCaseChecked] = useState(
+    products[6].length != 0 ? true : false
+  );
+  const [coolerChecked, setCoolerChecked] = useState(
+    products[5].length != 0 ? true : false
+  );
+  const [hddChecked, setHddChecked] = useState(
+    products[2].length != 0 ? true : false
+  );
 
   const [currTybeTab, setCurrTypeTab] = useState("");
 
@@ -38,17 +79,17 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
   const [totalPrice, setTotalPrice] = useState(0);
   const getTotalPrice = () => {
     let price = 0;
-    cpuList.map((curr) => price += curr.price * curr.count);
-    mbList.map((curr) => price += curr.price * curr.count);
-    vgaList.map((curr) => price += curr.price * curr.count);
-    ramList.map((curr) => price += curr.price * curr.count);
-    powerList.map((curr) => price += curr.price * curr.count);
-    ssdList.map((curr) => price += curr.price * curr.count);
-    hddList.map((curr) => price += curr.price * curr.count);
-    coolerList.map((curr) => price += curr.price * curr.count);
-    caseList.map((curr) => price += curr.price * curr.count);
+    cpuList.map((curr) => (price += curr.price * curr.count));
+    mbList.map((curr) => (price += curr.price * curr.count));
+    vgaList.map((curr) => (price += curr.price * curr.count));
+    ramList.map((curr) => (price += curr.price * curr.count));
+    powerList.map((curr) => (price += curr.price * curr.count));
+    ssdList.map((curr) => (price += curr.price * curr.count));
+    hddList.map((curr) => (price += curr.price * curr.count));
+    coolerList.map((curr) => (price += curr.price * curr.count));
+    caseList.map((curr) => (price += curr.price * curr.count));
     setTotalPrice(price);
-  }
+  };
 
   const getTotalProds = () => {
     let newObj = {};
@@ -157,25 +198,22 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
   }
 
   const getStringPrice = (price) => {
-    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  }
-
-  const onRecommendButtonClicked = async () => {
-    await getRecommendList()
-  }
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
 
   const getProdCount = (prodList) => {
-    let s = 0
+    let s = 0;
     prodList.map((i) => {
-      s += i.count
-    })
-    return s
-  }
+      s += i.count;
+    });
+    return s;
+  };
 
   /**
    * 부품 개수 계산
    */
   useEffect(() => {
+    // console.log("calculate filter")
     getTotalPrice();
     const cpuCount = getProdCount(cpuList);
     const ramCount = getProdCount(ramList);
@@ -187,7 +225,7 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
     const mainboardCount = getProdCount(mbList);
     const vgaCount = getProdCount(vgaList);
     setFilterItem({
-      ...filterItem, 
+      ...filterItem,
       cpu_cnt: cpuChecked ? cpuCount : 0,
       ram_cnt: ramChecked ? ramCount : 0,
       hdd_cnt: hddChecked ? hddCount : 0,
@@ -197,10 +235,32 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
       cases_cnt: caseChecked ? caseCount : 0,
       mainboard_cnt: mbChecked ? mainboardCount : 0,
       vga_cnt: vgaChecked ? vgaCount : 0,
-      prods: getTotalProds()
-    })
-  }, [cpuList, mbList, vgaList, ramList, powerList, ssdList, hddList, coolerList, caseList, 
-    cpuChecked, ramChecked, hddChecked, ssdChecked, powerChecked, coolerChecked, caseChecked, mbChecked, vgaChecked])
+      prods: getTotalProds(),
+    });
+  }, [
+    cpuList,
+    mbList,
+    vgaList,
+    ramList,
+    powerList,
+    ssdList,
+    hddList,
+    coolerList,
+    caseList,
+    cpuChecked,
+    ramChecked,
+    hddChecked,
+    ssdChecked,
+    powerChecked,
+    coolerChecked,
+    caseChecked,
+    mbChecked,
+    vgaChecked,
+  ]);
+
+  useEffect(() => {
+    console.log("filter updated");
+  }, [filterItem]);
 
   return (
     <>
@@ -260,22 +320,22 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
           contentSetter={setSsdList}
         />
         <ContentItem
-        name="케이스"
+          name="케이스"
           type="cases"
-        currTybeTab={currTybeTab}
-        checkState={caseChecked}
-        checkSetter={setCaseChecked}
-        contentList={caseList}
-        contentSetter={setCaseList}
-        />          
+          currTybeTab={currTybeTab}
+          checkState={caseChecked}
+          checkSetter={setCaseChecked}
+          contentList={caseList}
+          contentSetter={setCaseList}
+        />
         <ContentItem
-        name="쿨러"
+          name="쿨러"
           type="cooler"
-        currTybeTab={currTybeTab}
-        checkState={coolerChecked}
-        checkSetter={setCoolerChecked}
-        contentList={coolerList}
-        contentSetter={setCoolerList}
+          currTybeTab={currTybeTab}
+          checkState={coolerChecked}
+          checkSetter={setCoolerChecked}
+          contentList={coolerList}
+          contentSetter={setCoolerList}
         />
         <ContentItem
           name="HDD"
@@ -285,30 +345,13 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
           checkSetter={setHddChecked}
           contentList={hddList}
           contentSetter={setHddList}
-          
-        />    
-        <div className={style['bottom-box']}>
-          <div className={style['bottom-left']}>
-            <span>
-              선택 가격
-            </span>
+        />
+        <div className={style["bottom-box"]}>
+          <div className={style["bottom-left"]}>
+            <span>선택 가격</span>
             <div className={style.price}>
               <span>{getStringPrice(totalPrice)} 원</span>
             </div>
-          </div>
-          <div className={style['bottom-right']}>
-            <span>추천 품목만 보기</span>
-            <CustomCheckbox
-              backgroundColor="#377BB9"
-              state={isOnlyViewRecommend}
-              setter={setIsOnlyViewRecommend}
-            />
-            <button
-              className={style.button}
-              onClick={onRecommendButtonClicked}
-            >
-              추천 받기
-            </button>
           </div>
         </div>
       </div>
@@ -316,4 +359,4 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
   );
 };
 
-export default ProductSelector;
+export default BuilderProductSelector;

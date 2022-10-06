@@ -28,22 +28,31 @@ $font-size-medium: 18px;
 }
 
 .select-input {
-  width: 150px;
+  width: 180px;
   height: 30px;
   margin : 0 20px;
   border-radius: $border-radius;
   text-align: center;
+  transition: all 0.1s linear;
+  cursor: pointer;
+  font-size: 1rem;
 }
 
+
 .select-input-blue {
-  width: 150px;
+  width: 200px;
   height: 30px;
   margin : 0 20px;
   background-color: $blue-color;
   border-radius: $border-radius;
   color: white;
   text-align: center;
+  transition: all 0.1s linear;
+  cursor: pointer;
+  font-size: 1rem;
 }
+
+
 
 .second-box {
   display: flex;
@@ -84,10 +93,11 @@ $font-size-medium: 18px;
   }
 }
 
-.usage-program {
-  width: 158px;
-}
-
 .ant-slider-rail {
   height: 10px;
+}
+
+.recommend-filter-title {
+  font-size: 1.2rem;
+  font-weight: 700;
 }
