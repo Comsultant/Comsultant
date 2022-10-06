@@ -7,9 +7,11 @@ import {
 } from "@ant-design/icons";
 import ContentItem from "./ContentItem";
 import CustomCheckbox from "../CustomCheckbox";
+import { notification } from 'antd';
 
 const initProduct = [{ id: "", name: "", count: 1, price: 0 }];
 
+// Detail
 const BuilderProductSelector = ({
   filterItem,
   setFilterItem,
@@ -262,6 +264,16 @@ const BuilderProductSelector = ({
     console.log("filter updated");
   }, [filterItem]);
 
+  const openNotificationWithIcon = (type, desc) => {
+    notification[type]({
+      message: desc,
+    });
+  };
+
+  const notificateError = () => {
+    openNotificationWithIcon('error', "해당 부품은 제외할 수 없습니다");
+  }
+
   return (
     <>
       <div className={style["content-box"]}>
@@ -273,6 +285,8 @@ const BuilderProductSelector = ({
           checkSetter={setCpuChecked}
           contentList={cpuList}
           contentSetter={setCpuList}
+          getTotalProds={getTotalProds}
+          notificateError={notificateError}
         />
         <ContentItem
           name="M/B"
@@ -282,6 +296,8 @@ const BuilderProductSelector = ({
           checkSetter={setMbChecked}
           contentList={mbList}
           contentSetter={setMbList}
+          getTotalProds={getTotalProds}
+          notificateError={notificateError}
         />
         <ContentItem
           name="그래픽카드"
@@ -291,6 +307,8 @@ const BuilderProductSelector = ({
           checkSetter={setVgaChecked}
           contentList={vgaList}
           contentSetter={setVgaList}
+          getTotalProds={getTotalProds}
+          notificateError={notificateError}
         />
         <ContentItem
           name="RAM"
@@ -300,6 +318,8 @@ const BuilderProductSelector = ({
           checkSetter={setRamChecked}
           contentList={ramList}
           contentSetter={setRamList}
+          getTotalProds={getTotalProds}
+          notificateError={notificateError}
         />
         <ContentItem
           name="POWER"
@@ -309,6 +329,8 @@ const BuilderProductSelector = ({
           checkSetter={setPowerChecked}
           contentList={powerList}
           contentSetter={setPowerList}
+          getTotalProds={getTotalProds}
+          notificateError={notificateError}
         />
         <ContentItem
           name="SSD"
@@ -318,6 +340,8 @@ const BuilderProductSelector = ({
           checkSetter={setSsdChecked}
           contentList={ssdList}
           contentSetter={setSsdList}
+          getTotalProds={getTotalProds}
+          notificateError={notificateError}
         />
         <ContentItem
           name="케이스"
@@ -327,6 +351,8 @@ const BuilderProductSelector = ({
           checkSetter={setCaseChecked}
           contentList={caseList}
           contentSetter={setCaseList}
+          getTotalProds={getTotalProds}
+          notificateError={notificateError}
         />
         <ContentItem
           name="쿨러"
@@ -336,6 +362,8 @@ const BuilderProductSelector = ({
           checkSetter={setCoolerChecked}
           contentList={coolerList}
           contentSetter={setCoolerList}
+          getTotalProds={getTotalProds}
+          notificateError={notificateError}
         />
         <ContentItem
           name="HDD"
@@ -345,6 +373,8 @@ const BuilderProductSelector = ({
           checkSetter={setHddChecked}
           contentList={hddList}
           contentSetter={setHddList}
+          getTotalProds={getTotalProds}
+          notificateError={notificateError}
         />
         <div className={style["bottom-box"]}>
           <div className={style["bottom-left"]}>
