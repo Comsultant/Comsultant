@@ -340,6 +340,16 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
     setCaseList(initProduct);
     setMbList(initProduct);
     setVgaList(initProduct);
+
+    setCpuChecked(true)
+    setRamChecked(true)
+    setHddChecked(false)
+    setSsdChecked(true)
+    setPowerChecked(true)
+    setCoolerChecked(true)
+    setCaseChecked(true)
+    setMbChecked(true)
+    setVgaChecked(true)
     
     setFilterItem({
       ...filterItem,
