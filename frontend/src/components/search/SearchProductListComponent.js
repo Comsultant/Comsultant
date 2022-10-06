@@ -5,7 +5,7 @@ import ProductNumMapper from "@/tools/ProductNumMapper";
 import { getProductRequest } from "@/services/productService";
 import ProductDetail from "./ProductDetail";
 import { HeartOutlined, HeartFilled } from "@ant-design/icons";
-import { postBuilderRequest } from "@/services/builderService.js";
+import { postBuilderCheckRequest, postBuilderRequest } from "@/services/builderService.js";
 import { deleteWishRequest, postWishRequest } from "@/services/wishService.js";
 import { useSelector } from "react-redux";
 import Loading from "../Loading";
@@ -126,7 +126,70 @@ const SearchProductListComponent = (
   },[cpuList, ramList, hddList, ssdList, powerList, coolerList, caseList, mbList, vgaList])
 
 
-  const onPutBuilder = (productIdx, price, productName) => {
+  const onPutBuilder = async(productIdx, price, productName) => {
+    const builderProducts = [];
+
+    cpuList.map((product, idx) => {
+      const item = { productIdx: product.productIdx, cnt: product.cnt };
+      builderProducts.push(item);
+    })
+    ramList.map((product, idx) => {
+      const item = { productIdx: product.productIdx, cnt: product.cnt };
+      builderProducts.push(item);
+    })
+    hddList.map((product, idx) => {
+      const item = { productIdx: product.productIdx, cnt: product.cnt };
+      builderProducts.push(item);
+    })
+    ssdList.map((product, idx) => {
+      const item = { productIdx: product.productIdx, cnt: product.cnt };
+      builderProducts.push(item);
+    })
+    powerList.map((product, idx) => {
+      const item = { productIdx: product.productIdx, cnt: product.cnt };
+      builderProducts.push(item);
+    })
+    coolerList.map((product, idx) => {
+      const item = { productIdx: product.productIdx, cnt: product.cnt };
+      builderProducts.push(item);
+    })
+    caseList.map((product, idx) => {
+      const item = { productIdx: product.productIdx, cnt: product.cnt };
+      builderProducts.push(item);
+    })
+    mbList.map((product, idx) => {
+      const item = { productIdx: product.productIdx, cnt: product.cnt };
+      builderProducts.push(item);
+    })
+    vgaList.map((product, idx) => {
+      const item = { productIdx: product.productIdx, cnt: product.cnt };
+      builderProducts.push(item);
+    })
+
+    let tmpIdx = -1;
+    builderProducts.map((curr, i) => {
+      if (curr.productIdx == productIdx) {
+        tmpIdx = i;
+      } 
+    })
+    if (tmpIdx == -1) {
+      builderProducts.push({ productIdx, cnt: 1 });
+    } else {
+      builderProducts[tmpIdx] = { productIdx, cnt: builderProducts[tmpIdx].cnt + 1 };
+    }
+
+    
+    // const products = {...builderProducts.map((curr, idx)=>curr.idx)};
+    
+    const dataToSubmit = {
+      products: [...builderProducts.filter((curr) => curr)],
+    }
+    const result = await postBuilderCheckRequest(dataToSubmit);
+    if (result?.data?.message !== "success") {
+      message.error(result.data.message);
+      return;
+    }
+
     setTabOpen(true);
     let idx = -1;
     switch (currTypeTab) {

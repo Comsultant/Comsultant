@@ -52,17 +52,16 @@ $gray-color: rgb(212, 212, 212);
 .right-item-tab-open {
     width: 42%;
     .price {
-        padding: 20px;
         font-size: $font-size-medium;
         font-weight: bold;
     }    
 }
 
 .right-item-tab-close {
+    display: flex;
     margin-left: auto;
     margin-right: 5%;
     .price {
-        padding: 20px;
         font-size: $font-size-medium;
         font-weight: bold;
     }    
@@ -82,4 +81,5 @@ $gray-color: rgb(212, 212, 212);
     background-color: #377BB9;
     color: white;
     border: solid 1px $gray-color;
+    border-radius: 5px;
 }

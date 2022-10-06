@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { InputNumber } from "antd";
 import style from "@/styles/DrawerBodyItem.module.scss";
 import { MinusOutlined, PlusOutlined, CloseOutlined } from "@ant-design/icons";
+import { postBuilderCheckRequest } from "@/services/builderService";
 
 const DrawerBodyItem = ({
   type,
@@ -27,7 +28,68 @@ const DrawerBodyItem = ({
 
   const [cnt, setCnt] = useState(0);
 
-  const onMinusClicked = (productIdx) => {
+  const getCurrBuilderList = () => {
+    const builderProducts = [];
+
+    cpuList.map((product, idx) => {
+      const item = { productIdx: product.productIdx, cnt: product.cnt };
+      builderProducts.push(item);
+    })
+    ramList.map((product, idx) => {
+      const item = { productIdx: product.productIdx, cnt: product.cnt };
+      builderProducts.push(item);
+    })
+    hddList.map((product, idx) => {
+      const item = { productIdx: product.productIdx, cnt: product.cnt };
+      builderProducts.push(item);
+    })
+    ssdList.map((product, idx) => {
+      const item = { productIdx: product.productIdx, cnt: product.cnt };
+      builderProducts.push(item);
+    })
+    powerList.map((product, idx) => {
+      const item = { productIdx: product.productIdx, cnt: product.cnt };
+      builderProducts.push(item);
+    })
+    coolerList.map((product, idx) => {
+      const item = { productIdx: product.productIdx, cnt: product.cnt };
+      builderProducts.push(item);
+    })
+    caseList.map((product, idx) => {
+      const item = { productIdx: product.productIdx, cnt: product.cnt };
+      builderProducts.push(item);
+    })
+    mbList.map((product, idx) => {
+      const item = { productIdx: product.productIdx, cnt: product.cnt };
+      builderProducts.push(item);
+    })
+    vgaList.map((product, idx) => {
+      const item = { productIdx: product.productIdx, cnt: product.cnt };
+      builderProducts.push(item);
+    })
+
+    return builderProducts;
+  }
+
+  const onMinusClicked = async(productIdx) => {
+    const builderProducts = getCurrBuilderList();
+    let tmpIdx = -1;
+    builderProducts.map((curr, i) => {
+      if (curr.productIdx == productIdx) {
+        tmpIdx = i;
+      } 
+    })
+    builderProducts[tmpIdx] = { productIdx, cnt: builderProducts[tmpIdx].cnt - 1 };
+    const dataToSubmit = {
+      products: [...builderProducts.filter((curr) => curr)],
+    }
+    const result = await postBuilderCheckRequest(dataToSubmit);
+    console.log(result);
+    if (result?.data?.message !== "success") {
+      message.error(result.data.message);
+      return;
+    }
+
     let idx = -1;
     switch (type) {
       case 1:
@@ -168,7 +230,24 @@ const DrawerBodyItem = ({
     }
   }
 
-  const onPlusClicked = (productIdx) => {
+  const onPlusClicked = async(productIdx) => {
+    const builderProducts = getCurrBuilderList();
+    let tmpIdx = -1;
+    builderProducts.map((curr, i) => {
+      if (curr.productIdx == productIdx) {
+        tmpIdx = i;
+      } 
+    })
+    builderProducts[tmpIdx] = { productIdx, cnt: builderProducts[tmpIdx].cnt + 1 };
+    const dataToSubmit = {
+      products: [...builderProducts.filter((curr) => curr)],
+    }
+    const result = await postBuilderCheckRequest(dataToSubmit);
+    console.log(result);
+    if (result?.data?.message !== "success") {
+      message.error(result.data.message);
+      return;
+    }
     let idx = -1;
     switch (type) {
       case 1:

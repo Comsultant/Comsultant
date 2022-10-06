@@ -464,11 +464,6 @@ const Search = () => {
                   </div>
                 );
                 } 
-                // if (key == 'extendedAtx') {
-                //   console.log(key);
-                //   return;
-                // }
-                
               }
             })}
           </div>
@@ -557,13 +552,11 @@ const Search = () => {
                   : "현재 견적 이름"
               }
               placement="right"
-              // closable={false}
               onClose={onClose}
               open={tabOpen}
               getContainer={false}
               mask={false}
               zIndex={1}
-              // push={100}
               style={{
                 position: "absolute",
               }}
@@ -617,6 +610,7 @@ const Search = () => {
                 return (
                   <div key={idx} className={style["side-menu-item"]}>
                     <span
+                      style={{cursor:'pointer'}}
                       onClick={() =>
                         onBuilderClicked(accountBuild.myBuilderDto)
                       }
