@@ -1014,7 +1014,7 @@ public class ProductServiceImpl implements ProductService {
         if (subSize <= 10)
             result = dates.subList(startIdx, size);
         else {
-            int num = subSize / 10;
+            int num = subSize / 9;
             for (int i = startIdx; i < size; i += num) {
                 result.add(dates.get(i));
             }
