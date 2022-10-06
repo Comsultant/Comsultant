@@ -121,7 +121,9 @@ const ProductInfo = () => {
       }
     };
 
-    fetchBuilderData();
+    if(isLogin) {
+      fetchBuilderData();
+    }
   }, []);
 
   useEffect(() => {

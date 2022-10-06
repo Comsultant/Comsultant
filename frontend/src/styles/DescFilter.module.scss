@@ -17,6 +17,7 @@ $blue-color : rgb(65,142,249);
 }
 
 .selected {
+    cursor: pointer;
     background-color: white;
     color: $blue-color;
     border: solid 1px $blue-color;
@@ -28,6 +29,7 @@ $blue-color : rgb(65,142,249);
 }
 
 .not-selected {
+    cursor: pointer;
     background-color: white;
     border: solid 1px $border-color;
     border-bottom: none;

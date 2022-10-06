@@ -75,6 +75,7 @@ $border-color: rgb(190, 190, 190);
     .logo-image {
         width: 60px;
         height: auto;
+        animation: bell 2s 1 linear;
     }
     
     .right-menu {
@@ -102,4 +103,64 @@ $border-color: rgb(190, 190, 190);
     
 }
 
+.nav-bar-other {
+    white-space: nowrap;
+    display: flex;
+    border-bottom: solid $border-color 1px;
+    position: fixed;
+    z-index: 2;
+    background-color: rgba(100, 100, 100, 0.8);
+    top: 0;
+    left: 0;
+    right: 0;
+    align-items: center;    
+    justify-content: space-between;
+    a {
+        color: white;
+    }
+    
+    .logo {
+        margin: 10px 90px;
+    }
 
+    .logo-image {
+        width: 60px;
+        height: auto;
+    }
+    
+    .right-menu {
+        margin: 10px 90px;
+        font-weight: bold;
+        font-size: $font-size-medium;
+        span {
+            cursor: pointer;
+        }
+
+        
+    }
+
+    .active {
+        display: inline-block;
+    }
+    
+    .inactive {
+        display: none;
+    }
+
+    .nav-menu-item {
+        margin: auto 5px;
+    }
+    
+}
+
+@keyframes bell{
+    0%, 50%{
+        transform: rotate(0deg);
+        }
+    5%, 15%, 25%, 35%, 45% {
+        transform: rotate(13deg);
+    }
+    10%, 20%, 30%, 40% {
+        transform: rotate(-13deg);
+    }
+  }
