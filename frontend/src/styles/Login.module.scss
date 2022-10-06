@@ -30,7 +30,12 @@ $button-color: rgb(225, 225, 225);
     cursor: pointer;
     border: none;
     border-radius: 5px;
+    transition: all 0.1s linear;
+}
 
+.login-button:hover {
+    transition: all 0.1s linear;
+    background-color: rgb(190, 190, 190);
 }
 
 .button-list {
