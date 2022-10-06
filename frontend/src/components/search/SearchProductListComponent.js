@@ -341,7 +341,6 @@ const SearchProductListComponent = (
       type,
       body: filterBody
     }
-    // debounceFunc(dataToSubmit, getProductRequest);
     const fetchData = async () => {
       setIsLoading(true);
       const result = await getProductRequest(dataToSubmit);
@@ -358,7 +357,7 @@ const SearchProductListComponent = (
     }, 100);
 
     return () => {
-      clearTimeout(timer); // 이 전의 timer를 clear합니다.
+      clearTimeout(timer);
     };
 
   }, [filterBody, currDescNum])
@@ -380,11 +379,6 @@ const SearchProductListComponent = (
     }
     fetchData();
   }, [currPage, currDescNum])
-
-  useEffect(()=> {
-    //회원 wishList 불러오기
-    console.log("productList changed!");
-  },[productList])
 
   return(
     <>
