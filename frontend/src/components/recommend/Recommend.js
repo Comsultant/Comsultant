@@ -75,6 +75,7 @@ const Recommend = () => {
         {recommendBuilderList.length > 0 ? 
         <RecommendList
           item = {recommendBuilderList[builderPage]}
+          filterItem={filterItem}
         /> :           
         <div className={style['no-result-box']}>
           <span>추천할수 있는 제품이 없습니다.</span><br/>

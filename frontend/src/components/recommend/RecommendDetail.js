@@ -2,9 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import BuilderProductSelector from "./BuilderProductSelector";
 import style from "@/styles/RecommendDetail.module.scss";
+import { captureBuilderRequest } from "@/services/recommendService";
 import { Modal, Input } from 'antd';
+import html2canvas from "html2canvas";
 const RecommendDetail = () => {
   const builder = useSelector((state) => state.builder);
+  const isLogin = useSelector((state) => state.account.isLogin);
+
   const products = [[],[],[],[],[],[],[],[],[]]
 
   // 키 값이 인덱스인거
@@ -47,13 +51,14 @@ const RecommendDetail = () => {
 
     const reqBody = {
       builderProducts: builderProducts,
-      use: "work",
-      program: "default"
+      use: builder.use,
+      program: builder.program == "" ? "default" : builder.program
     }
     
     return reqBody;
   }
 
+  // 
   const saveBuilder = async () => {
     const body = makeRequestBody()
     if(builderName.trim().length == 0) {
@@ -69,9 +74,28 @@ const RecommendDetail = () => {
     // 보낸 후에 builderName 초기화시키고 모달 닫는다.
   }
 
-  const captureBuilder = async () => {
+  const imageSave = (url, name) => {
+    let link = document.createElement('a');
+    link.href = url;
+    link.download = name;
+    link.click();
+  }
+
+  const captureBuilder = () => {
     const body = makeRequestBody()
-    // 요청보낸다
+
+    // No Wait
+    captureBuilderRequest(body);
+    html2canvas(document.getElementById('builder-info')).then(
+      canvas => {
+        imageSave(canvas.toDataURL('image/png'), "builder.png");
+      })
+
+  }
+
+  const captureBuilderforUser = async () => {
+    const body = makeRequestBody()
+
   }
 
   const onChangeBuilderName = (e) => {
@@ -94,7 +118,7 @@ const RecommendDetail = () => {
           저장하기
         </button>
       </Modal>
-      <div className={style["detail-top-div"]}>
+      <div className={style["detail-top-div"]} id="builder-info">
         <BuilderProductSelector
           filterItem={filterItem}
           setFilterItem={setFilterItem}
@@ -113,12 +137,25 @@ const RecommendDetail = () => {
           비회원 캡처와 회원 캡처는 다른거임 같은거임? 
         
         */}
-        <button onClick={showModal} >
-          회원용 저장하기
-        </button>
-        <button onClick={captureBuilder} >
-          회원용 캡쳐하기
-        </button>
+
+        {isLogin ? 
+          <div>
+            <button onClick={showModal} >
+              회원용 저장하기
+            </button>
+            <button onClick={captureBuilderforUser} >
+              회원용 캡쳐하기
+            </button>
+          </div> : 
+          
+          <div>
+            <button onClick={captureBuilder} >
+              비회원용 캡쳐하기
+            </button>
+          </div>
+          
+        }
+
       </div>
     </div>
   );

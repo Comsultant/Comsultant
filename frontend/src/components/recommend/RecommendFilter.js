@@ -123,7 +123,7 @@ const RecommendFilter = ({filterItem, setFilterItem}) => {
               range={{ draggableTrack: true }}
               onAfterChange={onPriceChange}
               defaultValue={[0, defaultMaxPrice]}
-              max={6000000}
+              max={10000000}
               step={100000}
               className={style.slider}
               tooltip={{
