@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import style from "@/styles/SearchProductListComponent.module.scss"
 import { message, Pagination } from "antd";
 import ProductNumMapper from "@/tools/ProductNumMapper";
@@ -8,6 +8,7 @@ import { HeartOutlined, HeartFilled } from "@ant-design/icons";
 import { postBuilderRequest } from "@/services/builderService.js";
 import { deleteWishRequest, postWishRequest } from "@/services/wishService.js";
 import { useSelector } from "react-redux";
+import Loading from "../Loading";
 
 const SearchProductListComponent = (
   {
@@ -33,10 +34,12 @@ const SearchProductListComponent = (
     activeKey,
     setActiveKey,
     tabOpen,
+    setTabOpen,
   }
 ) => {
   
   const isLogin = useSelector(state => state.account.isLogin);
+  const [isLoading, setIsLoading] = useState(true);
 
   const onWishClicked = async(productIdx) => {
     const result = await postWishRequest(productIdx);
@@ -124,6 +127,7 @@ const SearchProductListComponent = (
 
 
   const onPutBuilder = (productIdx, price, productName) => {
+    setTabOpen(true);
     let idx = -1;
     switch (currTypeTab) {
       case '0':
@@ -259,6 +263,7 @@ const SearchProductListComponent = (
   } 
 
   useEffect(() => {
+    
     let type = ProductNumMapper[currTypeTab];
     const dataToSubmit = {
       page: 1,
@@ -266,15 +271,26 @@ const SearchProductListComponent = (
       type,
       body: filterBody
     }
+    // debounceFunc(dataToSubmit, getProductRequest);
     const fetchData = async () => {
+      setIsLoading(true);
       const result = await getProductRequest(dataToSubmit);
       if (result?.data?.message === "success") {
         setTotalPage(result?.data?.responseDto?.totalPage);
         setProductList(result?.data?.responseDto?.productDtoList);
+        setCurrPage(1);
       }
+      setIsLoading(false);
     }
-    setCurrPage(1);
-    fetchData();
+  
+    const timer = setTimeout(() => {
+      fetchData();
+    }, 100);
+
+    return () => {
+      clearTimeout(timer); // 이 전의 timer를 clear합니다.
+    };
+
   }, [filterBody, currDescNum])
 
   useEffect(() => {
