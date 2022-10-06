@@ -33,6 +33,10 @@ const Recommend = () => {
     const result = await getRecommendBuilder(filterItem);
     console.log(result)
     if(result?.data?.message === "success") {
+      for(let l of result.data.responseList) {
+        l.use = filterItem.use;
+        l.program = filterItem.program;
+      }
       setRecommendBuilderList(result.data.responseList)
       setBuilderPage(0);
       setFinalPage(result.data.responseList.length);

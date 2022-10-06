@@ -1,27 +1,22 @@
 import React, { useState } from "react";
-import style from "@/styles/Search.module.scss";
-import MyWishList from "./MyWishList";
+import style from "@/styles/MyBuilder.module.scss";
+import MyBuilderList from "./MyBuilderList";
 
 const MyBuilder = () => {
-  const [commentDetailDtoList, setCommentDetailDtoList] = useState([]);
+  const [myBuilderList, setMyBuilderList] = useState([]);
   const [currPage, setCurrPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
-  const [currDesc, setCurrDesc] = useState(false);
-
+  
   return (
     <div className={style.container}>
-      <div className={style["product-list"]}>
-              <MyWishList
-                commentDetailDtoList={commentDetailDtoList}
-                setCommentDetailDtoList={setCommentDetailDtoList}
-                currPage={currPage}
-                totalPage={totalPage}
-                setTotalPage={setTotalPage}
-                setCurrPage={setCurrPage}
-                currDesc={currDesc}
-                setCurrDesc={setCurrDesc}
-              />
-            </div>
+      <MyBuilderList
+        myBuilderList={myBuilderList}
+        setMyBuilderList={setMyBuilderList}
+        currPage={currPage}
+        setCurrPage={setCurrPage}
+        totalPage={totalPage}
+        setTotalPage={setTotalPage}
+      />
     </div>
   );
 };

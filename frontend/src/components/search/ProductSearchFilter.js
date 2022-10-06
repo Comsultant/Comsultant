@@ -158,12 +158,19 @@ const ProductFilter = ({ filterList, filterDetailList, currTypeTab, getProductFi
   
   const onCheckBoxChanged = (e, key, value) => {
     let isChecked = e.target.checked;
-
+    console.log(filterBody);
     //추가
     if (isChecked) {      
-      setFilterBody(
+      let isDuplicated = false;
+      filterBody[key].map((curr) => {
+        if (curr == value)
+          isDuplicated = true;
+      });
+      if (!isDuplicated) {
+        setFilterBody(
         { ...filterBody, [key]: [...filterBody[key], value] }
-      );
+        );
+      }
     //제거
     } else {
       setFilterBody(
@@ -179,19 +186,29 @@ const ProductFilter = ({ filterList, filterDetailList, currTypeTab, getProductFi
     if (value === '')
       return;
     //추가
-    setFilterBody(
-      { ...filterBody, [key]: [...filterBody[key], value] }
-    );
-     
+    let isDuplicated = false;
+      filterBody[key].map((curr) => {
+        if (curr == value)
+          isDuplicated = true;
+      });
+      if (!isDuplicated) {
+        setFilterBody(
+        { ...filterBody, [key]: [...filterBody[key], value] }
+        );
+      }     
   }
 
   const onAdditionalSelectChanged = (e) => {
     const key = e.target.value;
-    if (key === '')
+    if (key == '')
       return;
+    
     setFilterBody(
       { ...filterBody, [key]: true }
     );
+    
+    console.log(filterBody);
+    
   }
 
 

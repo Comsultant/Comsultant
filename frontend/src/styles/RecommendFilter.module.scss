@@ -18,10 +18,9 @@ $font-size-medium: 18px;
 
 .price-box {
   display: flex;
-  margin-top: 80px;
   align-items: center;
   min-width: 300px;
-  width: 50%;
+  width: 90%;
   >span {
     white-space: nowrap;
   }
@@ -56,11 +55,12 @@ $font-size-medium: 18px;
 
 .second-box {
   display: flex;
-  align-items: end;
+  flex-direction: row;
+  justify-content: center;
 }
 .slider {
   margin: 0 20px;
-  width: 90%;
+  width: 100%;
 }
 
 .button {
@@ -101,4 +101,11 @@ $font-size-medium: 18px;
 .recommend-filter-title {
   font-size: 1.2rem;
   font-weight: 700;
+}
+
+.input-min-price {
+  width: 200px;
+}
+.input-max-price {
+  width: 200px;
 }

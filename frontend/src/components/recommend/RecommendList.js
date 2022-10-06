@@ -9,8 +9,6 @@ const RecommendList = ({ item, filterItem }) => {
 
   const showBuilderDetail = () => {
     const savedData = item;
-    item.use = filterItem.use;
-    item.program = filterItem.program;
     dispatch({ type: SET_RECOMMEND, payload: savedData });
     window.open("/recommend/detail")
   };

@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import style from "@/styles/PopularBuilder.module.scss"
 import { getPopularRecommendRequest } from "@/services/recommendService";
+import { SET_RECOMMEND } from "@/reducer/type";
+import { useDispatch, useSelector } from "react-redux";
 import { RightOutlined } from '@ant-design/icons';
 const PopluarBuilder = () => {
-
+  const dispatch = useDispatch();
   const [builderList, setBuilderList] = useState([]);
 
 
@@ -64,6 +66,14 @@ const PopluarBuilder = () => {
     }
   }
 
+  const showBuilderDetail = (idx) => {
+    const savedData = builderList[idx];
+    savedData.use = "work";
+    savedData.program = "default";
+    dispatch({ type: SET_RECOMMEND, payload: savedData });
+    window.open("/recommend/detail")
+  }
+
   return (
     <div className={style['popular-builder-box']}>
       <div className={style['title-box']}>
@@ -74,7 +84,7 @@ const PopluarBuilder = () => {
         {builderList.map((builder, idx) => {
           
           return (
-            <div key={idx} className={style['builder-content']}>
+            <div key={idx} className={style['builder-content']} onClick={() => showBuilderDetail(idx)}>
               <div className={style['builder-img']}>
                 <img src={getImgUrl(builder.prodDetail[6])} alt=""/>
               </div>

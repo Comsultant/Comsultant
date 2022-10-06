@@ -4,6 +4,7 @@ $font-size-medium: 18px;
 $border-color: rgb(190, 190, 190);
 
 .nav-bar {
+    white-space: nowrap;
     display: flex;
     position: fixed;
     z-index: 2;
@@ -52,6 +53,7 @@ $border-color: rgb(190, 190, 190);
 }
 
 .nav-bar-scroll {
+    white-space: nowrap;
     display: flex;
     border-bottom: solid $border-color 1px;
     position: fixed;
@@ -99,4 +101,5 @@ $border-color: rgb(190, 190, 190);
     }
     
 }
+
 

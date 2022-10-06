@@ -10,13 +10,27 @@ const DescFilter = ({currDescNum, setCurrDescNum}) => {
     setCurrDescNum(e)
   }
 
+  const isSelected = (type) => {
+    return currDescNum == type ? style['selected'] : style['not-selected']
+  }
+
   return (
     <>
-      <Tabs
+      <div className={style['tab-box']}>
+        <button onClick={()=>setCurrDescNum('0')} className={isSelected(0)}>신상품순</button>
+        <button onClick={()=>setCurrDescNum('1')} className={isSelected(1)}>낮은 가격순</button>
+        <button onClick={()=>setCurrDescNum('2')} className={isSelected(2)}>높은가격순</button>
+      </div>
+      {/* <Tabs
         defaultActiveKey="1"
+        className={style['item']}
         onChange={onTabChange}
         type="card"
         size="small"
+        // tabBarStyle = {{}}
+        tabBarStyle={{borderTop: 'solid 1px rgb(190, 190, 190)',
+          borderRight: 'solid 1px rgb(190, 190, 190)',
+          borderLeft: 'solid 1px rgb(190, 190, 190)',}}
         items={new Array(descFilterList.length).fill(null).map((_, i) => {
           const id = descFilterList[i];
           return {
@@ -24,7 +38,7 @@ const DescFilter = ({currDescNum, setCurrDescNum}) => {
             key: i,
           };
         })}
-      />
+      /> */}
     </>
     // <div className={style["container"]}>
     //   {descFilterList.map((item, idx) => {
