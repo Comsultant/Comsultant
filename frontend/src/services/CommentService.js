@@ -2,6 +2,16 @@ import { request, axiosAuth } from "./axios";
 
 const COMMENT_URL = "/api/comment";
 
+//본인 댓글 조회
+export const getAccountCommentRequest = async (desc, page) => {
+  try {
+    const payload = await axiosAuth.get(`${COMMENT_URL}/?desc=${desc}&page=${page}`);
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
+
 // 댓글 작성
 export const postCommentRequest = async (dataToSubmit) => {
   const idx = dataToSubmit.idx;
