@@ -1,0 +1,20 @@
+
+$font-size-big: 18px;
+$font-size-medium: 15px;
+
+.product-name {
+    font-size: $font-size-medium;
+    padding: 10px 0px;
+    // font-weight: bold;
+}
+
+.price {
+    font-size: $font-size-big;
+    font-weight: bold;
+    padding: 0px 10px;
+}
+
+.delete-button {
+    cursor: pointer;
+    
+}

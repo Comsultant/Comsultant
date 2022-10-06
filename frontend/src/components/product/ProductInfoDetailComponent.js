@@ -2,9 +2,6 @@ import React from "react";
 import style from "@/styles/ProductInfoDetailComponent.module.scss";
 
 const ProductDetailComponent = ({ idx, product, type }) => {
-  console.log(idx);
-  console.log(product);
-  console.log(type);
   return (
     <>
       {

@@ -7,6 +7,26 @@ const ACCOUNT_URL = "/api/account";
 const AUTH_URL = "/api/auth";
 const SOCIAL_AUTH_URL = "/api/social"
 
+//회원정보 수정
+export const changeAccountInfoRequest = async (dataToSubmit) => {
+  try {
+    const payload = await axiosAuth.put(ACCOUNT_URL, dataToSubmit);
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
+
+//회원정보 조회
+export const getAccountInfoRequest = async () => {
+  try {
+    const payload = await axiosAuth.get(`${ACCOUNT_URL}/profile`);
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
+
 // 회원가입
 export const registRequest = async (dataToSubmit) => {
   try {
@@ -119,7 +139,7 @@ export const naverLoginRequest = async (dataToSubmit) => {
 // 토큰 재발급
 export const getToken = async () => {
   try {
-    const payload = await request.get(`${AUTH_URL}/refresh`);
+    const payload = await request.post(`${AUTH_URL}/refresh`);
     return payload;
   } catch (err) {
     return err;
