@@ -41,3 +41,13 @@ export const deleteBuilderRequest = async (dataToSubmit) => {
     return err;
   }
 };
+
+// 부품 호환성 체크
+export const postBuilderCheckRequest = async (dataToSubmit) => {
+  try {
+    const payload = await request.post(`${BUILDER_URL}/check`, dataToSubmit);
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
