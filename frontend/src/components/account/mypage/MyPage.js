@@ -104,7 +104,7 @@ const MyPage = () => {
 
 
   return (
-    <div className={style.container}>
+    <div className={style["mycontainer"]}>
       <div className={style["product-tab"]}>
         <Tabs
           defaultActiveKey="0"

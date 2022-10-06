@@ -7,7 +7,7 @@ const RecommendModal = ({ type, pickProduct, setPickProduct }) => {
   const productType = {"cpu" : 0, "vga" : 2, "ram" : 3, "hdd": 6, "ssd": 5, "psu": 4, "cooler": 8, "cases": 7, "mainboard": 1};
 
   return (
-    <div>
+    <div className={style["container"]}>
       <RecommendSearch
         pickProduct={pickProduct}
         setPickProduct={setPickProduct}

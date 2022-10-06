@@ -58,13 +58,13 @@ const MyCommentList = (
     <>
       {commentDetailDtoList !== undefined ? commentDetailDtoList.map((comment, idx)=>{
             return(
-              <div key={idx} className={style['product-item']}>
+              <div key={idx} className={style['product-item']} onClick={() => { window.open(`/product/info?idx=${comment.commentDto.productIdx}&type=${setCategory(comment.category)}`) }}>
                 <div className={style['product-img']}>
                   <img src={`https://j7a602.p.ssafy.io/static/images/${comment.commentDto.productIdx}/0.jpg`} alt=""/>
                 </div>
                 <div>
                   <div className={style['product-name']}>
-                    <span onClick={() => { window.open(`/product/info?idx=${comment.commentDto.productIdx}&type=${setCategory(comment.category)}`) }}>{comment.productName}</span>
+                    <span>{comment.productName}</span>
                   </div>
                   <div className={style['product-detail']}>
                     <div>
