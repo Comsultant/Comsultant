@@ -1,5 +1,5 @@
-$borderColor: rgb(145, 145, 145);
-
+$border-color: rgb(161, 161, 161);
+$blue-color : rgb(65,142,249);
 .container{
     display: flex;
     margin: 0px 10px;
@@ -8,7 +8,31 @@ $borderColor: rgb(145, 145, 145);
 .item {
     cursor: pointer;
     padding:5px;
-    border-top: solid 1px $borderColor;
-    border-right: solid 1px $borderColor;
-    border-left: solid 1px $borderColor;
+    
+}
+
+.tab-box {
+    display: flex;
+
+}
+
+.selected {
+    background-color: white;
+    color: $blue-color;
+    border: solid 1px $blue-color;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    border-bottom: none;
+    padding: 10px 20px;
+    margin-right: 1px;
+}
+
+.not-selected {
+    background-color: white;
+    border: solid 1px $border-color;
+    border-bottom: none;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    padding: 10px 20px;
+    margin-right: 1px;
 }
