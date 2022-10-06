@@ -9,6 +9,28 @@ const MyCommentList = (
   }
 ) => {
 
+  const setCategory = (val) => {
+    if (val == 1) {
+      return 0;
+    } else if (val == 2) {
+      return 3;
+    } else if (val == 3) {
+      return 6;
+    } else if (val == 4) {
+      return 5;
+    } else if (val == 5) {
+      return 4;
+    } else if (val == 6) {
+      return 8;
+    } else if (val == 7) {
+      return 7;
+    } else if (val == 8) {
+      return 1;
+    } else if (val == 9) {
+      return 2;
+    }
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       const result = await getAccountCommentRequest(currDesc, 1);
@@ -36,10 +58,9 @@ const MyCommentList = (
     <>
       {commentDetailDtoList !== undefined ? commentDetailDtoList.map((comment, idx)=>{
             return(
-              <div key={idx} className={style['product-item']}>
+              <div key={idx} className={style['product-item']} onClick={() => { window.open(`/product/info?idx=${comment.commentDto.productIdx}&type=${setCategory(comment.category)}`) }}>
                 <div
                   className={style['left-item-tab-open']}
-                  onClick={() => { window.open(`/product/info?idx=${comment.commentDto.productIdx}&type=${comment.category}`) }}
                 >
                   <div className={style['product-img']}>
                     <img src={`https://j7a602.p.ssafy.io/static/images/${comment.commentDto.productIdx}/0.jpg`} alt=""/>
@@ -57,13 +78,6 @@ const MyCommentList = (
                       </div>
                     </div>
                   </div> 
-                </div>
-                <div className={style['right-item']}>
-                  <div className={style['right-button-box']}>
-                    <div>
-                      <button className={style['put-button']} onClick={() => { window.open(`/product/info?idx=${comment.commentDto.productIdx}&type=${comment.category}`) }}>상세보기</button>
-                    </div>
-                  </div>
                 </div>
               </div>
             );

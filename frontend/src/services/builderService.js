@@ -3,6 +3,16 @@ import { request, axiosAuth } from "./axios";
 const BUILDER_URL = "/api/builder";
 
 //회원 견적 전체 조회
+export const getPageBuilderRequest = async (page) => {
+  try {
+    const payload = await axiosAuth.get(`${BUILDER_URL}/?page=${page}`);
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
+
+//회원 견적 전체 조회
 export const getAllBuilderRequest = async () => {
   try {
     const payload = await axiosAuth.get(`${BUILDER_URL}/all`);
