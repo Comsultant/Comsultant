@@ -39,6 +39,7 @@ public class CompatibilityUtil {
         MainBoard mb = null;
         Vga vga = null;
 
+        int cnt = 0;
         // 제품 검색
         for(BuilderProductDto product : builderProducts){
             long pIdx = product.getProductIdx();
@@ -54,6 +55,7 @@ public class CompatibilityUtil {
                             () -> new ProductApiException(ProductErrorCode.PRODUCT_NOT_FOUND)
                     );
                     ramList.add(ram);
+                    cnt += (ram.getLamCnt()*product.getCnt());
                     break;
                 case 3:
                     Hdd hdd = hddRepository.findByIdx(pIdx).orElseThrow(
@@ -154,10 +156,14 @@ public class CompatibilityUtil {
 
         // mainboard<->ram 규격 개수 비교
         if(mb != null && !ramList.isEmpty()) {
-            int cnt = 0;
+            
+            // 메모리 슬롯 개수
+            if(cnt > mb.getMemorySlot())
+                return "Error : not enough ram slot in mainboard";
+            
+            // 메모리 규격
             for (Ram ram : ramList) {
-                cnt += ram.getLamCnt();
-                if (!mb.getMemoryType().equals(ram.getType()) || cnt > mb.getMemorySlot())
+                if (!mb.getMemoryType().equals(ram.getType()))
                     return "Error : mainboard and ram";
             }
         }
