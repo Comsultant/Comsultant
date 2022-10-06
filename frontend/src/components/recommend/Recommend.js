@@ -59,11 +59,6 @@ const Recommend = () => {
         setFilterItem = {setFilterItem}
       />
       <br/>
-      <div className={style["product-selector-tool"]}>
-        <div className={style["product-selector-tool-left"]}>제품 종류</div>
-        <div>제품 선택</div>
-        <div className={style["product-selector-tool-right"]}>수량</div>
-      </div>
       <ProductSelector
         filterItem = {filterItem}
         setFilterItem = {setFilterItem}

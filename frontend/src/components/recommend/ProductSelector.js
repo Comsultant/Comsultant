@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import style from "@/styles/ProductSelector.module.scss";
-import {
-  InfoCircleOutlined,
-  PlusSquareOutlined,
-  CloseCircleOutlined,
-} from "@ant-design/icons";
 import ContentItem from "./ContentItem";
+import { useDispatch, useSelector } from "react-redux";
 import CustomCheckbox from "../CustomCheckbox";
+import { saveRecommendBuilder } from "@/services/recommendService";
+import { getAllBuilderRequest } from "@/services/builderService";
+import { Modal, Input } from "antd";
 
 const initProduct = [{ id: "", name: "", count: 1, price: 0 }];
 
@@ -36,6 +35,12 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
   const [isOnlyViewRecommend, setIsOnlyViewRecommend] = useState(true);
 
   const [totalPrice, setTotalPrice] = useState(0);
+
+  const [myBuilderList, setMyBuilderList] = useState([])
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [builderName, setBuilderName] = useState("");
+  const isLogin = useSelector((state) => state.account.isLogin);
+  
   const getTotalPrice = () => {
     let price = 0;
     cpuList.map((curr) => price += curr.price * curr.count);
@@ -202,8 +207,155 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
   }, [cpuList, mbList, vgaList, ramList, powerList, ssdList, hddList, coolerList, caseList, 
     cpuChecked, ramChecked, hddChecked, ssdChecked, powerChecked, coolerChecked, caseChecked, mbChecked, vgaChecked])
 
+
+  // 아래서 부터는 견적 저장/불러오기 코드
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setBuilderName("");
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  const makeRequestBody = () => {
+    // console.log(filterItem)
+    // console.log(builder)
+    let builderProducts = [];
+    Object.keys(filterItem.prods).map((key) => {
+      builderProducts.push({productIdx: key, cnt: filterItem.prods[key]})
+    })
+
+    const reqBody = {
+      builderProducts: builderProducts,
+    }
+    
+    return reqBody;
+  }
+
+  const saveBuilder = async () => {
+    if(builderName.trim().length == 0) {
+      alert("이름을 입력해주세요");
+      return;
+    }
+    const body = makeRequestBody()
+
+    if(body.builderProducts.length == 0) {
+      alert("제품을 추가해 주세요")
+      return ;
+    }
+
+    body.name = builderName.trim()
+
+    // 요청보낸다
+    const result = await saveRecommendBuilder(body);
+    console.log(result)
+    if(result?.data?.message === "success") {
+      alert('저장 성공')
+    } else {
+      alert('저장 실패')
+    }
+
+    // 보낸 후에 builderName 초기화시키고 모달 닫는다.
+    handleOk();
+  }
+
+  const onChangeBuilderName = (e) => {
+    setBuilderName(e.target.value)
+  }
+
+  const onMyBuilderChange = (e) => {
+    let idx = e.target.value;
+    if(idx == -1) {
+      return;
+    }
+
+    console.log(myBuilderList[idx])
+
+    // 아래 배열을 탐색하면서 넣어준다.
+    // cpuList에는 어떻게?
+    myBuilderList[idx].builderProductDetailDtos
+
+    // setFilterItem({
+    //   ...filterItem, 
+    //   cpu_cnt: cpuChecked ? cpuCount : 0,
+    //   ram_cnt: ramChecked ? ramCount : 0,
+    //   hdd_cnt: hddChecked ? hddCount : 0,
+    //   ssd_cnt: ssdChecked ? ssdCount : 0,
+    //   psu_cnt: powerChecked ? psuCount : 0,
+    //   cooler_cnt: coolerChecked ? coolerCount : 0,
+    //   cases_cnt: caseChecked ? caseCount : 0,
+    //   mainboard_cnt: mbChecked ? mainboardCount : 0,
+    //   vga_cnt: vgaChecked ? vgaCount : 0,
+    //   prods: getTotalProds()
+    // })
+
+  }
+
+  useEffect(() => {
+    async function getMyBuilderList() {
+      console.log("getMYBUILDER")
+      const result = await getAllBuilderRequest();
+      if(result?.data?.message == "success") {
+        if(result?.data?.responseDto?.myBuilderDetailDtoList?.length != 0) {
+          setMyBuilderList(result.data.responseDto.myBuilderDetailDtoList)
+          // console.log( result.data.responseDto.myBuilderDetailDtoList[0].myBuilderDto)
+        } else {
+          alert("견적 불러오기 실패")
+        }
+      }
+    }
+
+    getMyBuilderList();
+  }, [])
+
   return (
     <>
+      <div className={style["mybuilder-top-div"]}>
+      {isLogin ?
+        <div className={style["builder-box"]}>
+          <Modal title="견적 저장하기" 
+            open={isModalOpen} 
+            onOk={saveBuilder} 
+            onCancel={handleCancel}
+            okText="저장하기"
+            cancelText="취소하기"
+            style={{
+              top: "30%"
+            }}
+          >
+            <Input
+            addonBefore="견적 이름"
+            placeholder="견적 이름을 입력해 주세요"
+            allowClear
+            onChange={onChangeBuilderName}
+            className={style["builder-name-input"]}
+            />
+          </Modal>
+          <button className={style.button} onClick={showModal}>견적 저장하기</button>
+          <select className={style["select-input"]} onChange={onMyBuilderChange}>
+            <option value="-1">견적 선택하기</option>
+            {myBuilderList.map((builder, idx)=>{
+              return(
+                <option key={idx} value={idx}>
+                  {builder.myBuilderDto?.name}
+                </option>
+              );
+            })}
+          </select>
+          <button className={style["mybuilder-reset-button"]} onClick={showModal}>견적 초기화</button>
+        </div> : null }
+      </div>
+      <div className={style["product-selector-tool"]}>
+        <div className={style["product-selector-tool-left"]}>제품 종류</div>
+        <div>제품 선택</div>
+      <div className={style["product-selector-tool-right"]}>수량</div>
+      </div>
       <div className={style["content-box"]}>
         <ContentItem
           name="CPU"

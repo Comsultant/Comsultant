@@ -1,34 +1,20 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { Slider, Checkbox, Modal, Input } from "antd";
+import { Slider } from "antd";
 import style from "@/styles/RecommendFilter.module.scss";
-import { useDispatch, useSelector } from "react-redux";
 import classNames from "classnames";
 import "@/styles/RecommendFilter.scss"
-import { saveRecommendBuilder } from "@/services/recommendService";
+
 import PriceFormatter from "@/tools/PriceFormatter";
 
 const RecommendFilter = ({filterItem, setFilterItem}) => {
   const defaultMaxPrice = 5000000;
-  const isLogin = useSelector((state) => state.account.isLogin);
   
   const [purpose, setPurpose] = useState("게임용");
   const [program, setProgram] = useState("기본");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [builderName, setBuilderName] = useState("");
 
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
 
-  const handleOk = () => {
-    setBuilderName("");
-    setIsModalOpen(false);
-  };
 
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
 
   const filterList = [
     {
@@ -102,53 +88,6 @@ const RecommendFilter = ({filterItem, setFilterItem}) => {
     setProgram(e.target.value)
   }
 
-  const makeRequestBody = () => {
-    // console.log(filterItem)
-    // console.log(builder)
-    let builderProducts = [];
-    Object.keys(filterItem.prods).map((key) => {
-      builderProducts.push({productIdx: key, cnt: filterItem.prods[key]})
-    })
-
-    const reqBody = {
-      builderProducts: builderProducts,
-    }
-    
-    return reqBody;
-  }
-
-  const saveBuilder = async () => {
-    if(builderName.trim().length == 0) {
-      alert("이름을 입력해주세요");
-      return;
-    }
-    const body = makeRequestBody()
-
-    if(body.builderProducts.length == 0) {
-      alert("제품을 추가해 주세요")
-      return ;
-    }
-
-    body.name = builderName.trim()
-
-    // 요청보낸다
-    const result = await saveRecommendBuilder(body);
-    console.log(result)
-    if(result?.data?.message === "success") {
-      alert('저장 성공')
-    } else {
-      alert('저장 실패')
-    }
-
-    // 보낸 후에 builderName 초기화시키고 모달 닫는다.
-    handleOk();
-  }
-
-  const onChangeBuilderName = (e) => {
-    setBuilderName(e.target.value)
-  }
-
-
   return (
     <>
       <div className={style.filter}>
@@ -197,33 +136,6 @@ const RecommendFilter = ({filterItem, setFilterItem}) => {
             />
           </div>
         </div>
-        {isLogin ?
-          <div className={style["builder-box"]}>
-            <Modal title="견적 저장하기" 
-              open={isModalOpen} 
-              onOk={saveBuilder} 
-              onCancel={handleCancel}
-              okText="저장하기"
-              cancelText="취소하기"
-              style={{
-                top: "30%"
-              }}
-            >
-              <Input
-              addonBefore="견적 이름"
-              placeholder="견적 이름을 입력해 주세요"
-              allowClear
-              onChange={onChangeBuilderName}
-              className={style["builder-name-input"]}
-              />
-            </Modal>
-            <button className={style.button} onClick={showModal}>견적 저장하기</button>
-            <select className={style["select-input"]}>
-              <option>견적 불러오기</option>
-            </select>
-          </div> : null
-        }
-
       </div>
     </>
   );
