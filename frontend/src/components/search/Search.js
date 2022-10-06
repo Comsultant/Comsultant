@@ -327,6 +327,10 @@ const Search = () => {
     setIsModalOpen(false);
   };
 
+  useEffect(() => {
+    setFilterBody({ ...filterBody, name: searchValue });
+  },[searchValue])
+
   return (
     <>
       <Modal title="견적 추가하기" 
