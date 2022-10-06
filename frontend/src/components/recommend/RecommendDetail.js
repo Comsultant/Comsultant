@@ -67,6 +67,13 @@ const RecommendDetail = () => {
       return;
     }
 
+    
+    if(body.builderProducts.length == 0) {
+      alert("제품을 추가해 주세요")
+      handleCancel();
+      return ;
+    }
+
     body.name = builderName.trim()
 
     // 요청보낸다
