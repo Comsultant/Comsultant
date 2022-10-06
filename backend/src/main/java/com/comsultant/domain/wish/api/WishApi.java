@@ -50,7 +50,7 @@ public class WishApi {
         int page = ParameterUtil.checkPage(pageParam);
         boolean desc = ParameterUtil.checkDesc(descParam);
 
-        WishListDto result = wishService.getLikes(accountDetails.getAccount(), page,desc);
+        WishListDto result = wishService.getLikes(accountDetails.getAccount(), page,desc, accountDetails);
 
         return ResponseEntity.status(HttpStatus.OK).body(DtoResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
     }
