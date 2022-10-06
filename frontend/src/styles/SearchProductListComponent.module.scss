@@ -59,6 +59,7 @@ $blue-color: rgb(65, 142, 249);
     .price {
         font-size: $font-size-medium;
         font-weight: bold;
+        white-space: nowrap;
     }    
 }
 
@@ -69,6 +70,7 @@ $blue-color: rgb(65, 142, 249);
     .price {
         font-size: $font-size-medium;
         font-weight: bold;
+        white-space: nowrap;
     }    
 }
 
