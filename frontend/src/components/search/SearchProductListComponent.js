@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import style from "@/styles/SearchProductListComponent.module.scss"
-import { message, Pagination } from "antd";
+import { message, Pagination, notification } from "antd";
 import ProductNumMapper from "@/tools/ProductNumMapper";
 import { getProductRequest } from "@/services/productService";
 import ProductDetail from "./ProductDetail";
@@ -68,6 +68,12 @@ const SearchProductListComponent = (
     newList[idx] = {...productList[idx], wish: false};
     setProductList(newList);
   }
+
+  const openNotificationWithIcon = (type, desc) => {
+    notification[type]({
+      message: desc,
+    });
+  };
 
   useEffect(() => {
     const builderProducts = [];
@@ -186,7 +192,8 @@ const SearchProductListComponent = (
     }
     const result = await postBuilderCheckRequest(dataToSubmit);
     if (result?.data?.message !== "success") {
-      message.error(result.data.message);
+      openNotificationWithIcon('error', result.data.message);
+      // message.error(result.data.message);
       return;
     }
 
@@ -386,13 +393,17 @@ const SearchProductListComponent = (
               <div key={idx} className={style['product-item']}>
                 <div
                   className={tabOpen ? style['left-item-tab-open'] : style['left-item-tab-close']}
-                  onClick={() => { window.open(`/product/info?idx=${product.idx}&type=${currTypeTab}`) }}
                 >
-                  <div className={style['product-img']}>
+                  <div className={style['product-img']}
+                    onClick={() => { window.open(`/product/info?idx=${product.idx}&type=${currTypeTab}`) }}
+                  >
                     <img src={`https://j7a602.p.ssafy.io/static/images/${product.idx}/0.jpg`} alt=""/>
                   </div>
                   <div>
-                    <div className={style['product-name']}>
+                    <div
+                      className={style['product-name']}
+                      onClick={() => { window.open(`/product/info?idx=${product.idx}&type=${currTypeTab}`) }}
+                    >
                       <span>{product.name}</span>
                     </div>
                     <div>

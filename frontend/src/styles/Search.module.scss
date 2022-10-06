@@ -126,6 +126,8 @@ $border-color: rgb(190, 190, 190);
 }
 
 .side-menu {
+  border: solid 1px $border-color;
+  border-radius: 2px;
   background-color: #fafafa;
   width: 200px;
 }
@@ -133,13 +135,15 @@ $border-color: rgb(190, 190, 190);
 .side-menu-header{
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  border-bottom: solid 1px $border-color;
 }
 
 .side-menu-title{
   width: 90%;
-  border: solid 1px $border-color;
-  border-radius: 5px;
   text-align: center;
+  font-size: 16px;
+  font-weight: bold;
 }
 
 .side-menu-body{

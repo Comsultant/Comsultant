@@ -10,6 +10,7 @@ import {
   CloseOutlined,
   LeftOutlined,
   RightOutlined,
+  PlusSquareOutlined
 } from "@ant-design/icons";
 import SearchProductListComponent from "./SearchProductListComponent";
 import {
@@ -19,7 +20,6 @@ import {
 import ProductFilterKorean from "@/tools/ProductFilterKorean";
 import { AddtionalCoolerFilterList } from "@/tools/AddtionalCoolerFilterList";
 import { AdditionalCasesFilterList } from "@/tools/AddtionalCasesFilterLIst";
-import { filter, max } from "lodash";
 import ProductNumMapper from "@/tools/ProductNumMapper";
 import DrawerBody from "./DrawerBody";
 import { useSelector } from "react-redux";
@@ -487,19 +487,21 @@ const Search = () => {
                 onClick={onSearchButtonClicked}
               />
             </div>
-            <div className={style["builder-tab-button"]}>
-              <button onClick={toggleDrawer}>
-                {tabOpen ? (
-                  <span>
-                    견적 탭 <RightOutlined />
-                  </span>
-                ) : (
-                  <span>
-                    견적 탭 <LeftOutlined />
-                  </span>
-                )}
-              </button>
-            </div>
+            <Affix offsetTop={90}>
+              <div className={style["builder-tab-button"]}>
+                <button onClick={toggleDrawer}>
+                  {tabOpen ? (
+                    <span>
+                      견적 탭 <RightOutlined />
+                    </span>
+                  ) : (
+                    <span>
+                      견적 탭 <LeftOutlined />
+                    </span>
+                  )}
+                </button>
+              </div>
+            </Affix>
           </div>
 
           <div className={style["builder-drawer"]}>
@@ -588,12 +590,10 @@ const Search = () => {
               />
             </Drawer>
           </div>
-        </div>
-      </div>
-      {isLogin ? (
+          {isLogin ? (
         <Affix
-          offsetTop={200}
-          style={{ position: "absolute", top: 80, right: 20 }}
+              offsetTop={200}
+              style={{ position: "absolute", top: 80, right: 50 }}
         >
           <div className={style["side-menu"]}>
             <div className={style["side-menu-header"]}>
@@ -602,7 +602,7 @@ const Search = () => {
               </div>
 
               <div>
-                  <PlusOutlined onClick={showModal} />
+                <PlusSquareOutlined  onClick={showModal} style={{margin: '10px', fontSize: '20px'}} />
               </div>
             </div>
             <div className={style["side-menu-body"]}>
@@ -630,7 +630,7 @@ const Search = () => {
                       cancelText="취소"
                     >
                       <span style={{ cursor: "pointer" }}>
-                        <CloseOutlined />
+                        <CloseOutlined style={{color: 'red'}}/>
                       </span>
                     </Popconfirm>
                   </div>
@@ -640,6 +640,9 @@ const Search = () => {
           </div>
         </Affix>
       ) : null}
+        </div>
+      </div>
+ 
     </>
   );
 };
