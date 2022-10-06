@@ -126,7 +126,10 @@ public class AccountServiceImpl implements AccountService {
         Account account = accountDetails.getAccount();
 
         if(account == null) { return null; }
-        return AccountMapper.mapper.toDto(account);
+
+        AccountDto ret = AccountMapper.mapper.toDto(account);
+        ret.hideEmail();
+        return ret;
     }
 
     @Override
@@ -137,9 +140,11 @@ public class AccountServiceImpl implements AccountService {
         }
 
         // 1. 비밀번호 체크
-        boolean isValidate = BCrypt.checkpw(accountDto.getPassword(), accountDetails.getPassword());
-        if(!isValidate) {
-            throw new AccountApiException(AccountErrorCode.ACCOUNT_WRONG_PASSWORD);
+        if(accountDetails.getAccount().getSnsType() == 0) {
+            boolean isValidate = BCrypt.checkpw(accountDto.getPassword(), accountDetails.getPassword());
+            if(!isValidate) {
+                throw new AccountApiException(AccountErrorCode.ACCOUNT_WRONG_PASSWORD);
+            }
         }
 
         // 2. JPA 업데이트. 영속성에서 분리된 상태이므로, save 필요
