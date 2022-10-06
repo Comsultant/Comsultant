@@ -11,7 +11,7 @@ const PopluarBuilder = () => {
   useEffect(() => {
     async function getPopularRecommend() {
       const result = await getPopularRecommendRequest();
-      if(result?.data.message == "success") {
+      if(result?.data?.message == "success") {
         console.log(result?.data?.responseList)
         setBuilderList(result?.data?.responseList);
       }
