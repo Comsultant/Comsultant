@@ -39,7 +39,7 @@ export const captureBuilderForUserRequest = async (option) => {
   try {
     option.kafka = false;
     option.capture = true;
-    const payload = await axiosAuth.post(`${BUILDER_URL}/capture`, option);
+    const payload = await axiosAuth.post(`${BUILDER_URL}`, option);
     return payload
   } catch (err) {
     return err;

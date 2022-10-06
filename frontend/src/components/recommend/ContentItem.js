@@ -111,10 +111,10 @@ const ContentItem = ({checkState, checkSetter, contentList, contentSetter, name,
               {
                 idx == 0 ?
                 <PlusSquareOutlined 
-                  className={style["plus-button"]}
+                  className={checkState ? style["plus-button"] : style["plus-button-disabled"]}
                   onClick={onPlusButtonClicked} 
                 /> : <MinusSquareOutlined 
-                className={style["plus-button"]}
+                className={checkState ? style["plus-button"] : style["plus-button-disabled"]}
                 onClick={() => onDeleteButtonClicked(idx)} 
               />
               }
@@ -123,13 +123,13 @@ const ContentItem = ({checkState, checkSetter, contentList, contentSetter, name,
                 <div className={style["item-input-box"]} onClick={checkState ? ()=>showModal(idx) : null}>
                   <input 
                   disabled={true} 
-                  className={style['product-input']}
+                  className={checkState ? style['product-input'] :style['product-input-disabled']  }
                   value={content?.name !== "" ? content.name : ""}
                   />
                 </div>
                 
                 <CloseCircleOutlined 
-                  className={style["delete-button"]} 
+                  className={checkState ? style["delete-button"] : style["delete-button-disabled"]} 
                   onClick={() => deletePickProduct(idx)}
                   // onClick={onDeleteButtonClicked}
                   // 이건 선택된 부품 삭제하는 거!!!!!
@@ -141,8 +141,9 @@ const ContentItem = ({checkState, checkSetter, contentList, contentSetter, name,
                 </div> : null
               }
               
-              <div className={style['product-item-right']}>
+              <div className={ checkState ? style['product-item-right'] : style['product-item-right-disabled']}>
                 <InputNumber
+                  disabled={!checkState}
                   className={style["input-number"]}
                   min={1}
                   max={10}
