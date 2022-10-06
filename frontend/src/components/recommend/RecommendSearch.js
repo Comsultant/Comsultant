@@ -11,7 +11,7 @@ import RecommendProductList from '@/components/recommend/RecommendProductList'
 
 
 const RecommendSearch = ({type, pickProduct, setPickProduct}) => {
-  const defaultMaxPrice = 1000000;
+  const defaultMaxPrice = 10000000;
   const productType = {"cpu" : 0, "vga" : 2, "ram" : 3, "hdd": 6, "ssd": 5, "psu": 4, "cooler": 8, "cases": 7, "mainboard": 1};
 
 
@@ -154,7 +154,7 @@ const RecommendSearch = ({type, pickProduct, setPickProduct}) => {
             onAfterChange={onPriceChange}
             defaultValue={[0, defaultMaxPrice]}
             max={defaultMaxPrice}
-            step={1000}
+            step={10000}
             className={style.slider}
             trackStyle={{ backgroundColor: "#377BB9", height: "8px" }}
             handleStyle={{

@@ -348,9 +348,9 @@ const BuilderProductSelector = ({
         />
         <div className={style["bottom-box"]}>
           <div className={style["bottom-left"]}>
-            <span>선택 가격</span>
+            <span>가격</span>
             <div className={style.price}>
-              <span>{getStringPrice(totalPrice)} 원</span>
+              <span>약 {getStringPrice(builder.price)} 원</span>
             </div>
           </div>
         </div>

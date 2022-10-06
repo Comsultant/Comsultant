@@ -4,11 +4,14 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { SET_RECOMMEND } from "@/reducer/type";
 import { useDispatch, useSelector } from "react-redux";
 
-const RecommendList = ({ item }) => {
+const RecommendList = ({ item, filterItem }) => {
   const dispatch = useDispatch();
 
   const showBuilderDetail = () => {
-    dispatch({ type: SET_RECOMMEND, payload: item });
+    const savedData = item;
+    item.use = filterItem.use;
+    item.program = filterItem.program;
+    dispatch({ type: SET_RECOMMEND, payload: savedData });
     window.open("/recommend/detail")
   };
 

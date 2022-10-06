@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import style from "@/styles/ProductSelector.module.scss";
-import {
-  InfoCircleOutlined,
-  PlusSquareOutlined,
-  CloseCircleOutlined,
-} from "@ant-design/icons";
 import ContentItem from "./ContentItem";
+import { useDispatch, useSelector } from "react-redux";
 import CustomCheckbox from "../CustomCheckbox";
+import { saveRecommendBuilder } from "@/services/recommendService";
+import { getAllBuilderRequest } from "@/services/builderService";
+import { Modal, Input } from "antd";
 
 const initProduct = [{ id: "", name: "", count: 1, price: 0 }];
 
@@ -36,6 +35,12 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
   const [isOnlyViewRecommend, setIsOnlyViewRecommend] = useState(true);
 
   const [totalPrice, setTotalPrice] = useState(0);
+
+  const [myBuilderList, setMyBuilderList] = useState([])
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [builderName, setBuilderName] = useState("");
+  const isLogin = useSelector((state) => state.account.isLogin);
+  
   const getTotalPrice = () => {
     let price = 0;
     cpuList.map((curr) => price += curr.price * curr.count);
@@ -202,8 +207,216 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
   }, [cpuList, mbList, vgaList, ramList, powerList, ssdList, hddList, coolerList, caseList, 
     cpuChecked, ramChecked, hddChecked, ssdChecked, powerChecked, coolerChecked, caseChecked, mbChecked, vgaChecked])
 
+
+  // 아래서 부터는 견적 저장/불러오기 코드
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setBuilderName("");
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  const makeRequestBody = () => {
+    // console.log(filterItem)
+    // console.log(builder)
+    let builderProducts = [];
+    Object.keys(filterItem.prods).map((key) => {
+      builderProducts.push({productIdx: key, cnt: filterItem.prods[key]})
+    })
+
+    const reqBody = {
+      builderProducts: builderProducts,
+    }
+    
+    return reqBody;
+  }
+
+  const saveBuilder = async () => {
+    if(builderName.trim().length == 0) {
+      alert("이름을 입력해주세요");
+      return;
+    }
+    const body = makeRequestBody()
+
+    if(body.builderProducts.length == 0) {
+      alert("제품을 추가해 주세요")
+      return ;
+    }
+
+    body.name = builderName.trim()
+
+    // 요청보낸다
+    const result = await saveRecommendBuilder(body);
+    console.log(result)
+    if(result?.data?.message === "success") {
+      alert('저장 성공')
+    } else {
+      alert('저장 실패')
+    }
+
+    // 보낸 후에 builderName 초기화시키고 모달 닫는다.
+    handleOk();
+  }
+
+  const onChangeBuilderName = (e) => {
+    setBuilderName(e.target.value)
+  }
+
+  const onMyBuilderChange = (e) => {
+    let idx = e.target.value;
+    if(idx == -1) {
+      return;
+    }
+
+    console.log(myBuilderList[idx])
+
+    // 아래 배열을 탐색하면서 넣어준다.
+    
+    // 백엔드 기준 카테고리로 계산 ( 인덱스 1 부터 시작)
+    let prodCnt = [0,0,0,0,0,0,0,0,0,0];
+    let newProducts = [[],[],[],[],[],[],[],[],[],[]];
+    let products = [];
+    // console.log(myBuilderList[idx].builderProductDetailDtos)
+    for(let builderProduct of myBuilderList[idx].builderProductDetailDtos) {
+      let c = builderProduct.category
+      prodCnt[c] += builderProduct.cnt;
+      newProducts[c].push({id: builderProduct.productIdx, name: builderProduct.productName, count: builderProduct.cnt, price: builderProduct.price})
+      products.push({[builderProduct.productIdx]: builderProduct.cnt})
+    }
+    // console.log(prodCnt, newProducts)
+    setCpuList(newProducts[1].length == 0 ? initProduct : newProducts[1]);
+    setRamList(newProducts[2].length == 0 ? initProduct : newProducts[2]);
+    setHddList(newProducts[3].length == 0 ? initProduct : newProducts[3]);
+    setSsdList(newProducts[4].length == 0 ? initProduct : newProducts[4]);
+    setPowerList(newProducts[5].length == 0 ? initProduct : newProducts[5]);
+    setCoolerList(newProducts[6].length == 0 ? initProduct : newProducts[6]);
+    setCaseList(newProducts[7].length == 0 ? initProduct : newProducts[7]);
+    setMbList(newProducts[8].length == 0 ? initProduct : newProducts[8]);
+    setVgaList(newProducts[9].length == 0 ? initProduct : newProducts[9]);
+
+    setCpuChecked(prodCnt[1] != 0)
+    setRamChecked(prodCnt[2] != 0)
+    setHddChecked(prodCnt[3] != 0)
+    setSsdChecked(prodCnt[4] != 0)
+    setPowerChecked(prodCnt[5] != 0)
+    setCoolerChecked(prodCnt[6] != 0)
+    setCaseChecked(prodCnt[7] != 0)
+    setMbChecked(prodCnt[8] != 0)
+    setVgaChecked(prodCnt[9] != 0)
+
+    setFilterItem({
+      ...filterItem, 
+      cpu_cnt: prodCnt[1],
+      ram_cnt: prodCnt[2],
+      hdd_cnt: prodCnt[3],
+      ssd_cnt: prodCnt[4],
+      psu_cnt: prodCnt[5],
+      cooler_cnt: prodCnt[6],
+      cases_cnt: prodCnt[7],
+      mainboard_cnt: prodCnt[8],
+      vga_cnt:  prodCnt[9],
+      prods: products
+    })
+  }
+
+  const resetBuilderFilter = () => {
+    const result = confirm("선택한 제품들을 초기화 하시겠습니까?")
+    if(!result) {
+      return
+    }
+    setCpuList(initProduct);
+    setRamList(initProduct);
+    setHddList(initProduct);
+    setSsdList(initProduct);
+    setPowerList(initProduct);
+    setCoolerList(initProduct);
+    setCaseList(initProduct);
+    setMbList(initProduct);
+    setVgaList(initProduct);
+    
+    setFilterItem({
+      ...filterItem,
+      prods: {},
+      cpu_cnt: 1,
+      ram_cnt: 1,
+      hdd_cnt: 0,
+      ssd_cnt: 1,
+      psu_cnt: 1,
+      cooler_cnt: 1,
+      cases_cnt: 1,
+      mainboard_cnt: 1,
+      vga_cnt: 1,
+    })
+  }
+
+  useEffect(() => {
+    async function getMyBuilderList() {
+      console.log("getMYBUILDER")
+      const result = await getAllBuilderRequest();
+      if(result?.data?.message == "success") {
+        if(result?.data?.responseDto?.myBuilderDetailDtoList?.length != 0) {
+          setMyBuilderList(result.data.responseDto.myBuilderDetailDtoList)
+          // console.log( result.data.responseDto.myBuilderDetailDtoList[0].myBuilderDto)
+        } else {
+          alert("견적 불러오기 실패")
+        }
+      }
+    }
+
+    if(isLogin) {
+      getMyBuilderList();
+    }
+  }, [])
+
   return (
     <>
+      <div className={style["mybuilder-top-div"]}>
+      {isLogin ?
+        <div className={style["builder-box"]}>
+          <Modal title="견적 저장하기" 
+            open={isModalOpen} 
+            onOk={saveBuilder} 
+            onCancel={handleCancel}
+            okText="저장하기"
+            cancelText="취소하기"
+            style={{
+              top: "30%"
+            }}
+          >
+            <Input
+            addonBefore="견적 이름"
+            placeholder="견적 이름을 입력해 주세요"
+            allowClear
+            onChange={onChangeBuilderName}
+            className={style["builder-name-input"]}
+            />
+          </Modal>
+          <button className={style.button} onClick={showModal}>견적 저장하기</button>
+          <select className={style["select-input"]} onChange={onMyBuilderChange}>
+            <option value="-1">견적 선택하기</option>
+            {myBuilderList.map((builder, idx)=>{
+              return(
+                <option key={idx} value={idx}>
+                  {builder.myBuilderDto?.name}
+                </option>
+              );
+            })}
+          </select>
+          <button className={style["mybuilder-reset-button"]} onClick={resetBuilderFilter}>견적 초기화</button>
+        </div> : null }
+      </div>
+      <div className={style["product-selector-tool"]}>
+        <div className={style["product-selector-tool-left"]}>제품 종류</div>
+        <div>제품 선택</div>
+      <div className={style["product-selector-tool-right"]}>수량</div>
+      </div>
       <div className={style["content-box"]}>
         <ContentItem
           name="CPU"
@@ -297,12 +510,6 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
             </div>
           </div>
           <div className={style['bottom-right']}>
-            <span>추천 품목만 보기</span>
-            <CustomCheckbox
-              backgroundColor="#377BB9"
-              state={isOnlyViewRecommend}
-              setter={setIsOnlyViewRecommend}
-            />
             <button
               className={style.button}
               onClick={onRecommendButtonClicked}
