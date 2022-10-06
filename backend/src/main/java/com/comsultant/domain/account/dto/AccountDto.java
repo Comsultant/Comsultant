@@ -22,4 +22,9 @@ public class AccountDto {
     public void encryptPassword(String password) {
         this.password = password;
     }
+    public void hideEmail() {
+        if(snsType != 0) {
+            this.email = "snsUser";
+        }
+    }
 }
