@@ -197,3 +197,53 @@ $border-color: rgb(190, 190, 190);
   border: solid 1px $border-color;
   border-radius: 5px;
 }
+
+.wide-product-tab {
+  margin: 10px;
+  white-space: nowrap;
+  font-weight: bold;
+  white-space: nowrap;
+  span {
+    margin: 0px 30px;
+    cursor: pointer;
+  }
+}
+
+.small-product-tab {
+  display: none;
+  background-color: white;
+  margin: 10px;
+  white-space: nowrap;
+  font-weight: bold;
+  white-space: nowrap;
+  span {
+    margin: 0px 30px;
+    cursor: pointer;
+  }
+}
+
+.small-side-menu {
+  display: none;
+  border: solid 1px $border-color;
+  border-radius: 2px;
+  background-color: #fafafa;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+@media screen and (max-width: 1640px) {
+    .wide-product-tab{
+      display: none;
+    }
+    .small-product-tab {
+      display: block;
+    }
+
+    .side-menu {
+      display: none;
+    }
+
+    .small-side-menu {
+      display: block;
+    }
+}

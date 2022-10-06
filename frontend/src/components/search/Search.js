@@ -346,7 +346,7 @@ const Search = () => {
       </Modal>
       <div className={style.container}>
         <Affix>
-          <div className={style["product-tab"]}>
+          <div className={style["wide-product-tab"]}>
             <Tabs
               defaultActiveKey="0"
               items={productTypeList}
@@ -358,6 +358,18 @@ const Search = () => {
             />
           </div>
         </Affix>
+
+          <div className={style["small-product-tab"]}>
+            <Tabs
+              defaultActiveKey="0"
+              items={productTypeList}
+              size={"large"}
+              onChange={key => {
+                setCurrTypeTab(key);
+              }}
+              className={style["tabs"]}
+            />
+          </div>
 
         <div className={style["product-filter"]}>
           <ProductSearchFilter
@@ -466,7 +478,53 @@ const Search = () => {
                 } 
               }
             })}
+        </div>
+        {isLogin ? (
+
+          <div className={style["small-side-menu"]}>
+            <div className={style["side-menu-header"]}>
+              <div className={style["side-menu-title"]}>
+                <span>PC 추가하기</span>
+              </div>
+
+              <div>
+                <PlusSquareOutlined  onClick={showModal} style={{margin: '10px', fontSize: '20px'}} />
+              </div>
+            </div>
+            <div className={style["side-menu-body"]}>
+              {accountBuildList.map((accountBuild, idx) => {
+                return (
+                  <div key={idx} className={style["side-menu-item"]}>
+                    <span
+                      style={{cursor:'pointer'}}
+                      onClick={() =>
+                        onBuilderClicked(accountBuild.myBuilderDto)
+                      }
+                    >
+                      {accountBuild?.myBuilderDto?.name}
+                    </span>
+                    <Popconfirm
+                      placement="left"
+                      title={"정말 삭제하시겠습니까?"}
+                      onConfirm={() =>
+                        onRemoveAccountBuildItem(
+                          idx,
+                          accountBuild.myBuilderDto?.idx
+                        )
+                      }
+                      okText="삭제"
+                      cancelText="취소"
+                    >
+                      <span style={{ cursor: "pointer" }}>
+                        <CloseOutlined style={{color: 'red'}}/>
+                      </span>
+                    </Popconfirm>
+                  </div>
+                );
+              })}
+            </div>
           </div>
+      ) : null}
         <div className={style["main-content"]}>
           <div className={style["filter-box"]}>
             <div className={style["desc-filter"]}>
