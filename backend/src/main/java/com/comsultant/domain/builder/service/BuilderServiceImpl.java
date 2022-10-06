@@ -40,13 +40,10 @@ public class BuilderServiceImpl implements BuilderService {
     private final KafkaProducerService kafkaProducerService;
     private final CommentServiceImpl commentServiceImpl;
     private final ProductService productService;
-    private static boolean[] isCategory;
 
-    private static boolean[] isSame;
+    private static final String[] categories = {"0", "cpu", "ram", "hdd", "ssd", "psu", "cooler", "cases", "mainboard", "vga"};
 
-    private static String[] categories = {"0", "cpu", "ram", "hdd", "ssd", "psu", "cooler", "cases", "mainboard", "vga"};
-
-    private static int[] sortNums = {1, 2, 5, 8, 3, 4, 6, 7, 9};
+    private static final int[] sortNums = {1, 2, 5, 8, 3, 4, 6, 7, 9};
 
     private final ConstProperties constProperties;
 
@@ -59,8 +56,7 @@ public class BuilderServiceImpl implements BuilderService {
             if (toKafka == null) {
                 throw new BuilderApiException(BuilderErrorCode.Category_NOT_ENOUGH);
             }
-            // TODO : 나중에 test에서 builder로 수정 필요
-            else if (!kafkaProducerService.sendMessage("test", toKafka)) {
+            else if (!kafkaProducerService.sendMessage("builder", toKafka)) {
                 throw new BuilderApiException(BuilderErrorCode.Kafka_SEND_FAIL);
             }
         }
@@ -111,8 +107,7 @@ public class BuilderServiceImpl implements BuilderService {
         if (toKafka == null) {
             throw new BuilderApiException(BuilderErrorCode.Category_NOT_ENOUGH);
         }
-//         TODO : 나중에 test에서 builder로 수정 필요
-        else if (!kafkaProducerService.sendMessage("test", toKafka)) {
+        else if (!kafkaProducerService.sendMessage("builder", toKafka)) {
             throw new BuilderApiException(BuilderErrorCode.Kafka_SEND_FAIL);
         }
 
@@ -245,7 +240,7 @@ public class BuilderServiceImpl implements BuilderService {
     public String toKafka(MyBuilderDto myBuilderDto, Account account) {
         List<Product> products = new ArrayList<>();
         // 카테고리 (1,2,5,8 있는지 체크 예정)
-        isCategory = new boolean[10];
+        boolean []isCategory = new boolean[10];
         int dtoLen = myBuilderDto.getBuilderProducts().size();
         int len = dtoLen;
         if (dtoLen < 4) {
@@ -255,19 +250,26 @@ public class BuilderServiceImpl implements BuilderService {
         for (BuilderProductDto builderProductDto : myBuilderDto.getBuilderProducts()) {
             len += builderProductDto.getCnt() - 1;
         }
-        isSame = new boolean[len];
+        boolean []isSame = new boolean[len];
         BuilderProductDto builderProductDto;
-
 
         List<BuilderProductDto> builderProductDtos = sortBuilderProductDto(myBuilderDto.getBuilderProducts());
 
         builderProductDto = builderProductDtos.get(0);
+
+        int dtoIdx = 1;
+
+        // CPU만 먼저 처리해준다
         Product product = productRepository.findById(builderProductDto.getProductIdx()).orElseThrow(
                 () -> new BuilderApiException(BuilderErrorCode.PRODUCT_NOT_FOUND)
         );
         products.add(product);
+        for (int j = 1; j < builderProductDto.getCnt(); j++) {
+            products.add(product);
+            isSame[dtoIdx++] = true;
+        }
         isCategory[product.getCategory()] = true;
-        int dtoIdx = 1;
+
         for (int i = 1; i < dtoLen; i++) {
             builderProductDto = builderProductDtos.get(i);
             product = productRepository.findById(builderProductDto.getProductIdx()).orElseThrow(
@@ -317,13 +319,13 @@ public class BuilderServiceImpl implements BuilderService {
                 }
             }
 
-            return toString(products, myBuilderDto, account, sumPrices, date);
+            return toString(products, myBuilderDto, account, sumPrices, date, isSame);
         }
 
         return null;
     }
 
-    public String toString(List<Product> products, MyBuilderDto myBuilderDto, Account account, List<Integer> prices, int[] date) {
+    public String toString(List<Product> products, MyBuilderDto myBuilderDto, Account account, List<Integer> prices, int[] date, boolean[] isSame) {
         StringBuilder sb = new StringBuilder();
 
         // 부품 아이디들
