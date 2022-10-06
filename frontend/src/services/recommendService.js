@@ -33,3 +33,25 @@ export const captureBuilderRequest = async (option) => {
     return err;
   }
 }
+
+// 회원 견적 캡쳐
+export const captureBuilderForUserRequest = async (option) => {
+  try {
+    option.kafka = false;
+    option.capture = true;
+    const payload = await axiosAuth.post(`${BUILDER_URL}/capture`, option);
+    return payload
+  } catch (err) {
+    return err;
+  }
+}
+
+// 회원 견적 저장
+export const saveRecommendBuilder = async (option) => {
+  try {
+    const payload = await axiosAuth.post(`${BUILDER_URL}`, option);
+    return payload
+  } catch (err) {
+    return err;
+  }
+}
