@@ -105,6 +105,20 @@ $font-size-small: 12px;
     // position: absolute;
     // right: 0px;
     margin-left: 10px;
+
+    .input-number {
+      width: 60px;
+      border-radius: 5px;
+      border-color: black;
+    
+    }
+  }
+  .product-item-right-disabled{
+    margin-left: 10px;
+    .input-number {
+      width: 60px;
+      border-radius: 5px;
+    }
   }
 }
 
@@ -124,6 +138,14 @@ $font-size-small: 12px;
   cursor: pointer;
   font-size: 1.4rem;
   margin-right: 10px;
+  transition: all 0.1s linear;
+}
+
+.plus-button-disabled {
+  color: #dbdbdb;
+  font-size: 1.4rem;
+  margin-right: 10px;
+  transition: all 0.1s linear;
 }
 
 .item-selector{
@@ -137,11 +159,21 @@ $font-size-small: 12px;
   right: 4px;
   top: 5px;
   font-size: 1.4rem;
+  transition: all 0.1s linear;
 }
 
 .delete-button:hover {
   cursor: pointer;
   color: red;
+}
+
+.delete-button-disabled {
+  position: absolute;
+  color: #dbdbdb;
+  right: 4px;
+  top: 5px;
+  font-size: 1.4rem;
+  transition: all 0.1s linear;
 }
 
 .checkbox {
@@ -163,11 +195,9 @@ $font-size-small: 12px;
   margin-top: auto;
   margin-bottom: auto;
 }
-.input-number {
-  width: 60px;
-  border-radius: 5px;
-  border-color: black;
 
+.detail-button:hover {
+  background-color: #f4f4f4;
 }
 
 .product-input{
@@ -184,6 +214,16 @@ $font-size-small: 12px;
   cursor: pointer;
   border-color: #1890ff;
   // background-color: #eeeeee;
+}
+
+.product-input-disabled{
+  border: 1px solid #dbdbdb;
+  color: #dbdbdb;
+  width: 100%;
+  min-width: 100px;
+  padding: 5px;
+  transition: all 0.1s linear;
+  border-radius: 5px;
 }
 
 .bottom-box {
