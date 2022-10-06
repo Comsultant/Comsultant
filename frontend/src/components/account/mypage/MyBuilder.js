@@ -10,7 +10,18 @@ const MyBuilder = () => {
 
   return (
     <div className={style.container}>
-      내견적입니다.
+      <div className={style["product-list"]}>
+              <MyWishList
+                commentDetailDtoList={commentDetailDtoList}
+                setCommentDetailDtoList={setCommentDetailDtoList}
+                currPage={currPage}
+                totalPage={totalPage}
+                setTotalPage={setTotalPage}
+                setCurrPage={setCurrPage}
+                currDesc={currDesc}
+                setCurrDesc={setCurrDesc}
+              />
+            </div>
     </div>
   );
 };
