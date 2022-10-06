@@ -91,6 +91,7 @@ public class CommentServiceImpl implements CommentService {
                     .commentDto(CommentMapper.mapper.toDto(comment))
                     .productImg(Integer.parseInt(product.get("img")))
                     .productName(product.get("name"))
+                    .category(comment.getProduct().getCategory())
                     .build();
             result.add(ret);
         }

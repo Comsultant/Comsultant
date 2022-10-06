@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface RecommendService {
     List<RecommendBuilderResponseDto> getRecommendBuilder(AccountDetails accountDetails, RecommendBuilderDto recommendBuilderDto);
+    List<RecommendBuilderResponseDto> getPopularBuilder();
 }

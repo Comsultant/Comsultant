@@ -10,10 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,6 +27,12 @@ public class RecommendApi {
             @RequestBody RecommendBuilderDto recommendBuilderDto) {
 
         List<RecommendBuilderResponseDto> result = recommendService.getRecommendBuilder(accountDetails, recommendBuilderDto);
+        return ResponseEntity.status(HttpStatus.OK).body(ListResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
+    }
+
+    @GetMapping("/popular")
+    public ResponseEntity<ListResponse<RecommendBuilderResponseDto>> getPopularBuilder() {
+        List<RecommendBuilderResponseDto> result = recommendService.getPopularBuilder();
         return ResponseEntity.status(HttpStatus.OK).body(ListResponse.of(HttpStatus.OK, responseProperties.getSuccess(), result));
     }
 }

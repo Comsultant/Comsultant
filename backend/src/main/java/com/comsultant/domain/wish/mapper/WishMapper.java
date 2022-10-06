@@ -14,6 +14,8 @@ public interface WishMapper extends EntityMapper<WishDto, Wish> {
     @Override
     @Mapping(target = "accountIdx", constant = "0L") //보안때문에 accountIdx 0으로 설정
     @Mapping(source = "product.idx", target = "productIdx")
+    @Mapping(target = "productName", ignore = true)
+    @Mapping(target = "category", ignore = true)
     WishDto toDto(final Wish entity);
 
     @Override

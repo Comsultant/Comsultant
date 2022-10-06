@@ -16,6 +16,7 @@ public interface PsuMapper extends EntityMapper<PsuDto, Psu> {
 
     @Override
     @Mapping(source = "product.idx", target = "idx") // 변수명이 다를 경우. source = Entity, target = DTO
+    @Mapping(target = "wish", ignore = true)
     PsuDto toDto(final Psu entity);
 
     @Override

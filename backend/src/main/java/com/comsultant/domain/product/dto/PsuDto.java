@@ -165,4 +165,10 @@ public class PsuDto {
 
     private double weight; //무게
 
+    private boolean wish;
+
+    public void inputWish(boolean wish) {
+        this.wish = wish;
+    }
+
 }
