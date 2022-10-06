@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import style from "@/styles/ProductSelector.module.scss";
-import { InputNumber, Modal } from "antd";
+import { InputNumber, Modal, notification } from "antd";
 import {
   InfoCircleOutlined,
   PlusSquareOutlined,
@@ -9,14 +9,12 @@ import {
 } from "@ant-design/icons";
 import CustomCheckbox from "../CustomCheckbox";
 import RecommendModal from "./RecommendModal";
+import {  postBuilderCheckRequest } from "@/services/builderService";
 
 const checkboxColor = "#377BB9";
 
-const ContentItem = ({checkState, checkSetter, contentList, contentSetter, name, type, currTypeTab}) => {
-  
-  const onChangeCount = (curr, idx) =>{
-    contentSetter((contentList) => contentList.map((content, i) => i == idx ? {...content, count: curr} : content));
-  }
+const ContentItem = ({checkState, checkSetter, contentList, contentSetter, name, type, currTypeTab, getProductsArray, getTotalProds, notificateError}) => {
+
 
   const initProduct = {id:"", name:"", count:1, price:0};
   const [open, setOpen] = useState(false);
@@ -30,18 +28,82 @@ const ContentItem = ({checkState, checkSetter, contentList, contentSetter, name,
     setOpen(true);
   };
 
-  const handleOk = () => {
-    setConfirmLoading(true);
-    setTimeout(() => {
-      setOpen(false);
-      setConfirmLoading(false);
-      contentSetter((contentList) =>
-       contentList.map((item, idx) => 
-        idx === currIdx ? { ...item, id: pickProduct.id, name: pickProduct.name, price: pickProduct.price } : item
-       ));
-      setPickProduct({id:"", name:"", count:1, price:0})
-    }, 300);
+  const openNotificationWithIcon = (type, desc) => {
+    notification[type]({
+      message: desc,
+    });
+  };
+
+
+  const onChangeCount = async (curr, idx) =>{
+    console.log(curr)
+    if(contentList[idx].id.length == 0) {
+      contentSetter((contentList) => contentList.map((content, i) => i == idx ? {...content, count: curr} : content));
+    } else {
+      // 감소라는 걸 어떻게 알지? 
+      const products = checkCompatiblity(contentList[idx].id, 1, curr > contentList[idx].count);
+      const result = await postBuilderCheckRequest({"products": products});
     
+      if (result?.data?.message !== "success") {
+        openNotificationWithIcon("error", "호환성 검사 실패 : " + result.data.message)
+        return;
+      } else {
+        contentSetter((contentList) => contentList.map((content, i) => i == idx ? {...content, count: curr} : content));
+      }
+    }
+  }
+
+
+  const checkCompatiblity = (newProductIdx, newProductCnt, isPlus) => {
+    const products = [];
+    const productsDict = getTotalProds();
+    console.log(productsDict)
+
+    let duplicated = false
+    Object.keys(productsDict).map((prod) => {
+      if(prod == newProductIdx) {
+        if(isPlus) {
+          productsDict[prod]+=newProductCnt
+        } else {
+          productsDict[prod]-=newProductCnt
+        }
+        duplicated = true
+      }
+      const item = { productIdx: prod, cnt: productsDict[prod] };
+      products.push(item)
+      // console.log(prod, productsDict[prod])
+    })
+
+    if(!duplicated) {
+      products.push({productIdx: newProductIdx, cnt: newProductCnt})
+    }
+    return products;
+  }
+
+
+
+
+  const handleOk = async () => {
+    setConfirmLoading(true);
+    const products = checkCompatiblity(pickProduct.id, 1, true);
+
+    const result = await postBuilderCheckRequest({"products": products});
+    
+    if (result?.data?.message !== "success") {
+      alert("호환성 검사 실패 : " + result.data.message)
+      setConfirmLoading(false);
+      return;
+    } else {
+      setTimeout(() => {
+        setOpen(false);
+        setConfirmLoading(false);
+        contentSetter((contentList) =>
+         contentList.map((item, idx) => 
+          idx === currIdx ? { ...item, id: pickProduct.id, name: pickProduct.name, price: pickProduct.price, count: 1 } : item
+         ));
+        setPickProduct({id:"", name:"", count:1, price:0})
+      }, 300);
+    }
   };
 
   const handleCancel = () => {
@@ -67,6 +129,16 @@ const ContentItem = ({checkState, checkSetter, contentList, contentSetter, name,
     contentSetter(contentList.map((item, item_idx) => 
       item_idx == idx ? {... item, id: '', name: '', price: 0} : item
     ))
+  }
+
+  const onChangeCheckBox = (v) => {
+    console.log(v);
+    if(!v && (type == 'cpu' || type =='ram' || type =='mainboard' || type == 'psu')) {
+      notificateError();
+    } else {
+      checkSetter(v);
+    }
+
   }
 
   return (
@@ -96,11 +168,11 @@ const ContentItem = ({checkState, checkSetter, contentList, contentSetter, name,
       </Modal>
     <div className={style["content-item"]}>
       <div className={style["item-left-box"]}>
-        <InfoCircleOutlined />
+        {/* <InfoCircleOutlined /> */}
         <CustomCheckbox
           backgroundColor={checkboxColor}
           state={checkState}
-          setter={checkSetter}
+          setter={onChangeCheckBox}
         />
         <span className={style.title}>{name}</span>
         </div>      
