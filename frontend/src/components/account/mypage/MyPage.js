@@ -19,6 +19,10 @@ const MyPage = () => {
   const [email, setEmail] = useState("");
   const [nickName, setNickName] = useState("");
   const [birthYear, setBirthYear] = useState("");
+  const [snsType, setSnsType] = useState(0);
+  const [password, setPassword] = useState("");
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
+
   const tabs = [
     { label: "마이 페이지", key: "0" },
     { label: "댓글", key: "1" },
@@ -38,6 +42,11 @@ const MyPage = () => {
           setNickName={setNickName}
           birthYear={birthYear}
           setBirthYear={setBirthYear}
+          snsType={snsType}
+          password={password}
+          setPassword={setPassword}
+          isPasswordValid={isPasswordValid}
+          setIsPasswordValid={setIsPasswordValid}
         />
       )
     } else if (currTypeTab == 1) {
@@ -82,6 +91,11 @@ const MyPage = () => {
         setEmail(result?.data?.responseDto?.email);
         setNickName(result?.data?.responseDto?.nickname);
         setBirthYear(result?.data?.responseDto?.birthYear);
+        setSnsType(result?.data?.responseDto?.snsType);
+        if (result?.data?.responseDto?.snsType !== 0) {
+          setIsPasswordValid(true);
+          setPassword(true);
+        }
       }
     }
     fetchData();

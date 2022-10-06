@@ -1,13 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import style from "@/styles/SearchProductListComponent.module.scss"
-import { message, Pagination } from "antd";
+import { message, Pagination, notification } from "antd";
 import ProductNumMapper from "@/tools/ProductNumMapper";
 import { getProductRequest } from "@/services/productService";
 import ProductDetail from "./ProductDetail";
 import { HeartOutlined, HeartFilled } from "@ant-design/icons";
-import { postBuilderRequest } from "@/services/builderService.js";
+import { postBuilderCheckRequest, postBuilderRequest } from "@/services/builderService.js";
 import { deleteWishRequest, postWishRequest } from "@/services/wishService.js";
 import { useSelector } from "react-redux";
+import Loading from "../Loading";
 
 const SearchProductListComponent = (
   {
@@ -33,10 +34,12 @@ const SearchProductListComponent = (
     activeKey,
     setActiveKey,
     tabOpen,
+    setTabOpen,
   }
 ) => {
   
   const isLogin = useSelector(state => state.account.isLogin);
+  const [isLoading, setIsLoading] = useState(true);
 
   const onWishClicked = async(productIdx) => {
     const result = await postWishRequest(productIdx);
@@ -65,6 +68,12 @@ const SearchProductListComponent = (
     newList[idx] = {...productList[idx], wish: false};
     setProductList(newList);
   }
+
+  const openNotificationWithIcon = (type, desc) => {
+    notification[type]({
+      message: desc,
+    });
+  };
 
   useEffect(() => {
     const builderProducts = [];
@@ -123,7 +132,72 @@ const SearchProductListComponent = (
   },[cpuList, ramList, hddList, ssdList, powerList, coolerList, caseList, mbList, vgaList])
 
 
-  const onPutBuilder = (productIdx, price, productName) => {
+  const onPutBuilder = async(productIdx, price, productName) => {
+    const builderProducts = [];
+
+    cpuList.map((product, idx) => {
+      const item = { productIdx: product.productIdx, cnt: product.cnt };
+      builderProducts.push(item);
+    })
+    ramList.map((product, idx) => {
+      const item = { productIdx: product.productIdx, cnt: product.cnt };
+      builderProducts.push(item);
+    })
+    hddList.map((product, idx) => {
+      const item = { productIdx: product.productIdx, cnt: product.cnt };
+      builderProducts.push(item);
+    })
+    ssdList.map((product, idx) => {
+      const item = { productIdx: product.productIdx, cnt: product.cnt };
+      builderProducts.push(item);
+    })
+    powerList.map((product, idx) => {
+      const item = { productIdx: product.productIdx, cnt: product.cnt };
+      builderProducts.push(item);
+    })
+    coolerList.map((product, idx) => {
+      const item = { productIdx: product.productIdx, cnt: product.cnt };
+      builderProducts.push(item);
+    })
+    caseList.map((product, idx) => {
+      const item = { productIdx: product.productIdx, cnt: product.cnt };
+      builderProducts.push(item);
+    })
+    mbList.map((product, idx) => {
+      const item = { productIdx: product.productIdx, cnt: product.cnt };
+      builderProducts.push(item);
+    })
+    vgaList.map((product, idx) => {
+      const item = { productIdx: product.productIdx, cnt: product.cnt };
+      builderProducts.push(item);
+    })
+
+    let tmpIdx = -1;
+    builderProducts.map((curr, i) => {
+      if (curr.productIdx == productIdx) {
+        tmpIdx = i;
+      } 
+    })
+    if (tmpIdx == -1) {
+      builderProducts.push({ productIdx, cnt: 1 });
+    } else {
+      builderProducts[tmpIdx] = { productIdx, cnt: builderProducts[tmpIdx].cnt + 1 };
+    }
+
+    
+    // const products = {...builderProducts.map((curr, idx)=>curr.idx)};
+    
+    const dataToSubmit = {
+      products: [...builderProducts.filter((curr) => curr)],
+    }
+    const result = await postBuilderCheckRequest(dataToSubmit);
+    if (result?.data?.message !== "success") {
+      openNotificationWithIcon('error', result.data.message);
+      // message.error(result.data.message);
+      return;
+    }
+
+    setTabOpen(true);
     let idx = -1;
     switch (currTypeTab) {
       case '0':
@@ -259,6 +333,7 @@ const SearchProductListComponent = (
   } 
 
   useEffect(() => {
+    
     let type = ProductNumMapper[currTypeTab];
     const dataToSubmit = {
       page: 1,
@@ -267,14 +342,24 @@ const SearchProductListComponent = (
       body: filterBody
     }
     const fetchData = async () => {
+      setIsLoading(true);
       const result = await getProductRequest(dataToSubmit);
       if (result?.data?.message === "success") {
         setTotalPage(result?.data?.responseDto?.totalPage);
         setProductList(result?.data?.responseDto?.productDtoList);
+        setCurrPage(1);
       }
+      setIsLoading(false);
     }
-    setCurrPage(1);
-    fetchData();
+  
+    const timer = setTimeout(() => {
+      fetchData();
+    }, 100);
+
+    return () => {
+      clearTimeout(timer);
+    };
+
   }, [filterBody, currDescNum])
 
   useEffect(() => {
@@ -295,11 +380,6 @@ const SearchProductListComponent = (
     fetchData();
   }, [currPage, currDescNum])
 
-  useEffect(()=> {
-    //회원 wishList 불러오기
-    console.log("productList changed!");
-  },[productList])
-
   return(
     <>
       {productList?.map((product, idx)=>{
@@ -307,13 +387,17 @@ const SearchProductListComponent = (
               <div key={idx} className={style['product-item']}>
                 <div
                   className={tabOpen ? style['left-item-tab-open'] : style['left-item-tab-close']}
-                  onClick={() => { window.open(`/product/info?idx=${product.idx}&type=${currTypeTab}`) }}
                 >
-                  <div className={style['product-img']}>
+                  <div className={style['product-img']}
+                    onClick={() => { window.open(`/product/info?idx=${product.idx}&type=${currTypeTab}`) }}
+                  >
                     <img src={`https://j7a602.p.ssafy.io/static/images/${product.idx}/0.jpg`} alt=""/>
                   </div>
                   <div>
-                    <div className={style['product-name']}>
+                    <div
+                      className={style['product-name']}
+                      onClick={() => { window.open(`/product/info?idx=${product.idx}&type=${currTypeTab}`) }}
+                    >
                       <span>{product.name}</span>
                     </div>
                     <div>

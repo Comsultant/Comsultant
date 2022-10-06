@@ -247,6 +247,7 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
 
     if(body.builderProducts.length == 0) {
       alert("제품을 추가해 주세요")
+      handleCancel();
       return ;
     }
 
@@ -263,6 +264,7 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
 
     // 보낸 후에 builderName 초기화시키고 모달 닫는다.
     handleOk();
+    getMyBuilderList();
   }
 
   const onChangeBuilderName = (e) => {
@@ -340,6 +342,16 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
     setCaseList(initProduct);
     setMbList(initProduct);
     setVgaList(initProduct);
+
+    setCpuChecked(true)
+    setRamChecked(true)
+    setHddChecked(false)
+    setSsdChecked(true)
+    setPowerChecked(true)
+    setCoolerChecked(true)
+    setCaseChecked(true)
+    setMbChecked(true)
+    setVgaChecked(true)
     
     setFilterItem({
       ...filterItem,
@@ -356,19 +368,21 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
     })
   }
 
-  useEffect(() => {
-    async function getMyBuilderList() {
-      console.log("getMYBUILDER")
-      const result = await getAllBuilderRequest();
-      if(result?.data?.message == "success") {
-        if(result?.data?.responseDto?.myBuilderDetailDtoList?.length != 0) {
-          setMyBuilderList(result.data.responseDto.myBuilderDetailDtoList)
-          // console.log( result.data.responseDto.myBuilderDetailDtoList[0].myBuilderDto)
-        } else {
-          alert("견적 불러오기 실패")
-        }
+  const getMyBuilderList = async () => {
+    console.log("getMYBUILDER")
+    const result = await getAllBuilderRequest();
+    if(result?.data?.message == "success") {
+      if(result?.data?.responseDto?.myBuilderDetailDtoList?.length != 0) {
+        setMyBuilderList(result.data.responseDto.myBuilderDetailDtoList)
+        // console.log( result.data.responseDto.myBuilderDetailDtoList[0].myBuilderDto)
       }
+    } else {
+      alert("견적 불러오기 실패")
     }
+  }
+
+  useEffect(() => {
+    
 
     if(isLogin) {
       getMyBuilderList();

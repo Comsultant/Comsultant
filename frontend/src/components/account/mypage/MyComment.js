@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import style from "@/styles/Search.module.scss";
+import style from "@/styles/MyComment.module.scss";
 import MyCommentList from "./MyCommentList";
 import { Space, Button } from "antd";
 const MyComment = () => {
@@ -17,22 +17,22 @@ const MyComment = () => {
 
   return (
     <div className={style.container}>
-      <Space>
+      <Space className={style["my-comment-option"]}>
         <Button onClick={changeDescTrue}> 최신순</Button>
         <Button onClick={changeDescFalse}> 오래된순</Button>
       </Space>
       <div className={style["product-list"]}>
-              <MyCommentList
-                commentDetailDtoList={commentDetailDtoList}
-                setCommentDetailDtoList={setCommentDetailDtoList}
-                currPage={currPage}
-                totalPage={totalPage}
-                setTotalPage={setTotalPage}
-                setCurrPage={setCurrPage}
-                currDesc={currDesc}
-                setCurrDesc={setCurrDesc}
-              />
-            </div>
+        <MyCommentList
+          commentDetailDtoList={commentDetailDtoList}
+          setCommentDetailDtoList={setCommentDetailDtoList}
+          currPage={currPage}
+          totalPage={totalPage}
+          setTotalPage={setTotalPage}
+          setCurrPage={setCurrPage}
+          currDesc={currDesc}
+          setCurrDesc={setCurrDesc}
+        />
+      </div>
     </div>
   );
 };
