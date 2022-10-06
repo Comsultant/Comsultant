@@ -1,10 +1,14 @@
 import { getProductCommentRequest } from "@/services/productService";
 import React, { useEffect, useState } from "react";
-import { Avatar, Button, Comment, Form, Input, List } from "antd";
+import { Avatar, Button, Comment, Form, Input, List, Popconfirm } from "antd";
 import moment from "moment";
 import style from "@/styles/ProductComment.module.scss";
 import { useSelector } from "react-redux";
-import { deleteCommentRequest, postCommentRequest, putCommentRequest } from "@/services/CommentService";
+import {
+  deleteCommentRequest,
+  postCommentRequest,
+  putCommentRequest,
+} from "@/services/CommentService";
 import { Empty } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 
@@ -74,15 +78,15 @@ const ProductComment = ({ idx, type }) => {
     setEditContent(value);
     setEditIdx(i);
     setEditCommentIdx(commentIdx);
-  }
+  };
 
   const onDeleteClicked = (idx, commentIdx) => {
     setComments(comments.filter((curr, i) => i != idx));
     const dataToSubmit = {
       idx: commentIdx,
-    }
+    };
     deleteCommentRequest(dataToSubmit);
-  }
+  };
 
   const onHandleSubmit = async () => {
     if (!content) return;
@@ -94,68 +98,72 @@ const ProductComment = ({ idx, type }) => {
     const result = await postCommentRequest(dataToSubmit);
     if (result?.data?.message === "success") {
       const newObj = {
-      commentDto: {
-        idx: result?.data?.responseDto?.idx,
-        nickName: nickname,
-        content: content.trim(),
-      },
-      productImg: 0,
-      productName: null,
-    }
-    setComments([newObj, ...comments]);
-    setContent("");
+        commentDto: {
+          idx: result?.data?.responseDto?.idx,
+          nickName: nickname,
+          content: content.trim(),
+        },
+        productImg: 0,
+        productName: null,
+      };
+      setComments([newObj, ...comments]);
+      setContent("");
     } else {
       return;
     }
-
-    
   };
 
   const onHandleEditSubmit = () => {
     const dataToSubmit = {
       idx: editCommentIdx,
-      content: editContent.trim()
+      content: editContent.trim(),
     };
     putCommentRequest(dataToSubmit);
     let copyArr = [...comments];
     if (editIdx != -1) {
-      copyArr[editIdx] = { ...copyArr[editIdx], commentDto : { ...copyArr[editIdx].commentDto, content: editContent.trim() } };
+      copyArr[editIdx] = {
+        ...copyArr[editIdx],
+        commentDto: {
+          ...copyArr[editIdx].commentDto,
+          content: editContent.trim(),
+        },
+      };
     }
     setComments([...copyArr]);
     setEditIdx(-1);
-    setEditContent('');
-  }
+    setEditContent("");
+  };
 
-  const elapsedTime = (date) => {
+  const elapsedTime = date => {
     const start = new Date(date);
     const end = new Date(); // 현재 날짜
-    
+
     const offset = start.getTimezoneOffset() / 60;
     const hours = start.getHours();
     start.setHours(hours - offset);
 
-    const diff = (end - start); // 경과 시간
+    const diff = end - start; // 경과 시간
     const times = [
-      {time: "분", milliSeconds: 1000 * 60},
-      {time: "시간", milliSeconds: 1000 * 60 * 60},
-      {time: "일", milliSeconds: 1000 * 60 * 60 * 24},
-      {time: "개월", milliSeconds: 1000 * 60 * 60 * 24 * 30},
-      {time: "년", milliSeconds: 1000 * 60 * 60 * 24 * 365},
+      { time: "분", milliSeconds: 1000 * 60 },
+      { time: "시간", milliSeconds: 1000 * 60 * 60 },
+      { time: "일", milliSeconds: 1000 * 60 * 60 * 24 },
+      { time: "개월", milliSeconds: 1000 * 60 * 60 * 24 * 30 },
+      { time: "년", milliSeconds: 1000 * 60 * 60 * 24 * 365 },
     ].reverse();
-    
+
     // 년 단위부터 알맞는 단위 찾기
     for (const value of times) {
       const betweenTime = Math.floor(diff / value.milliSeconds);
-      
+
       // 큰 단위는 0보다 작은 소수 단위 나옴
       if (betweenTime > 0) {
         return `${betweenTime}${value.time} 전`;
       }
     }
-    
+
     // 모든 단위가 맞지 않을 시
     return "방금 전";
-  }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -179,63 +187,87 @@ const ProductComment = ({ idx, type }) => {
     <div className={style.container}>
       {comments.length > 0 ? (
         <>
-          <div className={style['replies']}>
-          {comments.length} replies
-          </div>
-          {editIdx != -1 ?
-                  <div className={style['comment-input-box']}>
-  
-                    <TextArea
-                      className={style["comment-input"]}
-                      value={editContent}
-                      onChange={e => setEditContent(e.target.value)}
-                    />
-                    <button
-                      className={style["submit-button"]}
-                      onSubmit={onHandleEditSubmit}
-                      onClick={onHandleEditSubmit}
-                    >
-                      수정
-                    </button>
-                  </div>
-                  : null}
+          <div className={style["replies"]}>{comments.length} replies</div>
+          {editIdx != -1 ? (
+            <div className={style["comment-input-box"]}>
+              <TextArea
+                className={style["comment-input"]}
+                value={editContent}
+                onChange={e => setEditContent(e.target.value)}
+              />
+              <button
+                className={style["submit-button"]}
+                onSubmit={onHandleEditSubmit}
+                onClick={onHandleEditSubmit}
+              >
+                수정
+              </button>
+            </div>
+          ) : null}
           {comments.map((comment, idx) => {
             return (
               <div key={idx}>
-              {editIdx != idx ?                 
-                <div className={style['comment-box']}>
-                <div className={style['avatar']}>
-                  <Avatar size={32} icon={<UserOutlined />}/>
-                </div>
-                <div style={{ width: '100%' }}>
-                  <div className={style['nickname']}>{comment.commentDto.nickName}</div>
-                  <div className={style['content']}>{comment.commentDto.content}</div>
-                  <div className={style['time']}>{elapsedTime(comment.commentDto.createDate)}
-                    {isLogin && nickname == comment.commentDto.nickName ?
-                      <div>
-                        <span className={style['edit-button']} onClick={()=>onEditClicked(idx, comment.commentDto.content, comment.commentDto.idx)}>수정</span>
-                        <span> / </span>
-                        <span className={style['delete-button']} onClick={()=>onDeleteClicked(idx, comment.commentDto.idx)}>삭제</span>
+                {editIdx != idx ? (
+                  <div className={style["comment-box"]}>
+                    <div className={style["avatar"]}>
+                      <Avatar size={32} icon={<UserOutlined />} />
+                    </div>
+                    <div style={{ width: "100%" }}>
+                      <div className={style["nickname"]}>
+                        {comment.commentDto.nickName}
                       </div>
-                      : null}
-                    
+                      <div className={style["content"]}>
+                        {comment.commentDto.content}
+                      </div>
+                      <div className={style["time"]}>
+                        {elapsedTime(comment.commentDto.createDate)}
+                        {isLogin && nickname == comment.commentDto.nickName ? (
+                          <div>
+                            <span
+                              className={style["edit-button"]}
+                              onClick={() =>
+                                onEditClicked(
+                                  idx,
+                                  comment.commentDto.content,
+                                  comment.commentDto.idx
+                                )
+                              }
+                            >
+                              수정
+                            </span>
+                            <span> / </span>
+                            <Popconfirm
+                              placement="left"
+                              title={"정말 삭제하시겠습니까?"}
+                              onConfirm={() =>
+                                onDeleteClicked(idx, comment.commentDto.idx)
+                              }
+                              okText="삭제"
+                              cancelText="취소"
+                            >
+                              <span
+                                className={style["delete-button"]}
+                              >
+                                삭제
+                              </span>
+                            </Popconfirm>
+                          </div>
+                        ) : null}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>                
-               : null}
-              
+                ) : null}
               </div>
             );
           })}
         </>
       ) : (
-        <Empty />
+        <Empty description={"작성된 댓글이 없습니다"}/>
       )}
 
       {isLogin ? (
         <>
-          <div className={style['comment-input-box']}>
-            
+          <div className={style["comment-input-box"]}>
             <TextArea
               className={style["comment-input"]}
               value={content}

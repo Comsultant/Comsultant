@@ -23,7 +23,7 @@ const ProductPriceChart = ({ priceData }) => {
     <>
           {priceData == undefined || priceData.length <= 0 ? (
               <div style={{display: 'flex', justifyContent:"center", alignItems:"center"}}>  
-                <Empty />
+          <Empty description={"최근 시세 데이터가 없습니다"} />
               </div>
       ) : (
         <ResponsiveLine
