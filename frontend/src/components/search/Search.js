@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import style from "@/styles/Search.module.scss";
 import ProductSearchFilter from "../search/ProductSearchFilter";
 import DescFilter from "../recommend/DescFilter";
-import { Affix, Slider, Drawer, Tabs, Popconfirm, message } from "antd";
+import { Affix, Slider, Drawer, Tabs, Popconfirm, message, Modal, Input } from "antd";
 import PriceFormatter from "@/tools/PriceFormatter";
 import {
   SearchOutlined,
@@ -62,6 +62,9 @@ const Search = () => {
   const [caseList, setCaseList] = useState([]);
   const [coolerList, setCoolerList] = useState([]);
   const [activeKey, setActiveKey] = useState(["1"]);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [builderName, setBuilderName] = useState("");
 
   const isLogin = useSelector(state => state.account.isLogin);
 
@@ -214,11 +217,10 @@ const Search = () => {
   };
 
   const onAddAccountBuildItem = async () => {
-    console.log(accountBuildList);
     // axios 요청으로 사용자 저장 견적 데이터 추가
     const fetchData = async () => {
       const requestBody = {
-        name: "PC" + parseInt(accountBuildList.length + 1),
+        name: builderName,
         builderProducts: [],
       };
       const result = await postBuilderRequest(requestBody);
@@ -237,6 +239,7 @@ const Search = () => {
       }
     };
     fetchData();
+    handleOk();
   };
 
   const onRemoveAccountBuildItem = (idx, index) => {
@@ -277,6 +280,10 @@ const Search = () => {
     }
   };
 
+  const showModal = () => {
+    setIsModalOpen(true);
+  }
+
   useEffect(() => {
     // 초기 페이지 로딩 시 cpu 필터링 데이터 가져오기
     getProductFilterData("cpu");
@@ -304,8 +311,39 @@ const Search = () => {
     { label: "쿨러/기타", key: "8" },
   ];
 
+  const onChangeBuilderName = (e) => {
+    setBuilderName(e.target.value)
+  }
+
+  const handleOk = () => {
+    setBuilderName("");
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <>
+      <Modal title="견적 저장하기" 
+            open={isModalOpen} 
+            onOk={onAddAccountBuildItem} 
+            onCancel={handleCancel}
+            okText="저장하기"
+            cancelText="취소하기"
+            style={{
+              top: "30%"
+            }}
+          >
+            <Input
+            addonBefore="견적 이름"
+            placeholder="견적 이름을 입력해 주세요"
+            allowClear
+            onChange={onChangeBuilderName}
+            className={style["builder-name-input"]}
+            />
+      </Modal>
       <div className={style.container}>
         <Affix>
           <div className={style["product-tab"]}>
@@ -571,15 +609,7 @@ const Search = () => {
               </div>
 
               <div>
-                <Popconfirm
-                  placement="left"
-                  title={"PC를 추가하시겠습니까?"}
-                  onConfirm={onAddAccountBuildItem}
-                  okText="확인"
-                  cancelText="취소"
-                >
-                  <PlusOutlined />
-                </Popconfirm>
+                  <PlusOutlined onClick={showModal} />
               </div>
             </div>
             <div className={style["side-menu-body"]}>
