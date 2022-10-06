@@ -4,9 +4,18 @@ import ProductSearchFilter from "../search/ProductSearchFilter";
 import DescFilter from "../recommend/DescFilter";
 import { Affix, Slider, Drawer, Tabs, Popconfirm, message } from "antd";
 import PriceFormatter from "@/tools/PriceFormatter";
-import { SearchOutlined, PlusOutlined, CloseOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
+import {
+  SearchOutlined,
+  PlusOutlined,
+  CloseOutlined,
+  LeftOutlined,
+  RightOutlined,
+} from "@ant-design/icons";
 import SearchProductListComponent from "./SearchProductListComponent";
-import { getProductFilterRequest, getProductRequest } from "@/services/productService";
+import {
+  getProductFilterRequest,
+  getProductRequest,
+} from "@/services/productService";
 import ProductFilterKorean from "@/tools/ProductFilterKorean";
 import { AddtionalCoolerFilterList } from "@/tools/AddtionalCoolerFilterList";
 import { AdditionalCasesFilterList } from "@/tools/AddtionalCasesFilterLIst";
@@ -14,13 +23,17 @@ import { filter, max } from "lodash";
 import ProductNumMapper from "@/tools/ProductNumMapper";
 import DrawerBody from "./DrawerBody";
 import { useSelector } from "react-redux";
-import { getAllBuilderRequest, postBuilderRequest, getBuilderDetailRequest, deleteBuilderRequest } from "@/services/builderService.js"
-
+import {
+  getAllBuilderRequest,
+  postBuilderRequest,
+  getBuilderDetailRequest,
+  deleteBuilderRequest,
+} from "@/services/builderService.js";
 
 const Search = () => {
   const defaultMaxPrice = 5000000;
 
-  const [currTypeTab, setCurrTypeTab] = useState('0');
+  const [currTypeTab, setCurrTypeTab] = useState("0");
   const [filterList, setFilterList] = useState([]);
   const [filterDetailList, setFilterDetailList] = useState([]);
   const [currDescNum, setCurrDescNum] = useState(0);
@@ -39,7 +52,6 @@ const Search = () => {
 
   const [filterBody, setFilterBody] = useState({});
 
-  
   const [cpuList, setCpuList] = useState([]);
   const [mbList, setMbList] = useState([]);
   const [vgaList, setVgaList] = useState([]);
@@ -49,10 +61,9 @@ const Search = () => {
   const [hddList, setHddList] = useState([]);
   const [caseList, setCaseList] = useState([]);
   const [coolerList, setCoolerList] = useState([]);
-  const [activeKey, setActiveKey] = useState(['1']);
+  const [activeKey, setActiveKey] = useState(["1"]);
 
   const isLogin = useSelector(state => state.account.isLogin);
-
 
   const toggleDrawer = () => {
     setTabOpen(curr => !curr);
@@ -62,38 +73,55 @@ const Search = () => {
     setTabOpen(false);
   };
 
-  const onPriceChange = (e) => {
+  const onPriceChange = e => {
     setMinPrice(e[0]);
     setMaxPrice(e[1]);
-    setFilterBody(
-      { ...filterBody, price: [e[0], e[1]] }
-    );
+    setFilterBody({ ...filterBody, price: [e[0], e[1]] });
   };
 
-  const onSearchButtonClicked = (e) => {
-    setFilterBody(
-      { ...filterBody, name: searchValue.trim() }
-    );
+  const onMinPriceChange = (price) => {
+    if (price > maxPrice) {
+      return;
+    }
+    setMinPrice(price);
+    setFilterBody({ ...filterBody, price: [price, maxPrice] })
   }
 
-  const onSearchInputKeyDown = (e) => {
-    if (e.key == 'Enter') {
-      setFilterBody(
-        { ...filterBody, name: searchValue.trim() }
-      );
+  const onMaxPriceChange = (price) => {
+    if (price < minPrice) {
+      return;
     }
+    setMaxPrice(price);
+    setFilterBody({ ...filterBody, price: [minPrice, price] })
   }
+
+  const onSearchButtonClicked = e => {
+    setFilterBody({ ...filterBody, name: searchValue.trim() });
+  };
+
+  const onSearchInputKeyDown = e => {
+    if (e.key == "Enter") {
+      setFilterBody({ ...filterBody, name: searchValue.trim() });
+    }
+  };
 
   const onFilterBodyItemDelete = (key, value) => {
     //제거
-    setFilterBody(
-      { ...filterBody, [key] : filterBody[key].filter((curr) => curr != value)}
-    )
-  
+    setFilterBody({
+      ...filterBody,
+      [key]: filterBody[key].filter(curr => curr != value),
+    });
+  };
+
+  const onAddtionalFilterBodyItemDelete = (key) => {
+    //false로 바꾸기
+    setFilterBody({
+      ...filterBody,
+      [key]: false,
+    })
   }
 
-  const onBuilderClicked = (builder) => {
-
+  const onBuilderClicked = builder => {
     setCurrBuilder(builder);
     setTabOpen(true);
     // const dataToSubmit = {
@@ -111,8 +139,6 @@ const Search = () => {
     // }
     // postBuilderRequest(dataToSubmit);
 
-    
-    
     const fetchDetailData = async () => {
       const newCpuList = [];
       const newRamList = [];
@@ -133,16 +159,16 @@ const Search = () => {
       setMbList([]);
       setVgaList([]);
       const result = await getBuilderDetailRequest(builder.idx);
-      if (result?.data?.message === "success") {        
-
-        const builderProductDetailDtos = result.data.responseDto.builderProductDetailDtos;
+      if (result?.data?.message === "success") {
+        const builderProductDetailDtos =
+          result.data.responseDto.builderProductDetailDtos;
         builderProductDetailDtos.map((product, idx) => {
           const item = {
             productIdx: product?.productIdx,
             productName: product?.productName,
             price: product?.price,
             cnt: product?.cnt,
-          }
+          };
           switch (product?.category) {
             case 1:
               newCpuList.push(item);
@@ -172,8 +198,7 @@ const Search = () => {
               newVgaList.push(item);
               break;
           }
-          
-        })
+        });
       }
       setCpuList(newCpuList);
       setRamList(newRamList);
@@ -184,21 +209,19 @@ const Search = () => {
       setCaseList(newCaseList);
       setMbList(newMbList);
       setVgaList(newVgaList);
-    }
+    };
     fetchDetailData();
-    
-  }
+  };
 
-
-  const onAddAccountBuildItem = async() => {
+  const onAddAccountBuildItem = async () => {
     console.log(accountBuildList);
     // axios 요청으로 사용자 저장 견적 데이터 추가
     const fetchData = async () => {
       const requestBody = {
         name: "PC" + parseInt(accountBuildList.length + 1),
         builderProducts: [],
-      }
-      const result = await postBuilderRequest(requestBody); 
+      };
+      const result = await postBuilderRequest(requestBody);
       console.log(result);
       if (result?.data?.message === "success") {
         message.success("생성되었습니다!");
@@ -208,15 +231,14 @@ const Search = () => {
             idx: result.data.responseDto.idx,
           },
           builderProductDetailDtos: [],
-        }
+        };
         setAccountBuildList([...accountBuildList, newBuild]);
         console.log(accountBuildList);
       }
-      
-    }
+    };
     fetchData();
   };
-  
+
   const onRemoveAccountBuildItem = (idx, index) => {
     // 프론트단에서 제거
     setAccountBuildList(
@@ -227,7 +249,7 @@ const Search = () => {
   };
 
   // 현재 선택된 부품 필터키리스트, 필터밸류리스트 받아오기
-  const getProductFilterData = async (type) => {
+  const getProductFilterData = async type => {
     const result = await getProductFilterRequest(type);
     if (result?.data?.message === "success") {
       const data = result.data.responseDto;
@@ -258,17 +280,16 @@ const Search = () => {
   useEffect(() => {
     // 초기 페이지 로딩 시 cpu 필터링 데이터 가져오기
     getProductFilterData("cpu");
-    // 사용자 저장 견적 데이터 가져오기 
+    // 사용자 저장 견적 데이터 가져오기
     if (isLogin) {
-      const fetchData = async() => {
+      const fetchData = async () => {
         const result = await getAllBuilderRequest();
         if (result?.data?.message === "success") {
           setAccountBuildList(result.data.responseDto.myBuilderDetailDtoList);
         }
-      }
+      };
       fetchData();
     }
-
   }, []);
 
   const productTypeList = [
@@ -292,9 +313,11 @@ const Search = () => {
               defaultActiveKey="0"
               items={productTypeList}
               size={"large"}
-              onChange={key => { setCurrTypeTab(key); }}
-              className={style['tabs']}
-              />
+              onChange={key => {
+                setCurrTypeTab(key);
+              }}
+              className={style["tabs"]}
+            />
           </div>
         </Affix>
 
@@ -312,60 +335,105 @@ const Search = () => {
             maxPrice={maxPrice}
           />
         </div>
-        <div className={style["price-filter"]}>
-          <span>가격</span>
-          <Slider
-            range={{ draggableTrack: true }}
-            onAfterChange={onPriceChange}
-            defaultValue={[0, defaultMaxPrice]}
-            max={10000000}
-            step={50000}
-            className={style.slider}
-            tooltip={{
-              open: true,
-              formatter: PriceFormatter,
-            }}
-            trackStyle={{ backgroundColor: "#377BB9", height: "8px" }}
-            handleStyle={{
-              borderColor: "black",
-              width: "25px",
-              height: "16px",
-              borderRadius: "5px",
-            }}
-          />
-          <div className={style["selected-filter-box"]}>
-              {
-                Object.entries(filterBody).map((curr, idx) => {
-                  const key = curr[0];
-                  const value = curr[1];
-                  if (key !== "name" && key !== "price" && value.length > 0) {
-                    return (
-                      <div key={idx}>
-                      <span>
-                          {ProductFilterKorean[key]} : {value.map((v, idx) => {
-                            return (
-                              <span
-                                key={idx}
-                                className={style['filter-body-item']}>
-                                {v}
-                                <CloseOutlined
-                                  onClick={() => onFilterBodyItemDelete(key, v)}
-                                  style={{ color: 'red' }}
-                                />
-                              </span>);
-                          })}
-                      </span>
-                        
-                      <br/>
-                      </div>
-                    );
-                  }
-                })
-              }
-
+        <div className={style['price-input-box']}>
+          <div style={{display: 'flex', alignItems:'center'}}>
+          <span style={{whiteSpace: 'nowrap'}}>최소</span>
+            <input
+              type={"number"}
+              value={minPrice}
+              onChange={(e) => onMinPriceChange(e.target.value)}
+              step={1000}
+              className={style['price-input']}
+            />
+          </div>
+          <div style={{display: 'flex', alignItems:'center'}}>
+          <span style={{whiteSpace: 'nowrap'}}>최대</span>
+            <input
+              type={"number"}
+              value={maxPrice}
+              onChange={(e) => onMaxPriceChange(e.target.value)}
+              step={1000}
+              className={style['price-input']}
+            />
+          </div>
+            <div className={style["price-filter"]}>
+            <span style={{ fontSize: "18px", whiteSpace: "nowrap" }}>가격</span>
+            <Slider
+              range={{ draggableTrack: true }}
+              // onAfterChange={onPriceChange}
+              onChange={onPriceChange}
+              defaultValue={[0, defaultMaxPrice]}
+              value={[minPrice, maxPrice]}
+              max={10000000}
+              step={1000}
+              className={style.slider}
+              tooltip={{
+                open: true,
+                formatter: PriceFormatter,
+              }}
+              trackStyle={{ backgroundColor: "#377BB9", height: "8px" }}
+              handleStyle={{
+                borderColor: "black",
+                width: "25px",
+                height: "16px",
+                borderRadius: "5px",
+              }}
+            />
           </div>
         </div>
+        
+        
+        <div className={style["selected-filter-box"]}>
 
+          {Object.entries(filterBody).map((curr, idx) => {
+              const key = curr[0];
+              const value = curr[1];
+            if (key !== "name" && key !== "price") {
+              if (typeof (value) == 'boolean') {
+                return (
+                  <>
+                    <span key={idx}>
+                        {value ? <span key={idx} className={style["filter-body-item"]}>
+                            {key}
+                            <CloseOutlined
+                              onClick={() => onAddtionalFilterBodyItemDelete(key)}
+                              style={{ color: "red" }}
+                            />
+                          </span>: null}
+                    </span>
+                  </>
+                );
+                }
+              if (value != undefined && value.length > 0) {
+                return (
+                  <div key={idx}>
+                    <span>
+                      {ProductFilterKorean[key]} :{" "}
+                      {value?.map((v, idx) => {
+                        return (
+                          <span key={idx} className={style["filter-body-item"]}>
+                            {v}
+                            <CloseOutlined
+                              onClick={() => onFilterBodyItemDelete(key, v)}
+                              style={{ color: "red" }}
+                            />
+                          </span>
+                        );
+                      })}
+                    </span>
+
+                    <br />
+                  </div>
+                );
+                } 
+                // if (key == 'extendedAtx') {
+                //   console.log(key);
+                //   return;
+                // }
+                
+              }
+            })}
+          </div>
         <div className={style["main-content"]}>
           <div className={style["filter-box"]}>
             <div className={style["desc-filter"]}>
@@ -381,15 +449,22 @@ const Search = () => {
                 }}
                 onKeyDown={onSearchInputKeyDown}
               />
-              <SearchOutlined className={style["search-icon"]} onClick={onSearchButtonClicked} />
+              <SearchOutlined
+                className={style["search-icon"]}
+                onClick={onSearchButtonClicked}
+              />
             </div>
             <div className={style["builder-tab-button"]}>
               <button onClick={toggleDrawer}>
-                {tabOpen ?
-                    <span>견적 탭 <RightOutlined /></span>
-                  :
-                    <span>견적 탭 <LeftOutlined /></span>
-                  }
+                {tabOpen ? (
+                  <span>
+                    견적 탭 <RightOutlined />
+                  </span>
+                ) : (
+                  <span>
+                    견적 탭 <LeftOutlined />
+                  </span>
+                )}
               </button>
             </div>
           </div>
@@ -434,10 +509,15 @@ const Search = () => {
                 activeKey={activeKey}
                 setActiveKey={setActiveKey}
                 tabOpen={tabOpen}
+                setTabOpen={setTabOpen}
               />
             </div>
             <Drawer
-              title={currBuilder?.name != undefined ? currBuilder?.name : "현재 견적 이름"}
+              title={
+                currBuilder?.name != undefined
+                  ? currBuilder?.name
+                  : "현재 견적 이름"
+              }
               placement="right"
               // closable={false}
               onClose={onClose}
@@ -479,42 +559,63 @@ const Search = () => {
           </div>
         </div>
       </div>
-      {
-        isLogin ? <Affix
-        offsetTop={200}
-        style={{ position: "absolute", top: 80, right: 20 }}
-      >
-        <div className={style["side-menu"]}>
-          <div className={style["side-menu-header"]}>
-            <div className={style["side-menu-title"]}>
-              <span>PC 추가하기</span>
+      {isLogin ? (
+        <Affix
+          offsetTop={200}
+          style={{ position: "absolute", top: 80, right: 20 }}
+        >
+          <div className={style["side-menu"]}>
+            <div className={style["side-menu-header"]}>
+              <div className={style["side-menu-title"]}>
+                <span>PC 추가하기</span>
               </div>
-              
+
               <div>
-                <Popconfirm placement="left" title={"PC를 추가하시겠습니까?"} onConfirm={onAddAccountBuildItem} okText="확인" cancelText="취소">
-                    <PlusOutlined />
+                <Popconfirm
+                  placement="left"
+                  title={"PC를 추가하시겠습니까?"}
+                  onConfirm={onAddAccountBuildItem}
+                  okText="확인"
+                  cancelText="취소"
+                >
+                  <PlusOutlined />
                 </Popconfirm>
+              </div>
+            </div>
+            <div className={style["side-menu-body"]}>
+              {accountBuildList.map((accountBuild, idx) => {
+                return (
+                  <div key={idx} className={style["side-menu-item"]}>
+                    <span
+                      onClick={() =>
+                        onBuilderClicked(accountBuild.myBuilderDto)
+                      }
+                    >
+                      {accountBuild?.myBuilderDto?.name}
+                    </span>
+                    <Popconfirm
+                      placement="left"
+                      title={"정말 삭제하시겠습니까?"}
+                      onConfirm={() =>
+                        onRemoveAccountBuildItem(
+                          idx,
+                          accountBuild.myBuilderDto?.idx
+                        )
+                      }
+                      okText="삭제"
+                      cancelText="취소"
+                    >
+                      <span style={{ cursor: "pointer" }}>
+                        <CloseOutlined />
+                      </span>
+                    </Popconfirm>
+                  </div>
+                );
+              })}
             </div>
           </div>
-          <div className={style["side-menu-body"]}>
-            {accountBuildList.map((accountBuild, idx) => {
-              return (
-                <div key={idx} className={style["side-menu-item"]}>
-                  <span onClick={() => onBuilderClicked(accountBuild.myBuilderDto)}>{accountBuild?.myBuilderDto?.name}</span>
-                  <Popconfirm placement="left" title={"정말 삭제하시겠습니까?"} onConfirm={()=>onRemoveAccountBuildItem(idx, accountBuild.myBuilderDto?.idx)} okText="삭제" cancelText="취소">
-                    <span style={{cursor: 'pointer'}}>
-                      <CloseOutlined />
-                    </span>
-                  </Popconfirm>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </Affix>
-        : null
-      }
-      
+        </Affix>
+      ) : null}
     </>
   );
 };
