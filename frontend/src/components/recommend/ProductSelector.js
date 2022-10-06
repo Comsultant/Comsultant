@@ -375,9 +375,9 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
       if(result?.data?.responseDto?.myBuilderDetailDtoList?.length != 0) {
         setMyBuilderList(result.data.responseDto.myBuilderDetailDtoList)
         // console.log( result.data.responseDto.myBuilderDetailDtoList[0].myBuilderDto)
-      } else {
-        alert("견적 불러오기 실패")
       }
+    } else {
+      alert("견적 불러오기 실패")
     }
   }
 
