@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import style from "@/styles/SearchProductListComponent.module.scss"
-import { Pagination, message } from "antd";
+import { Pagination, message, notification } from "antd";
 import { HeartOutlined, HeartFilled } from "@ant-design/icons";
 import ProductNumMapper from "@/tools/ProductNumMapper";
 import { getProductRequest } from "@/services/productService";
@@ -38,6 +38,14 @@ const RecommendProductList = (
 ) => {
   const isLogin = useSelector(state => state.account.isLogin);
   const [isLoading, setIsLoading] = useState(true);
+
+  
+  const openNotificationWithIcon = (type, desc) => {
+    notification[type]({
+      message: desc,
+    });
+  };
+
 
   const onWishClicked = async(productIdx) => {
     const result = await postWishRequest(productIdx);
@@ -390,14 +398,18 @@ const RecommendProductList = (
             return(
               <div key={idx} className={style['product-item']}>
                 <div
-                  className={tabOpen ? style['left-item-tab-open'] : style['left-item-tab-close']}
-                  onClick={() => { window.open(`/product/info?idx=${product.idx}&type=${currTypeTab}`) }}
+                  className={style['left-item-tab-close']}
                 >
-                  <div className={style['product-img']}>
+                  <div className={style['product-img']}
+                    onClick={() => { window.open(`/product/info?idx=${product.idx}&type=${currTypeTab}`) }}
+                  >
                     <img src={`https://j7a602.p.ssafy.io/static/images/${product.idx}/0.jpg`} alt=""/>
                   </div>
                   <div>
-                    <div className={style['product-name']}>
+                    <div
+                      className={style['product-name']}
+                      onClick={() => { window.open(`/product/info?idx=${product.idx}&type=${currTypeTab}`) }}
+                    >
                       <span>{product.name}</span>
                     </div>
                     <div>
