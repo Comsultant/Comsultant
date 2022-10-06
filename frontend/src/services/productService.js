@@ -19,7 +19,7 @@ export const getProductRequest = async (dataToSubmit) => {
     const page = dataToSubmit.page;
     const desc = dataToSubmit.desc;
     const type = dataToSubmit.type;
-    const payload = await request.post(`${PRODUCT_URL}/${type}?page=${page}&desc=${desc}`, dataToSubmit.body);
+    const payload = await axiosAuth.post(`${PRODUCT_URL}/${type}?page=${page}&desc=${desc}`, dataToSubmit.body);
     return payload;
   } catch (err) {
     return err;
@@ -29,7 +29,7 @@ export const getProductRequest = async (dataToSubmit) => {
 // 부품 상세정보 조회
 export const getProductInfoRequest = async (dataToSubmit) => {
   try {
-    const payload = await request.get(`${PRODUCT_URL}/${dataToSubmit}`);
+    const payload = await axiosAuth.get(`${PRODUCT_URL}/${dataToSubmit}`);
     return payload;
   } catch (err) {
     return err;
@@ -43,6 +43,18 @@ export const getProductCommentRequest = async (dataToSubmit) => {
   const desc = dataToSubmit.desc;
   try {
     const payload = await request.get(`${PRODUCT_URL}/comment/${idx}?desc=${desc}&page=${page}`);
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
+
+// 부품 시세 조회
+export const getProductPriceRequest = async (dataToSubmit) => {
+  const idx = dataToSubmit.idx;
+  const period = dataToSubmit.period;
+  try {
+    const payload = await request.get(`${PRODUCT_URL}/price/${idx}?period=${period}`);
     return payload;
   } catch (err) {
     return err;

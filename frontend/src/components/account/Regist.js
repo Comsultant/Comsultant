@@ -429,7 +429,7 @@ const Regist = () => {
               }>
               가입하기
             </Button>
-            <Button type="primary">
+            <Button type="primary" onClick={() => navigate("/")}>
               돌아가기
             </Button>
           </Space>
