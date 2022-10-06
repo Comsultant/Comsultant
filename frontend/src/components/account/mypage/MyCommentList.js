@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
-import style from "@/styles/SearchProductListComponent.module.scss"
-import styleD from "@/styles/ProductDetail.module.scss"
+import style from "@/styles/MyPage.module.scss"
 import { Pagination } from "antd";
 import { getAccountCommentRequest } from "@/services/CommentService";
 
@@ -39,7 +38,7 @@ const MyCommentList = (
             return(
               <div key={idx} className={style['product-item']}>
                 <div
-                  className={style['left-item']}
+                  className={style['left-item-tab-open']}
                   onClick={() => { window.open(`/product/info?idx=${comment.commentDto.productIdx}&type=${comment.category}`) }}
                 >
                   <div className={style['product-img']}>
@@ -49,7 +48,7 @@ const MyCommentList = (
                     <div className={style['product-name']}>
                       <span>{comment.productName}</span>
                     </div>
-                    <div className={styleD['product-detail']}>
+                    <div className={style['product-detail']}>
                       <div>
                         내용 : {comment.commentDto.content}
                       </div>
