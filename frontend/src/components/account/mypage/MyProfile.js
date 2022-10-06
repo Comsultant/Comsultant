@@ -9,16 +9,11 @@ import style from "@/styles/MyProfile.module.scss";
 
 
 const MyProfile = ({
-  email, nickName, birthYear, setNickName, setBirthYear, snsType
+  email, nickName, birthYear, setNickName, setBirthYear, snsType, password, setPassword, isPasswordValid, setIsPasswordValid
 }) => {
   
   const navigate = useNavigate();
-
   const [form] = Form.useForm();
-
-  
-  const [password, setPassword] = useState("");
-  const [isPasswordValid, setIsPasswordValid] = useState(snsType != 0);
   const [isNicknameValid, setIsNicknameValid] = useState(true);
   const [nicknameChecked, setNicknameChecked] = useState("success");
   const originalNickName = useSelector((state) => state.account.nickname);
@@ -217,7 +212,7 @@ const MyProfile = ({
           ]}
         >
           <div className={style.left}>
-            <Input.Password placeholder="비밀번호" disabled={snsType != 0} visibilityToggle={false} value={password} onChange={onPasswordChanged}/>
+            <Input.Password placeholder="비밀번호" visibilityToggle={false} disabled={snsType!==0?true:false} value={password} onChange={onPasswordChanged}/>
           </div>
         </Form.Item>
 
