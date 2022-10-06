@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { Slider, Checkbox } from "antd";
+import { Slider } from "antd";
 import style from "@/styles/RecommendFilter.module.scss";
 import classNames from "classnames";
 import "@/styles/RecommendFilter.scss"
+
 import PriceFormatter from "@/tools/PriceFormatter";
 
 const RecommendFilter = ({filterItem, setFilterItem}) => {
@@ -11,6 +12,9 @@ const RecommendFilter = ({filterItem, setFilterItem}) => {
   
   const [purpose, setPurpose] = useState("게임용");
   const [program, setProgram] = useState("기본");
+
+
+
 
   const filterList = [
     {
@@ -84,9 +88,6 @@ const RecommendFilter = ({filterItem, setFilterItem}) => {
     setProgram(e.target.value)
   }
 
-
-
-
   return (
     <>
       <div className={style.filter}>
@@ -123,7 +124,7 @@ const RecommendFilter = ({filterItem, setFilterItem}) => {
               range={{ draggableTrack: true }}
               onAfterChange={onPriceChange}
               defaultValue={[0, defaultMaxPrice]}
-              max={6000000}
+              max={10000000}
               step={100000}
               className={style.slider}
               tooltip={{
@@ -133,12 +134,6 @@ const RecommendFilter = ({filterItem, setFilterItem}) => {
               trackStyle={{"backgroundColor": "#377BB9", "height" : "8px"}}
               handleStyle={{"borderColor": "black", "width" : "25px", "height": "16px", "borderRadius" : "5px"}}
             />
-          </div>
-          <div className={style["builder-box"]}>
-            <button className={style.button}>견적 저장하기</button>
-            <select className={style["select-input"]}>
-              <option>견적 불러오기</option>
-            </select>
           </div>
         </div>
       </div>

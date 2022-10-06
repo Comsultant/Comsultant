@@ -81,13 +81,13 @@ const RecommendProductList = (
                     </div>
                   </div> 
                 </div>
-                <div className={style['right-item']}>
+                <div className={style['right-item-tab-close']}>
                   <div>
-                    <span className={style.price}>{product.price.toLocaleString()} 원</span>
+                    <span className={style.price}>{product.price == 0 ? `재고없음 ` : `${product.price.toLocaleString()} 원`}</span>
                   </div>
                   <div className={style['right-button-box']}>
                     <div>
-                      <button onClick={pickingProduct} pid={product.idx} pname={product.name} price={product.price}>선택하기</button>
+                      <button className={style['put-button']} onClick={pickingProduct} pid={product.idx} pname={product.name} price={product.price}>선택하기</button>
                     </div>
                   </div>
                 </div>

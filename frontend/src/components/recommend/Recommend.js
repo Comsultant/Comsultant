@@ -37,7 +37,6 @@ const Recommend = () => {
       setBuilderPage(0);
       setFinalPage(result.data.responseList.length);
     }
-    
   }
 
   const clickNextBuilder = () => {
@@ -60,11 +59,6 @@ const Recommend = () => {
         setFilterItem = {setFilterItem}
       />
       <br/>
-      <div className={style["product-selector-tool"]}>
-        <div className={style["product-selector-tool-left"]}>제품 종류</div>
-        <div>제품 선택</div>
-        <div className={style["product-selector-tool-right"]}>수량</div>
-      </div>
       <ProductSelector
         filterItem = {filterItem}
         setFilterItem = {setFilterItem}
@@ -75,6 +69,7 @@ const Recommend = () => {
         {recommendBuilderList.length > 0 ? 
         <RecommendList
           item = {recommendBuilderList[builderPage]}
+          filterItem={filterItem}
         /> :           
         <div className={style['no-result-box']}>
           <span>추천할수 있는 제품이 없습니다.</span><br/>
