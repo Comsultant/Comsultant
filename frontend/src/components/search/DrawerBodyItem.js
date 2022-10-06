@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { InputNumber } from "antd";
+import { notification } from "antd";
 import style from "@/styles/DrawerBodyItem.module.scss";
 import { MinusOutlined, PlusOutlined, CloseOutlined } from "@ant-design/icons";
 import { postBuilderCheckRequest } from "@/services/builderService";
@@ -27,6 +27,12 @@ const DrawerBodyItem = ({
 }) => {
 
   const [cnt, setCnt] = useState(0);
+
+  const openNotificationWithIcon = (type, desc) => {
+    notification[type]({
+      message: desc,
+    });
+  };
 
   const getCurrBuilderList = () => {
     const builderProducts = [];
@@ -86,7 +92,7 @@ const DrawerBodyItem = ({
     const result = await postBuilderCheckRequest(dataToSubmit);
     console.log(result);
     if (result?.data?.message !== "success") {
-      message.error(result.data.message);
+      openNotificationWithIcon('error', result.data.message);
       return;
     }
 
@@ -245,7 +251,7 @@ const DrawerBodyItem = ({
     const result = await postBuilderCheckRequest(dataToSubmit);
     console.log(result);
     if (result?.data?.message !== "success") {
-      message.error(result.data.message);
+      openNotificationWithIcon('error', result.data.message);
       return;
     }
     let idx = -1;

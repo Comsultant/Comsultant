@@ -1,5 +1,6 @@
 $font-size-medium: 16px;
 $gray-color: rgb(212, 212, 212);
+$blue-color: rgb(65, 142, 249);
 
 .product-item {
     display: flex;
@@ -9,14 +10,12 @@ $gray-color: rgb(212, 212, 212);
 }
 
 .left-item-tab-close{
-    cursor: pointer;
     display: flex;
     margin: 5px 10px;
     align-items: center;
 }
 
 .left-item-tab-open{
-    cursor: pointer;
     display: flex;
     width: 58%;
     margin: 5px 10px;
@@ -24,6 +23,8 @@ $gray-color: rgb(212, 212, 212);
 }
 
 .product-img {
+    cursor: pointer;
+    margin-right: 10px;
     img {
         width: 100px;
         height: auto;
@@ -45,8 +46,12 @@ $gray-color: rgb(212, 212, 212);
 }
 
 .product-name {
+    cursor: pointer;
     font-size: $font-size-medium;
     font-weight: bold;
+}
+.product-name:hover {
+    color: $blue-color;
 }
 
 .right-item-tab-open {
