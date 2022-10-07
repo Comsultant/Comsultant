@@ -357,7 +357,7 @@ const RecommendProductList = (
       clearTimeout(timer); // 이 전의 timer를 clear합니다.
     };
 
-  }, [filterBody, currDescNum])
+  }, [filterBody])
 
   useEffect(() => {
     let type = ProductNumMapper[currTypeTab];
