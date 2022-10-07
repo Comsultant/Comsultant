@@ -12,11 +12,11 @@ const RecommendBuilder = () => {
   },{
     idx: "12822224",
     name: "이엠텍 지포스 RTX 3060 Ti STORM X Dual OC D6 8GB",
-    type: "8"
+    type: "2"
   },{
     idx: "11541857",
     name: "삼성전자 DDR4-3200 (8GB)",
-    type: "1"
+    type: "3"
   },{
     idx: "16101353",
     name: "인텔 코어i5-12세대 12400F (엘더레이크)",

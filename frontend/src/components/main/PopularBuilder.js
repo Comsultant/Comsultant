@@ -14,7 +14,6 @@ const PopluarBuilder = () => {
     async function getPopularRecommend() {
       const result = await getPopularRecommendRequest();
       if(result?.data?.message == "success") {
-        console.log(result?.data?.responseList)
         setBuilderList(result?.data?.responseList);
       }
     }
@@ -23,7 +22,6 @@ const PopluarBuilder = () => {
   }, []);
 
   useEffect(() => {
-    // console.log("get success");
   }, [builderList])
 
   const getImgUrl = (caseObject) => {

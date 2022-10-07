@@ -1,7 +1,12 @@
 $font-size-big: 25px;
 $backgroundColorGray: rgb(244, 243, 243);
 $backgroundColorWhite: white;
+//background-color: white;
+//border-radius: 10px;
 
+.container {
+    background-color: #fafafa;
+}
 .top {
     display: flex;
     width: 100%;

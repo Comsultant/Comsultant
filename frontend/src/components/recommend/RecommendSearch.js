@@ -141,9 +141,6 @@ const RecommendSearch = ({type, pickProduct, setPickProduct}) => {
     getProductFilterData(type);
   }, []);
 
-  // useEffect(() => {
-  //   console.log("afg")
-  // }, [filterBody])
 
   return (
     <>
