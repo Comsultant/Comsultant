@@ -41,7 +41,7 @@ const MyWishList = (
       }
     }
     setCurrPage(1);
-    fetchData();
+    // fetchData();
   }, [currDesc])
 
   useEffect(() => {
