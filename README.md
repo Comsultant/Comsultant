@@ -69,7 +69,7 @@
 
 ## 4. 서비스 아키텍처
 
-![Untitled](README%20md%20ba230a1f3ae742a1abc848025468a424/Untitled.png)
+![Service Architecture](/uploads/5e1fda2a7bb2b87b92f8b1d4759d42dc/KakaoTalk_20221007_114215696.png)
 
 ---
 
