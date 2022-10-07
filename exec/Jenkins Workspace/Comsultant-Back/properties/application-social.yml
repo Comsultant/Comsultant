@@ -1,0 +1,12 @@
+social:
+  naver-client-id: "네이버 클라이언트 아이디"
+  naver-client-secret: "네이버 클라이언트 시크릿"
+  naver-api-url: https://openapi.naver.com/v1/nid/me
+  naver-state: comstate
+  kakao-client-id: "카카오 클라이언트 아이디"
+  kakao-client-secret: "카카오 클라이언트 시크릿"
+  kakao-api-url: https://kapi.kakao.com/v2/user/me
+  google-client-id: "구글 클라이언트 아이디"
+  google-client-secret: "구글 클라이언트 시크릿"
+  google-callback-url: https://j7a602.p.ssafy.io/social/google
+  google-api-url: https://www.googleapis.com/oauth2/v3/userinfo

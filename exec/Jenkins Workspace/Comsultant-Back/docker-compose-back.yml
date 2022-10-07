@@ -1,0 +1,67 @@
+version: '3.7'
+services:
+  db:
+    image: mysql:8.0.28
+    expose:
+      - "3306"
+    container_name: db
+    volumes:
+      - /home/ubuntu/deploy/db/conf.d:/etc/mysql/conf.d
+      - /home/ubuntu/deploy/db/db/data:/var/lib/mysql
+      - /home/ubuntu/deploy/db/db/initdb.d:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_DATABASE: comsultant
+      MYSQL_ROOT_PASSWORD: "asdfqet4256sdfh"
+  backend:
+    container_name: backend
+    restart: on-failure
+    build:
+      dockerfile: Dockerfile
+      context: ./back
+    image: com_backend
+    expose:
+      - "8080"
+    environment:
+      SERVER_PORT: 8080
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/comsultant?serverTimezone=UTC&useLegacyDatetimeCode=false&useUnicode=true&characterEncoding=utf8
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: "asdfqet4256sdfh"
+      SPRING_REDIS_HOST: redis_boot
+      SPRING_REDIS_PORT: 6667
+      SPRING_KAFKA_PRODUCER_BOOTSTRAP-SERVERS: j7a602.p.ssafy.io:9092
+      SPRING_DATA_MONGODB_HOST: mongodb
+      SPRING_DATA_MONGODB_PORT: 27017
+      SPRING_DATA_MONGODB_USERNAME: ssafy
+      SPRING_DATA_MONGODB_PASSWORD: ssafy
+    depends_on:
+      - db
+      - redis_boot
+      - mongodb
+  redis_boot:
+    image: redis:alpine
+    command: redis-server --port 6667
+    container_name: redis_boot
+    hostname: redis_boot
+    labels:
+      - "name=redis"
+      - "mode=standalone"
+    expose:
+      - "6667"
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    restart: always
+    expose:
+      - 27017
+    ports:
+      - "27017:27017"
+    volumes:
+      - /home/ubuntu/deploy/mongodb:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=ssafy
+      - MONGO_INITDB_ROOT_PASSWORD=ssafy
+      - MONGO_INITDB_DATABASE=comsultant
+networks:
+  default:
+    name: com_net
+    external: true

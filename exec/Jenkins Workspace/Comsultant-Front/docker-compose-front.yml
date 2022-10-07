@@ -1,0 +1,22 @@
+version: '3.7'
+services:
+  nginx:
+    container_name: nginx
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx
+    image: com_nginx
+    expose:
+      - "80"
+      - "443"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /home/ubuntu/jenkins_build/jenkins_home/workspace/Comsultant-Front/front:/front
+      - /home/ubuntu/deploy/certbot:/certbot
+      - /home/ubuntu/front/static:/static
+networks:
+  default:
+    name: com_net
+    external: true
