@@ -18,7 +18,6 @@ const ProductPriceChart = ({ priceData }) => {
     setData(obj);
   }, [priceData]);
 
-    console.log(priceData);
   return (
     <>
           {priceData == undefined || priceData.length <= 0 ? (

@@ -17,7 +17,7 @@ request.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.log(error);
+    // console.log(error);
     return Promise.reject(error);
   }
 );
@@ -52,7 +52,6 @@ axiosAuth.interceptors.response.use(
 
   async function (error) {
     const result = error.config;
-    // console.log(error);
 
     // 로그아웃에 대한 거면 그냥 Pass 시킨다.
     if (result.url === '/api/auth' && result.method === 'delete') {

@@ -158,7 +158,6 @@ const ProductFilter = ({ filterList, filterDetailList, currTypeTab, getProductFi
   
   const onCheckBoxChanged = (e, key, value) => {
     let isChecked = e.target.checked;
-    console.log(filterBody);
     //추가
     if (isChecked) {      
       let isDuplicated = false;
@@ -207,7 +206,6 @@ const ProductFilter = ({ filterList, filterDetailList, currTypeTab, getProductFi
       { ...filterBody, [key]: true }
     );
     
-    console.log(filterBody);
     
   }
 
