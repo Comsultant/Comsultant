@@ -396,16 +396,16 @@ const Regist = () => {
         </Form.Item>
 
         <Form.Item
-          label="출생년도"
+          label="출생연도"
           name="birthYear"
           rules={[
             {
               required: true,
-              message: "출생년도를 입력해주세요",
+              message: "출생연도를 입력해주세요",
             }
           ]}
           >
-          <DatePicker placeholder="출생년도" picker="year" value={birthYear} onChange={(date, dateString) => { setBirthYear(dateString); }} />
+          <DatePicker placeholder="출생연도" picker="year" value={birthYear} onChange={(date, dateString) => { setBirthYear(dateString); }} />
         </Form.Item>
 
         <Form.Item
