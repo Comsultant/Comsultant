@@ -30,6 +30,7 @@ import {
   deleteBuilderRequest,
 } from "@/services/builderService.js";
 import Loading from "../Loading";
+import { filter } from "lodash";
 
 const Search = () => {
   const defaultMaxPrice = 5000000;
@@ -69,6 +70,11 @@ const Search = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const isLogin = useSelector(state => state.account.isLogin);
+
+  const onSearchValueChanged = (val) => {
+    setSearchValue(val);
+    setFilterBody({ ...filterBody, name: val });
+  }
 
   const toggleDrawer = () => {
     setTabOpen(curr => !curr);
@@ -328,7 +334,7 @@ const Search = () => {
   };
 
   useEffect(() => {
-    setFilterBody({ ...filterBody, name: searchValue });
+    // setFilterBody({ ...filterBody, name: searchValue });
   },[searchValue])
 
   return (
@@ -544,7 +550,8 @@ const Search = () => {
               <input
                 value={searchValue}
                 onChange={e => {
-                  setSearchValue(e.target.value);
+                  onSearchValueChanged(e.target.value);
+                  // setSearchValue(e.target.value);
                 }}
                 onKeyDown={onSearchInputKeyDown}
               />
@@ -572,8 +579,7 @@ const Search = () => {
 
           <div className={style["builder-drawer"]}>
             <div className={style["product-list"]}>
-              {isLoading ? <Loading /> :
-                <SearchProductListComponent
+            <SearchProductListComponent
                   productList={productList}
                   setProductList={setProductList}
                   currPage={currPage}
@@ -615,7 +621,6 @@ const Search = () => {
                   isLoading={isLoading}
                   setIsLoading={setIsLoading}
                 />
-              }
             </div>
             <Drawer
               title={
