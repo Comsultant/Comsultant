@@ -22,6 +22,7 @@ const MyPage = () => {
   const [snsType, setSnsType] = useState(0);
   const [password, setPassword] = useState("");
   const [isPasswordValid, setIsPasswordValid] = useState(false);
+
   const tabs = [
     { label: "마이 페이지", key: "0" },
     { label: "댓글", key: "1" },
@@ -103,7 +104,7 @@ const MyPage = () => {
 
 
   return (
-    <div className={style.container}>
+    <div className={style["mycontainer"]}>
       <div className={style["product-tab"]}>
         <Tabs
           defaultActiveKey="0"

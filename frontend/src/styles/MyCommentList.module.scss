@@ -1,0 +1,38 @@
+.product-item {
+    // background-color: red;
+    display: flex;
+    flex-direction: row;
+    width: 50vw;
+    min-width: 500px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid black;
+
+    .product-img {
+        img {
+            width: 100px;
+            height: auto;
+        }
+    }
+
+    
+    .product-name {
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+
+    .product-detail {
+        font-size: 1rem;
+    }
+    
+}
+
+.product-item:hover {
+    background-color: rgb(240, 240, 240);
+    cursor: pointer;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+}

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import style from "@/styles/MyPage.module.scss"
+import style from "@/styles/MyCommentList.module.scss"
 import { Pagination } from "antd";
 import { getAccountCommentRequest } from "@/services/CommentService";
 
@@ -59,26 +59,22 @@ const MyCommentList = (
       {commentDetailDtoList !== undefined ? commentDetailDtoList.map((comment, idx)=>{
             return(
               <div key={idx} className={style['product-item']} onClick={() => { window.open(`/product/info?idx=${comment.commentDto.productIdx}&type=${setCategory(comment.category)}`) }}>
-                <div
-                  className={style['left-item-tab-open']}
-                >
-                  <div className={style['product-img']}>
-                    <img src={`https://j7a602.p.ssafy.io/static/images/${comment.commentDto.productIdx}/0.jpg`} alt=""/>
-                  </div>
-                  <div>
-                    <div className={style['product-name']}>
-                      <span>{comment.productName}</span>
-                    </div>
-                    <div className={style['product-detail']}>
-                      <div>
-                        내용 : {comment.commentDto.content}
-                      </div>
-                      <div>
-                        작성일 {comment.commentDto.createDate.split('T')[0]}
-                      </div>
-                    </div>
-                  </div> 
+                <div className={style['product-img']}>
+                  <img src={`https://j7a602.p.ssafy.io/static/images/${comment.commentDto.productIdx}/0.jpg`} alt=""/>
                 </div>
+                <div>
+                  <div className={style['product-name']}>
+                    <span>{comment.productName}</span>
+                  </div>
+                  <div className={style['product-detail']}>
+                    <div>
+                      내용 : {comment.commentDto.content}
+                    </div>
+                    <div>
+                      작성일 {comment.commentDto.createDate.split('T')[0]}
+                    </div>
+                  </div>
+                </div> 
               </div>
             );
       }):null

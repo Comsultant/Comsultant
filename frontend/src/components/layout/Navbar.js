@@ -42,6 +42,9 @@ const Navbar = ({isMain}) => {
       isMain ? scrollPosition < 30 ?
         `${style['nav-bar']}` :
         `${style['nav-bar-scroll']}` :
+        scrollPosition < 30 ?
+        `${style['nav-bar-other']}`
+          :
         `${style['nav-bar-scroll']}`
       )}>
       <div className={style.logo}>
@@ -51,6 +54,9 @@ const Navbar = ({isMain}) => {
             <img src="/../assets/white_logo.png" className={style['logo-image']} alt="logo" />
             :
             <img src="/../assets/logo.png" className={style['logo-image']} alt="logo" />
+            :
+            scrollPosition < 30 ?
+            <img src="/../assets/white_logo.png" className={style['logo-image']} alt="logo" />
             :
             <img src="/../assets/logo.png" className={style['logo-image']} alt="logo" />
           }

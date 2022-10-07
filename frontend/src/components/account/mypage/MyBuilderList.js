@@ -30,6 +30,11 @@ const MyBuilderList = ({ myBuilderList, setMyBuilderList, currPage, setCurrPage,
   }
 
   const deleteItem = async (dataToSubmit) => {
+    const c = confirm("삭제하시겠습니까?")
+    if(!c) {
+      return; 
+    }
+
     const result = await deleteBuilderRequest(dataToSubmit);
     if (result?.data?.message === "success") {
       const result2 = await getPageBuilderRequest(currPage);
