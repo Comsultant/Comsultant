@@ -379,14 +379,12 @@ const RecommendProductList = (
 
   useEffect(()=> {
     //회원 wishList 불러오기
-    console.log("productList changed!");
   },[productList])
 
   const pickingProduct = (e) => {
     const productIdx=e.target.getAttribute("pid");
     const pruductName = e.target.getAttribute("pname")
     const productPrice = e.target.getAttribute("price") 
-    console.log(pickProduct)
     setPickProduct({
       ...pickProduct, id: productIdx, name: pruductName, price: productPrice
     })
