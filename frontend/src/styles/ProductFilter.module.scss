@@ -1,0 +1,52 @@
+$font-size-big: 25px;
+$gray-color: rgb(175, 175, 175);
+
+.container{
+    display: flex;
+    min-height: 210px;
+}
+
+.left-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    font-size: $font-size-big;
+    padding: 0px 20px;  
+    border-right: solid 1px rgb(175, 175, 175);
+}
+
+.filter-list {
+    display: flex;
+    white-space: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.filter-table {
+    margin: 20px;
+    td {
+        width: 150px;
+        padding: 5px 0px;
+        // word-break: break-all;
+        >select{
+            width: 100%;
+        }
+    }
+}
+
+// .filter-name {
+//     width: 10px;
+// }
+
+.filter-detail-checkbox {
+    width: 100px;
+}
+
+.filter-detail-select {
+    width: 100px;
+}
+
+.filter-box {
+    display: flex;
+}

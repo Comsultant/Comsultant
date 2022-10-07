@@ -1,0 +1,266 @@
+$gray-color: rgb(238, 237, 237);
+$border-color: rgb(190, 190, 190);
+
+.mycontainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0px 15%;
+  min-width: 500px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0px 15%;
+  min-width: 500px;
+  // >div {
+  //   margin: 20px 0px;
+  // }
+}
+
+.product-tab {
+  margin: 10px;
+  white-space: nowrap;
+  font-weight: bold;
+  white-space: nowrap;
+  span {
+    margin: 0px 30px;
+    cursor: pointer;
+  }
+}
+
+.product-filter {
+  display: flex;
+  min-height: 170px;
+  width: 100%;
+  background: white;
+  border: 1px solid $border-color;
+}
+
+.price-filter {
+  display: flex;
+  position: relative;
+  >span {
+    padding:20px
+  }
+  width: 100%;
+  justify-self: start;
+  align-items: center;
+
+  .slider {
+    width: 50%;
+  }
+  
+}
+
+.price-tooptip {
+  position: absolute;
+  background-color: rgb(64,64,64);
+  color: white;
+  border-radius: 8px;
+  height: 40px;
+  line-height: 0px;
+  padding: 0;
+  // left: 400px;
+  top: -20px;
+}
+
+.main-content{
+  width: 100%;
+}
+
+.filter-box{
+  display: flex;
+  justify-content: space-between;
+}
+
+.desc-filter {
+  width: fit-content;
+}
+
+.search-bar {
+  position: relative;
+  width: 50%;
+  min-width: 150px;
+  >input {
+    padding: 0px 15px;
+    background-color: #fafafa;
+    border: solid 1px $border-color;
+    width: 100%;
+    border-radius: 10px;
+    height: 35px;
+    background-color: white;
+  }
+
+  .search-icon{
+    position: absolute;
+    right: 2%;
+    top:20%;
+    cursor: pointer;
+  }
+}
+
+.builder-tab-button {
+  >button {
+    white-space: nowrap;
+    border: none;
+    background: white;
+    border: 1px solid $border-color;
+    border-radius: 3px;
+    height: 35px;
+    cursor: pointer;
+  }
+}
+
+.product-list {
+  text-align: start;
+  background-color: white;
+}
+
+.builder-drawer {
+  position: relative;
+  min-height: 500px;
+  padding: 10px;
+  overflow-y: scroll;
+  text-align: center;
+  background-color: white;
+  border: 1px solid $border-color;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.ant-drawer-mask {
+  background: white;
+}
+
+.side-menu {
+  border: solid 1px $border-color;
+  border-radius: 2px;
+  background: white;
+  width: 200px;
+}
+
+.side-menu-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: solid 1px $border-color;
+}
+
+.side-menu-title{
+  width: 90%;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.side-menu-body{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 15px
+}
+
+.side-menu-item{
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.ant-tooltip-inner {
+  background-color: #fafafa;
+  
+}
+
+.ant-drawer-wrapper-body {
+  z-index: 0;
+}
+
+
+.filter-body-item {
+  background-color: #fafafa;
+  margin: 10px 3px;
+  padding: 3px;
+  border: solid 1px $border-color;
+  >span{
+    padding: 10px 0px;
+  }
+}
+
+.selected-filter-box {
+  width: 100%;
+  justify-content: start;
+}
+
+.price-input-box {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 30px;
+}
+
+.price-input {
+  width: 100px;
+  margin: 10px;
+  border: solid 1px $border-color;
+  border-radius: 5px;
+}
+
+.wide-product-tab {
+  margin: 10px;
+  white-space: nowrap;
+  font-weight: bold;
+  white-space: nowrap;
+  span {
+    margin: 0px 30px;
+    cursor: pointer;
+  }
+}
+
+.small-product-tab {
+  display: none;
+  background-color: white;
+  margin: 10px;
+  white-space: nowrap;
+  font-weight: bold;
+  white-space: nowrap;
+  span {
+    margin: 0px 30px;
+    cursor: pointer;
+  }
+}
+
+.small-side-menu {
+  display: none;
+  border: solid 1px $border-color;
+  border-radius: 2px;
+  background-color: #fafafa;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+@media screen and (max-width: 1640px) {
+    .wide-product-tab{
+      display: none;
+    }
+    .small-product-tab {
+      display: block;
+    }
+
+    .side-menu {
+      display: none;
+    }
+
+    .small-side-menu {
+      display: block;
+    }
+}
