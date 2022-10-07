@@ -9,6 +9,7 @@ import { postBuilderCheckRequest, postBuilderRequest } from "@/services/builderS
 import { deleteWishRequest, postWishRequest } from "@/services/wishService.js";
 import { useSelector } from "react-redux";
 import Loading from "../Loading";
+import CompatibilityMapper from "@/tools/CompatibilityMapper";
 
 const SearchProductListComponent = (
   {
@@ -72,7 +73,8 @@ const SearchProductListComponent = (
 
   const openNotificationWithIcon = (type, desc) => {
     notification[type]({
-      message: desc,
+      message: "호환성 문제",
+      description: desc,
     });
   };
 
@@ -193,7 +195,7 @@ const SearchProductListComponent = (
     }
     const result = await postBuilderCheckRequest(dataToSubmit);
     if (result?.data?.message !== "success") {
-      openNotificationWithIcon('error', result.data.message);
+      openNotificationWithIcon('error', CompatibilityMapper[result.data.message]);
       // message.error(result.data.message);
       return;
     }
