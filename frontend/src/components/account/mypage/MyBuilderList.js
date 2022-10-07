@@ -35,7 +35,6 @@ const MyBuilderList = ({ myBuilderList, setMyBuilderList, currPage, setCurrPage,
       const result2 = await getPageBuilderRequest(currPage);
       if (result2?.data?.message === "success") {
         if (result2?.data?.responseDto?.myBuilderDetailDtoList?.length == 0) {
-          console.log("dd");
           setCurrPage(currPage - 1);
           const result3 = await getPageBuilderRequest(currPage);
           if (result3?.data?.message === "success") {
@@ -43,7 +42,6 @@ const MyBuilderList = ({ myBuilderList, setMyBuilderList, currPage, setCurrPage,
             setMyBuilderList(result3?.data?.responseDto?.myBuilderDetailDtoList);
           }
         } else {
-          console.log("ddss");
           setTotalPage(result2?.data?.responseDto?.totalPage);
           setMyBuilderList(result2?.data?.responseDto?.myBuilderDetailDtoList);
         }

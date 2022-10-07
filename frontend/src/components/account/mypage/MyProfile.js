@@ -58,7 +58,7 @@ const MyProfile = ({
   }
 
   const onFinishFailed = errorInfo => {
-    console.log("Failed:", errorInfo);
+    // ("Failed:", errorInfo);
   };
 
   const onPasswordChanged = (event) => {

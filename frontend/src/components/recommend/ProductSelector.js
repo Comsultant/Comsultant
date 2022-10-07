@@ -5,11 +5,11 @@ import { useDispatch, useSelector } from "react-redux";
 import CustomCheckbox from "../CustomCheckbox";
 import { saveRecommendBuilder } from "@/services/recommendService";
 import { getAllBuilderRequest } from "@/services/builderService";
-import { Modal, Input } from "antd";
+import { Modal, Input, message } from "antd";
 
 const initProduct = [{ id: "", name: "", count: 1, price: 0 }];
 
-const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
+const ProductSelector = ({filterItem, setFilterItem, getRecommendList, isLoading, setIsLoading}) => {
   const [cpuList, setCpuList] = useState(initProduct);
   const [mbList, setMbList] = useState(initProduct);
   const [vgaList, setVgaList] = useState(initProduct);
@@ -166,7 +166,9 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
   }
 
   const onRecommendButtonClicked = async () => {
+    setIsLoading(true);
     await getRecommendList()
+    setIsLoading(false);
   }
 
   const getProdCount = (prodList) => {
@@ -224,8 +226,6 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
   };
 
   const makeRequestBody = () => {
-    // console.log(filterItem)
-    // console.log(builder)
     let builderProducts = [];
     Object.keys(filterItem.prods).map((key) => {
       builderProducts.push({productIdx: key, cnt: filterItem.prods[key]})
@@ -255,7 +255,6 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
 
     // 요청보낸다
     const result = await saveRecommendBuilder(body);
-    console.log(result)
     if(result?.data?.message === "success") {
       alert('저장 성공')
     } else {
@@ -277,7 +276,6 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
       return;
     }
 
-    console.log(myBuilderList[idx])
 
     // 아래 배열을 탐색하면서 넣어준다.
     
@@ -285,14 +283,12 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
     let prodCnt = [0,0,0,0,0,0,0,0,0,0];
     let newProducts = [[],[],[],[],[],[],[],[],[],[]];
     let products = [];
-    // console.log(myBuilderList[idx].builderProductDetailDtos)
     for(let builderProduct of myBuilderList[idx].builderProductDetailDtos) {
       let c = builderProduct.category
       prodCnt[c] += builderProduct.cnt;
       newProducts[c].push({id: builderProduct.productIdx, name: builderProduct.productName, count: builderProduct.cnt, price: builderProduct.price})
       products.push({[builderProduct.productIdx]: builderProduct.cnt})
     }
-    // console.log(prodCnt, newProducts)
     setCpuList(newProducts[1].length == 0 ? initProduct : newProducts[1]);
     setRamList(newProducts[2].length == 0 ? initProduct : newProducts[2]);
     setHddList(newProducts[3].length == 0 ? initProduct : newProducts[3]);
@@ -369,14 +365,13 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList}) => {
   }
 
   const getMyBuilderList = async () => {
-    console.log("getMYBUILDER")
+    ("getMYBUILDER")
     const result = await getAllBuilderRequest();
     if(result?.data?.message == "success") {
       if(result?.data?.responseDto?.myBuilderDetailDtoList?.length != 0) {
         setMyBuilderList(result.data.responseDto.myBuilderDetailDtoList)
-        // console.log( result.data.responseDto.myBuilderDetailDtoList[0].myBuilderDto)
       } else {
-        alert("견적 불러오기 실패")
+        message.error("견적 불러오기 실패");
       }
     }
   }

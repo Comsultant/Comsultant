@@ -90,7 +90,6 @@ const DrawerBodyItem = ({
       products: [...builderProducts.filter((curr) => curr)],
     }
     const result = await postBuilderCheckRequest(dataToSubmit);
-    console.log(result);
     if (result?.data?.message !== "success") {
       openNotificationWithIcon('error', result.data.message);
       return;
@@ -249,7 +248,6 @@ const DrawerBodyItem = ({
       products: [...builderProducts.filter((curr) => curr)],
     }
     const result = await postBuilderCheckRequest(dataToSubmit);
-    console.log(result);
     if (result?.data?.message !== "success") {
       openNotificationWithIcon('error', result.data.message);
       return;
@@ -368,7 +366,6 @@ const DrawerBodyItem = ({
   }
 
   const onCntChange = (e) => {
-    // console.log(e);
   }
 
   const onDeleteClicked = (idx) => {

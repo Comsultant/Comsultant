@@ -213,7 +213,6 @@ const BuilderProductSelector = ({
    * 부품 개수 계산
    */
   useEffect(() => {
-    // console.log("calculate filter")
     getTotalPrice();
     const cpuCount = getProdCount(cpuList);
     const ramCount = getProdCount(ramList);
@@ -259,7 +258,6 @@ const BuilderProductSelector = ({
   ]);
 
   useEffect(() => {
-    console.log("filter updated");
   }, [filterItem]);
 
   return (

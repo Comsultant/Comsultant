@@ -43,8 +43,6 @@ const RecommendDetail = () => {
   };
 
   const makeRequestBody = () => {
-    // console.log(filterItem)
-    // console.log(builder)
     let builderProducts = [];
     Object.keys(filterItem.prods).map((key) => {
       builderProducts.push({productIdx: key, cnt: filterItem.prods[key]})
@@ -71,7 +69,6 @@ const RecommendDetail = () => {
 
     // 요청보낸다
     const result = await saveRecommendBuilder(body);
-    console.log(result)
     if(result?.data?.message === "success") {
       alert('저장 성공')
     } else {

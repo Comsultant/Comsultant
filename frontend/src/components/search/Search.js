@@ -29,6 +29,7 @@ import {
   getBuilderDetailRequest,
   deleteBuilderRequest,
 } from "@/services/builderService.js";
+import Loading from "../Loading";
 
 const Search = () => {
   const defaultMaxPrice = 5000000;
@@ -65,6 +66,7 @@ const Search = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [builderName, setBuilderName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const isLogin = useSelector(state => state.account.isLogin);
 
@@ -224,7 +226,6 @@ const Search = () => {
         builderProducts: [],
       };
       const result = await postBuilderRequest(requestBody);
-      console.log(result);
       if (result?.data?.message === "success") {
         message.success("생성되었습니다!");
         const newBuild = {
@@ -235,7 +236,6 @@ const Search = () => {
           builderProductDetailDtos: [],
         };
         setAccountBuildList([...accountBuildList, newBuild]);
-        console.log(accountBuildList);
       }
     };
     fetchData();
@@ -568,46 +568,50 @@ const Search = () => {
 
           <div className={style["builder-drawer"]}>
             <div className={style["product-list"]}>
-              <SearchProductListComponent
-                productList={productList}
-                setProductList={setProductList}
-                currPage={currPage}
-                totalPage={totalPage}
-                setTotalPage={setTotalPage}
-                setCurrPage={setCurrPage}
-                currDescNum={currDescNum}
-                setCurrDescNum={setCurrDescNum}
-                searchValue={searchValue}
-                minPrice={minPrice}
-                maxPrice={maxPrice}
-                filterBody={filterBody}
-                setFilterBody={setFilterBody}
-                currTypeTab={currTypeTab}
-                currBuilder={currBuilder}
-                setCurrBuilder={setCurrBuilder}
-                cpuList={cpuList}
-                setCpuList={setCpuList}
-                ramList={ramList}
-                setRamList={setRamList}
-                hddList={hddList}
-                setHddList={setHddList}
-                mbList={mbList}
-                setMbList={setMbList}
-                ssdList={ssdList}
-                setSsdList={setSsdList}
-                coolerList={coolerList}
-                setCoolerList={setCoolerList}
-                powerList={powerList}
-                setPowerList={setPowerList}
-                caseList={caseList}
-                setCaseList={setCaseList}
-                vgaList={vgaList}
-                setVgaList={setVgaList}
-                activeKey={activeKey}
-                setActiveKey={setActiveKey}
-                tabOpen={tabOpen}
-                setTabOpen={setTabOpen}
-              />
+              {isLoading ? <Loading /> :
+                <SearchProductListComponent
+                  productList={productList}
+                  setProductList={setProductList}
+                  currPage={currPage}
+                  totalPage={totalPage}
+                  setTotalPage={setTotalPage}
+                  setCurrPage={setCurrPage}
+                  currDescNum={currDescNum}
+                  setCurrDescNum={setCurrDescNum}
+                  searchValue={searchValue}
+                  minPrice={minPrice}
+                  maxPrice={maxPrice}
+                  filterBody={filterBody}
+                  setFilterBody={setFilterBody}
+                  currTypeTab={currTypeTab}
+                  currBuilder={currBuilder}
+                  setCurrBuilder={setCurrBuilder}
+                  cpuList={cpuList}
+                  setCpuList={setCpuList}
+                  ramList={ramList}
+                  setRamList={setRamList}
+                  hddList={hddList}
+                  setHddList={setHddList}
+                  mbList={mbList}
+                  setMbList={setMbList}
+                  ssdList={ssdList}
+                  setSsdList={setSsdList}
+                  coolerList={coolerList}
+                  setCoolerList={setCoolerList}
+                  powerList={powerList}
+                  setPowerList={setPowerList}
+                  caseList={caseList}
+                  setCaseList={setCaseList}
+                  vgaList={vgaList}
+                  setVgaList={setVgaList}
+                  activeKey={activeKey}
+                  setActiveKey={setActiveKey}
+                  tabOpen={tabOpen}
+                  setTabOpen={setTabOpen}
+                  isLoading={isLoading}
+                  setIsLoading={setIsLoading}
+                />
+              }
             </div>
             <Drawer
               title={
