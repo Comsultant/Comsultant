@@ -3,6 +3,7 @@ import { notification } from "antd";
 import style from "@/styles/DrawerBodyItem.module.scss";
 import { MinusOutlined, PlusOutlined, CloseOutlined } from "@ant-design/icons";
 import { postBuilderCheckRequest } from "@/services/builderService";
+import CompatibilityMapper from "@/tools/CompatibilityMapper";
 
 const DrawerBodyItem = ({
   type,
@@ -30,7 +31,8 @@ const DrawerBodyItem = ({
 
   const openNotificationWithIcon = (type, desc) => {
     notification[type]({
-      message: desc,
+      message: "호환성 문제",
+      description: desc,
     });
   };
 
@@ -91,7 +93,7 @@ const DrawerBodyItem = ({
     }
     const result = await postBuilderCheckRequest(dataToSubmit);
     if (result?.data?.message !== "success") {
-      openNotificationWithIcon('error', result.data.message);
+      openNotificationWithIcon('error', CompatibilityMapper[result.data.message]);
       return;
     }
 
@@ -249,7 +251,7 @@ const DrawerBodyItem = ({
     }
     const result = await postBuilderCheckRequest(dataToSubmit);
     if (result?.data?.message !== "success") {
-      openNotificationWithIcon('error', result.data.message);
+      openNotificationWithIcon('error', CompatibilityMapper[result.data.message]);
       return;
     }
     let idx = -1;
