@@ -64,7 +64,7 @@ const MyBuilderList = ({ myBuilderList, setMyBuilderList, currPage, setCurrPage,
       }
     }
     setCurrPage(1);
-    fetchData();
+    // fetchData();
   }, [])
   
   useEffect(() => {

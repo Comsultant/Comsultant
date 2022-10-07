@@ -361,7 +361,7 @@ const SearchProductListComponent = (
       clearTimeout(timer);
     };
 
-  }, [filterBody, currDescNum])
+  }, [filterBody])
 
   useEffect(() => {
     let type = ProductNumMapper[currTypeTab];

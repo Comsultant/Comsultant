@@ -111,7 +111,7 @@ const ProductInfo = () => {
         setPriceData(newArr);
       }
     };
-    fetchPriceData();
+    // fetchPriceData();
 
     const fetchBuilderData = async () => {
       const result = await getAllBuilderRequest();
