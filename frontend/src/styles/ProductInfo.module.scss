@@ -1,0 +1,144 @@
+$font-size-big: 28px;
+$blue-color: rgb(65, 142, 249);
+$orange-color : rgb(226, 195, 163);
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 100px;
+  background-color: white;
+  border-radius: 10px;
+  // width: 80%;
+}
+
+.top {
+  display: flex;
+  justify-content: center;
+}
+
+.top-img {
+  margin: auto 0;
+  width: 300px;
+  >img {
+    width: 300px;
+  }
+}
+
+.top-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.title {
+  justify-self: start;
+  align-self: flex-start;
+  font-size: $font-size-big;
+  font-weight: bold;
+  width: 100%;
+}
+
+.product-info {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.price-graph {
+  min-width: 500px;
+  height: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.bottom-info {
+  width: 80%;
+  justify-self: start;
+}
+
+.right-box {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  align-items: flex-start;
+  div {
+    margin: 10px 0px;
+  }
+}
+
+.price {
+  font-size: $font-size-big;
+}
+
+.right-box-mid {
+  display: flex;
+  justify-content: space-between;
+  // margin-top: 10px;
+}
+
+.shopping-button {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  padding: 0px 10px;
+  background-color: rgb(94,201,103);
+  color: white;
+  // border: solid 1px lightgray;
+  border-radius: 5px;
+}
+
+.wish-button {
+  display: flex;
+  align-items: center;
+  svg{
+    cursor: pointer;
+    width: 80%;
+    height: auto;
+    margin: 10px;
+  }
+  width: 50px;
+}
+
+.builder-select-box {
+  font-size: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  option {
+    font-size: 18px;
+  }
+  select {
+    width: 150px;
+  }
+}
+
+.month-button-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+}
+
+.month-button {
+  font-size: 18px;  
+  padding: 10px;
+  color: $blue-color;
+  cursor: pointer;
+}
+
+.add-button {
+  background-color: $blue-color;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 0 10px;
+}

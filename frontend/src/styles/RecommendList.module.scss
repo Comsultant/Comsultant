@@ -1,0 +1,45 @@
+$font-size-medium: 20px;
+
+
+
+.builder-box {
+  display: flex;
+  margin: 20px;
+  flex-direction: column;
+}
+
+.price-box {
+  // border-top: solid 1.5px black;
+  text-align: right;
+  font-size: 1rem;
+  font-weight: 600;
+  span{
+    margin: 10px;
+  }
+}
+
+.builder-table {
+  width: 100%;
+}
+
+.builder-table:hover {
+  cursor: pointer;
+  background-color: aliceblue;
+}
+
+.builder-table-head {
+  // background-color: blue;
+  // font-style: italic;
+  td {
+    border-bottom: 2px solid #377BB9;
+    padding: 0 0 2px;
+  }
+}
+
+
+.builder-table-body {
+  tr {
+    // border: 1px solid black;
+    border-bottom: 1px solid grey;
+  }
+}

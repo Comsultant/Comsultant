@@ -1,0 +1,126 @@
+$font-size-largest: 28px;
+$font-size-medium: 20px;
+$text-decoration-thickness: 8px;
+$text-border-color: pink;
+$border-color: rgb(122, 122, 122);
+
+.popular-builder-box{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 10px;
+}
+.title-box{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-size: $font-size-largest;
+  font-weight: bold;
+  border-bottom: solid 2px $border-color;
+  p {
+    text-decoration: underline; text-underline-position:under;
+    text-decoration-color: $text-border-color;
+    text-decoration-thickness: $text-decoration-thickness;
+  }
+  span {
+    // font-size: $font-size-medium;
+  }
+}
+
+.builder-container {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+// .builder-container:after {
+//   content: "";
+//   flex: auto;
+// }
+
+.builder-content {
+  display: flex;
+  flex-direction: column;
+  // background-color: lightgray;
+  // margin: 5px;
+  // padding: 5px;
+  width: 24%;
+  min-width: 210px;
+  position: relative;
+}
+
+.builder-info {
+  position: absolute;
+  padding: 20px 7px 2px 20px;
+  color: white;
+  pointer-events: none;
+  font-size: 1rem;
+  width: 100%;
+  min-width: 210px;
+  height: 100%;
+
+  .builder-info-p {
+    // width: 24%;
+    min-width: 210px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space:nowrap;
+  }
+
+  .builder-info-price {
+    // width: 24%;
+    position: absolute;
+    min-width: 210px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1.4rem;
+    font-weight: 700;
+    bottom: 0;
+
+  }
+}
+
+.builder-img {
+  justify-content: center;
+  align-items: center;
+  img {
+    // width: auto;
+    // height: 250px;
+    border-radius: 5px;
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    background:rgba(0,0,0,0.6);
+    -webkit-filter: brightness(35%);
+    transition: all 0.1s linear;
+
+  }
+
+  img:hover {
+    object-fit: none;
+    cursor: pointer;
+    -webkit-filter: brightness(20%);
+  }
+}
+
+.main-product-more {
+  font-size: 1.1rem;
+  border: 2px solid black;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 10px;
+  transition: all 0.1s linear;
+  a {
+    color: black;
+  }
+}
+
+.main-product-more:hover {
+  background-color: #e7e7e7;
+  cursor: pointer;
+}
