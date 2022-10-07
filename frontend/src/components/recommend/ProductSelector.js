@@ -457,11 +457,9 @@ const ProductSelector = ({filterItem, setFilterItem, getRecommendList, isLoading
     if(result?.data?.message == "success") {
       if(result?.data?.responseDto?.myBuilderDetailDtoList?.length != 0) {
         setMyBuilderList(result.data.responseDto.myBuilderDetailDtoList)
-      } else {
-        message.error("견적 불러오기 실패");
-      }
+      } 
     } else {
-      alert("견적 불러오기 실패")
+      message.error("견적 불러오기 실패");
     }
   }
 
