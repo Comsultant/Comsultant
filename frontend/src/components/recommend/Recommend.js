@@ -6,6 +6,7 @@ import RecommendFilter from "./RecommendFilter";
 import ProductSelector from "./ProductSelector";
 import RecommendList from "./RecommendList";
 import { getRecommendBuilder } from "@/services/recommendService";
+import Loading from "../Loading";
 const Recommend = () => {
   const [filterItem, setFilterItem] = useState(
     {
@@ -28,10 +29,11 @@ const Recommend = () => {
   const [builderPage, setBuilderPage] = useState("0");
   const [finalPage, setFinalPage] = useState("0");
   const [recommendBuilderList, setRecommendBuilderList] = useState([])
+  const [isLoading, setIsLoading] = useState(false);
 
   const getRecommendList = async () => {
+    setRecommendBuilderList([]);
     const result = await getRecommendBuilder(filterItem);
-    console.log(result)
     if(result?.data?.message === "success") {
       for(let l of result.data.responseList) {
         l.use = filterItem.use;
@@ -44,7 +46,6 @@ const Recommend = () => {
   }
 
   const clickNextBuilder = () => {
-    console.log(finalPage)
     setBuilderPage(builderPage => builderPage + 1)
   }
 
@@ -53,7 +54,6 @@ const Recommend = () => {
   }
 
   useEffect(() => {
-    console.log("filter updated")
   }, [filterItem])
 
   return (
@@ -62,26 +62,31 @@ const Recommend = () => {
         filterItem = {filterItem}
         setFilterItem = {setFilterItem}
       />
-      <br/>
+      <br />
       <ProductSelector
         filterItem = {filterItem}
         setFilterItem = {setFilterItem}
-        getRecommendList = {getRecommendList}
+        getRecommendList={getRecommendList}
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
       />
       <br />
       <>
+        {isLoading ? <div><Loading /></div> : null}
         {recommendBuilderList.length > 0 ? 
         <RecommendList
           item = {recommendBuilderList[builderPage]}
           filterItem={filterItem}
-        /> :           
+          /> :           
+          !isLoading ?
         <div className={style['no-result-box']}>
           <span>추천할수 있는 제품이 없습니다.</span><br/>
           <span>다음과 같은 경우 제품 추천 결과가 없을 수 있습니다.</span><br/>
           <span> • 내가 선택한 부품의 제품이 내가 선택한 용도의 최소 사양보다 낮은 경우</span><br/>
           <span> • 내가 설정한 가격이 너무 낮은 경우</span>
         </div>
-      
+            :
+            null
       }
       </>
       <div className={style['recommend-page-div']}>

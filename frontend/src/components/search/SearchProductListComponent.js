@@ -35,11 +35,12 @@ const SearchProductListComponent = (
     setActiveKey,
     tabOpen,
     setTabOpen,
+    isLoading,
+    setIsLoading,
   }
 ) => {
   
   const isLogin = useSelector(state => state.account.isLogin);
-  const [isLoading, setIsLoading] = useState(true);
 
   const onWishClicked = async(productIdx) => {
     const result = await postWishRequest(productIdx);
@@ -349,11 +350,11 @@ const SearchProductListComponent = (
         setProductList(result?.data?.responseDto?.productDtoList);
         setCurrPage(1);
       }
-      setIsLoading(false);
     }
-  
+    
     const timer = setTimeout(() => {
       fetchData();
+      setIsLoading(false);
     }, 100);
 
     return () => {

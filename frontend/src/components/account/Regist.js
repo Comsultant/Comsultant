@@ -73,12 +73,8 @@ const Regist = () => {
     }, secondsToGo * 1000);
   }
 
-  // const onFinish = values => {
-  //   console.log("Success:", values);
-  // };
 
   const onFinishFailed = errorInfo => {
-    console.log("Failed:", errorInfo);
   };
 
   const onEmailChanged = event => {

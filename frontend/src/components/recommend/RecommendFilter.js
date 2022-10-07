@@ -74,8 +74,6 @@ const RecommendFilter = ({filterItem, setFilterItem}) => {
   }, [minPrice, maxPrice])
 
   const onUseChange = (e) => {
-    // console.log("key: ", e.target.value)
-    // console.log("value: ", filterList[e.target.selectedIndex].purposeMapping )
     const useValue = filterList[e.target.selectedIndex].purposeMapping
     const defaultProgram = filterList[e.target.selectedIndex].programListMapping[0]
     setFilterItem({
