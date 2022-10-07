@@ -84,6 +84,10 @@ const ContentItem = ({checkState, checkSetter, contentList, contentSetter, name,
 
 
   const handleOk = async () => {
+    if(pickProduct.id.length == 0) {
+      handleCancel();
+      return ;
+    }
     setConfirmLoading(true);
     const products = checkCompatiblity(pickProduct.id, 1, true);
 

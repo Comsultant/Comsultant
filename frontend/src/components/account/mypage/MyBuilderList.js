@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import style from "@/styles/MyBuilderList.module.scss";
 import { getPageBuilderRequest, deleteBuilderRequest } from "@/services/builderService";
 import { Button, Pagination } from "antd";
+import PriceFormatter from "@/tools/PriceFormatter";
 
 const MyBuilderList = ({ myBuilderList, setMyBuilderList, currPage, setCurrPage, totalPage, setTotalPage }) => {
 
@@ -105,7 +106,7 @@ const MyBuilderList = ({ myBuilderList, setMyBuilderList, currPage, setCurrPage,
                     <tr key={index} className={style["builder-table-body-item"]} onClick={() => { window.open(`/product/info?idx=${product.productIdx}&type=${setCategory(product.category)}`) }}>
                       <td>{category[product.category]}</td>
                       <td>{product.productName}</td>
-                      <td>{product.price!==0 ? product.price : "-"}</td>
+                      <td>{product.price!==0 ? PriceFormatter(product.price) : "-"}</td>
                       <td>{product.cnt}</td>
                     </tr>
                   );

@@ -343,7 +343,6 @@ const SearchProductListComponent = (
       body: filterBody
     }
     const fetchData = async () => {
-      setIsLoading(true);
       const result = await getProductRequest(dataToSubmit);
       if (result?.data?.message === "success") {
         setTotalPage(result?.data?.responseDto?.totalPage);
@@ -354,7 +353,6 @@ const SearchProductListComponent = (
     
     const timer = setTimeout(() => {
       fetchData();
-      setIsLoading(false);
     }, 100);
 
     return () => {
