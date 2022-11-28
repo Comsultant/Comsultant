@@ -1,11 +1,3 @@
-# README.md
-<div align="center">
-    <img src="/uploads/806d4cb9e043a83fe720b3ebe0f09576/컴설턴트노션.JPG" width="30%"/>
-</div>
-<div align="center">
-    <img src="/uploads/f58a55fab660837f4717e1047e0721cc/사이트.JPG" width="60%"/>
-</div>
-
 ## 1. 서비스 소개💻
 
 빅데이터 기반 조립 컴퓨터 견적 추천 플랫폼
@@ -86,18 +78,16 @@
 
 - Selenium
 - Scrapy
----
+
 ## 4. 데이터 흐름
 
-<img src="/uploads/b91805a7f8ebd4d13b47e4c857b52b6f/데이터흐름.JPG" width="60%"/>
+![image](https://user-images.githubusercontent.com/99406992/204193984-75dfbf3b-34a7-4c0b-be1b-1c6f0b0f6049.png)
 
----
 
 ## 5. 서비스 아키텍처
 
-<img src="/uploads/5e1fda2a7bb2b87b92f8b1d4759d42dc/KakaoTalk_20221007_114215696.png" width="70%"/>
+![image](https://user-images.githubusercontent.com/99406992/204194048-99f71d78-3934-462a-ae0f-4fee055d768d.png)
 
----
 
 ## 6. 기능 소개🔍
 
